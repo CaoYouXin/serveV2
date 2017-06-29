@@ -1,0 +1,8 @@
+{
+  "port": 9000,
+  "classpath": "/Users/cls/Dev/Git/personal/infinitely/serveV2/out/classpath/",
+  "configRoot": "/Users/cls/Dev/Git/personal/infinitely/serveV2/out/configs/",
+  "deployRoot": "",
+  "uploadRoot": "/Users/cls/Dev/Git/personal/infinitely/serveV2/out/upload/",
+  "resourceRoot": "/Users/cls/Dev/Git/personal/infinitely/serveV2/out/resource/"
+}
