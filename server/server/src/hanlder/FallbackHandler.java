@@ -8,6 +8,7 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.protocol.HttpRequestHandler;
+import rest.RestHelper;
 
 import java.io.IOException;
 
@@ -16,12 +17,9 @@ public class FallbackHandler implements HttpRequestHandler {
     public void handle(HttpRequest request, HttpResponse response, HttpContext context) throws HttpException, IOException {
         String uri = request.getRequestLine().getUri();
 
-        StringEntity entity = new StringEntity(
+        RestHelper.responseHTML(response, HttpStatus.SC_NOT_FOUND,
                 "<html><body><p style=\"text-align: center;\">Request Handler "
-                        + "<br/><strong>" + uri + "</strong><br/>"
-                        + " not found</p></body></html>",
-                ContentType.create("text/html", "UTF-8"));
-        response.setEntity(entity);
-        response.setStatusCode(HttpStatus.SC_NOT_FOUND);
+                + "<br/><strong>" + uri + "</strong><br/>"
+                + " not found</p></body></html>");
     }
 }
