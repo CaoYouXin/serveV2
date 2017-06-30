@@ -8,7 +8,7 @@ public interface Controller extends ChangeOriginI, HttpRequestHandler {
     String name();
     String urlPattern();
 
-    void setUriPatternMatcher(UriPatternMatcher uriPatternMatcher);
-    UriPatternMatcher getUriPatternMatcher();
+    void setUriPatternMatcher(IUriPatternMatcher uriPatternMatcher);
+    IUriPatternMatcher getUriPatternMatcher();
 
 }

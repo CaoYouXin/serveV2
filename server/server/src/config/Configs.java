@@ -7,6 +7,7 @@ public class Configs {
 
     public static final String OBJECT_MAPPER = "OBJECT_MAPPER";
     public static final String FILE_ROOT = "FILE_ROOT";
+    public static final String META_APIS = "META_APIS";
 
     /**
      * configs

@@ -2,15 +2,15 @@ package rest;
 
 public abstract class HelperController implements Controller {
 
-    protected UriPatternMatcher uriPatternMatcher;
+    protected IUriPatternMatcher uriPatternMatcher;
 
     @Override
-    public void setUriPatternMatcher(UriPatternMatcher uriPatternMatcher) {
+    public void setUriPatternMatcher(IUriPatternMatcher uriPatternMatcher) {
         this.uriPatternMatcher = uriPatternMatcher;
     }
 
     @Override
-    public UriPatternMatcher getUriPatternMatcher() {
+    public IUriPatternMatcher getUriPatternMatcher() {
         return this.uriPatternMatcher;
     }
 }

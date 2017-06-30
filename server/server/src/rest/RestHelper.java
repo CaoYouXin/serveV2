@@ -3,12 +3,13 @@ package rest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import config.Configs;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
+import org.apache.http.*;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.Locale;
 
 public class RestHelper {
 
@@ -39,6 +40,37 @@ public class RestHelper {
                 html,
                 ContentType.create("text/html", "UTF-8")
         ));
+    }
+
+    public static HttpEntity getBody(HttpRequest httpRequest) {
+        if (httpRequest instanceof HttpEntityEnclosingRequest) {
+            return ((HttpEntityEnclosingRequest) httpRequest).getEntity();
+        }
+        return null;
+    }
+
+    public static String getMethod(HttpRequest httpRequest) {
+        return httpRequest.getRequestLine().getMethod().toUpperCase(Locale.ROOT);
+    }
+
+    public static boolean isGet(HttpRequest httpRequest) {
+        return getMethod(httpRequest).equals("GET");
+    }
+
+    public static boolean isPost(HttpRequest httpRequest) {
+        return getMethod(httpRequest).equals("POST");
+    }
+
+    public static boolean isOptions(HttpRequest httpRequest) {
+        return getMethod(httpRequest).equals("OPTIONS");
+    }
+
+    public static String restUri(HttpRequest request, String startWith) {
+        String uri = request.getRequestLine().getUri();
+        if (uri.startsWith(startWith)) {
+            return uri.substring(startWith.length());
+        }
+        return null;
     }
 
 }

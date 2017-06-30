@@ -42,18 +42,19 @@ public class Server {
 
         try {
             this.server.start();
-            Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-                shutdown(5);
-            }));
 
             if (null != voidCallable) {
                 voidCallable.call();
             }
 
-            this.server.awaitTermination(Long.MAX_VALUE, TimeUnit.DAYS);
+//            this.server.awaitTermination(Long.MAX_VALUE, TimeUnit.DAYS);
         } catch (Exception e) {
             logger.catching(e);
         }
+
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            shutdown(5);
+        }));
     }
 
     public void shutdown(int howLong) {

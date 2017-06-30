@@ -4,10 +4,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import config.Configs;
 import config.InitConfig;
+import hanlder.ApiHandler;
 import hanlder.FallbackHandler;
 import hanlder.ShutdownHandler;
+import hanlder.UploadHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import rest.Controller;
+import rest.UriPatternMatcher;
 import server.Server;
 import task.LogOnStart;
 import task.MultiTask;
@@ -16,9 +20,16 @@ import util.FileUtil;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.JarURLConnection;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
 import java.util.TimeZone;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 public class ServeV2Main {
 
@@ -37,6 +48,7 @@ public class ServeV2Main {
             case "start":
                 readInitConfigs();
                 setupServer();
+                setupMetaApis();
                 break;
             case "stop":
                 try {
@@ -75,10 +87,75 @@ public class ServeV2Main {
     }
 
     private static void setupServer() {
+        InitConfig initConfig = Configs.getConfigs(InitConfig.CONFIG_KEY, InitConfig.class);
+
         Server server = new Server();
         server.addHandler("*", new FallbackHandler());
         server.addHandler("/shutdown/*", new ShutdownHandler(server));
+        server.addHandler("/upload/*", new UploadHandler(
+                initConfig.getUploadRoot(),
+                "/upload"
+        ));
+
+        List<Controller> metaApis = new ArrayList<>();
+        server.addHandler("/metaApi/*", new ApiHandler(metaApis));
+        Configs.setConfigs(Configs.META_APIS, metaApis);
+
         server.start(new MultiTask().addTask(new LogOnStart("startup.log")));
+    }
+
+    private static void setupMetaApis() {
+        List<Controller> metaApis = Configs.getConfigs(Configs.META_APIS, List.class);
+
+        Enumeration<URL> dirs = null;
+        try {
+            dirs = Thread.currentThread().getContextClassLoader().getResources("controller");
+        } catch (IOException e) {
+            logger.catching(e);
+            return;
+        }
+
+        while (dirs.hasMoreElements()) {
+            URL url = dirs.nextElement();
+
+            if (!"jar".equals(url.getProtocol())) {
+                continue;
+            }
+
+            JarFile jarFile = null;
+            try {
+                jarFile = ((JarURLConnection) url.openConnection()).getJarFile();
+            } catch (IOException e) {
+                logger.catching(e);
+                continue;
+            }
+
+            Enumeration<JarEntry> entries = jarFile.entries();
+            while (entries.hasMoreElements()) {
+                JarEntry jarEntry = entries.nextElement();
+
+                String name = jarEntry.getName();
+                if (name.charAt(0) == '/') {
+                    name = name.substring(1);
+                }
+
+                if (name.startsWith("controller")
+                        && name.endsWith(".class")
+                        && !jarEntry.isDirectory()) {
+                    String className = name.replaceAll("\\/", ".");
+                    className = className.substring(0, className.length() - ".class".length());
+                    try {
+                        Controller controller = (Controller) Class.forName(className).newInstance();
+                        UriPatternMatcher uriPatternMatcher = new UriPatternMatcher("/metaApi");
+                        uriPatternMatcher.setController(controller);
+                        controller.setUriPatternMatcher(uriPatternMatcher);
+                        metaApis.add(controller);
+                    } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+                        logger.catching(e);
+                    }
+                }
+            }
+        }
     }
 
 }
