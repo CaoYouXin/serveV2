@@ -11,7 +11,7 @@ class BeanManagerTest {
 
     @Test
     void test() {
-        BeanManager beanManager = new BeanManager();
+        BeanManager beanManager = BeanManager.getInstance();
 
         beanManager.setService(TestProxyI.class, TestProxyImpl1.class);
         TestProxyI bean = beanManager.getBean(TestProxyI.class);
@@ -24,14 +24,14 @@ class BeanManagerTest {
 
     @Test
     void testException() {
-        BeanManager beanManager = new BeanManager();
+        BeanManager beanManager = BeanManager.getInstance();
         TestProxyI bean = beanManager.getBean(TestProxyI.class);
         assertThrows(BeanNotInitException.class, bean::print);
     }
 
     @Test
     void testNotRecoverFromException() {
-        BeanManager beanManager = new BeanManager();
+        BeanManager beanManager = BeanManager.getInstance();
         TestProxyI bean = beanManager.getBean(TestProxyI.class);
         assertThrows(BeanNotInitException.class, () -> {
             try {
@@ -46,7 +46,7 @@ class BeanManagerTest {
 
     @Test
     void testRecoverFromException() {
-        BeanManager beanManager = new BeanManager();
+        BeanManager beanManager = BeanManager.getInstance();
         TestProxyI bean = beanManager.getBean(TestProxyI.class);
         try {
             bean.print();

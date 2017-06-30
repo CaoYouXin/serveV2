@@ -14,6 +14,14 @@ public class BeanManager {
 
     private static final Logger logger = LogManager.getLogger(BeanManager.class);
 
+    private static final BeanManager INSTANCE = new BeanManager();
+
+    public static BeanManager getInstance() {
+        return INSTANCE;
+    }
+
+    private BeanManager() {}
+
     private Map<Class<?>, ChangeOriginI> beans = new HashMap<>();
 
     public <T extends ChangeOriginI> void setService(Class<T> key, Class<? extends T> origin) {
@@ -108,6 +116,14 @@ public class BeanManager {
         );
         this.controllers.put(name, (Controller) ret);
         return (Controller) ret;
+    }
+
+    public <T extends EntityBeanI> T createBean(Class<T> clazz) {
+        return (T) Proxy.newProxyInstance(
+                getClass().getClassLoader(),
+                new Class[]{clazz},
+                new DataAccessIH()
+        );
     }
 
 }
