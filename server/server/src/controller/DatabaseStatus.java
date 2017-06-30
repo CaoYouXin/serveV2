@@ -10,6 +10,7 @@ import rest.JsonResponse;
 import rest.RestHelper;
 
 import java.io.IOException;
+import java.util.Map;
 
 public class DatabaseStatus extends HelperController implements Controller {
     @Override
@@ -19,11 +20,14 @@ public class DatabaseStatus extends HelperController implements Controller {
 
     @Override
     public String urlPattern() {
-        return "/database/status";
+        return "/database/:date/status";
     }
 
     @Override
     public void handle(HttpRequest request, HttpResponse response, HttpContext context) throws HttpException, IOException {
-        RestHelper.responseJSON(response, JsonResponse.fail(40400, "还未实现！"));
+        Map<String, String> params = this.getUriPatternMatcher().getParams(request);
+
+        RestHelper.responseJSON(response, JsonResponse.fail(20000,
+                String.format("param date : %s", params.get("date"))));
     }
 }

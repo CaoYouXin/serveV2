@@ -1,14 +1,12 @@
 package hanlder;
 
-import org.apache.http.Header;
-import org.apache.http.HttpException;
-import org.apache.http.HttpRequest;
-import org.apache.http.HttpResponse;
+import org.apache.http.*;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.protocol.HttpRequestHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import rest.Controller;
+import rest.RestHelper;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -56,5 +54,12 @@ public class ApiHandler implements HttpRequestHandler {
                 return;
             }
         }
+
+        String uri = request.getRequestLine().getUri();
+
+        RestHelper.responseHTML(response, HttpStatus.SC_NOT_FOUND,
+                "<html><body><p style=\"text-align: center;\">Request Api "
+                        + "<br/><strong>" + uri + "</strong><br/>"
+                        + " not found</p></body></html>");
     }
 }
