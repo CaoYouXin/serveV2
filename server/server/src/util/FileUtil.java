@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URL;
 
 public class FileUtil {
 
@@ -48,4 +49,12 @@ public class FileUtil {
         }
     }
 
+    public static byte[] getBytesFromURL(URL url) {
+        try {
+            return IOUtils.toByteArray(url);
+        } catch (IOException e) {
+            logger.catching(e);
+            return null;
+        }
+    }
 }

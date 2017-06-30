@@ -13,12 +13,16 @@ import server.Server;
 import task.LogOnStart;
 import task.MultiTask;
 import task.ShutdownServer;
+import util.ClasspathHacker;
 import util.FileUtil;
+import util.loader.CustomClassLoader;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.JarURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLClassLoader;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -81,6 +85,20 @@ public class ServeV2Main {
                 new File(Configs.getConfigs(Configs.FILE_ROOT, String.class), "serveV2.json"),
                 InitConfig.class);
         Configs.setConfigs(InitConfig.CONFIG_KEY, configs);
+
+        URL url = null;
+        try {
+            url = new File(configs.getClasspath()).toURI().toURL();
+        } catch (MalformedURLException e) {
+            logger.catching(e);
+        }
+
+        CustomClassLoader customClassLoader = new CustomClassLoader(
+                new URL[]{url},
+                ClassLoader.getSystemClassLoader()
+        );
+
+        Configs.setConfigs(Configs.CLASSLOADER, customClassLoader);
     }
 
     private static void setupServer() {

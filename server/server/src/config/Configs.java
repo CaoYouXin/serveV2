@@ -9,6 +9,7 @@ public class Configs {
     public static final String FILE_ROOT = "FILE_ROOT";
     public static final String META_APIS = "META_APIS";
     public static final String APIS = "APIS";
+    public static final String CLASSLOADER = "CLASSLOADER";
 
     /**
      * configs
