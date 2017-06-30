@@ -62,7 +62,8 @@ public class UriPatternMatcher implements IUriPatternMatcher {
     @Override
     public boolean match(HttpRequest request) {
         String uri = request.getRequestLine().getUri();
-        Matcher matcher = this.pattern.matcher(uri);
+        String decodedUrl = RestHelper.getDecodedUrl(request);
+        Matcher matcher = this.pattern.matcher(decodedUrl);
         boolean matches = matcher.matches();
 
         if (matches) {

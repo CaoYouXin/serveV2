@@ -4,10 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import config.Configs;
 import config.InitConfig;
-import hanlder.ApiHandler;
-import hanlder.FallbackHandler;
-import hanlder.ShutdownHandler;
-import hanlder.UploadHandler;
+import hanlder.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import rest.Controller;
@@ -100,6 +97,18 @@ public class ServeV2Main {
         List<Controller> metaApis = new ArrayList<>();
         server.addHandler("/metaApi/*", new ApiHandler(metaApis));
         Configs.setConfigs(Configs.META_APIS, metaApis);
+
+        List<Controller> apis = new ArrayList<>();
+        server.addHandler("/api/*", new ApiHandler(apis));
+        Configs.setConfigs(Configs.APIS, apis);
+
+        server.addHandler("/deploy/*", new HttpFileHandler(
+                initConfig.getDeployRoot(), "/deploy"
+        ));
+
+        server.addHandler("/serve/*", new HttpFileHandler(
+                initConfig.getResourceRoot(), "/serve"
+        ));
 
         server.start(new MultiTask().addTask(new LogOnStart("startup.log")));
     }
