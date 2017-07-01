@@ -142,8 +142,12 @@ public class BeanManager {
     }
 
     public <T extends EntityBeanI> T createBean(Class<T> clazz) {
+        ClassLoader classLoader = Configs.getConfigs(Configs.CLASSLOADER, CustomClassLoader.class);
+        if (null == classLoader) {
+            classLoader = getClass().getClassLoader();
+        }
         return (T) Proxy.newProxyInstance(
-                Configs.getConfigs(Configs.CLASSLOADER, CustomClassLoader.class),
+                classLoader,
                 new Class[]{clazz},
                 new DataAccessIH()
         );

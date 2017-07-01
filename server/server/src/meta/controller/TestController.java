@@ -1,4 +1,4 @@
-package controller;
+package meta.controller;
 
 import beans.BeanManager;
 import config.Configs;
@@ -18,18 +18,18 @@ import java.net.URLClassLoader;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DatabaseStatus extends HelperController implements Controller {
+public class TestController extends HelperController implements Controller {
 
     private Class<?> lastClass = null;
 
     @Override
     public String name() {
-        return "database status";
+        return "meta test";
     }
 
     @Override
     public String urlPattern() {
-        return "/database/:date/status";
+        return "/test/:date";
     }
 
     @Override
@@ -41,16 +41,16 @@ public class DatabaseStatus extends HelperController implements Controller {
 
         CustomClassLoader classLoader = Configs.getConfigs(Configs.CLASSLOADER, CustomClassLoader.class);
         try {
-            Object bean = classLoader.loadClass("service.impl.TestService1").newInstance();
+            Object bean = classLoader.loadClass("service.TestService").newInstance();
             ret.put("bean", bean.toString());
 
-            boolean b1 = classLoader.loadClass("service.impl.TestService1")
-                    .equals(classLoader.loadClass("service.impl.TestService1"));
+            boolean b1 = classLoader.loadClass("service.TestService")
+                    .equals(classLoader.loadClass("service.TestService"));
             ret.put("ClassEquals", b1);
 
-            boolean b2 = classLoader.loadClass("service.impl.TestService1").equals(this.lastClass);
+            boolean b2 = classLoader.loadClass("service.TestService").equals(this.lastClass);
             ret.put("Class Equals With Last", b2);
-            this.lastClass = classLoader.loadClass("service.impl.TestService1");
+            this.lastClass = classLoader.loadClass("service.TestService");
 
         } catch (IllegalAccessException | InstantiationException e) {
             e.printStackTrace();

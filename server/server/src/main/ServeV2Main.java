@@ -138,7 +138,7 @@ public class ServeV2Main {
 
         Enumeration<URL> dirs = null;
         try {
-            dirs = Thread.currentThread().getContextClassLoader().getResources("controller");
+            dirs = Thread.currentThread().getContextClassLoader().getResources("meta");
         } catch (IOException e) {
             logger.catching(e);
             return;
@@ -164,15 +164,16 @@ public class ServeV2Main {
                 JarEntry jarEntry = entries.nextElement();
 
                 String name = jarEntry.getName();
-                if (name.charAt(0) == '/') {
+                if (name.charAt(0) == File.separatorChar) {
                     name = name.substring(1);
                 }
 
-                if (name.startsWith("controller")
+                if (name.startsWith(String.join(File.separator, "meta", "controller"))
                         && name.endsWith(".class")
                         && !jarEntry.isDirectory()) {
-                    String className = name.replaceAll("\\/", ".");
+                    String className = name.replaceAll(File.separator, ".");
                     className = className.substring(0, className.length() - ".class".length());
+
                     try {
                         Controller controller = (Controller) Class.forName(className).newInstance();
                         UriPatternMatcher uriPatternMatcher = new UriPatternMatcher("/metaApi");

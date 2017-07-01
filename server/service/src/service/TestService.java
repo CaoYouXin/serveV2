@@ -12,4 +12,9 @@ public class TestService implements ITestService {
     public String test() {
         return "test x3";
     }
+
+    @Override
+    public String toString() {
+        return this.test();
+    }
 }
