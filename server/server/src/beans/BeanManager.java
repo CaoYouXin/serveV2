@@ -4,7 +4,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import orm.Repository;
 import orm.RepositoryManager;
+import orm.RepositoryName;
 import rest.Controller;
+import rest.Service;
 
 import java.lang.reflect.Proxy;
 import java.util.HashMap;
@@ -22,59 +24,83 @@ public class BeanManager {
 
     private BeanManager() {}
 
-    private Map<Class<?>, ChangeOriginI> beans = new HashMap<>();
+    private Map<String, Repository> repositories = new HashMap<>();
 
-    public <T extends ChangeOriginI> void setService(Class<T> key, Class<? extends T> origin) {
+    public <T extends Repository> void setRepository(Class<? extends T> repositoryClass) {
+        RepositoryName declaredAnnotation = repositoryClass.getDeclaredAnnotation(RepositoryName.class);
+        String repoName = declaredAnnotation.value();
+
+        T t = RepositoryManager.getInstance().buildRepository(repositoryClass);
+
+        Repository repository = this.repositories.get(repoName);
+        if (null != repository) {
+            repository.changeOrigin(t);
+            return;
+        }
+
+        Object ret = Proxy.newProxyInstance(
+                getClass().getClassLoader(),
+                new Class[]{Repository.class},
+                new ChangeOriginIH(t)
+        );
+        this.repositories.put(repoName, (Repository) ret);
+    }
+
+    public Repository getRepository(String name) {
+        Repository repository = this.repositories.get(name);
+
+        if (null != repository) {
+            return repository;
+        }
+
+        Object ret = Proxy.newProxyInstance(
+                getClass().getClassLoader(),
+                new Class[]{Repository.class},
+                new ChangeOriginIH(null)
+        );
+        this.repositories.put(name, (Repository) ret);
+        return (Repository) ret;
+    }
+
+    private Map<String, Service> services = new HashMap<>();
+
+    public <T extends Service> void setService(Class<T> serviceClass) {
         T t = null;
         try {
-            t = origin.newInstance();
+            t = serviceClass.newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
             logger.catching(e);
-        }
-
-        if (null == t) {
             return;
         }
 
-        ChangeOriginI changeOriginI = this.beans.get(key);
-        if (null != changeOriginI) {
-            changeOriginI.changeOrigin(t);
+        Service service = this.services.get(t.name());
+        if (null != service) {
+            service.changeOrigin(t);
             return;
         }
 
         Object ret = Proxy.newProxyInstance(
                 getClass().getClassLoader(),
-                new Class[]{key}, new ChangeOriginIH(t));
-        this.beans.put(key, (ChangeOriginI) ret);
+                new Class[]{Service.class},
+                new ChangeOriginIH(t)
+        );
+        this.services.put(t.name(), (Service) ret);
     }
 
-    public <T extends Repository> void setRepository(Class<? extends T> key) {
-        RepositoryManager repositoryManager = RepositoryManager.getInstance();
-        T t = repositoryManager.buildRepository(key);
+    public Service getService(String name) {
+        Service service = this.services.get(name);
 
-        ChangeOriginI changeOriginI = this.beans.get(key);
-        if (null != changeOriginI) {
-            changeOriginI.changeOrigin(t);
-            return;
+        if (null != service) {
+            return service;
         }
 
         Object ret = Proxy.newProxyInstance(
                 getClass().getClassLoader(),
-                new Class[]{key}, new ChangeOriginIH(t));
-        this.beans.put(key, (ChangeOriginI) ret);
-    }
-
-    public <T extends ChangeOriginI> T getBean(Class<? extends T> key) {
-        ChangeOriginI changeOriginI = this.beans.get(key);
-        if (null != changeOriginI) {
-            return (T) changeOriginI;
-        }
-
-        Object ret = Proxy.newProxyInstance(
-                getClass().getClassLoader(),
-                new Class[]{key}, new ChangeOriginIH(null));
-        this.beans.put(key, (ChangeOriginI) ret);
-        return (T) ret;
+                new Class[]{Service.class},
+                new ChangeOriginIH(null)
+        );
+        this.services.put(name, (Service) ret);
+        return (Service) ret;
     }
 
     private Map<String, Controller> controllers = new HashMap<>();
