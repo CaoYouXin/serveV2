@@ -6,6 +6,8 @@ import config.Configs;
 import org.junit.jupiter.api.Test;
 import rest.JsonResponse;
 
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class DataAccessTest {
@@ -42,10 +44,16 @@ class DataAccessTest {
         bean.setA("AAA");
 
         try {
-            System.out.println(objectMapper.writeValueAsString(JsonResponse.success(bean)));
+            System.out.println(objectMapper.writeValueAsString(JsonResponse.success(bean.toMap())));
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
+    }
+    
+    @Test
+    void test5() {
+        Entity1 bean = BeanManager.getInstance().createBean(Entity1.class, "{\"A\":\"AAA\"}");
+        assertEquals("AAA", bean.getA());
     }
 
 }

@@ -153,4 +153,10 @@ public class BeanManager {
         );
     }
 
+    public <T extends EntityBeanI> T createBean(Class<T> clazz, String json) {
+        T t = this.createBean(clazz);
+        t.fromJSON(json);
+        return t;
+    }
+
 }

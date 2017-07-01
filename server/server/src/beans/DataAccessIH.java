@@ -33,12 +33,26 @@ public class DataAccessIH implements InvocationHandler {
             return Collections.unmodifiableMap(this.data);
         }
 
+        if (name.equals("fromMap")) {
+            this.data = (Map<String, Object>) args[0];
+            return null;
+        }
+
         if (name.equals("toJSONString")) {
             ObjectMapper objectMapper = Configs.getConfigs(Configs.OBJECT_MAPPER, ObjectMapper.class);
             if (null == objectMapper) {
                 objectMapper = new ObjectMapper();
             }
             return objectMapper.writeValueAsString(this.data);
+        }
+
+        if (name.equals("fromJSON")) {
+            ObjectMapper objectMapper = Configs.getConfigs(Configs.OBJECT_MAPPER, ObjectMapper.class);
+            if (null == objectMapper) {
+                objectMapper = new ObjectMapper();
+            }
+            this.data = objectMapper.readValue((String) args[0], Map.class);
+            return null;
         }
 
         if (name.equals("copyFrom")) {
