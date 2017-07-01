@@ -49,6 +49,19 @@ class DataAccessTest {
             e.printStackTrace();
         }
     }
+
+    @Test
+    void test6() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Entity1 bean = BeanManager.getInstance().createBean(Entity1.class);
+        bean.setA("AAA");
+
+        try {
+            System.out.println(objectMapper.writeValueAsString(JsonResponse.success(bean)));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+    }
     
     @Test
     void test5() {

@@ -1,5 +1,7 @@
 package rest;
 
+import beans.EntityBeanI;
+
 public class JsonResponse {
 
     public static JsonResponse fail(int code, String reason) {
@@ -10,6 +12,10 @@ public class JsonResponse {
     }
 
     public static JsonResponse success(Object body) {
+        if (body instanceof EntityBeanI) {
+            body = ((EntityBeanI) body).toMap();
+        }
+
         JsonResponse jsonResponse = new JsonResponse();
         jsonResponse.setCode(20000);
         jsonResponse.setBody(body);
