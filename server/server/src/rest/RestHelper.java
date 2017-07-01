@@ -36,6 +36,7 @@ public class RestHelper {
                 retString,
                 ContentType.APPLICATION_JSON
         ));
+        logger.info(retString);
     }
 
     public static void responseHTML(HttpResponse response, int code, String html) {

@@ -24,7 +24,9 @@ public class ApiHandler implements HttpRequestHandler {
 
     private void setCORS(HttpRequest httpRequest, String reqHeaderName, HttpResponse httpResponse, String resHeaderName) {
         Header[] headers = httpRequest.getHeaders(reqHeaderName);
-        logger.info(reqHeaderName + " : " + Arrays.toString(headers));
+        if (headers.length > 0) {
+            logger.info(reqHeaderName + " : " + Arrays.toString(headers));
+        }
 
         if (headers.length > 0) {
             for (Header header : headers) {
@@ -37,6 +39,8 @@ public class ApiHandler implements HttpRequestHandler {
     public void handle(HttpRequest request, HttpResponse response, HttpContext context) throws HttpException, IOException {
         for (Controller controller : this.controllers) {
             if (controller.getUriPatternMatcher().match(request)) {
+
+                logger.info(request.getRequestLine());
 
                 setCORS(request, "Origin",
                         response, "Access-Control-Allow-Origin");
