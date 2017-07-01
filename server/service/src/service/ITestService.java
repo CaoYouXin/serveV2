@@ -1,9 +1,9 @@
 package service;
 
-import beans.ChangeOriginI;
+import rest.Service;
 
-public interface ITestService extends ChangeOriginI {
+public interface ITestService extends Service {
 
-    void print();
+    String test();
 
 }

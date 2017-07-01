@@ -26,7 +26,7 @@ public class UriPatternMatcher implements IUriPatternMatcher {
         StringBuilder stringBuilder = new StringBuilder();
 
         String urlPattern = controller.urlPattern();
-        int start = urlPattern.indexOf(':'), end = -1, startSub = 0;
+        int start = urlPattern.indexOf(':'), end = 0, startSub = 0;
         while (-1 != start) {
             stringBuilder.append(urlPattern.substring(startSub, start));
 

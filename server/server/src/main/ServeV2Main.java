@@ -1,5 +1,6 @@
 package main;
 
+import beans.BeanManager;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import config.Configs;
@@ -50,6 +51,7 @@ public class ServeV2Main {
                 readInitConfigs();
                 setupServer();
                 setupMetaApis();
+                setupApis();
                 break;
             case "stop":
                 try {
@@ -183,6 +185,20 @@ public class ServeV2Main {
                 }
             }
         }
+    }
+
+    public static void setupApis() {
+        List<Controller> apis = Configs.getConfigs(Configs.APIS, List.class);
+        CustomClassLoader classLoader = Configs.getConfigs(Configs.CLASSLOADER, CustomClassLoader.class);
+
+        BeanManager.getInstance().setController(
+                (Class<? extends Controller>) classLoader.loadClass("controller.TestController")
+        );
+        Controller controller = BeanManager.getInstance().getController("controller.TestController");
+        UriPatternMatcher uriPatternMatcher = new UriPatternMatcher("/api");
+        uriPatternMatcher.setController(controller);
+        controller.setUriPatternMatcher(uriPatternMatcher);
+        apis.add(controller);
     }
 
 }

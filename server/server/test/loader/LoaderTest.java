@@ -30,7 +30,7 @@ class LoaderTest {
             System.out.println(customClassLoader.loadClass("service.impl.TestService1").equals(
                     customClassLoader.loadClass("service.impl.TestService1")
             ));
-        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+        } catch (InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
         }
     }

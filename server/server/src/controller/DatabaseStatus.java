@@ -52,7 +52,7 @@ public class DatabaseStatus extends HelperController implements Controller {
             ret.put("Class Equals With Last", b2);
             this.lastClass = classLoader.loadClass("service.impl.TestService1");
 
-        } catch (IllegalAccessException | InstantiationException | ClassNotFoundException e) {
+        } catch (IllegalAccessException | InstantiationException e) {
             e.printStackTrace();
         }
 

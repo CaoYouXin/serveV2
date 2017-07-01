@@ -1,5 +1,6 @@
 package beans;
 
+import config.Configs;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import orm.Repository;
@@ -7,6 +8,8 @@ import orm.RepositoryManager;
 import orm.RepositoryName;
 import rest.Controller;
 import rest.Service;
+import sun.security.krb5.Config;
+import util.loader.CustomClassLoader;
 
 import java.lang.reflect.Proxy;
 import java.util.HashMap;
@@ -25,10 +28,16 @@ public class BeanManager {
     private BeanManager() {}
 
     private Map<String, Repository> repositories = new HashMap<>();
+    private Map<String, Class<? extends Repository>> cache = new HashMap<>();
 
-    public <T extends Repository> void setRepository(Class<? extends T> repositoryClass) {
+    public <T extends Repository> void setRepository(Class<T> repositoryClass) {
         RepositoryName declaredAnnotation = repositoryClass.getDeclaredAnnotation(RepositoryName.class);
         String repoName = declaredAnnotation.value();
+
+        Class<? extends Repository> aClass = this.cache.get(repoName);
+        if (aClass.equals(repositoryClass)) {
+            return;
+        }
 
         T t = RepositoryManager.getInstance().buildRepository(repositoryClass);
 
@@ -39,35 +48,23 @@ public class BeanManager {
         }
 
         Object ret = Proxy.newProxyInstance(
-                getClass().getClassLoader(),
-                new Class[]{Repository.class},
+                Configs.getConfigs(Configs.CLASSLOADER, CustomClassLoader.class),
+                new Class[]{repositoryClass},
                 new ChangeOriginIH(t)
         );
         this.repositories.put(repoName, (Repository) ret);
     }
 
     public Repository getRepository(String name) {
-        Repository repository = this.repositories.get(name);
-
-        if (null != repository) {
-            return repository;
-        }
-
-        Object ret = Proxy.newProxyInstance(
-                getClass().getClassLoader(),
-                new Class[]{Repository.class},
-                new ChangeOriginIH(null)
-        );
-        this.repositories.put(name, (Repository) ret);
-        return (Repository) ret;
+        return this.repositories.get(name);
     }
 
     private Map<String, Service> services = new HashMap<>();
 
-    public <T extends Service> void setService(Class<T> serviceClass) {
+    public <T extends Service, Impl extends T> void setService(Class<T> serviceClass, Class<Impl> serviceImplClass) {
         T t = null;
         try {
-            t = serviceClass.newInstance();
+            t = serviceImplClass.newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
             logger.catching(e);
             return;
@@ -80,27 +77,27 @@ public class BeanManager {
         }
 
         Object ret = Proxy.newProxyInstance(
-                getClass().getClassLoader(),
-                new Class[]{Service.class},
+                Configs.getConfigs(Configs.CLASSLOADER, CustomClassLoader.class),
+                new Class[]{serviceClass},
                 new ChangeOriginIH(t)
         );
         this.services.put(t.name(), (Service) ret);
     }
 
-    public Service getService(String name) {
+    public <T extends Service> T getService(Class<T> serviceClass, String name) {
         Service service = this.services.get(name);
 
         if (null != service) {
-            return service;
+            return (T) service;
         }
 
         Object ret = Proxy.newProxyInstance(
-                getClass().getClassLoader(),
-                new Class[]{Service.class},
+                Configs.getConfigs(Configs.CLASSLOADER, CustomClassLoader.class),
+                new Class[]{serviceClass},
                 new ChangeOriginIH(null)
         );
         this.services.put(name, (Service) ret);
-        return (Service) ret;
+        return (T) ret;
     }
 
     private Map<String, Controller> controllers = new HashMap<>();
@@ -121,7 +118,7 @@ public class BeanManager {
         }
 
         Object ret = Proxy.newProxyInstance(
-                getClass().getClassLoader(),
+                Configs.getConfigs(Configs.CLASSLOADER, CustomClassLoader.class),
                 new Class[]{Controller.class},
                 new ChangeOriginIH(t)
         );
@@ -136,7 +133,7 @@ public class BeanManager {
         }
 
         Object ret = Proxy.newProxyInstance(
-                getClass().getClassLoader(),
+                Configs.getConfigs(Configs.CLASSLOADER, CustomClassLoader.class),
                 new Class[]{Controller.class},
                 new ChangeOriginIH(null)
         );
@@ -146,7 +143,7 @@ public class BeanManager {
 
     public <T extends EntityBeanI> T createBean(Class<T> clazz) {
         return (T) Proxy.newProxyInstance(
-                getClass().getClassLoader(),
+                Configs.getConfigs(Configs.CLASSLOADER, CustomClassLoader.class),
                 new Class[]{clazz},
                 new DataAccessIH()
         );

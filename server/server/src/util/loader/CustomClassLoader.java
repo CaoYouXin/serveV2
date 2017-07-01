@@ -1,5 +1,7 @@
 package util.loader;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import util.FileUtil;
 
 import java.io.File;
@@ -10,6 +12,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CustomClassLoader extends URLClassLoader {
+
+    private static final Logger logger = LogManager.getLogger(CustomClassLoader.class);
 
     private Map<String, byte[]> cache = new HashMap<>();
     private Map<String, Class<?>> cached = new HashMap<>();
@@ -35,6 +39,16 @@ public class CustomClassLoader extends URLClassLoader {
             }
         }
         return true;
+    }
+
+    @Override
+    public Class<?> loadClass(String name) {
+        try {
+            return super.loadClass(name);
+        } catch (ClassNotFoundException e) {
+            logger.catching(e);
+            return null;
+        }
     }
 
     @Override
