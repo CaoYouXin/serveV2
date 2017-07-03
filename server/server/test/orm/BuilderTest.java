@@ -1,5 +1,6 @@
 package orm;
 
+import beans.BeanManager;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -40,6 +41,26 @@ class BuilderTest {
         List<ITestEntity> all = iTestRepo.findAll();
         all.forEach(iTestEntity ->
                 System.out.println(null == iTestEntity ? "NULL" : iTestEntity.toJSONString()));
+    }
+
+    @Test
+    void test4() {
+        ITestRepo iTestRepo = RepositoryManager.getInstance().buildRepository(ITestRepo.class);
+        ITestEntity testEntity = BeanManager.getInstance().createBean(ITestEntity.class);
+        testEntity.setTestValue("ABCD");
+        System.out.println(testEntity.toJSONString());
+        iTestRepo.save(testEntity);
+        System.out.println(testEntity.toJSONString());
+    }
+
+    @Test
+    void test5() {
+        ITestRepo iTestRepo = RepositoryManager.getInstance().buildRepository(ITestRepo.class);
+        ITestEntity testEntity = BeanManager.getInstance().createBean(ITestEntity.class);
+        testEntity.setTestValue("AAAA");
+        testEntity.setTestId(5L);
+        iTestRepo.save(testEntity);
+        System.out.println(testEntity.toJSONString());
     }
 
 }

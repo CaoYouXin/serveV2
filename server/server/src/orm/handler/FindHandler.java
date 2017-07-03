@@ -34,12 +34,11 @@ public class FindHandler implements InvocationHandler {
     }
 
     private FindRet generateSQL(Class<?> type, String cmd) {
-        String tableName = null;
         Entity entity = type.getDeclaredAnnotation(Entity.class);
         if (null == entity) {
             throw new RuntimeException("lack of Entity.class definition.");
         }
-        tableName = entity.name();
+        String tableName = entity.name();
 
         Map<String, String> method2column = new HashMap<>();
         Map<String, Method> column2setter = new HashMap<>();

@@ -5,6 +5,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import orm.handler.DDLHandler;
 import orm.handler.FindHandler;
+import orm.handler.SaveHandler;
 import util.StringUtil;
 
 import java.lang.reflect.InvocationHandler;
@@ -35,6 +36,7 @@ public class RepositoryIH implements InvocationHandler {
 
     private void registerInvocationHandlers() {
         this.invocationHandlerMap.put("find", new FindHandler(this.genericParams));
+        this.invocationHandlerMap.put("save", new SaveHandler(this.genericParams.get(GENERIC_NAMES[0])));
         this.invocationHandlerMap.put("createTableIfNotExist", new DDLHandler(GENERIC_NAMES, this.genericParams));
 
         this.invocationHandlerMap = Collections.unmodifiableMap(this.invocationHandlerMap);
