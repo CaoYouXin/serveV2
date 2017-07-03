@@ -7,6 +7,7 @@ public class FindRet {
 
     private String sql;
     private Map<String, Method> column2setter;
+    private Boolean listAll;
 
     public String getSql() {
         return sql;
@@ -23,6 +24,15 @@ public class FindRet {
 
     public FindRet setColumn2setter(Map<String, Method> column2setter) {
         this.column2setter = column2setter;
+        return this;
+    }
+
+    public Boolean getListAll() {
+        return listAll;
+    }
+
+    public FindRet setListAll(Boolean listAll) {
+        this.listAll = listAll;
         return this;
     }
 }

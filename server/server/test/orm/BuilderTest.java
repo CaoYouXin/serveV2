@@ -3,6 +3,8 @@ package orm;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 class BuilderTest {
 
     @BeforeAll
@@ -30,6 +32,14 @@ class BuilderTest {
             ITestEntity iTestEntity = iTestRepo.find(2L);
             System.out.println(null == iTestEntity ? "NULL" : iTestEntity.toJSONString());
         }
+    }
+
+    @Test
+    void test3() {
+        ITestRepo iTestRepo = RepositoryManager.getInstance().buildRepository(ITestRepo.class);
+        List<ITestEntity> all = iTestRepo.findAll();
+        all.forEach(iTestEntity ->
+                System.out.println(null == iTestEntity ? "NULL" : iTestEntity.toJSONString()));
     }
 
 }
