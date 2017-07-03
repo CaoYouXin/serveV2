@@ -33,7 +33,7 @@ public class FindHandler implements InvocationHandler {
         this.genericParams = genericParams;
     }
 
-    private FindRet generateSQL(Class<?> type, String cmd) {
+    private FindRet generateSQL(Class<?> type, String cmd) throws NoSuchMethodException {
         Entity entity = type.getDeclaredAnnotation(Entity.class);
         if (null == entity) {
             throw new RuntimeException("lack of Entity.class definition.");
@@ -54,11 +54,7 @@ public class FindHandler implements InvocationHandler {
             selectColumns.add(column.name());
             String methodName = StringUtil.cutPrefix(method.getName(), "get", "is");
             method2column.put(methodName, column.name());
-            try {
-                column2setter.put(column.name(), type.getMethod("set" + methodName, method.getReturnType()));
-            } catch (NoSuchMethodException e) {
-                logger.catching(e);
-            }
+            column2setter.put(column.name(), type.getMethod("set" + methodName, method.getReturnType()));
 
             Id id = method.getDeclaredAnnotation(Id.class);
             if (null == id) {
@@ -67,8 +63,8 @@ public class FindHandler implements InvocationHandler {
             idColumn = column.name();
         }
 
-        boolean retList = cmd.length() > "find".length() && cmd.charAt("find".length()) == 'A';
         StringBuilder whereClause = new StringBuilder();
+        boolean retList = cmd.startsWith("findAll");
         int start = retList ? "findAllBy".length() : "findBy".length(),
                 end = StringUtil.indexOf(cmd, start, "And", "Or");
         while (-1 != end) {
@@ -78,7 +74,7 @@ public class FindHandler implements InvocationHandler {
                 throw new RuntimeException("cmd column not exist, method : " + method);
             }
 
-            boolean isAnd = cmd.charAt(end + 1) == 'A';
+            boolean isAnd = cmd.charAt(end) == 'A';
             whereClause.append('`')
                     .append(column)
                     .append("`=? ")
@@ -136,6 +132,7 @@ public class FindHandler implements InvocationHandler {
 
         try (Connection conn = DatasourceFactory.getMySQLDataSource().getConnection()) {
             PreparedStatement preparedStatement = conn.prepareStatement(generatedSQL.getSql());
+            logger.info(generatedSQL.getSql());
 
             if (null != args) {
                 int i = 1;
@@ -147,7 +144,6 @@ public class FindHandler implements InvocationHandler {
             }
 
             ResultSet resultSet = preparedStatement.executeQuery();
-            logger.info(generatedSQL.getSql());
             if (generatedSQL.getListAll()) {
                 List ret = new ArrayList();
                 while (resultSet.next()) {

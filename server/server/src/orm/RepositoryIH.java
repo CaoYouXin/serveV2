@@ -3,9 +3,7 @@ package orm;
 import config.Configs;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import orm.handler.DDLHandler;
-import orm.handler.FindHandler;
-import orm.handler.SaveHandler;
+import orm.handler.*;
 import util.StringUtil;
 
 import java.lang.reflect.InvocationHandler;
@@ -37,6 +35,8 @@ public class RepositoryIH implements InvocationHandler {
     private void registerInvocationHandlers() {
         this.invocationHandlerMap.put("find", new FindHandler(this.genericParams));
         this.invocationHandlerMap.put("save", new SaveHandler(this.genericParams.get(GENERIC_NAMES[0])));
+        this.invocationHandlerMap.put("remove", new RemoveHandler(this.genericParams.get(GENERIC_NAMES[0])));
+        this.invocationHandlerMap.put("query", new QueryHandler());
         this.invocationHandlerMap.put("createTableIfNotExist", new DDLHandler(GENERIC_NAMES, this.genericParams));
 
         this.invocationHandlerMap = Collections.unmodifiableMap(this.invocationHandlerMap);
@@ -83,8 +83,23 @@ public class RepositoryIH implements InvocationHandler {
             return invocationHandler.invoke(proxy, method, args);
         }
 
+        Query query = method.getDeclaredAnnotation(Query.class);
+        if (null != query) {
+            invocationHandler = this.invocationHandlerMap.get("query");
+            if (null != invocationHandler) {
+                return invocationHandler.invoke(proxy, method, args);
+            }
+        }
+
         if (methodName.startsWith("find")) {
             invocationHandler = this.invocationHandlerMap.get("find");
+            if (null != invocationHandler) {
+                return invocationHandler.invoke(proxy, method, args);
+            }
+        }
+
+        if (methodName.startsWith("remove") || methodName.startsWith("softRemove")) {
+            invocationHandler = this.invocationHandlerMap.get("remove");
             if (null != invocationHandler) {
                 return invocationHandler.invoke(proxy, method, args);
             }

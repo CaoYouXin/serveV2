@@ -45,6 +45,7 @@ public class SaveHandler implements InvocationHandler {
 
         try (Connection conn = DatasourceFactory.getMySQLDataSource().getConnection()) {
             PreparedStatement preparedStatement = conn.prepareStatement(generatedSQL.getSql(), Statement.RETURN_GENERATED_KEYS);
+            logger.info(generatedSQL.getSql());
 
             int i = 1;
             for (Method getterMethod : generatedSQL.getGetters()) {

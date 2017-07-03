@@ -23,7 +23,9 @@ class BuilderTest {
         System.out.println(null == iTestEntity ? "NULL" : iTestEntity.toJSONString());
         iTestEntity = iTestRepo.findByTestValueOrTestId("asdf", 3L);
         System.out.println(null == iTestEntity ? "NULL" : iTestEntity.toJSONString());
-        iTestRepo.updateOther("CCC");
+        List<ITestEntity> all = iTestRepo.findAllByTestValueOrTestId("asdf", 3L);
+        all.forEach(testEntity ->
+                System.out.println(null == testEntity ? "NULL" : testEntity.toJSONString()));
     }
 
     @Test
@@ -49,8 +51,9 @@ class BuilderTest {
         ITestEntity testEntity = BeanManager.getInstance().createBean(ITestEntity.class);
         testEntity.setTestValue("ABCD");
         System.out.println(testEntity.toJSONString());
-        iTestRepo.save(testEntity);
-        System.out.println(testEntity.toJSONString());
+        if (iTestRepo.save(testEntity)) {
+            System.out.println(testEntity.toJSONString());
+        }
     }
 
     @Test
@@ -59,8 +62,28 @@ class BuilderTest {
         ITestEntity testEntity = BeanManager.getInstance().createBean(ITestEntity.class);
         testEntity.setTestValue("AAAA");
         testEntity.setTestId(5L);
-        iTestRepo.save(testEntity);
-        System.out.println(testEntity.toJSONString());
+        if (iTestRepo.save(testEntity)) {
+            System.out.println(testEntity.toJSONString());
+        }
+    }
+
+    @Test
+    void test6() {
+        ITestRepo iTestRepo = RepositoryManager.getInstance().buildRepository(ITestRepo.class);
+        ITestEntity iTestEntity = iTestRepo.querySth();
+        System.out.println(null == iTestEntity ? "NULL" : iTestEntity.toJSONString());
+    }
+
+    @Test
+    void test7() {
+        ITestRepo iTestRepo = RepositoryManager.getInstance().buildRepository(ITestRepo.class);
+        System.out.println(iTestRepo.remove(4L));
+    }
+
+    @Test
+    void test8() {
+        ITestRepo iTestRepo = RepositoryManager.getInstance().buildRepository(ITestRepo.class);
+        System.out.println(iTestRepo.softRemoveByTestIdAtTestValue(5L, "DELETED"));
     }
 
 }
