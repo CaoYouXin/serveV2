@@ -20,7 +20,7 @@ public class RestHelper {
     private static final Logger logger = LogManager.getLogger(RestHelper.class);
 
     public static void responseJSON(HttpResponse response, Object json) {
-        ObjectMapper objectMapper = Configs.getConfigs(Configs.OBJECT_MAPPER, ObjectMapper.class);
+        ObjectMapper objectMapper = Configs.getConfigs(Configs.OBJECT_MAPPER, ObjectMapper.class, () -> new ObjectMapper());
 
         String retString = null;
         try {
@@ -80,7 +80,7 @@ public class RestHelper {
 
     public static <T> T getBodyAsObject(HttpRequest httpRequest, Class<T> clazz) {
         String bodyAsString = getBodyAsString(httpRequest);
-        ObjectMapper objectMapper = Configs.getConfigs(Configs.OBJECT_MAPPER, ObjectMapper.class);
+        ObjectMapper objectMapper = Configs.getConfigs(Configs.OBJECT_MAPPER, ObjectMapper.class, () -> new ObjectMapper());
         try {
             return objectMapper.readValue(bodyAsString, clazz);
         } catch (IOException e) {

@@ -26,7 +26,7 @@ public class Server {
                 .build();
 
         this.serverBootstrap = ServerBootstrap.bootstrap()
-                .setListenerPort(Configs.getConfigs(InitConfig.CONFIG_KEY, InitConfig.class).getPort())
+                .setListenerPort(Configs.getConfigs(InitConfig.CONFIG_KEY, InitConfig.class, null).getPort())
                 .setServerInfo("Infinitely Serve/2.1")
                 .setSocketConfig(socketConfig)
                 .setExceptionLogger(new StdErrorExceptionLogger());

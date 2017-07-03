@@ -15,7 +15,7 @@ public class ShutdownServer implements Callable<Void> {
 
     public ShutdownServer(String fileName) {
         this.log = FileUtil.getObjectFromFile(new File(
-                Configs.getConfigs(Configs.FILE_ROOT, String.class), fileName
+                Configs.getConfigs(Configs.FILE_ROOT, String.class, null), fileName
         ), StartLog.class);
     }
 

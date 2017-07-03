@@ -1,9 +1,15 @@
 package config;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.Callable;
 
 public class Configs {
+
+    private static final Logger logger = LogManager.getLogger(Configs.class);
 
     public static final String OBJECT_MAPPER = "OBJECT_MAPPER";
     public static final String FILE_ROOT = "FILE_ROOT";
@@ -21,7 +27,19 @@ public class Configs {
     }
 
     public static <T> T getConfigs(String key, Class<T> clazz) {
-        return (T) CONFIGS.get(key);
+        return getConfigs(key, clazz, null);
+    }
+
+    public static <T> T getConfigs(String key, Class<T> clazz, Callable<T> fallback) {
+        Object ret = CONFIGS.get(key);
+        if (null == ret && null != fallback) {
+            try {
+                ret = fallback.call();
+            } catch (Exception e) {
+                logger.catching(e);
+            }
+        }
+        return (T) ret;
     }
 
 }

@@ -33,7 +33,7 @@ public class ShutdownHandler implements HttpRequestHandler {
         Matcher matcher = pattern.matcher(uri);
         if (matcher.matches()) {
             String token = matcher.group("token");
-            String storedToken = Configs.getConfigs(StartLog.CONFIG_KEY, String.class);
+            String storedToken = Configs.getConfigs(StartLog.CONFIG_KEY, String.class, null);
 
             if (token.equals(storedToken)) {
                 this.server.shutdown(5);

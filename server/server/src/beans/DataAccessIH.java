@@ -39,18 +39,12 @@ public class DataAccessIH implements InvocationHandler {
         }
 
         if (name.equals("toJSONString")) {
-            ObjectMapper objectMapper = Configs.getConfigs(Configs.OBJECT_MAPPER, ObjectMapper.class);
-            if (null == objectMapper) {
-                objectMapper = new ObjectMapper();
-            }
+            ObjectMapper objectMapper = Configs.getConfigs(Configs.OBJECT_MAPPER, ObjectMapper.class, () -> new ObjectMapper());
             return objectMapper.writeValueAsString(this.data);
         }
 
         if (name.equals("fromJSON")) {
-            ObjectMapper objectMapper = Configs.getConfigs(Configs.OBJECT_MAPPER, ObjectMapper.class);
-            if (null == objectMapper) {
-                objectMapper = new ObjectMapper();
-            }
+            ObjectMapper objectMapper = Configs.getConfigs(Configs.OBJECT_MAPPER, ObjectMapper.class, () -> new ObjectMapper());
             this.data = objectMapper.readValue((String) args[0], Map.class);
             return null;
         }

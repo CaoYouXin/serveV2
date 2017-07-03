@@ -25,4 +25,35 @@ public class StringUtil {
         }
     }
 
+    public static int indexOf(String str, int index, String... search) {
+        int indexOf = -1;
+        for (String c : search) {
+            indexOf = str.indexOf(c, index);
+            if (-1 != indexOf) {
+                return indexOf;
+            }
+        }
+        return indexOf;
+    }
+
+    public static int indexOf(String str, int index, char... search) {
+        int indexOf = -1;
+        for (char c : search) {
+            indexOf = str.indexOf(c, index);
+            if (-1 != indexOf) {
+                return indexOf;
+            }
+        }
+        return indexOf;
+    }
+
+    public static String cutPrefix(String str, String... prefix) {
+        for (String s : prefix) {
+            if (str.startsWith(s)) {
+                return str.substring(s.length());
+            }
+        }
+        return str;
+    }
+
 }

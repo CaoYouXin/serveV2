@@ -4,10 +4,14 @@ import beans.BeanManager;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import config.Configs;
+import config.DataSourceConfig;
 import config.InitConfig;
 import hanlder.*;
+import meta.service.IDatabaseStatusService;
+import meta.service.impl.DatabaseStatusServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import orm.DatasourceFactory;
 import rest.Controller;
 import rest.UriPatternMatcher;
 import server.Server;
@@ -49,6 +53,7 @@ public class ServeV2Main {
         switch (args[0]) {
             case "start":
                 readInitConfigs();
+                setupDataSource();
                 setupServer();
                 setupMetaApis();
                 setupApis();
@@ -101,6 +106,27 @@ public class ServeV2Main {
         );
 
         Configs.setConfigs(Configs.CLASSLOADER, customClassLoader);
+    }
+
+    private static void setupDataSource() {
+        DataSourceConfig dataSource = null;
+
+        IDatabaseStatusService databaseStatusService = new DatabaseStatusServiceImpl();
+        File activeCfgFile = databaseStatusService.activeCfgFile();
+        if (null != activeCfgFile) {
+            dataSource = FileUtil.getObjectFromFile(activeCfgFile, DataSourceConfig.class);
+        }
+
+        if (null == dataSource) {
+            InitConfig initConfig = Configs.getConfigs(InitConfig.CONFIG_KEY, InitConfig.class);
+            dataSource = initConfig.getDataSource();
+        }
+
+        DatasourceFactory.newDataSource(
+                dataSource.getUrl(),
+                dataSource.getUser(),
+                dataSource.getPwd()
+        );
     }
 
     private static void setupServer() {

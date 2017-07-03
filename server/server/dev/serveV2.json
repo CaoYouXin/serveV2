@@ -4,5 +4,10 @@
   "configRoot": "/Users/cls/Dev/Git/personal/infinitely/serveV2/out/configs/",
   "deployRoot": "",
   "uploadRoot": "/Users/cls/Dev/Git/personal/infinitely/serveV2/out/upload/",
-  "resourceRoot": "/Users/cls/Dev/Git/personal/infinitely/serveV2/out/resource/"
+  "resourceRoot": "/Users/cls/Dev/Git/personal/infinitely/serveV2/out/resource/",
+  "dataSource": {
+    "url": "jdbc:mysql://localhost:3306",
+    "user": "root",
+    "pwd": "root"
+  }
 }

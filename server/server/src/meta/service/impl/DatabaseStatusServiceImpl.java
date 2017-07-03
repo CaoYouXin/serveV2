@@ -1,11 +1,13 @@
 package meta.service.impl;
 
 import config.Configs;
+import config.DataSourceConfig;
 import config.InitConfig;
 import meta.service.IDatabaseStatusService;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import orm.DatasourceFactory;
 import util.FileUtil;
 
 import java.io.*;
@@ -16,7 +18,7 @@ public class DatabaseStatusServiceImpl implements IDatabaseStatusService {
 
     @Override
     public File[] listCfgFiles() {
-        InitConfig initConfig = Configs.getConfigs(InitConfig.CONFIG_KEY, InitConfig.class);
+        InitConfig initConfig = Configs.getConfigs(InitConfig.CONFIG_KEY, InitConfig.class, null);
         File databaseConfigDir = new File(initConfig.getConfigRoot(), "dbcfgs");
         if (!databaseConfigDir.exists() || !databaseConfigDir.isDirectory()) {
             return null;
@@ -31,7 +33,7 @@ public class DatabaseStatusServiceImpl implements IDatabaseStatusService {
     }
 
     private File getActiveCfgFile() {
-        InitConfig initConfig = Configs.getConfigs(InitConfig.CONFIG_KEY, InitConfig.class);
+        InitConfig initConfig = Configs.getConfigs(InitConfig.CONFIG_KEY, InitConfig.class, null);
         File databaseConfigFile = new File(initConfig.getConfigRoot(), "dbcfgs/active/db.json");
         return databaseConfigFile;
     }
@@ -52,14 +54,15 @@ public class DatabaseStatusServiceImpl implements IDatabaseStatusService {
     }
 
     @Override
-    public Boolean cpCfg2Active(String cfg) {
+    public Boolean cpCfg2Active(String cfg, File backup) {
         File activeCfgFile = this.getActiveCfgFile();
         try {
             if (!activeCfgFile.exists()) {
                 activeCfgFile.mkdirs();
                 activeCfgFile.createNewFile();
             }
-            return IOUtils.copy(new StringReader(cfg), new FileWriter(activeCfgFile)) != 0;
+            return (IOUtils.copy(new StringReader(cfg), new FileWriter(activeCfgFile)) != 0)
+                    && (IOUtils.copy(new StringReader(cfg), new FileWriter(backup)) != 0);
         } catch (IOException e) {
             logger.catching(e);
             return false;
@@ -77,7 +80,13 @@ public class DatabaseStatusServiceImpl implements IDatabaseStatusService {
 
     @Override
     public Boolean testCfgConn(File cfg) {
-//        FileUtil.getObjectFromFile(cfg, );
+        DataSourceConfig dataSourceConfig = FileUtil.getObjectFromFile(cfg, DataSourceConfig.class);
+
+        DatasourceFactory.newDataSource(
+                dataSourceConfig.getUrl(),
+                dataSourceConfig.getUser(),
+                dataSourceConfig.getPwd()
+        );
         return null;
     }
 }

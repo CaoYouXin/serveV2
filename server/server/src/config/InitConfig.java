@@ -10,6 +10,7 @@ public class InitConfig {
     private String deployRoot;
     private String uploadRoot;
     private String resourceRoot;
+    private DataSourceConfig dataSource;
 
     public int getPort() {
         return port;
@@ -59,6 +60,14 @@ public class InitConfig {
         this.resourceRoot = resourceRoot;
     }
 
+    public DataSourceConfig getDataSource() {
+        return dataSource;
+    }
+
+    public void setDataSource(DataSourceConfig dataSource) {
+        this.dataSource = dataSource;
+    }
+
     @Override
     public String toString() {
         return "InitConfig{" +
@@ -68,7 +77,7 @@ public class InitConfig {
                 ", deployRoot='" + deployRoot + '\'' +
                 ", uploadRoot='" + uploadRoot + '\'' +
                 ", resourceRoot='" + resourceRoot + '\'' +
+                ", dataSource=" + dataSource +
                 '}';
     }
-
 }
