@@ -3,11 +3,13 @@ package meta.service.impl;
 import config.Configs;
 import config.DataSourceConfig;
 import config.InitConfig;
+import meta.repository.ITestRepo;
 import meta.service.IDatabaseStatusService;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import orm.DatasourceFactory;
+import orm.RepositoryManager;
 import util.FileUtil;
 
 import java.io.*;
@@ -16,9 +18,11 @@ public class DatabaseStatusServiceImpl implements IDatabaseStatusService {
 
     private static final Logger logger = LogManager.getLogger(DatabaseStatusServiceImpl.class);
 
+    private static final ITestRepo TEST_REPO = RepositoryManager.getInstance().buildRepository(ITestRepo.class);
+
     @Override
     public File[] listCfgFiles() {
-        InitConfig initConfig = Configs.getConfigs(InitConfig.CONFIG_KEY, InitConfig.class, null);
+        InitConfig initConfig = Configs.getConfigs(InitConfig.CONFIG_KEY, InitConfig.class);
         File databaseConfigDir = new File(initConfig.getConfigRoot(), "dbcfgs");
         if (!databaseConfigDir.exists() || !databaseConfigDir.isDirectory()) {
             return null;
@@ -33,7 +37,7 @@ public class DatabaseStatusServiceImpl implements IDatabaseStatusService {
     }
 
     private File getActiveCfgFile() {
-        InitConfig initConfig = Configs.getConfigs(InitConfig.CONFIG_KEY, InitConfig.class, null);
+        InitConfig initConfig = Configs.getConfigs(InitConfig.CONFIG_KEY, InitConfig.class);
         File databaseConfigFile = new File(initConfig.getConfigRoot(), "dbcfgs/active/db.json");
         return databaseConfigFile;
     }
@@ -43,10 +47,17 @@ public class DatabaseStatusServiceImpl implements IDatabaseStatusService {
         File activeCfgFile = this.getActiveCfgFile();
         try {
             if (!activeCfgFile.exists()) {
-                activeCfgFile.mkdirs();
+                activeCfgFile.getParentFile().mkdirs();
                 activeCfgFile.createNewFile();
             }
-            return IOUtils.copy(new FileReader(cfg), new FileWriter(activeCfgFile)) != 0;
+            FileReader input = new FileReader(cfg);
+            FileWriter output = new FileWriter(activeCfgFile);
+            boolean suc = IOUtils.copy(input, output) != 0;
+            input.close();
+            output.flush();
+            output.close();
+
+            return suc;
         } catch (IOException e) {
             logger.catching(e);
             return false;
@@ -54,15 +65,34 @@ public class DatabaseStatusServiceImpl implements IDatabaseStatusService {
     }
 
     @Override
-    public Boolean cpCfg2Active(String cfg, File backup) {
+    public Boolean cpCfg2Active(String cfg, String backup) {
+        InitConfig initConfig = Configs.getConfigs(InitConfig.CONFIG_KEY, InitConfig.class);
+        File backupFile = new File(initConfig.getConfigRoot(), "dbcfgs/" + backup + ".json");
+
         File activeCfgFile = this.getActiveCfgFile();
         try {
             if (!activeCfgFile.exists()) {
-                activeCfgFile.mkdirs();
+                activeCfgFile.getParentFile().mkdirs();
                 activeCfgFile.createNewFile();
             }
-            return (IOUtils.copy(new StringReader(cfg), new FileWriter(activeCfgFile)) != 0)
-                    && (IOUtils.copy(new StringReader(cfg), new FileWriter(backup)) != 0);
+            if (!backupFile.exists()) {
+                backupFile.getParentFile().mkdirs();
+                backupFile.createNewFile();
+            }
+            StringReader input1 = new StringReader(cfg);
+            FileWriter output1 = new FileWriter(activeCfgFile);
+            StringReader input2 = new StringReader(cfg);
+            FileWriter output2 = new FileWriter(backupFile);
+
+            boolean suc = (IOUtils.copy(input1, output1) != 0) && (IOUtils.copy(input2, output2) != 0);
+            input1.close();
+            input2.close();
+            output1.flush();
+            output1.close();
+            output2.flush();
+            output2.close();
+
+            return suc;
         } catch (IOException e) {
             logger.catching(e);
             return false;
@@ -87,6 +117,7 @@ public class DatabaseStatusServiceImpl implements IDatabaseStatusService {
                 dataSourceConfig.getUser(),
                 dataSourceConfig.getPwd()
         );
-        return null;
+
+        return TEST_REPO.createTableIfNotExist();
     }
 }

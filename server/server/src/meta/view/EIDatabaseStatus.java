@@ -1,4 +1,4 @@
-package meta.entities;
+package meta.view;
 
 import beans.EntityBeanI;
 

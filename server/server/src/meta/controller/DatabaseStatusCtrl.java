@@ -1,7 +1,7 @@
 package meta.controller;
 
 import beans.BeanManager;
-import meta.entities.EIDatabaseStatus;
+import meta.view.EIDatabaseStatus;
 import meta.service.IDatabaseStatusService;
 import meta.service.impl.DatabaseStatusServiceImpl;
 import org.apache.http.HttpException;
@@ -48,7 +48,7 @@ public class DatabaseStatusCtrl extends HelperController implements Controller {
             RestHelper.responseJSON(response, JsonResponse.success(databaseStatus));
             return;
         }
-        databaseStatus.setHasConfigs(true);
+        databaseStatus.setHasActiveConfig(true);
 
         Boolean testCfgConn = this.databaseStatusService.testCfgConn(activeCfgFile);
         databaseStatus.setActiveDatasource(testCfgConn);
