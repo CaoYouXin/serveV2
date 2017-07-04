@@ -18,7 +18,6 @@ import server.Server;
 import task.LogOnStart;
 import task.MultiTask;
 import task.ShutdownServer;
-import util.ClasspathHacker;
 import util.FileUtil;
 import util.loader.CustomClassLoader;
 
@@ -27,7 +26,6 @@ import java.io.IOException;
 import java.net.JarURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLClassLoader;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

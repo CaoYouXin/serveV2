@@ -1,12 +1,8 @@
 package orm;
 
 import config.Configs;
-import util.loader.CustomClassLoader;
 
 import java.lang.reflect.Proxy;
-import java.lang.reflect.Type;
-import java.lang.reflect.TypeVariable;
-import java.util.Arrays;
 
 public class RepositoryManager {
 

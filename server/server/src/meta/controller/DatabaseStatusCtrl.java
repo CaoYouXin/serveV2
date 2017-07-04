@@ -1,8 +1,6 @@
 package meta.controller;
 
 import beans.BeanManager;
-import config.Configs;
-import config.InitConfig;
 import meta.entities.EIDatabaseStatus;
 import meta.service.IDatabaseStatusService;
 import meta.service.impl.DatabaseStatusServiceImpl;
@@ -17,7 +15,6 @@ import rest.RestHelper;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 public class DatabaseStatusCtrl extends HelperController implements Controller {
 

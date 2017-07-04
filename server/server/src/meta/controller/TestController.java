@@ -1,6 +1,5 @@
 package meta.controller;
 
-import beans.BeanManager;
 import config.Configs;
 import org.apache.http.HttpException;
 import org.apache.http.HttpRequest;
@@ -10,11 +9,9 @@ import rest.Controller;
 import rest.HelperController;
 import rest.JsonResponse;
 import rest.RestHelper;
-import util.ClasspathHacker;
 import util.loader.CustomClassLoader;
 
 import java.io.IOException;
-import java.net.URLClassLoader;
 import java.util.HashMap;
 import java.util.Map;
 

@@ -1,8 +1,5 @@
 package orm.handler.retO;
 
-import java.lang.reflect.Method;
-import java.util.List;
-
 public class RemoveRet {
 
     private String sql;

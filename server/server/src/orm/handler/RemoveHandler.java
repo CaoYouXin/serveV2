@@ -14,7 +14,8 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class RemoveHandler implements InvocationHandler {
 

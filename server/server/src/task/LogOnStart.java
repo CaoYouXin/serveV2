@@ -7,7 +7,6 @@ import util.FileUtil;
 import util.NetUtil;
 import util.StringUtil;
 
-import javax.swing.plaf.synth.SynthTextAreaUI;
 import java.io.File;
 import java.util.concurrent.Callable;
 
