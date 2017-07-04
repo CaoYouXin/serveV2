@@ -13,11 +13,41 @@ import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.Arrays;
 import java.util.Locale;
 
 public class RestHelper {
 
     private static final Logger logger = LogManager.getLogger(RestHelper.class);
+
+    public static void crossOrigin(HttpRequest request, HttpResponse response) {
+        response.setHeader("Access-Control-Allow-Origin", "*");
+
+//        RestHelper.setCORS(request, "Origin",
+//                response, "Access-Control-Allow-Origin");
+
+        RestHelper.setCORS(request, "Access-Control-Allow-Method",
+                response, "Access-Control-Request-Methods");
+
+        RestHelper.setCORS(request, "Access-Control-Request-Headers",
+                response, "Access-Control-Allow-Headers");
+
+        RestHelper.setCORS(request, "Access-Control-Allow-Credentials",
+                response, "Access-Control-Allow-Credentials");
+    }
+
+    public static void setCORS(HttpRequest httpRequest, String reqHeaderName, HttpResponse httpResponse, String resHeaderName) {
+        Header[] headers = httpRequest.getHeaders(reqHeaderName);
+        if (headers.length > 0) {
+            logger.info(reqHeaderName + " : " + Arrays.toString(headers));
+        }
+
+        if (headers.length > 0) {
+            for (Header header : headers) {
+                httpResponse.setHeader(resHeaderName, header.getValue());
+            }
+        }
+    }
 
     public static void responseJSON(HttpResponse response, Object json) {
         ObjectMapper objectMapper = Configs.getConfigs(Configs.OBJECT_MAPPER, ObjectMapper.class, () -> new ObjectMapper());

@@ -32,13 +32,23 @@ public class UploadHandler implements HttpRequestHandler {
 
     @Override
     public void handle(HttpRequest httpRequest, HttpResponse httpResponse, HttpContext httpContext) throws HttpException, IOException {
+        logger.info(httpRequest.getRequestLine());
+
+        RestHelper.crossOrigin(httpRequest, httpResponse);
+
+        if (RestHelper.isOptions(httpRequest)) {
+            return;
+        }
+
         if (!RestHelper.isPost(httpRequest)) {
-            throw new MethodNotSupportedException(RestHelper.getMethod(httpRequest) + " method not supported");
+            RestHelper.responseJSON(httpResponse, JsonResponse.fail(50000, RestHelper.getMethod(httpRequest) + " method not supported"));
+            return;
         }
 
         HttpEntity entity = RestHelper.getBody(httpRequest);
         if (null == entity) {
-            throw new RuntimeException("empty body for upload, ridiculous");
+            RestHelper.responseJSON(httpResponse, JsonResponse.fail(50000, "empty body for upload, ridiculous"));
+            return;
         }
 
         Header contentType = httpRequest.getHeaders("Content-Type")[0];
@@ -46,12 +56,14 @@ public class UploadHandler implements HttpRequestHandler {
         String type = contentType.getValue().substring(0, indexOf);
 
         if (!"multipart/form-data".equals(type)) {
-            throw new RuntimeException("wrong content type, ridiculous");
+            RestHelper.responseJSON(httpResponse, JsonResponse.fail(50000, "wrong content type, ridiculous"));
+            return;
         }
 
         final String uploadDir = RestHelper.restUri(httpRequest, this.uploadUrlRoot);
         if (!uploadDir.endsWith(File.separator)) {
-            throw new RuntimeException("wrong upload dir");
+            RestHelper.responseJSON(httpResponse, JsonResponse.fail(50000, "wrong upload dir"));
+            return;
         }
 
         String boundary = contentType.getValue().substring(indexOf + "; boundary=".length());
@@ -90,7 +102,16 @@ public class UploadHandler implements HttpRequestHandler {
                 String fileName = fileItem.getLastHeader().setValue(value);
                 if (null != fileName) {
                     fileItem.setFile(true);
-                    fileItem.setFile(new File(uploadRoot, uploadDir + fileName));
+                    File file = new File(uploadRoot, uploadDir + fileName);
+                    if (!file.exists()) {
+                        file.getParentFile().mkdirs();
+                        try {
+                            file.createNewFile();
+                        } catch (IOException e) {
+                            logger.catching(e);
+                        }
+                    }
+                    fileItem.setFile(file);
                 }
             }
 

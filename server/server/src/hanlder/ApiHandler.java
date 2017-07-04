@@ -22,19 +22,6 @@ public class ApiHandler implements HttpRequestHandler {
         this.controllers = controllers;
     }
 
-    private void setCORS(HttpRequest httpRequest, String reqHeaderName, HttpResponse httpResponse, String resHeaderName) {
-        Header[] headers = httpRequest.getHeaders(reqHeaderName);
-        if (headers.length > 0) {
-            logger.info(reqHeaderName + " : " + Arrays.toString(headers));
-        }
-
-        if (headers.length > 0) {
-            for (Header header : headers) {
-                httpResponse.setHeader(resHeaderName, header.getValue());
-            }
-        }
-    }
-
     @Override
     public void handle(HttpRequest request, HttpResponse response, HttpContext context) throws HttpException, IOException {
         for (Controller controller : this.controllers) {
@@ -42,17 +29,10 @@ public class ApiHandler implements HttpRequestHandler {
 
                 logger.info(request.getRequestLine());
 
-                setCORS(request, "Origin",
-                        response, "Access-Control-Allow-Origin");
-
-                setCORS(request, "Access-Control-Allow-Method",
-                        response, "Access-Control-Request-Methods");
-
-                setCORS(request, "Access-Control-Request-Headers",
-                        response, "Access-Control-Allow-Headers");
-
-                setCORS(request, "Access-Control-Allow-Credentials",
-                        response, "Access-Control-Allow-Credentials");
+                RestHelper.crossOrigin(request, response);
+                if (RestHelper.isOptions(request)) {
+                    return;
+                }
 
                 controller.handle(request, response, context);
                 return;
