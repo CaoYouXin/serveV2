@@ -9,6 +9,10 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface Query {
 
-    String value();
+    String value() default "";
+
+    boolean useValue() default true;
+
+    Class<?>[] types() default {};
 
 }

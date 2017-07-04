@@ -70,7 +70,7 @@ class BuilderTest {
     @Test
     void test6() {
         ITestRepo iTestRepo = RepositoryManager.getInstance().buildRepository(ITestRepo.class);
-        ITestEntity iTestEntity = iTestRepo.querySth();
+        ITestEntity iTestEntity = iTestRepo.querySth(5L);
         System.out.println(null == iTestEntity ? "NULL" : iTestEntity.toJSONString());
     }
 
@@ -84,6 +84,26 @@ class BuilderTest {
     void test8() {
         ITestRepo iTestRepo = RepositoryManager.getInstance().buildRepository(ITestRepo.class);
         System.out.println(iTestRepo.softRemoveByTestIdAtTestValue(5L, "DELETED"));
+    }
+
+    @Test
+    void test9() {
+        ITestRepo iTestRepo = RepositoryManager.getInstance().buildRepository(ITestRepo.class);
+        System.out.println(iTestRepo.isB());
+    }
+
+    @Test
+    void test10() {
+        ITestRepo iTestRepo = RepositoryManager.getInstance().buildRepository(ITestRepo.class);
+        List<ITestEntity> all = iTestRepo.querySth();
+        all.forEach(iTestEntity -> System.out.println(null == iTestEntity ? "NULL" : iTestEntity.toJSONString()));
+    }
+
+    @Test
+    void test11() {
+        ITestRepo iTestRepo = RepositoryManager.getInstance().buildRepository(ITestRepo.class);
+        List<ITestEntity> all = iTestRepo.querySth("select a from ITestEntity a where a.TestValue != $0", "DELETED");
+        all.forEach(iTestEntity -> System.out.println(null == iTestEntity ? "NULL" : iTestEntity.toJSONString()));
     }
 
 }

@@ -155,12 +155,8 @@ public class FindHandler implements InvocationHandler {
                     return null;
                 }
 
-                Object ret = getObject((Class<? extends EntityBeanI>) type, generatedSQL, resultSet);
-                return ret;
+                return getObject((Class<? extends EntityBeanI>) type, generatedSQL, resultSet);
             }
-        } catch (Throwable t) {
-            logger.catching(t);
-            return null;
         }
     }
 
