@@ -1,5 +1,7 @@
 package util.loader;
 
+import config.Configs;
+import config.InitConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import util.FileUtil;
@@ -56,6 +58,14 @@ public class CustomClassLoader extends URLClassLoader {
         String path = name.replaceAll("\\.", File.separator).concat(".class");
         URL resource = this.findResource(path);
         if (null == resource) {
+            return super.loadClass(name, resolve);
+        }
+
+        if (!resource.getProtocol().equals("file")) {
+            return super.loadClass(name, resolve);
+        }
+
+        if (!resource.getPath().startsWith(Configs.getConfigs(InitConfig.CONFIG_KEY, InitConfig.class).getClasspath())) {
             return super.loadClass(name, resolve);
         }
 
