@@ -106,4 +106,18 @@ class BuilderTest {
         all.forEach(iTestEntity -> System.out.println(null == iTestEntity ? "NULL" : iTestEntity.toJSONString()));
     }
 
+    @Test
+    void test12() {
+        ITestRepo2 iTestRepo2 = RepositoryManager.getInstance().buildRepository(ITestRepo2.class);
+        List<ITestEntity> all = iTestRepo2.querySth("select a from ITestEntity a where a.TestValue != $0", "DELETED");
+        all.forEach(iTestEntity -> System.out.println(null == iTestEntity ? "NULL" : iTestEntity.toJSONString()));
+    }
+
+    @Test
+    void test13() {
+        ITestRepo2 iTestRepo2 = RepositoryManager.getInstance().buildRepository(ITestRepo2.class);
+        List<ITestEntity2> all = iTestRepo2.querySth2();
+        all.forEach(iTestEntity -> System.out.println(null == iTestEntity ? "NULL" : iTestEntity.toJSONString()));
+    }
+
 }

@@ -1,9 +1,9 @@
 package meta.controller;
 
 import beans.BeanManager;
-import meta.view.EIDatabaseStatus;
 import meta.service.IDatabaseStatusService;
 import meta.service.impl.DatabaseStatusServiceImpl;
+import meta.view.EIDatabaseStatus;
 import org.apache.http.HttpException;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;

@@ -42,6 +42,10 @@ public class CustomClassLoader extends URLClassLoader {
         return true;
     }
 
+    public Class<?> defineClass1(String name, byte[] bytes, int offset, int length) {
+        return super.defineClass(name, bytes, offset, length);
+    }
+
     @Override
     public Class<?> loadClass(String name) {
         try {
@@ -54,11 +58,15 @@ public class CustomClassLoader extends URLClassLoader {
 
     @Override
     protected Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
+        System.out.println("ccl : " + name);
+
         String path = name.replaceAll("\\.", File.separator).concat(".class");
         URL resource = this.findResource(path);
         if (null == resource) {
             return super.loadClass(name, resolve);
         }
+
+        System.out.println("url : " + resource);
 
         if (!resource.getProtocol().equals("file")) {
             return super.loadClass(name, resolve);
@@ -76,6 +84,8 @@ public class CustomClassLoader extends URLClassLoader {
         if (this.isCached(name, bytesFromURL)) {
             return this.cached.get(name);
         }
+
+        System.out.println("not cache");
 
         LocalClassLoader localClassLoader = new LocalClassLoader(this);
         Class<?> aClass = localClassLoader.defineClass(name, bytesFromURL);

@@ -17,7 +17,11 @@ import java.io.IOException;
 
 public class TestController extends HelperController implements Controller {
 
-    private ITestService service = (ITestService) BeanManager.getInstance().getService(ITestService.class, "service.TestService");
+    private ITestService service = BeanManager.getInstance().getService(ITestService.class, "service.ITestService");
+
+    static {
+
+    }
 
     @Override
     public String name() {
@@ -31,10 +35,11 @@ public class TestController extends HelperController implements Controller {
 
     @Override
     public void handle(HttpRequest request, HttpResponse response, HttpContext context) throws HttpException, IOException {
+
         CustomClassLoader classLoader = Configs.getConfigs(Configs.CLASSLOADER, CustomClassLoader.class);
         BeanManager.getInstance().setService(
-                ITestService.class,
-                (Class<ITestService>) classLoader.loadClass("service.TestService")
+                (Class<ITestService>) classLoader.loadClass("service.ITestService"),
+                (Class<ITestService>) classLoader.loadClass("service.impl.TestService")
         );
 
         RestHelper.responseJSON(response, JsonResponse.success(this.service.test()));

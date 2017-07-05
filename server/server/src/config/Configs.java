@@ -39,7 +39,7 @@ public class Configs {
                 logger.catching(e);
             }
         }
-        return (T) ret;
+        return clazz.cast(ret);
     }
 
 }

@@ -3,9 +3,6 @@ package beans;
 import config.Configs;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import orm.Repository;
-import orm.RepositoryManager;
-import orm.RepositoryName;
 import rest.Controller;
 import rest.Service;
 import util.loader.CustomClassLoader;
@@ -25,38 +22,6 @@ public class BeanManager {
     }
 
     private BeanManager() {}
-
-    private Map<String, Repository> repositories = new HashMap<>();
-    private Map<String, Class<? extends Repository>> cache = new HashMap<>();
-
-    public <T extends Repository> void setRepository(Class<T> repositoryClass) {
-        RepositoryName declaredAnnotation = repositoryClass.getDeclaredAnnotation(RepositoryName.class);
-        String repoName = declaredAnnotation.value();
-
-        Class<? extends Repository> aClass = this.cache.get(repoName);
-        if (aClass.equals(repositoryClass)) {
-            return;
-        }
-
-        T t = RepositoryManager.getInstance().buildRepository(repositoryClass);
-
-        Repository repository = this.repositories.get(repoName);
-        if (null != repository) {
-            repository.changeOrigin(t);
-            return;
-        }
-
-        Object ret = Proxy.newProxyInstance(
-                Configs.getConfigs(Configs.CLASSLOADER, CustomClassLoader.class),
-                new Class[]{repositoryClass},
-                new ChangeOriginIH(t)
-        );
-        this.repositories.put(repoName, (Repository) ret);
-    }
-
-    public Repository getRepository(String name) {
-        return this.repositories.get(name);
-    }
 
     private Map<String, Service> services = new HashMap<>();
 
@@ -87,7 +52,7 @@ public class BeanManager {
         Service service = this.services.get(name);
 
         if (null != service) {
-            return (T) service;
+            return serviceClass.cast(service);
         }
 
         Object ret = Proxy.newProxyInstance(
@@ -95,8 +60,8 @@ public class BeanManager {
                 new Class[]{serviceClass},
                 new ChangeOriginIH(null)
         );
-        this.services.put(name, (Service) ret);
-        return (T) ret;
+        this.services.put(name, serviceClass.cast(ret));
+        return serviceClass.cast(ret);
     }
 
     private Map<String, Controller> controllers = new HashMap<>();
@@ -145,11 +110,11 @@ public class BeanManager {
         if (null == classLoader) {
             classLoader = getClass().getClassLoader();
         }
-        return (T) Proxy.newProxyInstance(
+        return clazz.cast(Proxy.newProxyInstance(
                 classLoader,
                 new Class[]{clazz},
                 new DataAccessIH()
-        );
+        ));
     }
 
     public <T extends EntityBeanI> T createBean(Class<T> clazz, String json) {

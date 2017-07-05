@@ -16,11 +16,11 @@ public class RepositoryManager {
     }
 
     public <T extends Repository> T buildRepository(Class<T> proto) {
-        return (T) Proxy.newProxyInstance(
+        return proto.cast(Proxy.newProxyInstance(
                 Configs.getConfigs(Configs.CLASSLOADER, ClassLoader.class, () -> getClass().getClassLoader()),
                 new Class[]{proto},
                 new RepositoryIH(proto)
-        );
+        ));
     }
 
 }

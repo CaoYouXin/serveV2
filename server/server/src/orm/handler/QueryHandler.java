@@ -98,15 +98,17 @@ public class QueryHandler implements InvocationHandler {
             PreparedStatement preparedStatement = conn.prepareStatement(parsedSQL.getSql());
             logger.info(parsedSQL.getSql());
 
-            int i = 1;
-            for (Integer idx : parsedSQL.getParams()) {
-                if (!query.useValue()) {
-                    idx += 1;
-                }
+            if (null != parsedSQL.getParams()) {
+                int i = 1;
+                for (Integer idx : parsedSQL.getParams()) {
+                    if (!query.useValue()) {
+                        idx += 1;
+                    }
 
-                SQLUtil.setPSbyFieldAtIndex(
-                        preparedStatement, i++, args[idx], args[idx].getClass().getTypeName()
-                );
+                    SQLUtil.setPSbyFieldAtIndex(
+                            preparedStatement, i++, args[idx], args[idx].getClass().getTypeName()
+                    );
+                }
             }
 
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -209,7 +211,7 @@ public class QueryHandler implements InvocationHandler {
         List<String> retColumns = new ArrayList<>();
         StringJoiner stringJoiner = new StringJoiner(",");
 
-        if (-1 == select.indexOf(',')) {
+        if (-1 == select.indexOf('.')) {
             String alias = select.trim();
             Class<?> type = queryRet.getAlias2type().get(alias);
 

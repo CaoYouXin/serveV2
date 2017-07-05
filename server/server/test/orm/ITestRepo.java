@@ -2,7 +2,6 @@ package orm;
 
 import java.util.List;
 
-@RepositoryName(value = "ITestRepo")
 public interface ITestRepo extends Repository<ITestEntity, Long> {
 
     ITestEntity findByTestValueOrTestId(String a, Long b);

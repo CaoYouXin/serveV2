@@ -2,11 +2,8 @@ package beans;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import config.Configs;
 import org.junit.jupiter.api.Test;
 import rest.JsonResponse;
-
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

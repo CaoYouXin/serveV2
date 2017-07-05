@@ -5,10 +5,10 @@ import javax.persistence.*;
 @Entity(name = "version")
 public interface EITest {
 
-    void setTestId(Long a);
+    void setVersionId(Long a);
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    Long getTestId();
+    Long getVersionId();
 
 }

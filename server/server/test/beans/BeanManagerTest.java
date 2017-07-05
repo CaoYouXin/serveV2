@@ -1,11 +1,6 @@
 package beans;
 
 import org.junit.jupiter.api.Test;
-import proxy.TestProxyI;
-import proxy.TestProxyImpl1;
-import proxy.TestProxyImpl2;
-
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class BeanManagerTest {
 

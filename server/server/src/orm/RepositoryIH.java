@@ -28,7 +28,12 @@ public class RepositoryIH implements InvocationHandler {
         this.genericParams = new HashMap<>();
         this.invocationHandlerMap = new HashMap<>();
 
-        this.parseGenericParams();
+        this.parseGenericParams(this.clazz.getGenericInterfaces(),
+                this.clazz.getInterfaces(),
+                Configs.getConfigs(
+                Configs.CLASSLOADER, ClassLoader.class,
+                () -> getClass().getClassLoader()
+        ));
         this.registerInvocationHandlers();
     }
 
@@ -42,27 +47,28 @@ public class RepositoryIH implements InvocationHandler {
         this.invocationHandlerMap = Collections.unmodifiableMap(this.invocationHandlerMap);
     }
 
-    private void parseGenericParams() {
-        ClassLoader classLoader = Configs.getConfigs(
-                Configs.CLASSLOADER, ClassLoader.class,
-                () -> getClass().getClassLoader()
-        );
+    private void parseGenericParams(Type[] genericInterfaces, Class<?>[] interfaces, ClassLoader classLoader) {
+        if (genericInterfaces.length != interfaces.length) {
+            throw new RuntimeException("不会吧");
+        }
 
-        Type[] genericInterfaces = this.clazz.getGenericInterfaces();
-        for (Type genericInterface : genericInterfaces) {
+        for (int i = 0; i < genericInterfaces.length; i++) {
+            Type genericInterface = genericInterfaces[i];
             String typeName = genericInterface.getTypeName();
+
             if (!typeName.startsWith("orm.Repository")) {
+                this.parseGenericParams(interfaces[i].getGenericInterfaces(), interfaces[i].getInterfaces(), classLoader);
                 continue;
             }
 
             int start = "orm.Repository<".length(),
                     end = StringUtil.indexOf(typeName, start, ',', '>'),
-                    i = 0;
+                    j = 0;
 
             while (-1 != end) {
                 String className = typeName.substring(start, end);
                 try {
-                    this.genericParams.put(GENERIC_NAMES[i++], classLoader.loadClass(className));
+                    this.genericParams.put(GENERIC_NAMES[j++], classLoader.loadClass(className));
                 } catch (ClassNotFoundException e) {
                     logger.catching(e);
                 }

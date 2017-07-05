@@ -3,7 +3,6 @@ package meta.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import config.Configs;
 import config.DataSourceConfig;
-import config.InitConfig;
 import meta.service.IDataSourceService;
 import meta.service.IDatabaseStatusService;
 import meta.service.impl.DataSourceServiceImpl;
@@ -14,7 +13,6 @@ import org.apache.http.HttpResponse;
 import org.apache.http.protocol.HttpContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import orm.DatasourceFactory;
 import rest.Controller;
 import rest.HelperController;
 import rest.JsonResponse;
@@ -22,9 +20,7 @@ import rest.RestHelper;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Map;
 
 public class DataSourceActiveCtrl extends HelperController implements Controller {
