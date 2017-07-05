@@ -34,7 +34,7 @@ public class CustomClassLoader extends URLClassLoader {
             return false;
         }
 
-        for (int i=0; i<bytes.length; i++) {
+        for (int i = 0; i < bytes.length; i++) {
             if (cachedBytes[i] != bytes[i]) {
                 return false;
             }
@@ -58,7 +58,7 @@ public class CustomClassLoader extends URLClassLoader {
 
     @Override
     protected Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
-        System.out.println("ccl : " + name);
+//        System.out.println("ccl : " + name);
 
         String path = name.replaceAll("\\.", File.separator).concat(".class");
         URL resource = this.findResource(path);
@@ -66,7 +66,7 @@ public class CustomClassLoader extends URLClassLoader {
             return super.loadClass(name, resolve);
         }
 
-        System.out.println("url : " + resource);
+//        System.out.println("url : " + resource);
 
         if (!resource.getProtocol().equals("file")) {
             return super.loadClass(name, resolve);
@@ -85,19 +85,19 @@ public class CustomClassLoader extends URLClassLoader {
             return this.cached.get(name);
         }
 
-        System.out.println("not cache");
+//        System.out.println("not cache");
 
         LocalClassLoader localClassLoader = new LocalClassLoader(this);
         Class<?> aClass = localClassLoader.defineClass(name, bytesFromURL);
 
         if (aClass.getPackage() == null) {
-            int lastDotIndex = name.lastIndexOf( '.' );
-            String packageName = (lastDotIndex >= 0) ? name.substring( 0, lastDotIndex) : "";
-            definePackage( packageName, null, null, null, null, null, null, null );
+            int lastDotIndex = name.lastIndexOf('.');
+            String packageName = (lastDotIndex >= 0) ? name.substring(0, lastDotIndex) : "";
+            definePackage(packageName, null, null, null, null, null, null, null);
         }
 
         if (resolve) {
-            resolveClass( aClass );
+            resolveClass(aClass);
         }
 
         this.cache.put(name, bytesFromURL);
