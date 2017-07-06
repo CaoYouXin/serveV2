@@ -1,5 +1,6 @@
 package meta.service.impl;
 
+import beans.BeanManager;
 import config.Configs;
 import config.DataSourceConfig;
 import config.InitConfig;
@@ -18,7 +19,7 @@ public class DatabaseStatusServiceImpl implements IDatabaseStatusService {
 
     private static final Logger logger = LogManager.getLogger(DatabaseStatusServiceImpl.class);
 
-    private static final ITestRepo TEST_REPO = RepositoryManager.getInstance().buildRepository(ITestRepo.class);
+    private static final ITestRepo TEST_REPO = BeanManager.getInstance().getRepository(ITestRepo.class);
 
     @Override
     public File[] listCfgFiles() {

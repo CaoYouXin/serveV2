@@ -1,8 +1,10 @@
 package meta.service;
 
+import rest.Service;
+
 import java.io.File;
 
-public interface IDatabaseStatusService {
+public interface IDatabaseStatusService extends Service {
 
     File[] listCfgFiles();
     Boolean cpCfg2Active(File cfg);

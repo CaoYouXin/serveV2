@@ -17,7 +17,7 @@ import java.io.IOException;
 
 public class TestController extends HelperController implements Controller {
 
-    private ITestService service = BeanManager.getInstance().getService(ITestService.class, "service.ITestService");
+    private ITestService service = BeanManager.getInstance().getService(ITestService.class);
 
     static {
 

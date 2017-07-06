@@ -1,5 +1,7 @@
 package rest;
 
+import beans.BeanManager;
+import beans.EntityBeanI;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import config.Configs;
@@ -15,6 +17,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Arrays;
 import java.util.Locale;
+import java.util.Map;
 
 public class RestHelper {
 
@@ -108,27 +111,33 @@ public class RestHelper {
         return new byte[0];
     }
 
-    public static <T> T getBodyAsObject(HttpRequest httpRequest, Class<T> clazz) {
+    public static <T extends EntityBeanI> T getBodyAsObject(HttpRequest httpRequest, Class<T> clazz) {
         String bodyAsString = getBodyAsString(httpRequest);
-        ObjectMapper objectMapper = Configs.getConfigs(Configs.OBJECT_MAPPER, ObjectMapper.class, () -> new ObjectMapper());
-        try {
-            return objectMapper.readValue(bodyAsString, clazz);
-        } catch (IOException e) {
-            logger.catching(e);
-            return null;
-        }
+        return BeanManager.getInstance().createBean(clazz, bodyAsString);
     }
 
     public static String getMethod(HttpRequest httpRequest) {
         return httpRequest.getRequestLine().getMethod().toUpperCase(Locale.ROOT);
     }
 
-    public static boolean isGet(HttpRequest httpRequest) {
-        return getMethod(httpRequest).equals("GET");
+    public static void res40001(HttpRequest httpRequest, HttpResponse httpResponse) {
+        RestHelper.responseJSON(httpResponse, JsonResponse.fail(40001, RestHelper.getMethod(httpRequest) + " method not supported"));
     }
 
-    public static boolean isPost(HttpRequest httpRequest) {
-        return getMethod(httpRequest).equals("POST");
+    public static boolean isGet(HttpRequest httpRequest, HttpResponse httpResponse) {
+        boolean equals = getMethod(httpRequest).equals("GET");
+        if (!equals) {
+            res40001(httpRequest, httpResponse);
+        }
+        return equals;
+    }
+
+    public static boolean isPost(HttpRequest httpRequest, HttpResponse httpResponse) {
+        boolean equals = getMethod(httpRequest).equals("POST");
+        if (!equals) {
+            res40001(httpRequest, httpResponse);
+        }
+        return equals;
     }
 
     public static boolean isOptions(HttpRequest httpRequest) {

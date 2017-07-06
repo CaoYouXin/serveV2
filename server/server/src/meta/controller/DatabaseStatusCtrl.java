@@ -1,6 +1,7 @@
 package meta.controller;
 
 import beans.BeanManager;
+import meta.service.IDataSourceService;
 import meta.service.IDatabaseStatusService;
 import meta.service.impl.DatabaseStatusServiceImpl;
 import meta.view.EIDatabaseStatus;
@@ -18,7 +19,11 @@ import java.io.IOException;
 
 public class DatabaseStatusCtrl extends HelperController implements Controller {
 
-    private IDatabaseStatusService databaseStatusService = new DatabaseStatusServiceImpl();
+    static {
+        BeanManager.getInstance().setService(IDatabaseStatusService.class, DatabaseStatusServiceImpl.class);
+    }
+
+    private IDatabaseStatusService databaseStatusService = BeanManager.getInstance().getService(IDatabaseStatusService.class);
 
     @Override
     public String name() {

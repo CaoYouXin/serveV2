@@ -14,11 +14,6 @@ public class TestService implements ITestService {
     private ITestRepo2 testRepo = RepositoryManager.getInstance().buildRepository(ITestRepo2.class);
 
     @Override
-    public String name() {
-        return "service.ITestService";
-    }
-
-    @Override
     public String test() {
         if (this.testRepo.createTableIfNotExist()) {
             List<EITest> all = testRepo.findAll();

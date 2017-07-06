@@ -3,6 +3,8 @@ package beans;
 import config.Configs;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import orm.Repository;
+import orm.RepositoryManager;
 import rest.Controller;
 import rest.Service;
 import util.loader.CustomClassLoader;
@@ -23,9 +25,29 @@ public class BeanManager {
 
     private BeanManager() {}
 
-    private Map<String, Service> services = new HashMap<>();
+    private Map<Class<? extends Repository>, Repository> repositories = new HashMap<>();
+
+    public <T extends Repository> T getRepository(Class<T> proto) {
+        Repository repository = this.repositories.get(proto);
+        if (null != repository) {
+            return proto.cast(repository);
+        }
+
+        T buildRepository = RepositoryManager.getInstance().buildRepository(proto);
+        this.repositories.put(proto, buildRepository);
+        return buildRepository;
+    }
+
+    private Map<Class<? extends Service>, Service> services = new HashMap<>();
+    private Map<Class<? extends Service>, Class<? extends Service>> serviceCache = new HashMap<>();
 
     public <T extends Service, Impl extends T> void setService(Class<T> serviceClass, Class<Impl> serviceImplClass) {
+        Class<? extends Service> cachedImplClass = this.serviceCache.get(serviceClass);
+        if (serviceImplClass.equals(cachedImplClass)) {
+            return;
+        }
+        this.serviceCache.put(serviceClass, serviceImplClass);
+
         T t = null;
         try {
             t = serviceImplClass.newInstance();
@@ -34,7 +56,7 @@ public class BeanManager {
             return;
         }
 
-        Service service = this.services.get(t.name());
+        Service service = this.services.get(serviceClass);
         if (null != service) {
             service.changeOrigin(t);
             return;
@@ -45,11 +67,11 @@ public class BeanManager {
                 new Class[]{serviceClass},
                 new ChangeOriginIH(t)
         );
-        this.services.put(t.name(), (Service) ret);
+        this.services.put(serviceClass, (Service) ret);
     }
 
-    public <T extends Service> T getService(Class<T> serviceClass, String name) {
-        Service service = this.services.get(name);
+    public <T extends Service> T getService(Class<T> serviceClass) {
+        Service service = this.services.get(serviceClass);
 
         if (null != service) {
             return serviceClass.cast(service);
@@ -60,7 +82,7 @@ public class BeanManager {
                 new Class[]{serviceClass},
                 new ChangeOriginIH(null)
         );
-        this.services.put(name, serviceClass.cast(ret));
+        this.services.put(serviceClass, serviceClass.cast(ret));
         return serviceClass.cast(ret);
     }
 

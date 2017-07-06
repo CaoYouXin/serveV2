@@ -1,5 +1,6 @@
 package meta.controller;
 
+import beans.BeanManager;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import config.Configs;
 import config.DataSourceConfig;
@@ -27,8 +28,13 @@ public class DataSourceActiveCtrl extends HelperController implements Controller
 
     private static final Logger logger = LogManager.getLogger(DataSourceActiveCtrl.class);
 
-    private IDatabaseStatusService databaseStatusService = new DatabaseStatusServiceImpl();
-    private IDataSourceService dataSourceService = new DataSourceServiceImpl();
+    static {
+        BeanManager.getInstance().setService(IDatabaseStatusService.class, DatabaseStatusServiceImpl.class);
+        BeanManager.getInstance().setService(IDataSourceService.class, DataSourceServiceImpl.class);
+    }
+
+    private IDatabaseStatusService databaseStatusService = BeanManager.getInstance().getService(IDatabaseStatusService.class);
+    private IDataSourceService dataSourceService = BeanManager.getInstance().getService(IDataSourceService.class);
 
     @Override
     public String name() {

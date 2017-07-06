@@ -40,8 +40,7 @@ public class UploadHandler implements HttpRequestHandler {
             return;
         }
 
-        if (!RestHelper.isPost(httpRequest)) {
-            RestHelper.responseJSON(httpResponse, JsonResponse.fail(50000, RestHelper.getMethod(httpRequest) + " method not supported"));
+        if (!RestHelper.isPost(httpRequest, httpResponse)) {
             return;
         }
 
