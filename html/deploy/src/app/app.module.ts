@@ -1,20 +1,36 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
+import {ReactiveFormsModule} from '@angular/forms';
+import {HttpModule} from '@angular/http';
 
-import { AppComponent } from './app.component';
+import {DaoUtil} from 'caols-common-modules';
+import {AppComponent} from './app.component';
+import {AppRoutingModule} from "./app.router";
+import {HomeComponent} from "./home/index";
+import {LoginComponent} from "./login/index";
+import {AdminSettingComponent} from "./setting.admin/index";
+import {DBSettingComponent} from "./setting.db/index";
+import {AppRoutingComponent} from "./route/index";
+import {AuthGuard, InitResolver} from "./guard/index";
+import {DatabaseService, AdminService} from "./service/index";
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    AppRoutingComponent,
+    HomeComponent,
+    LoginComponent,
+    AdminSettingComponent,
+    DBSettingComponent
   ],
   imports: [
     BrowserModule,
-    FormsModule,
-    HttpModule
+    ReactiveFormsModule,
+    HttpModule,
+    AppRoutingModule
   ],
-  providers: [],
+  providers: [DaoUtil, AuthGuard, InitResolver, DatabaseService, AdminService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
