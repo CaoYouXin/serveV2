@@ -7,13 +7,13 @@ import {AdminSettingComponent} from "./setting.admin/index";
 import {DBSettingComponent} from "./setting.db/index";
 
 export const routes: Routes = [
-  { path: '', component: HomeComponent, canActivate: [AuthGuard], resolve: {init: InitResolver}, data: {name: 'Home'} },
-  { path: 'login', component: LoginComponent, resolve: {init: InitResolver} },
-  { path: 'setting/admin', component: AdminSettingComponent },
-  { path: 'setting/db', component: DBSettingComponent},
+  {path: '', component: HomeComponent, canActivate: [AuthGuard], resolve: {init: InitResolver}, data: {name: 'Home'}},
+  {path: 'login', component: LoginComponent, resolve: {init: InitResolver}},
+  {path: 'setting/admin', component: AdminSettingComponent, resolve: {init: InitResolver}},
+  {path: 'setting/db', component: DBSettingComponent},
 
   // otherwise redirect to home
-  { path: '**', redirectTo: '' }
+  {path: '**', redirectTo: ''}
 ];
 
 @NgModule({

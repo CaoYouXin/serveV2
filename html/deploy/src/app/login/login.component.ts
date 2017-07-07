@@ -1,7 +1,7 @@
-import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { Router } from '@angular/router';
-import { AdminService } from '../service/index';
+import {Component, OnInit} from "@angular/core";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {Router} from "@angular/router";
+import {AdminService} from "../service/index";
 
 @Component({
   selector: 'login',
@@ -16,8 +16,8 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
 
   constructor(private fb: FormBuilder,
-    private service: AdminService,
-    private router: Router) {
+              private service: AdminService,
+              private router: Router) {
   }
 
   login(): void {

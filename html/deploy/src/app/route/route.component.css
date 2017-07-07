@@ -1,59 +1,59 @@
 .nav {
-    display: block;
-    width: 100%;
-    height: 2em;
-    line-height: 2em;
+  display: block;
+  width: 100%;
+  height: 2em;
+  line-height: 2em;
 
-    font-size: 1.5rem;
+  font-size: 1.5rem;
 
-    text-align: center;
+  text-align: center;
 
-    background-color: #EFF0DC;
+  background-color: #EFF0DC;
 
-    padding: 0;
+  padding: 0;
 
-    overflow: hidden;
+  overflow: hidden;
 }
 
 .nav > a {
-    color: #34352C;
-    text-decoration: none;
+  color: #34352C;
+  text-decoration: none;
 }
 
 .nav > .container {
-    display: inline-block;
+  display: inline-block;
 
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 
-    position: relative;
-    bottom: 100%;
+  position: relative;
+  bottom: 100%;
 
-    overflow: hidden;
+  overflow: hidden;
 }
 
 .nav > .container:not(.show) > .radius {
-    display: none;
+  display: none;
 }
 
 .nav > .container > .radius {
-    display: inline-block;
+  display: inline-block;
 
-    border-radius: 50%;
+  border-radius: 50%;
 
-    background-color: rgba(0, 0, 100, 0.3);
+  background-color: rgba(0, 0, 100, 0.3);
 
-    position: relative;
+  position: relative;
 
-    transform: scale(0);
-    transform-origin: 50% 50% 0;
-    transition: transform .3s ease-in-out;
+  transform: scale(0);
+  transform-origin: 50% 50% 0;
+  transition: transform .3s ease-in-out;
 }
 
 .nav > .container > .radius.animated {
-    transform: scale(1);
+  transform: scale(1);
 }
 
 .nav:hover {
-    box-shadow: inset 0 0 5px #EFF0DC;
+  box-shadow: inset 0 0 5px #EFF0DC;
 }

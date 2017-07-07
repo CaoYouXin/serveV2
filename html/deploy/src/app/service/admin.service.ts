@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {DaoUtil} from 'caols-common-modules';
+import {DaoUtil} from "caols-common-modules";
 import "rxjs/add/operator/map";
 import {API} from "../const/api.const";
 import {Md5} from "ts-md5/dist/md5";
@@ -9,7 +9,8 @@ export class AdminService {
 
   private returnURL: string;
 
-  constructor(private dao: DaoUtil) {}
+  constructor(private dao: DaoUtil) {
+  }
 
   setReturnUrl(url) {
     this.returnURL = url;

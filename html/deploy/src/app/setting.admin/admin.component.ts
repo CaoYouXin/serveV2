@@ -1,8 +1,8 @@
 import {Component, OnInit} from "@angular/core";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AdminService} from "../service/admin.service";
-import {DaoUtil} from 'caols-common-modules';
-import {Router} from '@angular/router';
+import {DaoUtil} from "caols-common-modules";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'admin-setting',
