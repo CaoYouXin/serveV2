@@ -14,11 +14,11 @@ public interface EIConfig extends EntityBeanI {
     Long getConfigId();
 
     void setConfigKey(String key);
-    @Column(name = "key")
+    @Column(name = "key", nullable = false)
     String getConfigKey();
 
     void setConfigValue(String value);
-    @Column(name = "value")
+    @Column(name = "value", nullable = false)
     String getConfigValue();
 
 }

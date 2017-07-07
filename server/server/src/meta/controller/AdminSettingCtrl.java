@@ -2,7 +2,6 @@ package meta.controller;
 
 import beans.BeanManager;
 import meta.service.IAdminService;
-import meta.service.exp.AdminSettingException;
 import meta.service.impl.AdminServiceImpl;
 import meta.view.EIAdminSetting;
 import org.apache.http.HttpException;
@@ -48,8 +47,8 @@ public class AdminSettingCtrl extends HelperController {
                     adminSetting.getPassword()
             );
             RestHelper.responseJSON(response, JsonResponse.success(suc));
-        } catch (AdminSettingException e) {
-            RestHelper.responseJSON(response, JsonResponse.fail(50001, e.getMessage()));
+        } catch (Throwable e) {
+            RestHelper.catching(e, response, 50001);
         }
     }
 }

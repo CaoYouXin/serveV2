@@ -5,7 +5,6 @@ import meta.data.EIConfig;
 import meta.repository.IConfigRepo;
 import meta.service.IAdminService;
 import meta.service.exp.AdminSettingException;
-import orm.RepositoryManager;
 
 public class AdminServiceImpl implements IAdminService {
 

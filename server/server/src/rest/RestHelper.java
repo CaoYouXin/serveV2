@@ -14,14 +14,23 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URLDecoder;
 import java.util.Arrays;
 import java.util.Locale;
-import java.util.Map;
 
 public class RestHelper {
 
     private static final Logger logger = LogManager.getLogger(RestHelper.class);
+
+    public static void catching(Throwable e, HttpResponse response, int code) {
+        e = e.getCause();
+        if (!(e instanceof InvocationTargetException)) {
+            RestHelper.responseJSON(response, JsonResponse.fail(50000, "未知错误"));
+            return;
+        }
+        RestHelper.responseJSON(response, JsonResponse.fail(code, e.getCause().getMessage()));
+    }
 
     public static void crossOrigin(HttpRequest request, HttpResponse response) {
         response.setHeader("Access-Control-Allow-Origin", "*");
@@ -91,7 +100,9 @@ public class RestHelper {
         HttpEntity entity = getBody(httpRequest);
         if (null != entity) {
             try {
-                return EntityUtils.toString(entity, Consts.UTF_8);
+                String ret = EntityUtils.toString(entity, Consts.UTF_8);
+                logger.info(ret);
+                return ret;
             } catch (IOException e) {
                 logger.catching(e);
             }
