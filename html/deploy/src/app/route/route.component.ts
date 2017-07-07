@@ -60,7 +60,7 @@ export class AppRoutingComponent implements OnInit {
     if (!s) {
       this.isShow = s;
       this.isAnimated = falsePromise;
-    } else {
+    } else if (!this.isShow) {
       this.awesome({
         offsetX: 0,
         offsetY: 0,
