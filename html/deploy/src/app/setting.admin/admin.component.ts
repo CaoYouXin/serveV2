@@ -33,6 +33,7 @@ export class AdminSettingComponent implements OnInit {
         ret => {
           self.loading = false;
           if (ret) {
+            localStorage.removeItem('currentUser');
             this.router.navigate(['/login']);
           }
         },

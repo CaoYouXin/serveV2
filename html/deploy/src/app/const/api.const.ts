@@ -20,6 +20,10 @@ export class API {
     "admin/verify": {
       "prod": "http://server.caols.tech/metaApi/admin/verify",
       "dev": "http://localhost:9999/metaApi/admin/verify"
+    },
+    "server/restart": {
+      "prod": "http://server.caols.tech/metaApi/server/restart",
+      "dev": "http://localhost:9999/metaApi/server/restart"
     }
   };
 

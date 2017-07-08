@@ -6,13 +6,17 @@ import {HttpModule} from "@angular/http";
 import {DaoUtil} from "caols-common-modules";
 import {AppComponent} from "./app.component";
 import {AppRoutingModule} from "./app.router";
-import {HomeComponent} from "./home/index";
-import {LoginComponent} from "./login/index";
-import {AdminSettingComponent} from "./setting.admin/index";
-import {DBSettingComponent} from "./setting.db/index";
-import {AppRoutingComponent} from "./route/index";
+import {
+  AdminSettingComponent,
+  DBSettingComponent,
+  HomeComponent,
+  LoginComponent,
+  RestartComponent,
+  AppRoutingComponent,
+  UploadComponent
+} from "./component/index";
 import {AuthGuard, InitResolver} from "./guard/index";
-import {AdminService, DatabaseService, RouteService} from "./service/index";
+import {AdminService, DatabaseService, RouteService, ServerService} from "./service/index";
 
 @NgModule({
   declarations: [
@@ -21,7 +25,9 @@ import {AdminService, DatabaseService, RouteService} from "./service/index";
     HomeComponent,
     LoginComponent,
     AdminSettingComponent,
-    DBSettingComponent
+    DBSettingComponent,
+    RestartComponent,
+    UploadComponent
   ],
   imports: [
     BrowserModule,
@@ -29,7 +35,7 @@ import {AdminService, DatabaseService, RouteService} from "./service/index";
     HttpModule,
     AppRoutingModule
   ],
-  providers: [DaoUtil, AuthGuard, InitResolver, RouteService, DatabaseService, AdminService],
+  providers: [DaoUtil, AuthGuard, InitResolver, RouteService, DatabaseService, AdminService, ServerService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

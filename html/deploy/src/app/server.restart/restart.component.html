@@ -1,0 +1,7 @@
+<div class="center" *ngIf="0===process">
+  <img class="btn" src="assets/system-restart.png" alt="重启系统" (click)="restartSys()">
+</div>
+
+<div class="progress" *ngIf="0!==process">
+  <div class="bar" [style.transitionDuration]="processLong" [class.go]="processGo | async"></div>
+</div>

@@ -41,6 +41,10 @@ export class AppRoutingComponent implements OnInit {
   }
 
   awesome(e: MouseEvent | any): void {
+    if (this.isShow) {
+      return;
+    }
+
     let v1 = e.offsetX * e.offsetX;
     let v2 = (e.target['offsetHeight'] - e.offsetY) * (e.target['offsetHeight'] - e.offsetY);
     let v3 = (e.target['offsetWidth'] - e.offsetX) * (e.target['offsetWidth'] - e.offsetX);

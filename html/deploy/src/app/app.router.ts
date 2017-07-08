@@ -1,16 +1,22 @@
 import {NgModule} from "@angular/core";
 import {RouterModule, Routes} from "@angular/router";
 import {AuthGuard, InitResolver} from "./guard/index";
-import {HomeComponent} from "./home/index";
-import {LoginComponent} from "./login/index";
-import {AdminSettingComponent} from "./setting.admin/index";
-import {DBSettingComponent} from "./setting.db/index";
+import {
+  AdminSettingComponent,
+  DBSettingComponent,
+  HomeComponent,
+  LoginComponent,
+  RestartComponent,
+  UploadComponent
+} from "./component/index";
 
 export const routes: Routes = [
-  {path: '', component: HomeComponent, canActivate: [AuthGuard], resolve: {init: InitResolver}, data: {name: 'Home'} },
+  {path: '', component: HomeComponent, canActivate: [AuthGuard], data: {name: 'Home'} },
+  {path: 'upload', component: UploadComponent, canActivate: [AuthGuard], data: {name: '代码'} },
   {path: 'login', component: LoginComponent, resolve: {init: InitResolver} },
-  {path: 'setting/admin', component: AdminSettingComponent, resolve: {init: InitResolver} },
+  {path: 'setting/admin', component: AdminSettingComponent, resolve: {init: InitResolver}, data: {name: '管理员'} },
   {path: 'setting/db', component: DBSettingComponent, data: {name: '数据库'} },
+  {path: 'server/restart', component: RestartComponent, canActivate: [AuthGuard], data: {name: '服务器'} },
 
   // otherwise redirect to home
   {path: '**', redirectTo: ''}
