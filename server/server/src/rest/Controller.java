@@ -5,6 +5,10 @@ import org.apache.http.protocol.HttpRequestHandler;
 
 public interface Controller extends ChangeOriginI, HttpRequestHandler {
 
+    default int auth() {
+        return 0;
+    }
+
     String name();
 
     String urlPattern();

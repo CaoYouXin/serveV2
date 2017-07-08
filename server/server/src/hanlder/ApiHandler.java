@@ -1,5 +1,7 @@
 package hanlder;
 
+import auth.AuthHelper;
+import auth.AuthRuntimeException;
 import org.apache.http.HttpException;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
@@ -9,6 +11,7 @@ import org.apache.http.protocol.HttpRequestHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import rest.Controller;
+import rest.JsonResponse;
 import rest.RestHelper;
 
 import java.io.IOException;
@@ -36,8 +39,17 @@ public class ApiHandler implements HttpRequestHandler {
                     return;
                 }
 
-                controller.handle(request, response, context);
-                return;
+                try {
+                    if (AuthHelper.auth(controller.auth(), request, context)) {
+                        controller.handle(request, response, context);
+                        return;
+                    }
+                } catch (HttpException | IOException e) {
+                    throw e;
+                } catch (Throwable e) {
+                    RestHelper.responseJSON(response, JsonResponse.fail(50002, e.getMessage()));
+                    return;
+                }
             }
         }
 

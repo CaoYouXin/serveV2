@@ -14,6 +14,7 @@ public class Configs {
     public static final String META_APIS = "META_APIS";
     public static final String APIS = "APIS";
     public static final String CLASSLOADER = "CLASSLOADER";
+    public static final String JAR_FILE_PATH = "JAR_FILE_PATH";
     private static final Logger logger = LogManager.getLogger(Configs.class);
     /**
      * configs

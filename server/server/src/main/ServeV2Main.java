@@ -39,7 +39,7 @@ public class ServeV2Main {
 
     private static Logger logger = LogManager.getLogger(ServeV2Main.class);
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         if (args.length == 0) {
             System.err.println("参数不正确！");
             return;
@@ -50,26 +50,48 @@ public class ServeV2Main {
 
         switch (args[0]) {
             case "start":
-                readInitConfigs();
-                setupDataSource();
-                setupServer();
-                setupMetaApis();
-                setupApis();
+                startServer();
                 break;
             case "stop":
-                try {
-                    new ShutdownServer("startup.log").call();
-                } catch (Exception e) {
-                    logger.catching(e);
-                }
+                stopServer();
+                break;
+            case "restart":
+                restartServer();
                 break;
             default:
                 System.err.println(String.format("未识别参数 : %s！", args[0]));
         }
     }
 
+    private static void restartServer() {
+        stopServer();
+        try {
+            Thread.sleep(10);
+        } catch (InterruptedException e) {
+            logger.catching(e);
+        }
+        startServer();
+    }
+
+    private static void stopServer() {
+        try {
+            new ShutdownServer("startup.log").call();
+        } catch (Exception e) {
+            logger.catching(e);
+        }
+    }
+
+    private static void startServer() {
+        readInitConfigs();
+        setupDataSource();
+        setupServer();
+        setupMetaApis();
+        setupApis();
+    }
+
     private static void setFileRoot() {
         String filepath = ServeV2Main.class.getProtectionDomain().getCodeSource().getLocation().getFile();
+        Configs.setConfigs(Configs.JAR_FILE_PATH, filepath);
         filepath = filepath.substring(0, filepath.lastIndexOf(File.separator) + 1);
         Configs.setConfigs(Configs.FILE_ROOT, filepath);
     }
