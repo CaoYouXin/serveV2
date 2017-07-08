@@ -20,9 +20,15 @@
 }
 
 .nav > a {
-  color: darkslategray;
+  color: royalblue;
   text-decoration: none;
   text-shadow: 2px 2px 3px ghostwhite;
+
+  transition: color ease-in-out .5s;
+}
+
+.nav > a.show {
+  color: black;
 }
 
 .nav > .container {
@@ -46,8 +52,8 @@
 
   border-radius: 50%;
 
-  background-color: wheat;
-  opacity: 0.5;
+  background-color: royalblue;
+  opacity: 0.3;
 
   position: relative;
 
