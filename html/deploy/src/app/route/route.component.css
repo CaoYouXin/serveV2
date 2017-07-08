@@ -12,17 +12,17 @@
 
   padding: 0;
 
-  border-top: solid 3px #99F0CC;
-  border-bottom: solid 7px #CCF0CC;
-  border-left: solid 3px #99F0CC;
-  border-right: solid 3px #99F0CC;
+  border: 3px solid navajowhite;
+  border-bottom: 7px solid ghostwhite;
+  border-left: 7px solid ghostwhite;
 
   overflow: hidden;
 }
 
 .nav > a {
-  color: #34352C;
+  color: darkslategray;
   text-decoration: none;
+  text-shadow: 2px 2px 3px ghostwhite;
 }
 
 .nav > .container {
@@ -46,7 +46,8 @@
 
   border-radius: 50%;
 
-  background-color: rgba(0, 0, 100, 0.3);
+  background-color: wheat;
+  opacity: 0.5;
 
   position: relative;
 
