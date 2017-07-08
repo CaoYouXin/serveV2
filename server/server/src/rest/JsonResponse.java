@@ -4,6 +4,9 @@ import beans.EntityBeanI;
 
 public class JsonResponse {
 
+    private int code;
+    private Object body;
+
     public static JsonResponse fail(int code, String reason) {
         JsonResponse jsonResponse = new JsonResponse();
         jsonResponse.setCode(code);
@@ -21,9 +24,6 @@ public class JsonResponse {
         jsonResponse.setBody(body);
         return jsonResponse;
     }
-
-    private int code;
-    private Object body;
 
     public int getCode() {
         return code;

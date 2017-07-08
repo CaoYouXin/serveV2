@@ -7,14 +7,16 @@ import javax.persistence.*;
 @Entity(name = "test")
 public interface EITest extends EntityBeanI {
 
-    void setTestId(Long a);
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     Long getTestId();
 
-    void setTestString(String str);
+    void setTestId(Long a);
+
     @Column(name = "test")
     String getTestString();
+
+    void setTestString(String str);
 
 }

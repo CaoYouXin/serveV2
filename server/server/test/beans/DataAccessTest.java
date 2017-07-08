@@ -59,7 +59,7 @@ class DataAccessTest {
             e.printStackTrace();
         }
     }
-    
+
     @Test
     void test5() {
         Entity1 bean = BeanManager.getInstance().createBean(Entity1.class, "{\"A\":\"AAA\"}");

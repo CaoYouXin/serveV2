@@ -1,6 +1,6 @@
-import { DeployPage } from './app.po';
+import {DeployPage} from "./app.po";
 
-describe('deploy App', function() {
+describe('deploy App', function () {
   let page: DeployPage;
 
   beforeEach(() => {

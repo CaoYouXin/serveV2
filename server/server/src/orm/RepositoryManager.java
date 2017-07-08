@@ -8,11 +8,11 @@ public class RepositoryManager {
 
     private static final RepositoryManager INSTANCE = new RepositoryManager();
 
-    public static RepositoryManager getInstance() {
-        return INSTANCE;
+    private RepositoryManager() {
     }
 
-    private RepositoryManager() {
+    public static RepositoryManager getInstance() {
+        return INSTANCE;
     }
 
     public <T extends Repository> T buildRepository(Class<T> proto) {

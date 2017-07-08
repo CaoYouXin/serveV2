@@ -10,6 +10,10 @@ import static org.junit.jupiter.api.Assertions.*;
 @DisplayName("test demo")
 class TestCase1 {
 
+    private static String greeting() {
+        return "hello world!";
+    }
+
     @Test
     void standardAssertions() {
         assertEquals(2, 2);
@@ -79,10 +83,6 @@ class TestCase1 {
             // Simulate task that takes more than 10 ms.
             Thread.sleep(8);
         });
-    }
-
-    private static String greeting() {
-        return "hello world!";
     }
 
 

@@ -17,11 +17,11 @@ import java.io.IOException;
 
 public class TestController extends HelperController implements Controller {
 
-    private ITestService service = BeanManager.getInstance().getService(ITestService.class);
-
     static {
 
     }
+
+    private ITestService service = BeanManager.getInstance().getService(ITestService.class);
 
     @Override
     public String name() {

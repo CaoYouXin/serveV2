@@ -10,7 +10,7 @@ import java.util.StringJoiner;
 
 public class TestService implements ITestService {
 
-//    private CustomClassLoader customClassLoader = Configs.getConfigs(Configs.CLASSLOADER, CustomClassLoader.class);
+    //    private CustomClassLoader customClassLoader = Configs.getConfigs(Configs.CLASSLOADER, CustomClassLoader.class);
     private ITestRepo2 testRepo = RepositoryManager.getInstance().buildRepository(ITestRepo2.class);
 
     @Override

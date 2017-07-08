@@ -28,6 +28,8 @@ import java.util.regex.Pattern;
 public class QueryHandler implements InvocationHandler {
 
     private static final Logger logger = LogManager.getLogger(QueryHandler.class);
+    private static final Pattern SELECT_PATTERN = Pattern.compile("Select\\s+(?<select>.+?)\\s+From\\s+(?<from>.+?)(?:\\s+Where\\s+(?<where>.+?))*(?:\\s+Group By\\s+(?<groupBy>.+?)(?:\\s+Having\\s+(?<having>.+?))*)*(?:\\s+Order By\\s+(?<orderBy>.+?))*", Pattern.CASE_INSENSITIVE);
+    private static final Pattern PARAM_PATTERN = Pattern.compile("\\$(?<idx>\\d+)");
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
@@ -143,8 +145,6 @@ public class QueryHandler implements InvocationHandler {
         return ret;
     }
 
-    private static final Pattern SELECT_PATTERN = Pattern.compile("Select\\s+(?<select>.+?)\\s+From\\s+(?<from>.+?)(?:\\s+Where\\s+(?<where>.+?))*(?:\\s+Group By\\s+(?<groupBy>.+?)(?:\\s+Having\\s+(?<having>.+?))*)*(?:\\s+Order By\\s+(?<orderBy>.+?))*", Pattern.CASE_INSENSITIVE);
-
     private QueryRet parseSQL(String sqlCmd, Map<String, Class<?>> stringClassMap) {
         QueryRet queryRet = new QueryRet();
 
@@ -179,8 +179,6 @@ public class QueryHandler implements InvocationHandler {
 
         return queryRet;
     }
-
-    private static final Pattern PARAM_PATTERN = Pattern.compile("\\$(?<idx>\\d+)");
 
     private String parseAlias(String clause, QueryRet queryRet) {
         String regex = String.format("(?<alias>%s)\\.(?<field>\\S+?)(?<after>>|<|\\s|\\)|=)", queryRet.getAllAlias());

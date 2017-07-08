@@ -31,9 +31,9 @@ public class RepositoryIH implements InvocationHandler {
         this.parseGenericParams(this.clazz.getGenericInterfaces(),
                 this.clazz.getInterfaces(),
                 Configs.getConfigs(
-                Configs.CLASSLOADER, ClassLoader.class,
-                () -> getClass().getClassLoader()
-        ));
+                        Configs.CLASSLOADER, ClassLoader.class,
+                        () -> getClass().getClassLoader()
+                ));
         this.registerInvocationHandlers();
     }
 

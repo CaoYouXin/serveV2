@@ -64,7 +64,7 @@ public class FileItem {
         @Override
         public String toString() {
             StringJoiner sj = new StringJoiner("; ", "{", "}");
-            for (String key: kvs.keySet()) {
+            for (String key : kvs.keySet()) {
                 sj.add(key + "=" + kvs.get(key));
             }
             return "FileItemHeader{" +

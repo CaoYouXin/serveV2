@@ -1,5 +1,5 @@
 import {Component} from "@angular/core";
-import {Route, Routes} from "@angular/router";
+import {Routes} from "@angular/router";
 import {routes as appRoutes} from "./app.router";
 import {DaoUtil} from "caols-common-modules";
 

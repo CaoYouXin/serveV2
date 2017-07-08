@@ -4,16 +4,20 @@ import beans.EntityBeanI;
 
 public interface EIAdminSetting extends EntityBeanI {
 
-    void setOldUserName(String oldUserName);
     String getOldUserName();
 
-    void setUserName(String userName);
+    void setOldUserName(String oldUserName);
+
     String getUserName();
 
-    void setOldPassword(String oldPassword);
+    void setUserName(String userName);
+
     String getOldPassword();
 
-    void setPassword(String password);
+    void setOldPassword(String oldPassword);
+
     String getPassword();
+
+    void setPassword(String password);
 
 }

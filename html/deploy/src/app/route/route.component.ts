@@ -22,7 +22,8 @@ export class AppRoutingComponent implements OnInit {
   left: string;
   top: string;
 
-  constructor(private service: RouteService) {}
+  constructor(private service: RouteService) {
+  }
 
   ngOnInit() {
     // this.isSelected = false;

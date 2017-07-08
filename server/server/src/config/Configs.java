@@ -9,14 +9,12 @@ import java.util.concurrent.Callable;
 
 public class Configs {
 
-    private static final Logger logger = LogManager.getLogger(Configs.class);
-
     public static final String OBJECT_MAPPER = "OBJECT_MAPPER";
     public static final String FILE_ROOT = "FILE_ROOT";
     public static final String META_APIS = "META_APIS";
     public static final String APIS = "APIS";
     public static final String CLASSLOADER = "CLASSLOADER";
-
+    private static final Logger logger = LogManager.getLogger(Configs.class);
     /**
      * configs
      */

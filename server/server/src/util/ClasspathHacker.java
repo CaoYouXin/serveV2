@@ -57,7 +57,7 @@ public class ClasspathHacker {
     public static URLClassLoader setupClassLoader(String[] dirs) {
         URL[] urls = new URL[dirs.length];
         try {
-            for (int i=0; i<dirs.length; i++) {
+            for (int i = 0; i < dirs.length; i++) {
                 urls[i] = new File(dirs[i]).toURI().toURL();
             }
         } catch (MalformedURLException e) {

@@ -43,12 +43,18 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public class Proxy {
 
-    /** parameter types of a proxy class constructor */
+    /**
+     * parameter types of a proxy class constructor
+     */
     private static final Class<?>[] constructorParams =
-            { InvocationHandler.class };
-
+            {InvocationHandler.class};
+    // prefix for all proxy class names
+    private static final String proxyClassNamePrefix = "$Proxy";
+    // next number to use for generation of unique proxy class names
+    private static final AtomicLong nextUniqueNumber = new AtomicLong();
     /**
      * the invocation handler for this proxy instance.
+     *
      * @serial
      */
     protected InvocationHandler h;
@@ -64,25 +70,17 @@ public class Proxy {
      * (typically, a dynamic proxy class) with the specified value
      * for its invocation handler.
      *
-     * @param  h the invocation handler for this proxy instance
-     *
+     * @param h the invocation handler for this proxy instance
      * @throws NullPointerException if the given invocation handler, {@code h},
-     *         is {@code null}.
+     *                              is {@code null}.
      */
     protected Proxy(InvocationHandler h) {
         Objects.requireNonNull(h);
         this.h = h;
     }
 
-    // prefix for all proxy class names
-    private static final String proxyClassNamePrefix = "$Proxy";
-
-    // next number to use for generation of unique proxy class names
-    private static final AtomicLong nextUniqueNumber = new AtomicLong();
-
     public static Class<?> getProxyClass(ClassLoader loader,
-                                         Class<?>... interfaces)
-    {
+                                         Class<?>... interfaces) {
         Map<Class<?>, Boolean> interfaceSet = new IdentityHashMap<>(interfaces.length);
         for (Class<?> intf : interfaces) {
                 /*
@@ -197,8 +195,7 @@ public class Proxy {
      */
     private static void checkProxyAccess(Class<?> caller,
                                          ClassLoader loader,
-                                         Class<?>... interfaces)
-    {
+                                         Class<?>... interfaces) {
         SecurityManager sm = System.getSecurityManager();
         if (sm != null) {
             ClassLoader ccl = caller.getClassLoader();
@@ -213,8 +210,7 @@ public class Proxy {
     public static Object newProxyInstance(ClassLoader loader,
                                           Class<?>[] interfaces,
                                           InvocationHandler h)
-            throws IllegalArgumentException
-    {
+            throws IllegalArgumentException {
         Objects.requireNonNull(h);
 
         final Class<?>[] intfs = interfaces.clone();
@@ -247,7 +243,7 @@ public class Proxy {
                 });
             }
             return cons.newInstance(new Object[]{h});
-        } catch (IllegalAccessException|InstantiationException e) {
+        } catch (IllegalAccessException | InstantiationException e) {
             throw new InternalError(e.toString(), e);
         } catch (InvocationTargetException e) {
             Throwable t = e.getCause();

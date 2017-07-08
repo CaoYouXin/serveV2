@@ -52,7 +52,7 @@ public class SaveHandler implements InvocationHandler {
                         getterMethod.getReturnType().getTypeName());
             }
 
-            int affectedRows =preparedStatement.executeUpdate();
+            int affectedRows = preparedStatement.executeUpdate();
 
             if (affectedRows == 0) {
                 return false;

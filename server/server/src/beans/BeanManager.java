@@ -18,14 +18,17 @@ public class BeanManager {
     private static final Logger logger = LogManager.getLogger(BeanManager.class);
 
     private static final BeanManager INSTANCE = new BeanManager();
+    private Map<Class<? extends Repository>, Repository> repositories = new HashMap<>();
+    private Map<Class<? extends Service>, Service> services = new HashMap<>();
+    private Map<Class<? extends Service>, Class<? extends Service>> serviceCache = new HashMap<>();
+    private Map<String, Controller> controllers = new HashMap<>();
+
+    private BeanManager() {
+    }
 
     public static BeanManager getInstance() {
         return INSTANCE;
     }
-
-    private BeanManager() {}
-
-    private Map<Class<? extends Repository>, Repository> repositories = new HashMap<>();
 
     public <T extends Repository> T getRepository(Class<T> proto) {
         Repository repository = this.repositories.get(proto);
@@ -37,9 +40,6 @@ public class BeanManager {
         this.repositories.put(proto, buildRepository);
         return buildRepository;
     }
-
-    private Map<Class<? extends Service>, Service> services = new HashMap<>();
-    private Map<Class<? extends Service>, Class<? extends Service>> serviceCache = new HashMap<>();
 
     public <T extends Service, Impl extends T> void setService(Class<T> serviceClass, Class<Impl> serviceImplClass) {
         Class<? extends Service> cachedImplClass = this.serviceCache.get(serviceClass);
@@ -85,8 +85,6 @@ public class BeanManager {
         this.services.put(serviceClass, serviceClass.cast(ret));
         return serviceClass.cast(ret);
     }
-
-    private Map<String, Controller> controllers = new HashMap<>();
 
     public <T extends Controller> void setController(Class<T> controllerClass) {
         T t = null;

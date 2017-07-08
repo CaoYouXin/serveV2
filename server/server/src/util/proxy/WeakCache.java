@@ -50,10 +50,10 @@ import java.util.function.Supplier;
  * trigger re-evaluation of {@code valueFactory} on request for their
  * key/subKey.
  *
- * @author Peter Levart
  * @param <K> type of keys
  * @param <P> type of parameters
  * @param <V> type of values
+ * @author Peter Levart
  */
 final class WeakCache<K, P, V> {
 
@@ -187,8 +187,131 @@ final class WeakCache<K, P, V> {
 
     private void expungeStaleEntries() {
         WeakCache.CacheKey<K> cacheKey;
-        while ((cacheKey = (WeakCache.CacheKey<K>)refQueue.poll()) != null) {
+        while ((cacheKey = (WeakCache.CacheKey<K>) refQueue.poll()) != null) {
             cacheKey.expungeFrom(map, reverseMap);
+        }
+    }
+
+    /**
+     * Common type of value suppliers that are holding a referent.
+     * The {@link #equals} and {@link #hashCode} of implementations is defined
+     * to compare the referent by identity.
+     */
+    private interface Value<V> extends Supplier<V> {
+    }
+
+    /**
+     * An optimized {@link WeakCache.Value} used to look-up the value in
+     * {@link WeakCache#containsValue} method so that we are not
+     * constructing the whole {@link WeakCache.CacheValue} just to look-up the referent.
+     */
+    private static final class LookupValue<V> implements WeakCache.Value<V> {
+        private final V value;
+
+        LookupValue(V value) {
+            this.value = value;
+        }
+
+        @Override
+        public V get() {
+            return value;
+        }
+
+        @Override
+        public int hashCode() {
+            return System.identityHashCode(value); // compare by identity
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            return obj == this ||
+                    obj instanceof WeakCache.Value &&
+                            this.value == ((WeakCache.Value<?>) obj).get();  // compare by identity
+        }
+    }
+
+    /**
+     * A {@link WeakCache.Value} that weakly references the referent.
+     */
+    private static final class CacheValue<V>
+            extends WeakReference<V> implements WeakCache.Value<V> {
+        private final int hash;
+
+        CacheValue(V value) {
+            super(value);
+            this.hash = System.identityHashCode(value); // compare by identity
+        }
+
+        @Override
+        public int hashCode() {
+            return hash;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            V value;
+            return obj == this ||
+                    obj instanceof WeakCache.Value &&
+                            // cleared CacheValue is only equal to itself
+                            (value = get()) != null &&
+                            value == ((WeakCache.Value<?>) obj).get(); // compare by identity
+        }
+    }
+
+    /**
+     * CacheKey containing a weakly referenced {@code key}. It registers
+     * itself with the {@code refQueue} so that it can be used to expunge
+     * the entry when the {@link WeakReference} is cleared.
+     */
+    private static final class CacheKey<K> extends WeakReference<K> {
+
+        // a replacement for null keys
+        private static final Object NULL_KEY = new Object();
+        private final int hash;
+
+        private CacheKey(K key, ReferenceQueue<K> refQueue) {
+            super(key, refQueue);
+            this.hash = System.identityHashCode(key);  // compare by identity
+        }
+
+        static <K> Object valueOf(K key, ReferenceQueue<K> refQueue) {
+            return key == null
+                    // null key means we can't weakly reference it,
+                    // so we use a NULL_KEY singleton as cache key
+                    ? NULL_KEY
+                    // non-null key requires wrapping with a WeakReference
+                    : new WeakCache.CacheKey<>(key, refQueue);
+        }
+
+        @Override
+        public int hashCode() {
+            return hash;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            K key;
+            return obj == this ||
+                    obj != null &&
+                            obj.getClass() == this.getClass() &&
+                            // cleared CacheKey is only equal to itself
+                            (key = this.get()) != null &&
+                            // compare key by identity
+                            key == ((WeakCache.CacheKey<K>) obj).get();
+        }
+
+        void expungeFrom(ConcurrentMap<?, ? extends ConcurrentMap<?, ?>> map,
+                         ConcurrentMap<?, Boolean> reverseMap) {
+            // removing just by key is always safe here because after a CacheKey
+            // is cleared and enqueue-ed it is only equal to itself
+            // (see equals method)...
+            ConcurrentMap<?, ?> valuesMap = map.remove(this);
+            // remove also from reverseMap if needed
+            if (valuesMap != null) {
+                for (Object cacheValue : valuesMap.values()) {
+                    reverseMap.remove(cacheValue);
+                }
+            }
         }
     }
 
@@ -251,130 +374,6 @@ final class WeakCache<K, P, V> {
             // successfully replaced us with new CacheValue -> return the value
             // wrapped by it
             return value;
-        }
-    }
-
-    /**
-     * Common type of value suppliers that are holding a referent.
-     * The {@link #equals} and {@link #hashCode} of implementations is defined
-     * to compare the referent by identity.
-     */
-    private interface Value<V> extends Supplier<V> {}
-
-    /**
-     * An optimized {@link WeakCache.Value} used to look-up the value in
-     * {@link WeakCache#containsValue} method so that we are not
-     * constructing the whole {@link WeakCache.CacheValue} just to look-up the referent.
-     */
-    private static final class LookupValue<V> implements WeakCache.Value<V> {
-        private final V value;
-
-        LookupValue(V value) {
-            this.value = value;
-        }
-
-        @Override
-        public V get() {
-            return value;
-        }
-
-        @Override
-        public int hashCode() {
-            return System.identityHashCode(value); // compare by identity
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            return obj == this ||
-                    obj instanceof WeakCache.Value &&
-                            this.value == ((WeakCache.Value<?>) obj).get();  // compare by identity
-        }
-    }
-
-    /**
-     * A {@link WeakCache.Value} that weakly references the referent.
-     */
-    private static final class CacheValue<V>
-            extends WeakReference<V> implements WeakCache.Value<V>
-    {
-        private final int hash;
-
-        CacheValue(V value) {
-            super(value);
-            this.hash = System.identityHashCode(value); // compare by identity
-        }
-
-        @Override
-        public int hashCode() {
-            return hash;
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            V value;
-            return obj == this ||
-                    obj instanceof WeakCache.Value &&
-                            // cleared CacheValue is only equal to itself
-                            (value = get()) != null &&
-                            value == ((WeakCache.Value<?>) obj).get(); // compare by identity
-        }
-    }
-
-    /**
-     * CacheKey containing a weakly referenced {@code key}. It registers
-     * itself with the {@code refQueue} so that it can be used to expunge
-     * the entry when the {@link WeakReference} is cleared.
-     */
-    private static final class CacheKey<K> extends WeakReference<K> {
-
-        // a replacement for null keys
-        private static final Object NULL_KEY = new Object();
-
-        static <K> Object valueOf(K key, ReferenceQueue<K> refQueue) {
-            return key == null
-                    // null key means we can't weakly reference it,
-                    // so we use a NULL_KEY singleton as cache key
-                    ? NULL_KEY
-                    // non-null key requires wrapping with a WeakReference
-                    : new WeakCache.CacheKey<>(key, refQueue);
-        }
-
-        private final int hash;
-
-        private CacheKey(K key, ReferenceQueue<K> refQueue) {
-            super(key, refQueue);
-            this.hash = System.identityHashCode(key);  // compare by identity
-        }
-
-        @Override
-        public int hashCode() {
-            return hash;
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            K key;
-            return obj == this ||
-                    obj != null &&
-                            obj.getClass() == this.getClass() &&
-                            // cleared CacheKey is only equal to itself
-                            (key = this.get()) != null &&
-                            // compare key by identity
-                            key == ((WeakCache.CacheKey<K>) obj).get();
-        }
-
-        void expungeFrom(ConcurrentMap<?, ? extends ConcurrentMap<?, ?>> map,
-                         ConcurrentMap<?, Boolean> reverseMap) {
-            // removing just by key is always safe here because after a CacheKey
-            // is cleared and enqueue-ed it is only equal to itself
-            // (see equals method)...
-            ConcurrentMap<?, ?> valuesMap = map.remove(this);
-            // remove also from reverseMap if needed
-            if (valuesMap != null) {
-                for (Object cacheValue : valuesMap.values()) {
-                    reverseMap.remove(cacheValue);
-                }
-            }
         }
     }
 }

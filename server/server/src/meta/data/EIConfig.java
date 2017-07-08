@@ -7,18 +7,21 @@ import javax.persistence.*;
 @Entity(name = "config")
 public interface EIConfig extends EntityBeanI {
 
-    void setConfigId(Long a);
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     Long getConfigId();
 
-    void setConfigKey(String key);
+    void setConfigId(Long a);
+
     @Column(name = "key", nullable = false)
     String getConfigKey();
 
-    void setConfigValue(String value);
+    void setConfigKey(String key);
+
     @Column(name = "value", nullable = false)
     String getConfigValue();
+
+    void setConfigValue(String value);
 
 }

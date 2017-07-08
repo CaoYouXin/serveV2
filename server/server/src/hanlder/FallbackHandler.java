@@ -17,7 +17,7 @@ public class FallbackHandler implements HttpRequestHandler {
 
         RestHelper.responseHTML(response, HttpStatus.SC_NOT_FOUND,
                 "<html><body><p style=\"text-align: center;\">Request Handler "
-                + "<br/><strong>" + uri + "</strong><br/>"
-                + " not found</p></body></html>");
+                        + "<br/><strong>" + uri + "</strong><br/>"
+                        + " not found</p></body></html>");
     }
 }

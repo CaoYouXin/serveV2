@@ -18,9 +18,8 @@ import java.util.regex.Pattern;
 public class ShutdownHandler implements HttpRequestHandler {
 
     private static final Logger logger = LogManager.getLogger(ShutdownHandler.class);
-
-    private Pattern pattern = Pattern.compile("/shutdown/(?<token>.*?)");
     private final Server server;
+    private Pattern pattern = Pattern.compile("/shutdown/(?<token>.*?)");
 
     public ShutdownHandler(Server server) {
         this.server = server;
