@@ -33,6 +33,8 @@ export class AppRoutingComponent implements OnInit {
 
         if (equals) {
           this.isSelected(msg.seleted);
+        } else {
+          this.isSelected(false);
         }
       }
     );

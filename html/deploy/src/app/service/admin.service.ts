@@ -37,4 +37,13 @@ export class AdminService {
       .map(ret => DaoUtil.checkCode(ret));
   }
 
+  verify(model) {
+    return this.dao.post(API.getAPI("admin/verify"), {
+      UserName: model.username,
+      Password: Md5.hashStr(model.password)
+    })
+      .map(res => res.json())
+      .map(ret => DaoUtil.checkCode(ret));
+  }
+
 }

@@ -2,6 +2,7 @@ import {Component, OnInit} from "@angular/core";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {AdminService} from "../service/index";
+import {DaoUtil} from "caols-common-modules";
 
 @Component({
   selector: 'login',
@@ -25,9 +26,20 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    // this.loading = true;
-    localStorage.setItem('currentUser', 'asdf');
-    this.router.navigate([this.service.getReturnUrl()]);
+    this.loading = true;
+    const self = this;
+    this.service.verify(this.loginForm.value)
+      .subscribe(
+        ret => {
+          localStorage.setItem('currentUser', ret);
+          self.loading = false;
+          self.router.navigate([this.service.getReturnUrl() || '/']);
+        },
+        err => {
+          self.loading = false;
+          DaoUtil.logError(err);
+        }
+      );
   }
 
   ngOnInit(): void {
