@@ -13,7 +13,9 @@ import {
   LoginComponent,
   RestartComponent,
   AppRoutingComponent,
-  UploadComponent
+  UploadComponent,
+  MicroServiceComponent,
+  ControllerComponent
 } from "./component/index";
 import {AuthGuard, InitResolver} from "./guard/index";
 import {AdminService, DatabaseService, RouteService, ServerService} from "./service/index";
@@ -27,7 +29,9 @@ import {AdminService, DatabaseService, RouteService, ServerService} from "./serv
     AdminSettingComponent,
     DBSettingComponent,
     RestartComponent,
-    UploadComponent
+    UploadComponent,
+    MicroServiceComponent,
+    ControllerComponent
   ],
   imports: [
     BrowserModule,

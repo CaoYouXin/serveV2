@@ -12,6 +12,11 @@
 
   padding: 0;
 
+  border-top: solid 3px #99F0CC;
+  border-bottom: solid 7px #CCF0CC;
+  border-left: solid 3px #99F0CC;
+  border-right: solid 3px #99F0CC;
+
   overflow: hidden;
 }
 
@@ -27,7 +32,7 @@
   height: 100%;
 
   position: relative;
-  bottom: 100%;
+  bottom: calc(100% + 10px);
 
   overflow: hidden;
 }

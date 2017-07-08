@@ -4,7 +4,7 @@ h1 {
   padding: 0 1em;
   margin: 0;
 
-  line-height: 1.5em;
+  line-height: 2em;
   background-color: #F5F6EB;
 }
 
@@ -12,7 +12,7 @@ h1:after {
   content: '';
   display: block;
   width: 100%;
-  height: calc(100% - 1.5em);
+  height: calc(100% - 2em);
 
   position: fixed;
   left: 0;
@@ -20,7 +20,7 @@ h1:after {
   background: transparent;
 
   pointer-events: none;
-  box-shadow: 0 0 4px 5px #34352C;
+  box-shadow: 0 0 4px 5px #EEF0CC;
 }
 
 nav {

@@ -5,3 +5,5 @@ export * from '../server.restart/index';
 export * from '../setting.admin/index';
 export * from '../setting.db/index';
 export * from '../upload/index';
+export * from '../controller/index';
+export * from '../microservice/index';
