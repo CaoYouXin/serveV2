@@ -24,6 +24,14 @@ export class API {
     "server/restart": {
       "prod": "http://server.caols.tech/metaApi/server/restart",
       "dev": "http://localhost:9999/metaApi/server/restart"
+    },
+    "upload/code": {
+      "prod": function (path) {
+        return `http://server.caols.tech/upload${path}`;
+      },
+      "dev": function (path) {
+        return `http://localhost:9999/upload${path}`;
+      }
     }
   };
 

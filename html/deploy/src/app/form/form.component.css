@@ -70,11 +70,18 @@ h2 {
   font-size: x-small;
 }
 
-.help-block {
+.help {
   margin-top: 0.1em;
   font-size: small;
   padding: 0.3em;
   border-radius: 5px;
   background-color: lightcyan;
+}
+
+.help-block {
   color: red;
+}
+
+.help-suc {
+  color: royalblue;
 }

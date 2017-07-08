@@ -7,7 +7,7 @@ import {DaoUtil} from "caols-common-modules";
 @Component({
   selector: 'login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css', '../form/form.component.css']
+  styleUrls: ['../form/form.component.css']
 })
 export class LoginComponent implements OnInit {
 

@@ -4,12 +4,12 @@
     <fieldset>
       <legend>用 户 名</legend>
       <input type="text" placeholder="请输入用户名" formControlName="username" required>
-      <div *ngIf="formErrors.username" class="help-block">{{formErrors.username}}</div>
+      <div *ngIf="formErrors.username" class="help help-block">{{formErrors.username}}</div>
     </fieldset>
     <fieldset>
       <legend>密 码</legend>
       <input type="password" placeholder="请输入密码" formControlName="password" required>
-      <div *ngIf="formErrors.password" class="help-block">{{formErrors.password}}</div>
+      <div *ngIf="formErrors.password" class="help help-block">{{formErrors.password}}</div>
     </fieldset>
     <div class="buttons">
       <input type="submit" [disabled]="loading" value="登录">

@@ -1,6 +1,6 @@
 import {BrowserModule} from "@angular/platform-browser";
 import {NgModule} from "@angular/core";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpModule} from "@angular/http";
 
 import {DaoUtil} from "caols-common-modules";
@@ -15,7 +15,8 @@ import {
   AppRoutingComponent,
   UploadComponent,
   MicroServiceComponent,
-  ControllerComponent
+  ControllerComponent,
+  UploadUtil
 } from "./component/index";
 import {AuthGuard, InitResolver} from "./guard/index";
 import {AdminService, DatabaseService, RouteService, ServerService} from "./service/index";
@@ -36,10 +37,11 @@ import {AdminService, DatabaseService, RouteService, ServerService} from "./serv
   imports: [
     BrowserModule,
     ReactiveFormsModule,
+    FormsModule,
     HttpModule,
     AppRoutingModule
   ],
-  providers: [DaoUtil, AuthGuard, InitResolver, RouteService, DatabaseService, AdminService, ServerService],
+  providers: [DaoUtil, UploadUtil, AuthGuard, InitResolver, RouteService, DatabaseService, AdminService, ServerService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
