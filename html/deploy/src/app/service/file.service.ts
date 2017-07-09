@@ -6,7 +6,8 @@ import "rxjs/add/operator/map";
 @Injectable()
 export class FileService {
 
-  constructor(private dao: DaoUtil) {}
+  constructor(private dao: DaoUtil) {
+  }
 
   list(path) {
     return this.dao.get(API.getAPI("list/file")(path))

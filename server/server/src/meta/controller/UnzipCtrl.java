@@ -2,11 +2,8 @@ package meta.controller;
 
 import auth.AuthHelper;
 import beans.BeanManager;
-import meta.service.IListFileService;
 import meta.service.IResourceService;
-import meta.service.impl.ListFileServiceImpl;
 import meta.service.impl.ResourceServiceImpl;
-import meta.view.EIFileInfo;
 import org.apache.http.HttpException;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
@@ -16,9 +13,7 @@ import rest.JsonResponse;
 import rest.RestHelper;
 import util.BashUtil;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 
 public class UnzipCtrl extends HelperController {

@@ -16,7 +16,7 @@ public class BashUtil {
 
     public static List<String> run(String cmd, boolean needOutput) throws IOException {
         logger.info(cmd);
-        Process process = Runtime.getRuntime().exec(new String[] { "bash", "-c", cmd });
+        Process process = Runtime.getRuntime().exec(new String[]{"bash", "-c", cmd});
 
         if (!needOutput) {
             return null;
@@ -30,7 +30,7 @@ public class BashUtil {
         String line = null;
         logger.info("<OUTPUT>");
 
-        while ( (line = br.readLine()) != null) {
+        while ((line = br.readLine()) != null) {
             logger.info(line);
             ret.add(line);
         }

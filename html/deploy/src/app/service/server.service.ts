@@ -6,7 +6,8 @@ import "rxjs/add/operator/map";
 @Injectable()
 export class ServerService {
 
-  constructor(private dao: DaoUtil) {}
+  constructor(private dao: DaoUtil) {
+  }
 
   restart() {
     return this.dao.get(API.getAPI("server/restart"))

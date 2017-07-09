@@ -1,7 +1,6 @@
 package hanlder;
 
 import auth.AuthHelper;
-import auth.AuthRuntimeException;
 import org.apache.http.HttpException;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;

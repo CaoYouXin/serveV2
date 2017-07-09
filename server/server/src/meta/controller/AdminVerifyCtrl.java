@@ -2,7 +2,6 @@ package meta.controller;
 
 import beans.BeanManager;
 import meta.service.IAdminService;
-import meta.service.exp.AdminVerifyException;
 import meta.service.impl.AdminServiceImpl;
 import meta.view.EIAdminVerify;
 import org.apache.http.HttpException;

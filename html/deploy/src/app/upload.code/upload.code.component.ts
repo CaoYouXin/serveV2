@@ -17,7 +17,8 @@ export class UploadCodeComponent implements OnInit {
 
   files: Array<any> = [];
 
-  constructor(private service: FileService) {}
+  constructor(private service: FileService) {
+  }
 
   ngOnInit() {
     this.fetch(this.root);
