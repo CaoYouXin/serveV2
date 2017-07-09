@@ -40,6 +40,14 @@ export class API {
       "dev": function (path) {
         return `http://localhost:9999/metaApi/list/${path}`;
       }
+    },
+    "unzip/file": {
+      "prod": function (path, to) {
+        return `http://server.caols.tech/metaApi/unzip/${path}?to=${to}`;
+      },
+      "dev": function (path, to) {
+        return `http://localhost:9999/metaApi/unzip/${path}?to=${to}`;
+      }
     }
   };
 

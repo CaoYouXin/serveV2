@@ -64,7 +64,7 @@ button {
   border: solid 1px blueviolet;
 }
 
-button:hover {
+button:not([disabled]):hover {
   background-color: #EEF0CC;
 }
 

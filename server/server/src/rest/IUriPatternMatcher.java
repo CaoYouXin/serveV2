@@ -8,7 +8,7 @@ public interface IUriPatternMatcher {
 
     void setController(Controller controller);
 
-    boolean match(HttpRequest request);
+    boolean match(HttpRequest request, Map<String, String> paramsNotCache);
 
     Map<String, String> getParams(HttpRequest request);
 

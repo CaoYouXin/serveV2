@@ -1,6 +1,6 @@
 import {Component, OnInit} from "@angular/core";
 import {DaoUtil} from "caols-common-modules";
-import {ListFileService} from "../service/index";
+import {FileService} from "../service/index";
 
 @Component({
   selector: 'upload-code',
@@ -17,7 +17,7 @@ export class UploadCodeComponent implements OnInit {
 
   files: Array<any> = [];
 
-  constructor(private service: ListFileService) {}
+  constructor(private service: FileService) {}
 
   ngOnInit() {
     this.fetch(this.root);
@@ -55,6 +55,18 @@ export class UploadCodeComponent implements OnInit {
       return;
     }
 
-    console.log(filePath);
+    this.loading = true;
+    const self = this;
+    this.service.unzip(filePath, "classpath/")
+      .subscribe(
+        ret => {
+          self.loading = false;
+          alert(ret);
+        },
+        err => {
+          self.loading = false;
+          DaoUtil.logError(err);
+        }
+      );
   }
 }

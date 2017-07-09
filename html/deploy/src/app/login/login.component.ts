@@ -31,8 +31,12 @@ export class LoginComponent implements OnInit {
     this.service.verify(this.loginForm.value)
       .subscribe(
         ret => {
-          localStorage.setItem('currentUser', ret);
           self.loading = false;
+          if (!ret) {
+            return;
+          }
+
+          localStorage.setItem('currentUser', ret);
           self.router.navigate([this.service.getReturnUrl() || '/']);
         },
         err => {

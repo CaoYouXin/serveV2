@@ -30,7 +30,7 @@ public class ApiHandler implements HttpRequestHandler {
     @Override
     public void handle(HttpRequest request, HttpResponse response, HttpContext context) throws HttpException, IOException {
         for (Controller controller : this.controllers) {
-            if (controller.getUriPatternMatcher().match(request)) {
+            if (controller.getUriPatternMatcher().match(request, null)) {
 
                 logger.info(request.getRequestLine());
 

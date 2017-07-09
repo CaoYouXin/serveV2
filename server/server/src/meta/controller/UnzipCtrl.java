@@ -2,11 +2,8 @@ package meta.controller;
 
 import auth.AuthHelper;
 import beans.BeanManager;
-import config.Configs;
-import config.InitConfig;
 import meta.service.IListFileService;
 import meta.service.IResourceService;
-import meta.service.exp.ResourceTransformException;
 import meta.service.impl.ListFileServiceImpl;
 import meta.service.impl.ResourceServiceImpl;
 import meta.view.EIFileInfo;
@@ -17,21 +14,19 @@ import org.apache.http.protocol.HttpContext;
 import rest.HelperController;
 import rest.JsonResponse;
 import rest.RestHelper;
+import util.BashUtil;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ListFileCtrl extends HelperController {
+public class UnzipCtrl extends HelperController {
 
     static {
-        BeanManager.getInstance().setService(IListFileService.class, ListFileServiceImpl.class);
         BeanManager.getInstance().setService(IResourceService.class, ResourceServiceImpl.class);
     }
 
-    private IListFileService listFileService = BeanManager.getInstance().getService(IListFileService.class);
     private IResourceService resourceService = BeanManager.getInstance().getService(IResourceService.class);
 
     @Override
@@ -41,29 +36,29 @@ public class ListFileCtrl extends HelperController {
 
     @Override
     public String name() {
-        return "meta list file";
+        return "meta unzip";
     }
 
     @Override
     public String urlPattern() {
-        return "/list/:path";
+        return "/unzip/:path?to=:to";
     }
 
     @Override
     public void handle(HttpRequest request, HttpResponse response, HttpContext context) throws HttpException, IOException {
         Map<String, String> params = this.getUriPatternMatcher().getParams(request);
-        String path = params.get("path");
+        String path = params.get("path"), to = params.get("to");
 
-
-        String transformed = null;
+        String transformedPath = null, transformedTo = null;
         try {
-            transformed = this.resourceService.transformFromPath(path);
+            transformedPath = this.resourceService.transformFromPath(path);
+            transformedTo = this.resourceService.transformFromPath(to);
         } catch (Throwable e) {
             RestHelper.catching(e, response, 50003);
             return;
         }
 
-        List<EIFileInfo> children = this.listFileService.getChildren(new File(transformed));
-        RestHelper.responseJSON(response, JsonResponse.success(children));
+        BashUtil.run("unzip -qo " + transformedPath + " -d " + transformedTo, false);
+        RestHelper.responseJSON(response, JsonResponse.success("已执行解压命令【 unzip -qo zipFilePath -d dirPath 】."));
     }
 }

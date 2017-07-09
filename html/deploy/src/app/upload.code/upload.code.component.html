@@ -1,6 +1,6 @@
 <div class="bar">
   <input type="text" class="resource-bar" disabled [(ngModel)]="path + clicked"/>
-  <button (click)="deploy(path + clicked)">部署</button>
+  <button (click)="deploy(path + clicked)" [disabled]="loading">部署</button>
 </div>
 
 <div class="resource" [class.loading]="loading">

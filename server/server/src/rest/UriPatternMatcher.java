@@ -1,12 +1,18 @@
 package rest;
 
+import com.sun.jndi.toolkit.url.Uri;
 import org.apache.http.HttpRequest;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import util.StringUtil;
 
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class UriPatternMatcher implements IUriPatternMatcher {
+
+    private static final Logger logger = LogManager.getLogger(UriPatternMatcher.class);
 
     private String prefix;
     private Pattern pattern;
@@ -28,12 +34,9 @@ public class UriPatternMatcher implements IUriPatternMatcher {
         String urlPattern = controller.urlPattern();
         int start = urlPattern.indexOf(':'), end = 0, startSub = 0;
         while (-1 != start) {
-            stringBuilder.append(urlPattern.substring(startSub, start));
+            stringBuilder.append(urlPattern.substring(startSub, start).replaceAll("\\?", "\\\\?"));
 
-            end = urlPattern.indexOf('/', start);
-            if (-1 == end) {
-                end = urlPattern.indexOf('&', start);
-            }
+            end = StringUtil.indexOf(urlPattern, start, '/', '&', '?');
 
             String paramName;
             if (-1 == end) {
@@ -52,15 +55,18 @@ public class UriPatternMatcher implements IUriPatternMatcher {
             startSub = end;
         }
         if (end != urlPattern.length()) {
-            stringBuilder.append(urlPattern.substring(end));
+            stringBuilder.append(urlPattern.substring(end).replaceAll("\\?", "\\?"));
         }
 
         String regex = this.prefix + stringBuilder.toString();
+
+        logger.info("reg : " + regex);
+
         this.pattern = Pattern.compile(regex);
     }
 
     @Override
-    public boolean match(HttpRequest request) {
+    public boolean match(HttpRequest request, Map<String, String> paramsNotCache) {
         String uri = request.getRequestLine().getUri();
         String decodedUrl = RestHelper.getDecodedUrl(request);
         Matcher matcher = this.pattern.matcher(decodedUrl);
@@ -79,6 +85,9 @@ public class UriPatternMatcher implements IUriPatternMatcher {
                 }
             }
             this.paramsCache.put(uri, params);
+            if (null != paramsNotCache) {
+                paramsNotCache.putAll(params);
+            }
         }
 
         return matches;
@@ -86,6 +95,14 @@ public class UriPatternMatcher implements IUriPatternMatcher {
 
     @Override
     public Map<String, String> getParams(HttpRequest request) {
-        return this.paramsCache.get(request.getRequestLine().getUri());
+        Map<String, String> ret = this.paramsCache.get(request.getRequestLine().getUri());
+        if (null == ret) {
+            ret = new HashMap<>();
+            if (this.match(request, ret)) {
+                return ret;
+            }
+        }
+
+        return ret;
     }
 }

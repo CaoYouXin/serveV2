@@ -20,7 +20,7 @@ import {
   UploadUtil
 } from "./component/index";
 import {AuthGuard, InitResolver} from "./guard/index";
-import {AdminService, DatabaseService, ListFileService, RouteService, ServerService} from "./service/index";
+import {AdminService, DatabaseService, FileService, RouteService, ServerService} from "./service/index";
 
 @NgModule({
   declarations: [
@@ -52,7 +52,7 @@ import {AdminService, DatabaseService, ListFileService, RouteService, ServerServ
     DatabaseService,
     AdminService,
     ServerService,
-    ListFileService
+    FileService
   ],
   bootstrap: [AppComponent]
 })

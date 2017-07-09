@@ -4,11 +4,16 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 
-public class StringTests {
+class StringTests {
 
     @Test
-    public void testFileSep() {
+    void testFileSep() {
         System.out.println(File.separator);
+    }
+
+    @Test
+    void replaceAllTest() {
+        System.out.println("?to=".replaceAll("\\?", "\\\\?"));
     }
 
 }
