@@ -1,8 +1,12 @@
 h1 {
+  position: fixed;
+  z-index: 1;
+
+  width: 100%;
+
   color: #369;
   font-size: 30px;
   padding: 0 1em;
-  margin: 0;
 
   line-height: 2em;
   background-color: #F5F6EB;
@@ -23,11 +27,21 @@ h1:after {
   box-shadow: 0 0 4px 5px #EEF0CC;
 }
 
+.placeholder {
+  height: 60px;
+}
+
 nav {
   display: block;
 
+  position: fixed;
+  top: 60px;
+  left: 0;
+
   width: 20%;
-  float: left;
+  max-height: calc(100% - 60px);
+
+  overflow: auto;
 }
 
 .view {

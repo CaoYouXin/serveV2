@@ -32,6 +32,14 @@ export class API {
       "dev": function (path) {
         return `http://localhost:9999/upload${path}`;
       }
+    },
+    "list/file": {
+      "prod": function (path) {
+        return `http://server.caols.tech/metaApi/list/${path}`;
+      },
+      "dev": function (path) {
+        return `http://localhost:9999/metaApi/list/${path}`;
+      }
     }
   };
 

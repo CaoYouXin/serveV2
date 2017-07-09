@@ -7,3 +7,4 @@ export * from '../setting.db/index';
 export * from '../upload/index';
 export * from '../controller/index';
 export * from '../microservice/index';
+export * from '../upload.code/index';

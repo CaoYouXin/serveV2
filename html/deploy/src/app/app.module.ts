@@ -8,18 +8,19 @@ import {AppComponent} from "./app.component";
 import {AppRoutingModule} from "./app.router";
 import {
   AdminSettingComponent,
+  AppRoutingComponent,
+  ControllerComponent,
   DBSettingComponent,
   HomeComponent,
   LoginComponent,
-  RestartComponent,
-  AppRoutingComponent,
-  UploadComponent,
   MicroServiceComponent,
-  ControllerComponent,
+  RestartComponent,
+  UploadCodeComponent,
+  UploadComponent,
   UploadUtil
 } from "./component/index";
 import {AuthGuard, InitResolver} from "./guard/index";
-import {AdminService, DatabaseService, RouteService, ServerService} from "./service/index";
+import {AdminService, DatabaseService, ListFileService, RouteService, ServerService} from "./service/index";
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import {AdminService, DatabaseService, RouteService, ServerService} from "./serv
     RestartComponent,
     UploadComponent,
     MicroServiceComponent,
-    ControllerComponent
+    ControllerComponent,
+    UploadCodeComponent
   ],
   imports: [
     BrowserModule,
@@ -41,7 +43,17 @@ import {AdminService, DatabaseService, RouteService, ServerService} from "./serv
     HttpModule,
     AppRoutingModule
   ],
-  providers: [DaoUtil, UploadUtil, AuthGuard, InitResolver, RouteService, DatabaseService, AdminService, ServerService],
+  providers: [
+    DaoUtil,
+    UploadUtil,
+    AuthGuard,
+    InitResolver,
+    RouteService,
+    DatabaseService,
+    AdminService,
+    ServerService,
+    ListFileService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

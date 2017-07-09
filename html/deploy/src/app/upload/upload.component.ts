@@ -6,7 +6,7 @@ import {API} from "../const/api.const";
 @Component({
   selector: 'upload',
   templateUrl: './upload.component.html',
-  styleUrls: ['../form/form.component.css']
+  styleUrls: ['../form/form.component.css', './upload.component.css']
 })
 export class UploadComponent {
 

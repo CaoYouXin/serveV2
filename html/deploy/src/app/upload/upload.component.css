@@ -1,0 +1,7 @@
+.center + .center {
+  margin-top: 2em;
+
+  width: 500px;
+
+  overflow: hidden;
+}

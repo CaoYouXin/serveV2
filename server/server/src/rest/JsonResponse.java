@@ -2,6 +2,9 @@ package rest;
 
 import beans.EntityBeanI;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class JsonResponse {
 
     private int code;
@@ -17,6 +20,15 @@ public class JsonResponse {
     public static JsonResponse success(Object body) {
         if (body instanceof EntityBeanI) {
             body = ((EntityBeanI) body).toMap();
+        }
+
+        if (body instanceof List) {
+            body = ((List) body).stream().map(obj -> {
+                if (obj instanceof EntityBeanI) {
+                    return ((EntityBeanI) obj).toMap();
+                }
+                return obj;
+            }).collect(Collectors.toList());
         }
 
         JsonResponse jsonResponse = new JsonResponse();
