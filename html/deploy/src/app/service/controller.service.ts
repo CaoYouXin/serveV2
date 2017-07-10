@@ -6,7 +6,8 @@ import "rxjs/add/operator/map";
 @Injectable()
 export class ControllerService {
 
-  constructor(private dao: DaoUtil){}
+  constructor(private dao: DaoUtil) {
+  }
 
   list() {
     return this.dao.getJSON(API.getAPI("ctrls/list"));

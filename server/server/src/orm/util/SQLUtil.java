@@ -21,7 +21,7 @@ public class SQLUtil {
         switch (typeName) {
             case "boolean":
             case "java.lang.Boolean":
-                preparedStatement.setByte(index, (Boolean) param ?  Byte.parseByte("1") : Byte.parseByte("0"));
+                preparedStatement.setByte(index, (Boolean) param ? Byte.parseByte("1") : Byte.parseByte("0"));
                 break;
             case "byte":
             case "java.lang.Byte":

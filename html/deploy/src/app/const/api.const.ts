@@ -63,10 +63,10 @@ export class API {
     },
     "ctrls/set/dis": {
       "prod": function (id, disabled) {
-        return `http://server.caols.tech/metaApi/controller/set/disabled/${id}/${disabled?"T":"F"}`;
+        return `http://server.caols.tech/metaApi/controller/set/disabled/${id}/${disabled ? "T" : "F"}`;
       },
       "dev": function (id, disabled) {
-        return `http://localhost:9999/metaApi/controller/set/disabled/${id}/${disabled?"T":"F"}`;
+        return `http://localhost:9999/metaApi/controller/set/disabled/${id}/${disabled ? "T" : "F"}`;
       }
     }
   };
