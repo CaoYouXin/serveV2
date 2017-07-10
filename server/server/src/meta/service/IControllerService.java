@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface IControllerService extends Service {
 
-    List<EIController> listControllers();
+    List<EIController> listControllers() throws ControllerSetException;
 
     EIController setController(String className) throws ControllerSetException;
 

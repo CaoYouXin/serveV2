@@ -16,12 +16,20 @@ public class ControllerServiceImpl implements IControllerService {
     private IControllerRepo controllerRepo = BeanManager.getInstance().getRepository(IControllerRepo.class);
 
     @Override
-    public List<EIController> listControllers() {
-        return controllerRepo.findAll();
+    public List<EIController> listControllers() throws ControllerSetException {
+        if (!this.controllerRepo.createTableIfNotExist()) {
+            throw new ControllerSetException("controller 表无法创建.");
+        }
+
+        return this.controllerRepo.findAll();
     }
 
     @Override
     public EIController setController(String className) throws ControllerSetException {
+        if (!this.controllerRepo.createTableIfNotExist()) {
+            throw new ControllerSetException("controller 表无法创建.");
+        }
+
         CustomClassLoader classLoader = Configs.getConfigs(Configs.CLASSLOADER, CustomClassLoader.class);
         String name = BeanManager.getInstance().setController((Class<? extends Controller>) classLoader.loadClass(className));
 
@@ -46,6 +54,10 @@ public class ControllerServiceImpl implements IControllerService {
 
     @Override
     public Boolean setControllerDisabled(Long id, Boolean disabled) throws ControllerSetException {
+        if (!this.controllerRepo.createTableIfNotExist()) {
+            throw new ControllerSetException("controller 表无法创建.");
+        }
+
         EIController controller = this.controllerRepo.find(id);
         if (null == controller) {
             throw new ControllerSetException("controller 【" + id + "】can not be found.");

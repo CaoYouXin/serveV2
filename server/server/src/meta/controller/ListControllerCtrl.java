@@ -4,6 +4,7 @@ import auth.AuthHelper;
 import beans.BeanManager;
 import meta.data.EIController;
 import meta.service.IControllerService;
+import meta.service.exp.ControllerSetException;
 import meta.service.impl.ControllerServiceImpl;
 import org.apache.http.HttpException;
 import org.apache.http.HttpRequest;
@@ -41,7 +42,13 @@ public class ListControllerCtrl extends HelperController {
 
     @Override
     public void handle(HttpRequest request, HttpResponse response, HttpContext context) throws HttpException, IOException {
-        List<EIController> controllers = controllerService.listControllers();
+        List<EIController> controllers = null;
+        try {
+            controllers = controllerService.listControllers();
+        } catch (Throwable e) {
+            RestHelper.catching(e, response, 50004);
+            return;
+        }
         RestHelper.responseJSON(response, JsonResponse.success(controllers));
     }
 }
