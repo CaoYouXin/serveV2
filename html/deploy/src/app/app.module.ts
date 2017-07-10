@@ -9,12 +9,14 @@ import {AppRoutingModule} from "./app.router";
 import {
   AdminSettingComponent,
   AppRoutingComponent,
+  CodeComponent,
   ControllerComponent,
   DBSettingComponent,
   HomeComponent,
   LoginComponent,
   MicroServiceComponent,
   RestartComponent,
+  TableComponent,
   UploadCodeComponent,
   UploadComponent,
   UploadUtil
@@ -34,7 +36,9 @@ import {AdminService, DatabaseService, FileService, RouteService, ServerService}
     UploadComponent,
     MicroServiceComponent,
     ControllerComponent,
-    UploadCodeComponent
+    UploadCodeComponent,
+    CodeComponent,
+    TableComponent
   ],
   imports: [
     BrowserModule,

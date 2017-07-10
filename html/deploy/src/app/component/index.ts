@@ -8,3 +8,5 @@ export * from '../upload/index';
 export * from '../controller/index';
 export * from '../microservice/index';
 export * from '../upload.code/index';
+export * from '../table/index';
+export * from '../code/index';

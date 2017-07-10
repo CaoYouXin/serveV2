@@ -27,17 +27,20 @@
 .file {
   cursor: default;
   border-bottom: solid 7px ghostwhite;
+  border-right: solid 3px ghostwhite;
 }
 
 .dir {
   cursor: pointer;
   border-bottom: solid 7px whitesmoke;
+  border-right: solid 3px whitesmoke;
 }
 
 .file, .dir {
   user-select: none;
   line-height: 30px;
   border-top: solid 3px forestgreen;
+  border-left: solid 3px forestgreen;
 }
 
 .bar {

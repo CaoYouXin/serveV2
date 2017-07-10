@@ -1,0 +1,17 @@
+<div class="table" [style.width]="table.tWidth + 'px'">
+  <div class="tHead">
+    <div class="col" *ngFor="let head of table.heads; let idx=index;" [style.width]="(table.width[idx] + 2) + 'px'">
+      <span>{{head}}</span>
+      <div class="bar" (mousedown)="beforeDragIdx(idx)"></div>
+    </div>
+  </div>
+  <div class="tBody">
+    <div class="row" *ngFor="let row of data;let i=index;">
+      <div class="col" *ngFor="let col of row; let idx=index;"
+           [style.height]="getHeight(i) + 'px'"
+           [style.width]="table.width[idx] + 'px'" [title]="col">{{col}}
+      </div>
+      <div class="rowBar" [style.width]="table.tWidth + 'px'" (mousedown)="beforeDragI(i)"></div>
+    </div>
+  </div>
+</div>
