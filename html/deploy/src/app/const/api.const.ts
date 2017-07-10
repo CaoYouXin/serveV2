@@ -48,6 +48,26 @@ export class API {
       "dev": function (path, to) {
         return `http://localhost:9999/metaApi/unzip/${path}?to=${to}`;
       }
+    },
+    "ctrls/list": {
+      "prod": "http://server.caols.tech/metaApi/controller/list",
+      "dev": "http://localhost:9999/metaApi/controller/list"
+    },
+    "ctrls/set": {
+      "prod": function (className) {
+        return `http://server.caols.tech/metaApi/controller/set/${className}`;
+      },
+      "dev": function (className) {
+        return `http://localhost:9999/metaApi/controller/set/${className}`;
+      }
+    },
+    "ctrls/set/dis": {
+      "prod": function (id, disabled) {
+        return `http://server.caols.tech/metaApi/controller/set/disabled/${id}/${disabled?"T":"F"}`;
+      },
+      "dev": function (id, disabled) {
+        return `http://localhost:9999/metaApi/controller/set/disabled/${id}/${disabled?"T":"F"}`;
+      }
     }
   };
 

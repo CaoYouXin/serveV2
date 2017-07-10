@@ -1,9 +1,3 @@
-.table {
-  box-sizing: content-box;
-
-  border-left: solid 2px cornflowerblue;
-}
-
 .tHead {
   border-top: solid 2px royalblue;
   border-bottom: solid 2px royalblue;
@@ -46,6 +40,42 @@
 .row > .col {
   box-sizing: content-box;
   border-right: solid 2px cornflowerblue;
+}
+
+.row > .col.btns {
+  box-sizing: border-box;
+  border-right: none;
+}
+
+.col.btns > * {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.col.btns:after {
+  content: '';
+  vertical-align: top;
+  display: inline-block;
+  width: 0;
+  height: 100%;
+}
+
+.col > .btn {
+  margin-left: 0.3em;
+  border-radius: 0.3em;
+  padding: 0.3em;
+  cursor: default;
+  user-select: none;
+  background-color: ghostwhite;
+}
+
+.col > .btn:hover {
+  background-color: blueviolet;
+}
+
+.col > .btn:active {
+  color: whitesmoke;
+  background-color: blue;
 }
 
 .bar {

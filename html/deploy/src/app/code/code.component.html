@@ -1,0 +1,11 @@
+<div class="bar">
+  <input type="text" class="resource-bar" disabled [(ngModel)]="path + clicked"/>
+</div>
+
+<div class="resource" [class.loading]="loading">
+  <div class="dir" (dblclick)="fetch('..')" *ngIf="path!==root">..</div>
+  <div *ngFor="let file of files" [class.file]="!file.Dir" [class.dir]="file.Dir"
+       (click)="fileClicked(file.Name)"
+       (dblclick)="fetch(file.Dir ? file.Name + '/' : null)">{{file.Name}}
+  </div>
+</div>

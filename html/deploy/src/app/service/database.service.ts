@@ -10,9 +10,7 @@ export class DatabaseService {
   }
 
   status() {
-    return this.dao.get(API.getAPI("database/status"))
-      .map(res => res.json())
-      .map(ret => DaoUtil.checkCode(ret));
+    return this.dao.getJSON(API.getAPI("database/status"));
   }
 
 }

@@ -10,15 +10,11 @@ export class FileService {
   }
 
   list(path) {
-    return this.dao.get(API.getAPI("list/file")(path))
-      .map(res => res.json())
-      .map(ret => DaoUtil.checkCode(ret));
+    return this.dao.getJSON(API.getAPI("list/file")(path));
   }
 
   unzip(path, to) {
-    return this.dao.get(API.getAPI("unzip/file")(path, to))
-      .map(res => res.json())
-      .map(ret => DaoUtil.checkCode(ret));
+    return this.dao.getJSON(API.getAPI("unzip/file")(path, to));
   }
 
 }

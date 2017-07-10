@@ -21,29 +21,23 @@ export class AdminService {
   }
 
   setting(model) {
-    return this.dao.post(API.getAPI("admin/setting"), {
+    return this.dao.postJSON(API.getAPI("admin/setting"), {
       OldUserName: model.oldUsername,
       UserName: model.username,
       OldPassword: model.oldPassword ? Md5.hashStr(model.oldPassword) : model.oldPassword,
       Password: Md5.hashStr(model.password)
-    })
-      .map(res => res.json())
-      .map(ret => DaoUtil.checkCode(ret));
+    });
   }
 
   check() {
-    return this.dao.get(API.getAPI("admin/check"))
-      .map(res => res.json())
-      .map(ret => DaoUtil.checkCode(ret));
+    return this.dao.getJSON(API.getAPI("admin/check"));
   }
 
   verify(model) {
-    return this.dao.post(API.getAPI("admin/verify"), {
+    return this.dao.postJSON(API.getAPI("admin/verify"), {
       UserName: model.username,
       Password: Md5.hashStr(model.password)
-    })
-      .map(res => res.json())
-      .map(ret => DaoUtil.checkCode(ret));
+    });
   }
 
 }

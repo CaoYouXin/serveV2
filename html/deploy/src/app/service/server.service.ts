@@ -10,9 +10,7 @@ export class ServerService {
   }
 
   restart() {
-    return this.dao.get(API.getAPI("server/restart"))
-      .map(res => res.json())
-      .map(ret => DaoUtil.checkCode(ret));
+    return this.dao.getJSON(API.getAPI("server/restart"));
   }
 
 }

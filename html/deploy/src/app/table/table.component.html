@@ -1,15 +1,23 @@
 <div class="table" [style.width]="table.tWidth + 'px'">
   <div class="tHead">
-    <div class="col" *ngFor="let head of table.heads; let idx=index;" [style.width]="(table.width[idx] + 2) + 'px'">
-      <span>{{head}}</span>
+    <div class="col" *ngFor="let head of table.heads; let idx=index;" [style.width]="(head.width + 2) + 'px'">
+      <span>{{head.text}}</span>
       <div class="bar" (mousedown)="beforeDragIdx(idx)"></div>
+    </div>
+    <div class="col" *ngIf="table.ctrls" [style.width]="table.ctrlsWidth + 'px'">
+      <span>操作</span>
     </div>
   </div>
   <div class="tBody">
     <div class="row" *ngFor="let row of data;let i=index;">
-      <div class="col" *ngFor="let col of row; let idx=index;"
+      <div class="col" *ngFor="let head of table.heads; let idx=index;"
            [style.height]="getHeight(i) + 'px'"
-           [style.width]="table.width[idx] + 'px'" [title]="col">{{col}}
+           [style.width]="head.width + 'px'" [title]="row[head]">
+        {{row[head.key]}}
+      </div>
+      <div class="col btns" *ngIf="table.ctrls" [style.height]="getHeight(i) + 'px'"
+           [style.width]="table.ctrlsWidth + 'px'">
+        <span class="btn" *ngFor="let ctrl of table.ctrls" (click)="ctrl.handler(i)">{{ctrl.text(i)}}</span>
       </div>
       <div class="rowBar" [style.width]="table.tWidth + 'px'" (mousedown)="beforeDragI(i)"></div>
     </div>

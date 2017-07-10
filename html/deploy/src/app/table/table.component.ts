@@ -14,13 +14,14 @@ export class TableComponent implements OnInit, OnDestroy {
   table: any;
 
   @Input()
-  data: Array<Array<any>>;
+  data: Array<any>;
 
   ngOnInit() {
-    let total = 0;
-    let len = this.table.width.length;
-    this.table.width.forEach(w => total += w + 2);
-    this.table.tWidth = total;
+    let _table = this.table;
+    let total = _table.ctrls ? _table.ctrlsWidth : 0;
+    let len = _table.heads.length;
+    _table.heads.forEach(head => total += head.width + 2);
+    _table.tWidth = total;
 
     this.drag = this.drag.bind(this);
     this.afterDrag = this.afterDrag.bind(this);
@@ -71,13 +72,13 @@ export class TableComponent implements OnInit, OnDestroy {
     }
 
     if (null !== this.dragIdx) {
-      _table.width[this.dragIdx] += e.movementX;
+      _table.heads[this.dragIdx].width += e.movementX;
       _table.tWidth += e.movementX;
 
-      _table.width[this.dragIdx] = Math.max(50, _table.width[this.dragIdx]);
+      _table.heads[this.dragIdx].width = Math.max(50, _table.heads[this.dragIdx].width);
 
-      let min = 52;
-      _table.width.forEach((w, i) => min += i === this.dragIdx ? 0 : (w + 2));
+      let min = _table.ctrls ? _table.ctrlsWidth : 0;
+      _table.heads.forEach((head, i) => min += i === this.dragIdx ? 52 : (head.width + 2));
       _table.tWidth = Math.max(min, _table.tWidth);
     }
 
