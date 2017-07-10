@@ -19,6 +19,10 @@ public class SQLUtil {
 
     public static void setPSbyFieldAtIndex(PreparedStatement preparedStatement, int index, Object param, String typeName) throws SQLException {
         switch (typeName) {
+            case "boolean":
+            case "java.lang.Boolean":
+                preparedStatement.setByte(index, (Boolean) param ?  Byte.parseByte("1") : Byte.parseByte("0"));
+                break;
             case "byte":
             case "java.lang.Byte":
                 preparedStatement.setByte(index, (Byte) param);
@@ -65,6 +69,14 @@ public class SQLUtil {
 
     public static void fill(String typeName, Object one, Method setterMethod, ResultSet resultSet, boolean isIntParam, Integer index, String columnName) throws SQLException, InvocationTargetException, IllegalAccessException {
         switch (typeName) {
+            case "boolean":
+            case "java.lang.Boolean":
+                if (isIntParam) {
+                    setterMethod.invoke(one, resultSet.getByte(index) == 0);
+                } else {
+                    setterMethod.invoke(one, resultSet.getByte(columnName) == 0);
+                }
+                break;
             case "byte":
             case "java.lang.Byte":
                 if (isIntParam) {

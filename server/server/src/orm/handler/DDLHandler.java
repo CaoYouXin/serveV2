@@ -109,6 +109,8 @@ public class DDLHandler implements InvocationHandler {
 
     private String getTypeDef(String typeName, Column column) {
         switch (typeName) {
+            case "java.lang.Boolean":
+                return "TINYINT";
             case "java.lang.Long":
                 return "BIGINT";
             case "java.lang.String":

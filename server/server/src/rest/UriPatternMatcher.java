@@ -48,7 +48,7 @@ public class UriPatternMatcher implements IUriPatternMatcher {
 
             stringBuilder.append("(?<")
                     .append(paramName)
-                    .append(">.*?)");
+                    .append(">[^\\?&]*?)");
 
             start = urlPattern.indexOf(':', end);
             startSub = end;

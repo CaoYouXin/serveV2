@@ -86,19 +86,19 @@ public class BeanManager {
         return serviceClass.cast(ret);
     }
 
-    public <T extends Controller> void setController(Class<T> controllerClass) {
+    public <T extends Controller> String setController(Class<T> controllerClass) {
         T t = null;
         try {
             t = controllerClass.newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
             logger.catching(e);
-            return;
+            return null;
         }
 
         Controller controller = this.controllers.get(t.name());
         if (null != controller) {
             controller.changeOrigin(t);
-            return;
+            return t.name();
         }
 
         Object ret = Proxy.newProxyInstance(
@@ -107,6 +107,7 @@ public class BeanManager {
                 new ChangeOriginIH(t)
         );
         this.controllers.put(t.name(), (Controller) ret);
+        return t.name();
     }
 
     public Controller getController(String name) {
