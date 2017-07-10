@@ -72,9 +72,9 @@ public class SQLUtil {
             case "boolean":
             case "java.lang.Boolean":
                 if (isIntParam) {
-                    setterMethod.invoke(one, resultSet.getByte(index) == 0);
+                    setterMethod.invoke(one, resultSet.getByte(index) != 0);
                 } else {
-                    setterMethod.invoke(one, resultSet.getByte(columnName) == 0);
+                    setterMethod.invoke(one, resultSet.getByte(columnName) != 0);
                 }
                 break;
             case "byte":
