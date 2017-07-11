@@ -1,1 +1,18 @@
-db settings
+<div class="center">
+  <fieldset>
+    <input *ngIf="notLogin" type="password" placeholder="输入数据库启动日志Token..." [(ngModel)]="serverToken">
+    <div *ngIf="formErrors.token" class="help help-block">{{formErrors.token}}</div>
+  </fieldset>
+  <fieldset>
+    <input type="text" placeholder="输入新库名..." [(ngModel)]="schemaName" (keyup.enter)="initSchema()" [disabled]="loading">
+    <div *ngIf="formErrors.schema" class="help help-block">{{formErrors.schema}}</div>
+  </fieldset>
+
+  <fieldset>
+    <div *ngFor="let schema of schemas;">
+      <input type="radio" name="schema" value="schema" (click)="reInitSchema($event, schema)"
+             [checked]="schema===currentSchema" [disabled]="loading">
+      <span>{{schema}}</span>
+    </div>
+  </fieldset>
+</div>

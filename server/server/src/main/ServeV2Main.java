@@ -106,6 +106,11 @@ public class ServeV2Main {
 
         IConfigRepo configRepo = BeanManager.getInstance().getRepository(IConfigRepo.class);
 
+        if (!configRepo.createTableIfNotExist()) {
+            logger.error("无法创建配置表");
+            return;
+        }
+
         EIConfig config = configRepo.findByConfigKey("serve.auth");
         if (null == config || "".equals(config.getConfigValue())) {
             Configs.setConfigs(Configs.SERVE_AUTH, new DefaultServeAuth());

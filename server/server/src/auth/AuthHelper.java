@@ -1,5 +1,6 @@
 package auth;
 
+import config.StartLog;
 import org.apache.http.HttpRequest;
 import org.apache.http.protocol.HttpContext;
 
@@ -17,6 +18,8 @@ public class AuthHelper {
 
     static {
         AUTH_MAP.put(ADMIN, new AdminAuth());
+        AUTH_MAP.put(START_LOG, new StartLogAuth());
+        AUTH_MAP.put(LOGIN, new LoginAuth());
     }
 
     public static Boolean auth(int auth, HttpRequest request, HttpContext context) {

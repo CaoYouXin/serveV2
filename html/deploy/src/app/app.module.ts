@@ -22,7 +22,7 @@ import {
   UploadComponent,
   UploadUtil
 } from "./component/index";
-import {AuthGuard, InitResolver} from "./guard/index";
+import {AuthGuard, InitResolver, LoginResolver, DBStatusResolver} from "./guard/index";
 import {
   AdminService,
   ControllerService,
@@ -63,6 +63,8 @@ import {
     UploadUtil,
     AuthGuard,
     InitResolver,
+    DBStatusResolver,
+    LoginResolver,
     RouteService,
     DatabaseService,
     AdminService,

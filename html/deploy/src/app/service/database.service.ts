@@ -13,4 +13,8 @@ export class DatabaseService {
     return this.dao.getJSON(API.getAPI("database/status"));
   }
 
+  init(schema: string, header: any = {}) {
+    return this.dao.getJSON(API.getAPI("database/init")(schema), header);
+  }
+
 }

@@ -1,0 +1,7 @@
+.center {
+  margin-top: 5em;
+}
+
+input[type="password"] + input[type="text"] {
+  margin-top: 2em;
+}

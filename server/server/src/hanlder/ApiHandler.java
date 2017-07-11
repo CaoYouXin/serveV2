@@ -39,16 +39,17 @@ public class ApiHandler implements HttpRequestHandler {
                 }
 
                 try {
-                    if (AuthHelper.auth(controller.auth(), request, context)) {
-                        controller.handle(request, response, context);
+                    if (!AuthHelper.auth(controller.auth(), request, context)) {
+                        RestHelper.responseJSON(response, JsonResponse.fail(50002, "未授权的访问."));
                         return;
                     }
-                } catch (HttpException | IOException e) {
-                    throw e;
                 } catch (Throwable e) {
                     RestHelper.responseJSON(response, JsonResponse.fail(50002, e.getMessage()));
                     return;
                 }
+
+                controller.handle(request, response, context);
+                return;
             }
         }
 

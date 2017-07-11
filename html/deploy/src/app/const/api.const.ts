@@ -9,6 +9,10 @@ export class API {
       "prod": "http://server.caols.tech/metaApi/database/status",
       "dev": "http://localhost:9999/metaApi/database/status"
     },
+    "database/init": {
+      "prod": (schema) => `http://server.caols.tech/metaApi/database/init/${schema}`,
+      "dev": (schema) => `http://localhost:9999/metaApi/database/init/${schema}`
+    },
     "admin/setting": {
       "prod": "http://server.caols.tech/metaApi/admin/setting",
       "dev": "http://localhost:9999/metaApi/admin/setting"

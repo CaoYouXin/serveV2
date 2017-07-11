@@ -1,5 +1,6 @@
 package meta.controller;
 
+import auth.AuthHelper;
 import beans.BeanManager;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import config.Configs;
@@ -35,6 +36,11 @@ public class DataSourceActiveCtrl extends HelperController implements Controller
 
     private IDatabaseStatusService databaseStatusService = BeanManager.getInstance().getService(IDatabaseStatusService.class);
     private IDataSourceService dataSourceService = BeanManager.getInstance().getService(IDataSourceService.class);
+
+    @Override
+    public int auth() {
+        return AuthHelper.ADMIN | AuthHelper.START_LOG;
+    }
 
     @Override
     public String name() {
