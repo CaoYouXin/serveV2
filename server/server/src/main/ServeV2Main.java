@@ -1,5 +1,6 @@
 package main;
 
+import auth.DefaultServeAuth;
 import beans.BeanManager;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -9,14 +10,17 @@ import config.InitConfig;
 import hanlder.*;
 import meta.service.IControllerService;
 import meta.service.IDatabaseStatusService;
+import meta.service.IServiceService;
 import meta.service.impl.ControllerServiceImpl;
 import meta.service.impl.DatabaseStatusServiceImpl;
+import meta.service.impl.ServiceServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import orm.DatasourceFactory;
 import rest.Controller;
 import rest.UriPatternMatcher;
 import server.Server;
+import sun.security.krb5.Config;
 import task.LogOnStart;
 import task.MultiTask;
 import task.ShutdownServer;
@@ -68,7 +72,7 @@ public class ServeV2Main {
     private static void restartServer() {
         stopServer();
         try {
-            Thread.sleep(10);
+            Thread.sleep(10 * 1000);
         } catch (InterruptedException e) {
             logger.catching(e);
         }
@@ -86,9 +90,14 @@ public class ServeV2Main {
     private static void startServer() {
         readInitConfigs();
         setupDataSource();
+        setupServeAuth();
         setupServer();
         setupMetaApis();
         setupApis();
+    }
+
+    private static void setupServeAuth() {
+        Configs.setConfigs(Configs.SERVE_AUTH, new DefaultServeAuth());
     }
 
     private static void setFileRoot() {
@@ -174,7 +183,7 @@ public class ServeV2Main {
                 initConfig.getDeployRoot(), "/deploy"
         ));
 
-        server.addHandler("/serve/*", new HttpFileHandler(
+        server.addHandler("/serve/*", new ServeHandler(
                 initConfig.getResourceRoot(), "/serve"
         ));
 
@@ -238,10 +247,13 @@ public class ServeV2Main {
 
     private static void setupApis() {
         BeanManager.getInstance().setService(IControllerService.class, ControllerServiceImpl.class);
+        BeanManager.getInstance().setService(IServiceService.class, ServiceServiceImpl.class);
 
         IControllerService controllerService = BeanManager.getInstance().getService(IControllerService.class);
+        IServiceService serviceService = BeanManager.getInstance().getService(IServiceService.class);
 
         try {
+            serviceService.initAllService();
             controllerService.initAllControllers();
         } catch (Throwable e) {
             logger.catching(e);
