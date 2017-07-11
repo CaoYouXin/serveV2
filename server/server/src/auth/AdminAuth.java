@@ -1,6 +1,7 @@
 package auth;
 
 import beans.BeanManager;
+import config.Configs;
 import meta.data.EIConfig;
 import meta.repository.IConfigRepo;
 import org.apache.http.Header;
@@ -15,6 +16,12 @@ public class AdminAuth implements BiFunction<HttpRequest, HttpContext, Boolean> 
 
     @Override
     public Boolean apply(HttpRequest request, HttpContext context) {
+        Boolean withSchema = Configs.getConfigs(Configs.WITH_SCHEMA, Boolean.class);
+
+        if (!withSchema) {
+            return false;
+        }
+
         Header header = request.getLastHeader("infinitely-serve-token");
         if (null == header) {
             throw new AuthRuntimeException("请求头中未包含【infinitely-serve-token】.");

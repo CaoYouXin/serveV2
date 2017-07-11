@@ -8,7 +8,7 @@
 
 <div class="mask" *ngIf="mask">
   <div class="wrapper">
-    <code (change)="change($event)"></code>
+    <code-res (change)="change($event)"></code-res>
 
     <div class="buttons">
       <button (click)="add()" [disabled]="loading">添加</button>

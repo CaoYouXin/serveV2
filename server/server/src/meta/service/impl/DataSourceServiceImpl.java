@@ -44,6 +44,7 @@ public class DataSourceServiceImpl implements IDataSourceService {
                 dataSourceConfig.getUser(),
                 dataSourceConfig.getPwd()
         );
+        Configs.setConfigs(Configs.WITH_SCHEMA, true);
         return dataSourceConfig;
     }
 }

@@ -21,11 +21,13 @@ public class HttpFileHandler implements HttpRequestHandler {
 
     private final String docRoot;
     private final String urlRoot;
+    private final String fallback;
 
-    public HttpFileHandler(String docRoot, String urlRoot) {
+    public HttpFileHandler(String docRoot, String urlRoot, String fallback) {
         super();
         this.docRoot = docRoot;
         this.urlRoot = urlRoot;
+        this.fallback = fallback;
     }
 
     @Override
@@ -45,6 +47,11 @@ public class HttpFileHandler implements HttpRequestHandler {
     private void processFile(HttpResponse httpResponse, HttpContext httpContext, final File file) {
 
         if (!file.exists()) {
+
+            if (!"".equals(this.fallback)) {
+                this.processFile(httpResponse, httpContext, new File(this.docRoot, this.fallback));
+                return;
+            }
 
             httpResponse.setStatusCode(HttpStatus.SC_NOT_FOUND);
             StringEntity entity = new StringEntity(

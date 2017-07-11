@@ -34,6 +34,6 @@ public class ServerRestartCtrl extends HelperController {
     public void handle(HttpRequest request, HttpResponse response, HttpContext context) throws HttpException, IOException {
         String jarFilepath = Configs.getConfigs(Configs.JAR_FILE_PATH, String.class);
         BashUtil.run(String.format("nohup java -jar %s restart", jarFilepath), false);
-        RestHelper.responseJSON(response, JsonResponse.success(15));
+        RestHelper.responseJSON(response, JsonResponse.success(125));
     }
 }

@@ -1,6 +1,7 @@
 package hanlder;
 
 import auth.AuthHelper;
+import auth.AuthRuntimeException;
 import org.apache.http.HttpException;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
@@ -43,7 +44,7 @@ public class ApiHandler implements HttpRequestHandler {
                         RestHelper.responseJSON(response, JsonResponse.fail(50002, "未授权的访问."));
                         return;
                     }
-                } catch (Throwable e) {
+                } catch (AuthRuntimeException e) {
                     RestHelper.responseJSON(response, JsonResponse.fail(50002, e.getMessage()));
                     return;
                 }

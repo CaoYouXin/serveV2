@@ -1,0 +1,13 @@
+{
+  "port": 9999,
+  "classpath": "/var/serveV2/classpath/",
+  "configRoot": "/var/serveV2/configs/",
+  "deployRoot": "/var/serveV2/deploy/",
+  "uploadRoot": "/var/serveV2/upload/",
+  "resourceRoot": "/var/serveV2/resource/",
+  "dataSource": {
+    "url": "jdbc:mysql://localhost:3306",
+    "user": "serve",
+    "pwd": "@server"
+  }
+}

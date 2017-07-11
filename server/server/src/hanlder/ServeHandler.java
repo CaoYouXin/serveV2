@@ -17,7 +17,7 @@ public class ServeHandler implements HttpRequestHandler {
     private final HttpRequestHandler handler;
 
     public ServeHandler(String docRoot, String urlRoot) {
-        this.handler = new HttpFileHandler(docRoot, urlRoot);
+        this.handler = new HttpFileHandler(docRoot, urlRoot, "");
     }
 
     @Override

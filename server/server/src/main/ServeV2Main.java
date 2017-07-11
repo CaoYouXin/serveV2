@@ -1,5 +1,6 @@
 package main;
 
+import auth.AuthHelper;
 import auth.DefaultServeAuth;
 import beans.BeanManager;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -40,6 +41,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -74,11 +76,11 @@ public class ServeV2Main {
     private static void restartServer() {
         stopServer();
         try {
-            Thread.sleep(10 * 1000);
+            TimeUnit.MINUTES.sleep(2);
+            startServer();
         } catch (InterruptedException e) {
             logger.catching(e);
         }
-        startServer();
     }
 
     private static void stopServer() {
@@ -90,8 +92,10 @@ public class ServeV2Main {
     }
 
     private static void startServer() {
+        logger.info(AuthHelper.ADMIN + " is what so called admin.");
         readInitConfigs();
         boolean withSchema = setupDataSource();
+        Configs.setConfigs(Configs.WITH_SCHEMA, withSchema);
         setupServeAuth(withSchema);
         setupServer();
         setupMetaApis();
@@ -213,7 +217,7 @@ public class ServeV2Main {
         Configs.setConfigs(Configs.APIS, apis);
 
         server.addHandler("/deploy/*", new HttpFileHandler(
-                initConfig.getDeployRoot(), "/deploy"
+                initConfig.getDeployRoot(), "/deploy", "index.html"
         ));
 
         server.addHandler("/serve/*", new ServeHandler(

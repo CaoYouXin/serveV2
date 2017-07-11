@@ -2,6 +2,7 @@ package task;
 
 import config.Configs;
 import config.StartLog;
+import util.BashUtil;
 import util.FileUtil;
 import util.NetUtil;
 
@@ -22,6 +23,8 @@ public class ShutdownServer implements Callable<Void> {
     public Void call() throws Exception {
         NetUtil.getWithoutResponse(String.format("http://%s:%d/shutdown/%s",
                 this.log.getHost(), this.log.getPort(), this.log.getToken()));
+
+//        BashUtil.run("kill -9 ${lsof -t -i:" + this.log.getPort() + "}", false);
         return null;
     }
 }

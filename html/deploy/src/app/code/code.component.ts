@@ -3,7 +3,7 @@ import {FileService} from "../service/index";
 import {DaoUtil} from "caols-common-modules";
 
 @Component({
-  selector: 'code',
+  selector: 'code-res',
   templateUrl: './code.component.html',
   styleUrls: ['./code.component.css']
 })

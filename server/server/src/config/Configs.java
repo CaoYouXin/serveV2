@@ -16,6 +16,8 @@ public class Configs {
     public static final String CLASSLOADER = "CLASSLOADER";
     public static final String JAR_FILE_PATH = "JAR_FILE_PATH";
     public static final String SERVE_AUTH = "SERVE_AUTH";
+    public static final String AUTH_MAP = "AUTH_MAP";
+    public static final String WITH_SCHEMA = "WITH_SCHEMA";
     private static final Logger logger = LogManager.getLogger(Configs.class);
 
     /**

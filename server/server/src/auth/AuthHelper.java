@@ -1,5 +1,6 @@
 package auth;
 
+import config.Configs;
 import config.StartLog;
 import org.apache.http.HttpRequest;
 import org.apache.http.protocol.HttpContext;
@@ -12,14 +13,14 @@ public class AuthHelper {
 
     public static final int ADMIN = 1;
     public static final int START_LOG = 1 << 1;
-    public static final int LOGIN = 1 << 2;
 
     private static final Map<Integer, BiFunction<HttpRequest, HttpContext, Boolean>> AUTH_MAP = new HashMap<>();
 
     static {
         AUTH_MAP.put(ADMIN, new AdminAuth());
         AUTH_MAP.put(START_LOG, new StartLogAuth());
-        AUTH_MAP.put(LOGIN, new LoginAuth());
+
+        Configs.setConfigs(Configs.AUTH_MAP, AUTH_MAP);
     }
 
     public static Boolean auth(int auth, HttpRequest request, HttpContext context) {

@@ -75,9 +75,8 @@ public class DataSourceActiveCtrl extends HelperController implements Controller
         DataSourceConfig dataSourceConfig = null;
         try {
             dataSourceConfig = this.dataSourceService.newDataSourceConfig(schema);
-        } catch (SQLException e) {
-            logger.catching(e);
-            RestHelper.responseJSON(response, JsonResponse.fail(50000, e.getMessage()));
+        } catch (Throwable e) {
+            RestHelper.catching(e, response, 50000);
             return;
         }
 

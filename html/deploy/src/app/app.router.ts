@@ -14,7 +14,7 @@ import {
 } from "./component/index";
 
 export const routes: Routes = [
-  {path: '', component: HomeComponent, canActivate: [AuthGuard], data: {name: 'Home'}},
+  {path: '', component: HomeComponent, data: {name: 'Home'}},
   {path: 'upload', component: UploadComponent, canActivate: [AuthGuard], data: {name: '代码'}},
   {path: 'controller', component: ControllerComponent, canActivate: [AuthGuard], data: {name: '控制器'}},
   {path: 'microservice', component: MicroServiceComponent, canActivate: [AuthGuard], data: {name: '微服务'}},
