@@ -7,7 +7,9 @@ import config.Configs;
 import config.DataSourceConfig;
 import config.InitConfig;
 import hanlder.*;
+import meta.service.IControllerService;
 import meta.service.IDatabaseStatusService;
+import meta.service.impl.ControllerServiceImpl;
 import meta.service.impl.DatabaseStatusServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -234,18 +236,16 @@ public class ServeV2Main {
         }
     }
 
-    public static void setupApis() {
-        List<Controller> apis = Configs.getConfigs(Configs.APIS, List.class);
-        CustomClassLoader classLoader = Configs.getConfigs(Configs.CLASSLOADER, CustomClassLoader.class);
+    private static void setupApis() {
+        BeanManager.getInstance().setService(IControllerService.class, ControllerServiceImpl.class);
 
-        BeanManager.getInstance().setController(
-                (Class<? extends Controller>) classLoader.loadClass("controller.TestController")
-        );
-        Controller controller = BeanManager.getInstance().getController("controller.TestController");
-        UriPatternMatcher uriPatternMatcher = new UriPatternMatcher("/api");
-        uriPatternMatcher.setController(controller);
-        controller.setUriPatternMatcher(uriPatternMatcher);
-        apis.add(controller);
+        IControllerService controllerService = BeanManager.getInstance().getService(IControllerService.class);
+
+        try {
+            controllerService.initAllControllers();
+        } catch (Throwable e) {
+            logger.catching(e);
+        }
     }
 
 }

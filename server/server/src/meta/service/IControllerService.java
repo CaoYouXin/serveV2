@@ -14,4 +14,6 @@ public interface IControllerService extends Service {
 
     Boolean setControllerDisabled(Long id, Boolean disabled) throws ControllerSetException;
 
+    void initAllControllers() throws ControllerSetException;
+
 }

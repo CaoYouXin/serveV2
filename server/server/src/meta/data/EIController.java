@@ -25,8 +25,8 @@ public interface EIController extends EntityBeanI {
     void setControllerClassName(String className);
 
     @Column(name = "disabled", nullable = false)
-    Boolean isDisabled();
+    Boolean isControllerDisabled();
 
-    void setDisabled(Boolean disabled);
+    void setControllerDisabled(Boolean disabled);
 
 }

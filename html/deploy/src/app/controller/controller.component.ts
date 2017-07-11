@@ -19,11 +19,11 @@ export class ControllerComponent implements OnInit {
       {key: "ControllerId", text: "ID", width: 50},
       {key: "ControllerName", text: "名称", width: 200},
       {key: "ControllerClassName", text: "类路径", width: 300},
-      {key: "Disabled", text: "禁用", width: 100},
+      {key: "ControllerDisabled", text: "禁用", width: 100},
     ],
     ctrls: [
       {text: (idx) => 'Reload', handler: this.reload.bind(this)},
-      {text: (idx) => this.data[idx]["Disabled"] ? "启用" : "禁用", handler: this.toggle.bind(this)}
+      {text: (idx) => this.data[idx]["ControllerDisabled"] ? "启用" : "禁用", handler: this.toggle.bind(this)}
     ],
     ctrlsWidth: 130
   };
@@ -105,11 +105,11 @@ export class ControllerComponent implements OnInit {
 
     const self = this;
     this.loading = true;
-    this.service.setDisabled(this.data[idx].ControllerId, !this.data[idx].Disabled)
+    this.service.setDisabled(this.data[idx].ControllerId, !this.data[idx].ControllerDisabled)
       .subscribe(
         ret => {
           self.loading = false;
-          self.data[idx].Disabled = ret;
+          self.data[idx].ControllerDisabled = ret;
         },
         err => {
           self.loading = false;
