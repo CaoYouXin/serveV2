@@ -88,6 +88,14 @@ export class API {
       "dev": function (id, disabled) {
         return `http://localhost:9999/metaApi/service/set/disable/${id}/${disabled}`;
       }
+    },
+    "serve/auth/set": {
+      "prod": function (className) {
+        return `http://server.caols.tech/metaApi/serve/auth/${className}`;
+      },
+      "dev": function (className) {
+        return `http://localhost:9999/metaApi/serve/auth/${className}`;
+      }
     }
   };
 

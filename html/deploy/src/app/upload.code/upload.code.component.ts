@@ -1,4 +1,4 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
 import {DaoUtil} from "caols-common-modules";
 import {FileService} from "../service/index";
 
@@ -9,7 +9,11 @@ import {FileService} from "../service/index";
 })
 export class UploadCodeComponent implements OnInit {
 
-  root: string = "upload/code/";
+  @Input()
+  root: string;
+
+  @Output()
+  handler: EventEmitter<string> = new EventEmitter();
 
   path: string = "";
   clicked: string = "";
@@ -50,24 +54,4 @@ export class UploadCodeComponent implements OnInit {
       );
   }
 
-  deploy(filePath) {
-    if (!filePath.match(/\.zip$/)) {
-      alert("需要部署.zip文件.");
-      return;
-    }
-
-    this.loading = true;
-    const self = this;
-    this.service.unzip(filePath, "classpath/")
-      .subscribe(
-        ret => {
-          self.loading = false;
-          alert(ret);
-        },
-        err => {
-          self.loading = false;
-          DaoUtil.logError(err);
-        }
-      );
-  }
 }

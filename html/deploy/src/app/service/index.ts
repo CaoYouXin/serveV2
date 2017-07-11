@@ -5,3 +5,4 @@ export * from './server.service';
 export * from './file.service';
 export * from './controller.service';
 export * from './service.service';
+export * from './serve.auth.service';

@@ -2,6 +2,8 @@ import {Component, ElementRef, ViewChild} from "@angular/core";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {UploadUtil} from "./upload.util";
 import {API} from "../const/api.const";
+import {FileService} from "../service/index";
+import {DaoUtil} from "caols-common-modules";
 
 @Component({
   selector: 'upload',
@@ -10,6 +12,7 @@ import {API} from "../const/api.const";
 })
 export class UploadComponent {
 
+  codeRoot: string = "upload/code/";
   model: any = {};
   loading: boolean = false;
 
@@ -19,6 +22,7 @@ export class UploadComponent {
   currentForm: ElementRef;
 
   constructor(private fb: FormBuilder,
+              private service: FileService,
               private util: UploadUtil) {
   }
 
@@ -87,5 +91,30 @@ export class UploadComponent {
       'required': '文件名是必填项.'
     }
   };
+
+  deploy(filePath) {
+    if (this.loading) {
+      return;
+    }
+
+    if (!filePath.match(/\.zip$/)) {
+      alert("需要部署.zip文件.");
+      return;
+    }
+
+    this.loading = true;
+    const self = this;
+    this.service.unzip(filePath, "classpath/")
+      .subscribe(
+        ret => {
+          self.loading = false;
+          alert(ret);
+        },
+        err => {
+          self.loading = false;
+          DaoUtil.logError(err);
+        }
+      );
+  }
 
 }

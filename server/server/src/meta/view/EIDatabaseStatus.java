@@ -4,13 +4,13 @@ import beans.EntityBeanI;
 
 public interface EIDatabaseStatus extends EntityBeanI {
 
-    void setHasConfigs(Boolean b);
+    void setConfigs(String[] list);
 
-    Boolean isHasConfigs();
+    String[] getConfigs();
 
-    void setHasActiveConfig(Boolean b);
+    void setActiveConfig(String str);
 
-    Boolean isHasActiveConfig();
+    String getActiveConfig();
 
     void setActiveDatasource(Boolean b);
 

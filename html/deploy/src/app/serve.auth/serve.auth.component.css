@@ -1,0 +1,20 @@
+.center {
+  margin: 3em auto 0;
+
+  width: 500px;
+
+  overflow: hidden;
+}
+
+.btn {
+  border-radius: 50%;
+  margin: 10px 0 0 10px;
+}
+
+.btn:hover {
+  box-shadow: 0 0 5px black;
+}
+
+.btn:active {
+  box-shadow: 0 0 10px black;
+}

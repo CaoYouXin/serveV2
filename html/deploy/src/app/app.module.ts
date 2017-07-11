@@ -16,6 +16,7 @@ import {
   LoginComponent,
   MicroServiceComponent,
   RestartComponent,
+  ServeAuthComponent,
   TableComponent,
   UploadCodeComponent,
   UploadComponent,
@@ -28,6 +29,7 @@ import {
   DatabaseService,
   FileService,
   RouteService,
+  ServeAuthService,
   ServerService,
   ServiceService
 } from "./service/index";
@@ -46,7 +48,8 @@ import {
     ControllerComponent,
     UploadCodeComponent,
     CodeComponent,
-    TableComponent
+    TableComponent,
+    ServeAuthComponent
   ],
   imports: [
     BrowserModule,
@@ -66,7 +69,8 @@ import {
     ServerService,
     FileService,
     ControllerService,
-    ServiceService
+    ServiceService,
+    ServeAuthService
   ],
   bootstrap: [AppComponent]
 })

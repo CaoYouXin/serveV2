@@ -8,6 +8,8 @@ import config.Configs;
 import config.DataSourceConfig;
 import config.InitConfig;
 import hanlder.*;
+import meta.data.EIConfig;
+import meta.repository.IConfigRepo;
 import meta.service.IControllerService;
 import meta.service.IDatabaseStatusService;
 import meta.service.IServiceService;
@@ -89,15 +91,35 @@ public class ServeV2Main {
 
     private static void startServer() {
         readInitConfigs();
-        setupDataSource();
-        setupServeAuth();
+        boolean withSchema = setupDataSource();
+        setupServeAuth(withSchema);
         setupServer();
         setupMetaApis();
-        setupApis();
+        setupApis(withSchema);
     }
 
-    private static void setupServeAuth() {
-        Configs.setConfigs(Configs.SERVE_AUTH, new DefaultServeAuth());
+    private static void setupServeAuth(boolean withSchema) {
+        if (!withSchema) {
+            Configs.setConfigs(Configs.SERVE_AUTH, new DefaultServeAuth());
+            return;
+        }
+
+        IConfigRepo configRepo = BeanManager.getInstance().getRepository(IConfigRepo.class);
+
+        EIConfig config = configRepo.findByConfigKey("serve.auth");
+        if (null == config || "".equals(config.getConfigValue())) {
+            Configs.setConfigs(Configs.SERVE_AUTH, new DefaultServeAuth());
+            return;
+        }
+
+        CustomClassLoader classLoader = Configs.getConfigs(Configs.CLASSLOADER, CustomClassLoader.class);
+
+        try {
+            Configs.setConfigs(Configs.SERVE_AUTH, classLoader.loadClass(config.getConfigValue()).newInstance());
+        } catch (InstantiationException | IllegalAccessException e) {
+            logger.catching(e);
+            Configs.setConfigs(Configs.SERVE_AUTH, new DefaultServeAuth());
+        }
     }
 
     private static void setFileRoot() {
@@ -139,18 +161,22 @@ public class ServeV2Main {
         Configs.setConfigs(Configs.CLASSLOADER, customClassLoader);
     }
 
-    private static void setupDataSource() {
+    private static boolean setupDataSource() {
+        boolean ret = false;
+
         DataSourceConfig dataSource = null;
 
         IDatabaseStatusService databaseStatusService = new DatabaseStatusServiceImpl();
         File activeCfgFile = databaseStatusService.activeCfgFile();
         if (null != activeCfgFile) {
             dataSource = FileUtil.getObjectFromFile(activeCfgFile, DataSourceConfig.class);
+            ret = true;
         }
 
         if (null == dataSource) {
             InitConfig initConfig = Configs.getConfigs(InitConfig.CONFIG_KEY, InitConfig.class);
             dataSource = initConfig.getDataSource();
+            ret = false;
         }
 
         DatasourceFactory.newDataSource(
@@ -158,6 +184,8 @@ public class ServeV2Main {
                 dataSource.getUser(),
                 dataSource.getPwd()
         );
+
+        return ret;
     }
 
     private static void setupServer() {
@@ -245,7 +273,11 @@ public class ServeV2Main {
         }
     }
 
-    private static void setupApis() {
+    private static void setupApis(boolean withSchema) {
+        if (!withSchema) {
+            return;
+        }
+
         BeanManager.getInstance().setService(IControllerService.class, ControllerServiceImpl.class);
         BeanManager.getInstance().setService(IServiceService.class, ServiceServiceImpl.class);
 
