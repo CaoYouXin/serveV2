@@ -28,7 +28,8 @@ import {
   DatabaseService,
   FileService,
   RouteService,
-  ServerService
+  ServerService,
+  ServiceService
 } from "./service/index";
 
 @NgModule({
@@ -64,7 +65,8 @@ import {
     AdminService,
     ServerService,
     FileService,
-    ControllerService
+    ControllerService,
+    ServiceService
   ],
   bootstrap: [AppComponent]
 })

@@ -15,7 +15,9 @@ public class Configs {
     public static final String APIS = "APIS";
     public static final String CLASSLOADER = "CLASSLOADER";
     public static final String JAR_FILE_PATH = "JAR_FILE_PATH";
+    public static final String SERVE_AUTH = "SERVE_AUTH";
     private static final Logger logger = LogManager.getLogger(Configs.class);
+
     /**
      * configs
      */

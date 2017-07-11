@@ -16,13 +16,13 @@ public class TestService implements ITestService {
     @Override
     public String test() {
         if (this.testRepo.createTableIfNotExist()) {
-            List<EITest> all = testRepo.findAll();
-            StringJoiner stringJoiner = new StringJoiner(", ", "{ ", " }");
-            all.forEach(test -> stringJoiner.add(test.getTestString()));
-            return "test x9 : " + stringJoiner.toString();
+//            List<EITest> all = testRepo.findAll();
+//            StringJoiner stringJoiner = new StringJoiner(", ", "{ ", " }");
+//            all.forEach(test -> stringJoiner.add(test.getTestString()));
+//            return "test x9 : " + stringJoiner.toString();
 
-//            EITest byTestId = testRepo.findByTestId(1L);
-//            return "test x3 : " + (null == byTestId ? "Null" : byTestId.toJSONString());
+            EITest byTestId = testRepo.findByTestId(1L);
+            return "test x3 : " + (null == byTestId ? "Null" : byTestId.toJSONString());
         }
 //        Class<?> loadClass = customClassLoader.loadClass("repository.ITestRepo");
 //        Class<?> aClass = null;

@@ -1,1 +1,21 @@
-micro service
+<div class="wrapper">
+  <img class="btn" src="assets/add.svg" alt="添加" width="100px" height="100px" (click)="mask=true">
+</div>
+
+<div class="wrapper">
+  <table [table]="tableDef" [data]="data"></table>
+</div>
+
+<div class="mask" *ngIf="mask">
+  <div class="wrapper">
+    <div style="overflow: hidden">
+      <div class="left"><code (change)="changeIntf($event)"></code></div>
+      <div class="right"><code (change)="changeImpl($event)"></code></div>
+    </div>
+
+    <div class="buttons">
+      <button (click)="add()" [disabled]="loading">添加</button>
+      <button (click)="mask=false;loading=false;">取消</button>
+    </div>
+  </div>
+</div>

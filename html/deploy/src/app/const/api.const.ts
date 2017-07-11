@@ -68,6 +68,26 @@ export class API {
       "dev": function (id, disabled) {
         return `http://localhost:9999/metaApi/controller/set/disabled/${id}/${disabled ? "T" : "F"}`;
       }
+    },
+    "service/list": {
+      "prod": "http://server.caols.tech/metaApi/service/list",
+      "dev": "http://localhost:9999/metaApi/service/list"
+    },
+    "service/set": {
+      "prod": function (intf, impl) {
+        return `http://server.caols.tech/metaApi/service/set/${intf}/${impl}`;
+      },
+      "dev": function (intf, impl) {
+        return `http://localhost:9999/metaApi/service/set/${intf}/${impl}`;
+      }
+    },
+    "service/set/disable": {
+      "prod": function (id, disabled) {
+        return `http://server.caols.tech/metaApi/service/set/disable/${id}/${disabled}`;
+      },
+      "dev": function (id, disabled) {
+        return `http://localhost:9999/metaApi/service/set/disable/${id}/${disabled}`;
+      }
     }
   };
 

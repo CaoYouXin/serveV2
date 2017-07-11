@@ -45,7 +45,7 @@ export class ControllerComponent implements OnInit {
   }
 
   add() {
-    if (!this.className.match(/\.class$/)) {
+    if (!/\.class$/.test(this.className)) {
       alert("需要添加Class.");
       return;
     }
@@ -60,6 +60,13 @@ export class ControllerComponent implements OnInit {
           self.mask = false;
           if (!self.data.find(d => d.ControllerId === ret.ControllerId)) {
             self.data = [ret, ...self.data];
+          } else {
+            let index = self.data.findIndex(d => d.ControllerId === ret.ControllerId);
+            self.data = [
+              ...self.data.slice(0, index),
+              ret,
+              ...self.data.slice(index + 1)
+            ];
           }
         },
         err => {
