@@ -1,6 +1,9 @@
 package meta.controller;
 
 import beans.BeanManager;
+import config.Configs;
+import config.DataSourceConfig;
+import config.InitConfig;
 import meta.service.IDatabaseStatusService;
 import meta.service.impl.DatabaseStatusServiceImpl;
 import meta.view.EIDatabaseStatus;
@@ -12,6 +15,7 @@ import rest.Controller;
 import rest.HelperController;
 import rest.JsonResponse;
 import rest.RestHelper;
+import util.FileUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,19 +44,25 @@ public class DatabaseStatusCtrl extends HelperController implements Controller {
 
         File[] files = this.databaseStatusService.listCfgFiles();
         if (null == files || files.length == 0) {
-            databaseStatus.setHasConfigs(false);
             RestHelper.responseJSON(response, JsonResponse.success(databaseStatus));
             return;
         }
-        databaseStatus.setHasConfigs(true);
+        String[] configs = new String[files.length];
+        for (int i = 0; i < files.length; i++) {
+            configs[i] = files[i].getName().replaceAll("\\.json", "");
+        }
+        databaseStatus.setConfigs(configs);
 
         File activeCfgFile = this.databaseStatusService.activeCfgFile();
         if (null == activeCfgFile) {
-            databaseStatus.setHasActiveConfig(false);
             RestHelper.responseJSON(response, JsonResponse.success(databaseStatus));
             return;
         }
-        databaseStatus.setHasActiveConfig(true);
+        int length = Configs.getConfigs(InitConfig.CONFIG_KEY, InitConfig.class).getDataSource().getUrl().length();
+        databaseStatus.setActiveConfig(
+                FileUtil.getObjectFromFile(activeCfgFile, DataSourceConfig.class).getUrl()
+                        .substring(length).replaceAll("\\/", "")
+        );
 
         Boolean testCfgConn = this.databaseStatusService.testCfgConn(activeCfgFile);
         databaseStatus.setActiveDatasource(testCfgConn);
