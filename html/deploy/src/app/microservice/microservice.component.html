@@ -1,5 +1,5 @@
 <div class="wrapper">
-  <img class="btn" src="assets/add.svg" alt="添加" width="100px" height="100px" (click)="mask=true">
+  <img class="btn" src="assets/add.png" alt="添加" width="100px" height="100px" (click)="mask=true">
 </div>
 
 <div class="wrapper">
@@ -9,8 +9,12 @@
 <div class="mask" *ngIf="mask">
   <div class="wrapper">
     <div style="overflow: hidden">
-      <div class="left"><code-res (change)="changeIntf($event)"></code-res></div>
-      <div class="right"><code-res (change)="changeImpl($event)"></code-res></div>
+      <div class="left">
+        <code-res (change)="changeIntf($event)"></code-res>
+      </div>
+      <div class="right">
+        <code-res (change)="changeImpl($event)"></code-res>
+      </div>
     </div>
 
     <div class="buttons">

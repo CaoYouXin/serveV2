@@ -2,7 +2,6 @@ package meta.controller;
 
 import auth.AuthHelper;
 import beans.BeanManager;
-import meta.data.EIController;
 import meta.data.EIService;
 import meta.service.IServiceService;
 import meta.service.impl.ServiceServiceImpl;
@@ -15,7 +14,6 @@ import rest.JsonResponse;
 import rest.RestHelper;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 
 public class SetServiceCtrl extends HelperController {

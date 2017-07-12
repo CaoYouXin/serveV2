@@ -22,7 +22,7 @@ import {
   UploadComponent,
   UploadUtil
 } from "./component/index";
-import {AuthGuard, InitResolver, LoginResolver, DBStatusResolver} from "./guard/index";
+import {AuthGuard, DBStatusResolver, InitResolver, LoginResolver} from "./guard/index";
 import {
   AdminService,
   ControllerService,

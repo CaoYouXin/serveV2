@@ -7,7 +7,7 @@ import {DatabaseService} from "../service/index";
 @Injectable()
 export class DBStatusResolver implements Resolve<any> {
 
-  constructor(private service: DatabaseService){
+  constructor(private service: DatabaseService) {
   }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any {

@@ -2,7 +2,6 @@ package meta.controller;
 
 import auth.AuthHelper;
 import beans.BeanManager;
-import meta.data.EIService;
 import meta.service.IServiceService;
 import meta.service.impl.ServiceServiceImpl;
 import org.apache.http.HttpException;
@@ -14,7 +13,6 @@ import rest.JsonResponse;
 import rest.RestHelper;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 
 public class DisableServiceCtrl extends HelperController {

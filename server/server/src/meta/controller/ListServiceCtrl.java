@@ -4,7 +4,6 @@ import auth.AuthHelper;
 import beans.BeanManager;
 import meta.data.EIService;
 import meta.service.IServiceService;
-import meta.service.exp.ServiceSetException;
 import meta.service.impl.ServiceServiceImpl;
 import org.apache.http.HttpException;
 import org.apache.http.HttpRequest;

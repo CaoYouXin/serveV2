@@ -2,7 +2,6 @@ package task;
 
 import config.Configs;
 import config.StartLog;
-import util.BashUtil;
 import util.FileUtil;
 import util.NetUtil;
 
