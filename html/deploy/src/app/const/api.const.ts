@@ -6,32 +6,32 @@ export class API {
 
   private static api = {
     "database/status": {
-      "prod": "http://server.caols.tech/metaApi/database/status",
+      "prod": "http://server.caols.tech:9999/metaApi/database/status",
       "dev": "http://localhost:9999/metaApi/database/status"
     },
     "database/init": {
-      "prod": (schema) => `http://server.caols.tech/metaApi/database/init/${schema}`,
+      "prod": (schema) => `http://server.caols.tech:9999/metaApi/database/init/${schema}`,
       "dev": (schema) => `http://localhost:9999/metaApi/database/init/${schema}`
     },
     "admin/setting": {
-      "prod": "http://server.caols.tech/metaApi/admin/setting",
+      "prod": "http://server.caols.tech:9999/metaApi/admin/setting",
       "dev": "http://localhost:9999/metaApi/admin/setting"
     },
     "admin/check": {
-      "prod": "http://server.caols.tech/metaApi/admin/check",
+      "prod": "http://server.caols.tech:9999/metaApi/admin/check",
       "dev": "http://localhost:9999/metaApi/admin/check"
     },
     "admin/verify": {
-      "prod": "http://server.caols.tech/metaApi/admin/verify",
+      "prod": "http://server.caols.tech:9999/metaApi/admin/verify",
       "dev": "http://localhost:9999/metaApi/admin/verify"
     },
     "server/restart": {
-      "prod": "http://server.caols.tech/metaApi/server/restart",
+      "prod": "http://server.caols.tech:9999/metaApi/server/restart",
       "dev": "http://localhost:9999/metaApi/server/restart"
     },
     "upload/code": {
       "prod": function (path) {
-        return `http://server.caols.tech/upload${path}`;
+        return `http://server.caols.tech:9999/upload${path}`;
       },
       "dev": function (path) {
         return `http://localhost:9999/upload${path}`;
@@ -39,7 +39,7 @@ export class API {
     },
     "list/file": {
       "prod": function (path) {
-        return `http://server.caols.tech/metaApi/list/${path}`;
+        return `http://server.caols.tech:9999/metaApi/list/${path}`;
       },
       "dev": function (path) {
         return `http://localhost:9999/metaApi/list/${path}`;
@@ -47,19 +47,19 @@ export class API {
     },
     "unzip/file": {
       "prod": function (path, to) {
-        return `http://server.caols.tech/metaApi/unzip/${path}?to=${to}`;
+        return `http://server.caols.tech:9999/metaApi/unzip/${path}?to=${to}`;
       },
       "dev": function (path, to) {
         return `http://localhost:9999/metaApi/unzip/${path}?to=${to}`;
       }
     },
     "ctrls/list": {
-      "prod": "http://server.caols.tech/metaApi/controller/list",
+      "prod": "http://server.caols.tech:9999/metaApi/controller/list",
       "dev": "http://localhost:9999/metaApi/controller/list"
     },
     "ctrls/set": {
       "prod": function (className) {
-        return `http://server.caols.tech/metaApi/controller/set/${className}`;
+        return `http://server.caols.tech:9999/metaApi/controller/set/${className}`;
       },
       "dev": function (className) {
         return `http://localhost:9999/metaApi/controller/set/${className}`;
@@ -67,19 +67,19 @@ export class API {
     },
     "ctrls/set/dis": {
       "prod": function (id, disabled) {
-        return `http://server.caols.tech/metaApi/controller/set/disabled/${id}/${disabled ? "T" : "F"}`;
+        return `http://server.caols.tech:9999/metaApi/controller/set/disabled/${id}/${disabled ? "T" : "F"}`;
       },
       "dev": function (id, disabled) {
         return `http://localhost:9999/metaApi/controller/set/disabled/${id}/${disabled ? "T" : "F"}`;
       }
     },
     "service/list": {
-      "prod": "http://server.caols.tech/metaApi/service/list",
+      "prod": "http://server.caols.tech:9999/metaApi/service/list",
       "dev": "http://localhost:9999/metaApi/service/list"
     },
     "service/set": {
       "prod": function (intf, impl) {
-        return `http://server.caols.tech/metaApi/service/set/${intf}/${impl}`;
+        return `http://server.caols.tech:9999/metaApi/service/set/${intf}/${impl}`;
       },
       "dev": function (intf, impl) {
         return `http://localhost:9999/metaApi/service/set/${intf}/${impl}`;
@@ -87,7 +87,7 @@ export class API {
     },
     "service/set/disable": {
       "prod": function (id, disabled) {
-        return `http://server.caols.tech/metaApi/service/set/disable/${id}/${disabled}`;
+        return `http://server.caols.tech:9999/metaApi/service/set/disable/${id}/${disabled}`;
       },
       "dev": function (id, disabled) {
         return `http://localhost:9999/metaApi/service/set/disable/${id}/${disabled}`;
@@ -95,7 +95,7 @@ export class API {
     },
     "serve/auth/set": {
       "prod": function (className) {
-        return `http://server.caols.tech/metaApi/serve/auth/${className}`;
+        return `http://server.caols.tech:9999/metaApi/serve/auth/${className}`;
       },
       "dev": function (className) {
         return `http://localhost:9999/metaApi/serve/auth/${className}`;
