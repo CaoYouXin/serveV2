@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
 import {DaoUtil} from "caols-common-modules";
 import {FileService} from "../service/index";
+import {RestCode} from "../const/index";
 
 @Component({
   selector: 'upload-code',
@@ -21,7 +22,8 @@ export class UploadCodeComponent implements OnInit {
 
   files: Array<any> = [];
 
-  constructor(private service: FileService) {
+  constructor(private service: FileService,
+    private rest: RestCode) {
   }
 
   ngOnInit() {
@@ -43,10 +45,10 @@ export class UploadCodeComponent implements OnInit {
     const self = this;
     this.service.list(this.path)
       .subscribe(
-        ret => {
+        ret => this.rest.checkCode(ret, ret => {
           self.loading = false;
           self.files = ret;
-        },
+        }),
         err => {
           self.loading = false;
           DaoUtil.logError(err);

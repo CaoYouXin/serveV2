@@ -8,6 +8,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.protocol.HttpRequestHandler;
 import rest.JsonResponse;
+import rest.RestCode;
 import rest.RestHelper;
 
 import java.io.IOException;
@@ -26,11 +27,11 @@ public class ServeHandler implements HttpRequestHandler {
 
         try {
             if (!serveAuth.apply(request, context)) {
-                RestHelper.responseJSON(response, JsonResponse.fail(40002, "未授权的资源访问."));
+                RestHelper.responseJSON(response, JsonResponse.fail(RestCode.FORBIDDEN_RESOURCE, "未授权的资源访问."));
                 return;
             }
         } catch (Throwable e) {
-            RestHelper.responseJSON(response, JsonResponse.fail(40002, e.getMessage()));
+            RestHelper.responseJSON(response, JsonResponse.fail(RestCode.FORBIDDEN_RESOURCE, e.getMessage()));
             return;
         }
 

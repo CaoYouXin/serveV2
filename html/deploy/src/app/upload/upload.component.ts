@@ -4,6 +4,7 @@ import {UploadUtil} from "./upload.util";
 import {API} from "../const/api.const";
 import {FileService} from "../service/index";
 import {DaoUtil} from "caols-common-modules";
+import {RestCode} from "../const/index";
 
 @Component({
   selector: 'upload',
@@ -23,7 +24,8 @@ export class UploadComponent {
 
   constructor(private fb: FormBuilder,
               private service: FileService,
-              private util: UploadUtil) {
+              private util: UploadUtil,
+              private rest: RestCode) {
   }
 
   upload(): void {
@@ -106,10 +108,10 @@ export class UploadComponent {
     const self = this;
     this.service.unzip(filePath, "classpath/")
       .subscribe(
-        ret => {
+        ret => this.rest.checkCode(ret, ret => {
           self.loading = false;
           alert(ret);
-        },
+        }),
         err => {
           self.loading = false;
           DaoUtil.logError(err);

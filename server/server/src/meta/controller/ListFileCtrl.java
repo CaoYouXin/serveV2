@@ -13,6 +13,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.protocol.HttpContext;
 import rest.HelperController;
 import rest.JsonResponse;
+import rest.RestCode;
 import rest.RestHelper;
 
 import java.io.File;
@@ -55,7 +56,7 @@ public class ListFileCtrl extends HelperController {
         try {
             transformed = this.resourceService.transformFromPath(path);
         } catch (Throwable e) {
-            RestHelper.catching(e, response, 50003);
+            RestHelper.catching(e, response, RestCode.GENERAL_ERROR);
             return;
         }
 

@@ -3,6 +3,9 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AdminService} from "../service/admin.service";
 import {DaoUtil} from "caols-common-modules";
 import {Router} from "@angular/router";
+import {
+  RestCode
+} from "../const/index";
 
 @Component({
   selector: 'admin-setting',
@@ -18,7 +21,8 @@ export class AdminSettingComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private service: AdminService,
-              private router: Router) {
+              private router: Router,
+              private rest: RestCode) {
   }
 
   settingAdmin(): void {
@@ -30,13 +34,11 @@ export class AdminSettingComponent implements OnInit {
     const self = this;
     this.service.setting(this.settingForm.value)
       .subscribe(
-        ret => {
+        ret => this.rest.checkCode(ret, ret => {
           self.loading = false;
-          if (ret) {
-            localStorage.removeItem('currentUser');
-            this.router.navigate(['/login']);
-          }
-        },
+          localStorage.removeItem('currentUser');
+          this.router.navigate(['/login']);
+        }),
         err => {
           self.loading = false;
           DaoUtil.logError(err);

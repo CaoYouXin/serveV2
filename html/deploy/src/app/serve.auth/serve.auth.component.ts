@@ -1,6 +1,9 @@
 import {Component} from "@angular/core";
 import {ServeAuthService} from "../service/index";
 import {DaoUtil} from "caols-common-modules";
+import {
+  RestCode
+} from "../const/index";
 
 @Component({
   selector: 'serve-auth',
@@ -12,7 +15,8 @@ export class ServeAuthComponent {
   codeRoot: string = 'classpath/';
   loading: boolean = false;
 
-  constructor(private service: ServeAuthService) {
+  constructor(private service: ServeAuthService,
+    private rest: RestCode) {
   }
 
   set(filePath) {
@@ -29,12 +33,10 @@ export class ServeAuthComponent {
     const self = this;
     this.service.set(filePath.substr("classpath/".length).replace(/\//g, ".").replace(".class", ""))
       .subscribe(
-        ret => {
+        ret => this.rest.checkCode(ret, ret => {
           self.loading = false;
-          if (ret) {
-            alert(ret);
-          }
-        },
+          alert(ret);
+        }),
         err => {
           self.loading = false;
           DaoUtil.logError(err);
@@ -51,12 +53,10 @@ export class ServeAuthComponent {
     const self = this;
     this.service.set("")
       .subscribe(
-        ret => {
+        ret => this.rest.checkCode(ret, ret => {
           self.loading = false;
-          if (ret) {
-            alert(ret);
-          }
-        },
+          alert(ret);
+        }),
         err => {
           self.loading = false;
           DaoUtil.logError(err);

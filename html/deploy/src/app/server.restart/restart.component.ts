@@ -2,6 +2,9 @@ import {Component} from "@angular/core";
 import {Router} from "@angular/router";
 import {ServerService} from "../service/index";
 import {DaoUtil} from "caols-common-modules";
+import {
+  RestCode
+} from "../const/index";
 
 @Component({
   selector: 'restart',
@@ -14,17 +17,14 @@ export class RestartComponent {
   processGo: Promise<boolean> = Promise.resolve(false);
 
   constructor(private router: Router,
-              private service: ServerService) {
+              private service: ServerService,
+              private rest: RestCode) {
   }
 
   restartSys() {
     this.service.restart()
       .subscribe(
-        ret => {
-          if (!ret) {
-            return;
-          }
-
+        ret => this.rest.checkCode(ret, ret => {
           localStorage.removeItem("currentUser");
 
           this.process = ret;
@@ -43,7 +43,7 @@ export class RestartComponent {
               this.router.navigate(['/']);
             }
           }, 1000, this);
-        },
+        }),
         err => DaoUtil.logError(err)
       );
   }

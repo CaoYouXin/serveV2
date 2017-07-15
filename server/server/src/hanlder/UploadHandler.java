@@ -6,6 +6,7 @@ import org.apache.http.protocol.HttpRequestHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import rest.JsonResponse;
+import rest.RestCode;
 import rest.RestHelper;
 import util.afd.AFD;
 import util.afd.AFDEventHandler;
@@ -46,7 +47,7 @@ public class UploadHandler implements HttpRequestHandler {
 
         HttpEntity entity = RestHelper.getBody(httpRequest);
         if (null == entity) {
-            RestHelper.responseJSON(httpResponse, JsonResponse.fail(50000, "empty body for upload, ridiculous"));
+            RestHelper.responseJSON(httpResponse, JsonResponse.fail(RestCode.GENERAL_ERROR, "empty body for upload, ridiculous"));
             return;
         }
 
@@ -55,13 +56,13 @@ public class UploadHandler implements HttpRequestHandler {
         String type = contentType.getValue().substring(0, indexOf);
 
         if (!"multipart/form-data".equals(type)) {
-            RestHelper.responseJSON(httpResponse, JsonResponse.fail(50000, "wrong content type, ridiculous"));
+            RestHelper.responseJSON(httpResponse, JsonResponse.fail(RestCode.GENERAL_ERROR, "wrong content type, ridiculous"));
             return;
         }
 
         final String uploadDir = RestHelper.restUri(httpRequest, this.uploadUrlRoot);
         if (!uploadDir.endsWith(File.separator)) {
-            RestHelper.responseJSON(httpResponse, JsonResponse.fail(50000, "wrong upload dir"));
+            RestHelper.responseJSON(httpResponse, JsonResponse.fail(RestCode.GENERAL_ERROR, "wrong upload dir"));
             return;
         }
 

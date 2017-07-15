@@ -32,7 +32,7 @@ public class JsonResponse {
         }
 
         JsonResponse jsonResponse = new JsonResponse();
-        jsonResponse.setCode(20000);
+        jsonResponse.setCode(RestCode.VALID);
         jsonResponse.setBody(body);
         return jsonResponse;
     }

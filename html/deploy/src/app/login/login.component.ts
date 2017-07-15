@@ -3,6 +3,9 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {AdminService} from "../service/index";
 import {DaoUtil} from "caols-common-modules";
+import {
+  RestCode
+} from "../const/index";
 
 @Component({
   selector: 'login',
@@ -18,7 +21,8 @@ export class LoginComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private service: AdminService,
-              private router: Router) {
+              private router: Router,
+              private rest: RestCode) {
   }
 
   login(): void {
@@ -30,15 +34,12 @@ export class LoginComponent implements OnInit {
     const self = this;
     this.service.verify(this.loginForm.value)
       .subscribe(
-        ret => {
+        ret => this.rest.checkCode(ret, ret => {
           self.loading = false;
-          if (!ret) {
-            return;
-          }
 
           localStorage.setItem('currentUser', ret);
           self.router.navigate([this.service.getReturnUrl() || '/']);
-        },
+        }),
         err => {
           self.loading = false;
           DaoUtil.logError(err);

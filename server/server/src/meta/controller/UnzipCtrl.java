@@ -10,6 +10,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.protocol.HttpContext;
 import rest.HelperController;
 import rest.JsonResponse;
+import rest.RestCode;
 import rest.RestHelper;
 import util.BashUtil;
 
@@ -49,7 +50,7 @@ public class UnzipCtrl extends HelperController {
             transformedPath = this.resourceService.transformFromPath(path);
             transformedTo = this.resourceService.transformFromPath(to);
         } catch (Throwable e) {
-            RestHelper.catching(e, response, 50003);
+            RestHelper.catching(e, response, RestCode.GENERAL_ERROR);
             return;
         }
 

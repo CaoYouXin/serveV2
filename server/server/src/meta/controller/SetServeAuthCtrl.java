@@ -15,6 +15,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import rest.HelperController;
 import rest.JsonResponse;
+import rest.RestCode;
 import rest.RestHelper;
 import util.loader.CustomClassLoader;
 
@@ -62,7 +63,7 @@ public class SetServeAuthCtrl extends HelperController {
             serveAuth = classLoader.loadClass(className).newInstance();
         } catch (InstantiationException | IllegalAccessException | NullPointerException e) {
             logger.catching(e);
-            RestHelper.responseJSON(response, JsonResponse.fail(50006, "无法创建 ServeAuth 实例。"));
+            RestHelper.responseJSON(response, JsonResponse.fail(RestCode.GENERAL_ERROR, "无法创建 ServeAuth 实例。"));
             return;
         }
 
@@ -71,7 +72,7 @@ public class SetServeAuthCtrl extends HelperController {
             Configs.setConfigs(Configs.SERVE_AUTH, serveAuth);
             RestHelper.responseJSON(response, JsonResponse.success("操作成功"));
         } else {
-            RestHelper.responseJSON(response, JsonResponse.fail(50006, "并没有选择 ServeAuth 实例。"));
+            RestHelper.responseJSON(response, JsonResponse.fail(RestCode.GENERAL_ERROR, "并没有选择 ServeAuth 实例。"));
         }
     }
 

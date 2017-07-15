@@ -3,6 +3,7 @@ import {NgModule} from "@angular/core";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpModule} from "@angular/http";
 
+import {RestCode} from "./const/index";
 import {DaoUtil} from "caols-common-modules";
 import {AppComponent} from "./app.component";
 import {AppRoutingModule} from "./app.router";
@@ -59,6 +60,7 @@ import {
     AppRoutingModule
   ],
   providers: [
+    RestCode,
     DaoUtil,
     UploadUtil,
     AuthGuard,

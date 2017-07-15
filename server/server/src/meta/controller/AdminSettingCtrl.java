@@ -10,6 +10,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.protocol.HttpContext;
 import rest.HelperController;
 import rest.JsonResponse;
+import rest.RestCode;
 import rest.RestHelper;
 
 import java.io.IOException;
@@ -48,7 +49,7 @@ public class AdminSettingCtrl extends HelperController {
             );
             RestHelper.responseJSON(response, JsonResponse.success(suc));
         } catch (Throwable e) {
-            RestHelper.catching(e, response, 50001);
+            RestHelper.catching(e, response, RestCode.GENERAL_ERROR);
         }
     }
 }

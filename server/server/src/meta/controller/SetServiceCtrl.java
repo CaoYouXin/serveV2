@@ -11,6 +11,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.protocol.HttpContext;
 import rest.HelperController;
 import rest.JsonResponse;
+import rest.RestCode;
 import rest.RestHelper;
 
 import java.io.IOException;
@@ -49,7 +50,7 @@ public class SetServiceCtrl extends HelperController {
         try {
             service = this.serviceService.setService(intfClassName, implClassName);
         } catch (Throwable e) {
-            RestHelper.catching(e, response, 50005);
+            RestHelper.catching(e, response, RestCode.GENERAL_ERROR);
             return;
         }
 

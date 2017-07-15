@@ -15,10 +15,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.protocol.HttpContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import rest.Controller;
-import rest.HelperController;
-import rest.JsonResponse;
-import rest.RestHelper;
+import rest.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -75,7 +72,7 @@ public class DataSourceActiveCtrl extends HelperController implements Controller
         try {
             dataSourceConfig = this.dataSourceService.newDataSourceConfig(schema);
         } catch (Throwable e) {
-            RestHelper.catching(e, response, 50000);
+            RestHelper.catching(e, response, RestCode.GENERAL_ERROR);
             return;
         }
 

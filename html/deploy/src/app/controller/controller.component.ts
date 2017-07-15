@@ -1,6 +1,9 @@
 import {Component, OnInit} from "@angular/core";
 import {ControllerService} from "../service/index";
 import {DaoUtil} from "caols-common-modules";
+import {
+  RestCode
+} from "../const/index";
 
 @Component({
   selector: 'controller',
@@ -30,16 +33,17 @@ export class ControllerComponent implements OnInit {
 
   data: Array<any> = [];
 
-  constructor(private service: ControllerService) {
+  constructor(private service: ControllerService,
+    private rest: RestCode) {
   }
 
   ngOnInit() {
     const self = this;
     this.service.list()
       .subscribe(
-        ret => {
+        ret => this.rest.checkCode(ret, (ret) => {
           self.data = ret;
-        },
+        }),
         err => DaoUtil.logError(err)
       );
   }
@@ -55,7 +59,7 @@ export class ControllerComponent implements OnInit {
     let className = this.className.replace(/\//g, '.').replace(".class", "");
     this.service.set(className)
       .subscribe(
-        ret => {
+        ret => this.rest.checkCode(ret, (ret) => {
           self.loading = false;
           self.mask = false;
           if (!self.data.find(d => d.ControllerId === ret.ControllerId)) {
@@ -68,7 +72,7 @@ export class ControllerComponent implements OnInit {
               ...self.data.slice(index + 1)
             ];
           }
-        },
+        }),
         err => {
           self.loading = false;
           DaoUtil.logError(err);
@@ -89,7 +93,7 @@ export class ControllerComponent implements OnInit {
     this.loading = true;
     this.service.set(this.data[idx].ControllerClassName)
       .subscribe(
-        ret => {
+        ret => this.rest.checkCode(ret, (ret) => {
           self.loading = false;
           let index = self.data.findIndex(d => d.ControllerId === ret.ControllerId);
           self.data = [
@@ -97,7 +101,7 @@ export class ControllerComponent implements OnInit {
             ret,
             ...self.data.slice(index + 1)
           ];
-        },
+        }),
         err => {
           self.loading = false;
           DaoUtil.logError(err);
@@ -114,10 +118,10 @@ export class ControllerComponent implements OnInit {
     this.loading = true;
     this.service.setDisabled(this.data[idx].ControllerId, !this.data[idx].ControllerDisabled)
       .subscribe(
-        ret => {
+        ret => this.rest.checkCode(ret, ret => {
           self.loading = false;
           self.data[idx].ControllerDisabled = ret;
-        },
+        }),
         err => {
           self.loading = false;
           DaoUtil.logError(err);

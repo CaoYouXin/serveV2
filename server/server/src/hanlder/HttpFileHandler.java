@@ -49,8 +49,11 @@ public class HttpFileHandler implements HttpRequestHandler {
         if (!file.exists()) {
 
             if (!"".equals(this.fallback)) {
-                this.processFile(httpResponse, httpContext, new File(this.docRoot, this.fallback));
-                return;
+                File fallbackFile = new File(this.docRoot, this.fallback);
+                if (fallbackFile.exists()) {
+                    this.processFile(httpResponse, httpContext, fallbackFile);
+                    return;
+                }
             }
 
             httpResponse.setStatusCode(HttpStatus.SC_NOT_FOUND);

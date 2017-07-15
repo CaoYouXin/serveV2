@@ -12,6 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import rest.Controller;
 import rest.JsonResponse;
+import rest.RestCode;
 import rest.RestHelper;
 
 import java.io.IOException;
@@ -41,11 +42,11 @@ public class ApiHandler implements HttpRequestHandler {
 
                 try {
                     if (!AuthHelper.auth(controller.auth(), request, context)) {
-                        RestHelper.responseJSON(response, JsonResponse.fail(50002, "未授权的访问."));
+                        RestHelper.responseJSON(response, JsonResponse.fail(RestCode.UNAUTHED, "未授权的访问."));
                         return;
                     }
                 } catch (AuthRuntimeException e) {
-                    RestHelper.responseJSON(response, JsonResponse.fail(50002, e.getMessage()));
+                    RestHelper.responseJSON(response, JsonResponse.fail(RestCode.UNAUTHED, e.getMessage()));
                     return;
                 }
 

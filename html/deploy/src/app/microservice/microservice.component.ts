@@ -1,6 +1,9 @@
 import {Component} from "@angular/core";
 import {DaoUtil} from "caols-common-modules";
 import {ServiceService} from "../service/index";
+import {
+  RestCode
+} from "../const/index";
 
 @Component({
   selector: 'micro-service',
@@ -31,16 +34,17 @@ export class MicroServiceComponent {
 
   data: Array<any> = [];
 
-  constructor(private service: ServiceService) {
+  constructor(private service: ServiceService,
+    private rest: RestCode) {
   }
 
   ngOnInit() {
     const self = this;
     this.service.list()
       .subscribe(
-        ret => {
+        ret => this.rest.checkCode(ret, ret => {
           self.data = ret;
-        },
+        }),
         err => DaoUtil.logError(err)
       );
   }
@@ -57,7 +61,7 @@ export class MicroServiceComponent {
     let implClassName = this.implClassName.replace(/\//g, '.').replace(".class", "");
     this.service.set(intfClassName, implClassName)
       .subscribe(
-        ret => {
+        ret => this.rest.checkCode(ret, ret => {
           self.loading = false;
           self.mask = false;
           if (!self.data.find(d => d.ServiceId === ret.ServiceId)) {
@@ -70,7 +74,7 @@ export class MicroServiceComponent {
               ...self.data.slice(index + 1)
             ];
           }
-        },
+        }),
         err => {
           self.loading = false;
           DaoUtil.logError(err);
@@ -95,7 +99,7 @@ export class MicroServiceComponent {
     this.loading = true;
     this.service.set(this.data[idx].ServiceIntfClassName, this.data[idx].ServiceImplClassName)
       .subscribe(
-        ret => {
+        ret => this.rest.checkCode(ret, ret => {
           self.loading = false;
           let index = self.data.findIndex(d => d.ServiceId === ret.ServiceId);
           self.data = [
@@ -103,7 +107,7 @@ export class MicroServiceComponent {
             ret,
             ...self.data.slice(index + 1)
           ];
-        },
+        }),
         err => {
           self.loading = false;
           DaoUtil.logError(err);
@@ -120,10 +124,10 @@ export class MicroServiceComponent {
     this.loading = true;
     this.service.disable(this.data[idx].ServiceId, !this.data[idx].ServiceDisabled)
       .subscribe(
-        ret => {
+        ret => this.rest.checkCode(ret, ret => {
           self.loading = false;
           self.data[idx].ServiceDisabled = ret;
-        },
+        }),
         err => {
           self.loading = false;
           DaoUtil.logError(err);

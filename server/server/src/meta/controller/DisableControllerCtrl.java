@@ -10,6 +10,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.protocol.HttpContext;
 import rest.HelperController;
 import rest.JsonResponse;
+import rest.RestCode;
 import rest.RestHelper;
 
 import java.io.IOException;
@@ -45,7 +46,7 @@ public class DisableControllerCtrl extends HelperController {
         String disabledStr = params.get("disabled");
         Boolean disabled = "T".equals(disabledStr) ? true : ("F".equals(disabledStr) ? false : null);
         if (null == disabled) {
-            RestHelper.responseJSON(response, JsonResponse.fail(50001, "参数不正确"));
+            RestHelper.responseJSON(response, JsonResponse.fail(RestCode.GENERAL_ERROR, "参数不正确"));
             return;
         }
 
@@ -53,7 +54,7 @@ public class DisableControllerCtrl extends HelperController {
         try {
             trulyDisabled = this.controllerService.setControllerDisabled(id, disabled);
         } catch (Throwable e) {
-            RestHelper.catching(e, response, 50004);
+            RestHelper.catching(e, response, RestCode.GENERAL_ERROR);
             return;
         }
 

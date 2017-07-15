@@ -2,6 +2,9 @@ import {Component, OnInit} from "@angular/core";
 import {ActivatedRoute} from "@angular/router";
 import {DatabaseService} from "../service/index";
 import {DaoUtil} from "caols-common-modules";
+import {
+  RestCode
+} from "../const/index";
 
 @Component({
   selector: 'db-setting',
@@ -24,7 +27,8 @@ export class DBSettingComponent implements OnInit {
   };
 
   constructor(private route: ActivatedRoute,
-              private service: DatabaseService) {
+              private service: DatabaseService,
+              private rest: RestCode) {
   }
 
   ngOnInit() {
@@ -73,10 +77,9 @@ export class DBSettingComponent implements OnInit {
     this.loading = true;
     this.service.init(schema, header)
       .subscribe(
-        ret => {
+        ret => this.rest.checkCode(ret, ret => {
           self.loading = false;
-          if (ret) {
-            this.currentSchema = schema;
+          this.currentSchema = schema;
 
             if (!this.schemas.find(s => s === schema)) {
               this.schemas = [schema, ...this.schemas];
@@ -84,8 +87,7 @@ export class DBSettingComponent implements OnInit {
 
             localStorage.removeItem("currentUser");
             alert("初始化成功！");
-          }
-        },
+        }),
         err => {
           self.loading = false;
           DaoUtil.logError(err);

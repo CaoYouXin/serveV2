@@ -20,6 +20,8 @@ export class InitResolver implements Resolve<any> {
 
     return this.databaseService.status().toPromise().then(
       ret => {
+        ret = ret.body;
+
         if (ret.ActiveDatasource) {
           if (route.url.length == 2
             && 'setting' === route.url[0].path
