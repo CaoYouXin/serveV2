@@ -16,4 +16,6 @@ public interface IUserService extends Service {
 
     List<EIUser> listUsers() throws UserException;
 
+    Boolean disable(Long id, Boolean disabled) throws UserException;
+
 }

@@ -7,6 +7,9 @@ import javax.persistence.*;
 @Entity(name = "blog_user")
 public interface EIUser extends EntityBeanI {
 
+    byte MAN = 1;
+    byte WOMAN = 2;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -29,6 +32,11 @@ public interface EIUser extends EntityBeanI {
 
     void setUserNickName(String nickName);
 
+    @Column(name = "phone")
+    String getUserPhone();
+
+    void setUserPhone(String userPhone);
+
     @Column(name = "sex")
     Byte getUserSex();
 
@@ -48,4 +56,10 @@ public interface EIUser extends EntityBeanI {
     String getUserAvatar();
 
     void setUserAvatar(String avatar);
+
+    @Column(name = "disabled", nullable = false)
+    Boolean getUserDisabled();
+
+    void setUserDisabled(Boolean userDisabled);
+
 }

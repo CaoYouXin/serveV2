@@ -5,4 +5,6 @@ import orm.Repository;
 
 public interface IUserRepo extends Repository<EIUser, Long> {
 
+    EIUser findByUserName(String userName);
+
 }
