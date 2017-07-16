@@ -5,7 +5,7 @@ import java.lang.reflect.Method;
 
 public class ChangeOriginIH implements InvocationHandler {
 
-    private Object object;
+    protected Object object;
 
     public ChangeOriginIH(Object object) {
         this.object = object;

@@ -24,9 +24,14 @@ public class RestHelper {
     private static final Logger logger = LogManager.getLogger(RestHelper.class);
 
     public static void catching(Throwable e, HttpResponse response, int code) {
+        if (e instanceof RuntimeException) {
+            RestHelper.responseJSON(response, JsonResponse.fail(RestCode.GENERAL_ERROR, e.getMessage()));
+            return;
+        }
+
         e = e.getCause();
         if (!(e instanceof InvocationTargetException)) {
-            RestHelper.responseJSON(response, JsonResponse.fail(50000, "未知错误"));
+            RestHelper.responseJSON(response, JsonResponse.fail(RestCode.GENERAL_ERROR, "未知错误"));
             return;
         }
         RestHelper.responseJSON(response, JsonResponse.fail(code, e.getCause().getMessage()));
@@ -132,7 +137,7 @@ public class RestHelper {
     }
 
     public static void res40001(HttpRequest httpRequest, HttpResponse httpResponse) {
-        RestHelper.responseJSON(httpResponse, JsonResponse.fail(40001, RestHelper.getMethod(httpRequest) + " method not supported"));
+        RestHelper.responseJSON(httpResponse, JsonResponse.fail(RestCode.NOT_SUPPORTED_METHOD, RestHelper.getMethod(httpRequest) + " method not supported"));
     }
 
     public static boolean isGet(HttpRequest httpRequest, HttpResponse httpResponse) {

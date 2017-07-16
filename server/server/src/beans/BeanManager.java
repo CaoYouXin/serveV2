@@ -7,6 +7,7 @@ import orm.Repository;
 import orm.RepositoryManager;
 import rest.Controller;
 import rest.Service;
+import rest.ServiceIH;
 import util.loader.CustomClassLoader;
 
 import java.lang.reflect.Proxy;
@@ -63,9 +64,9 @@ public class BeanManager {
         }
 
         Object ret = Proxy.newProxyInstance(
-                Configs.getConfigs(Configs.CLASSLOADER, CustomClassLoader.class),
+                Configs.getConfigs(Configs.CLASSLOADER, ClassLoader.class, () -> getClass().getClassLoader()),
                 new Class[]{serviceClass},
-                new ChangeOriginIH(t)
+                new ServiceIH(t)
         );
         this.services.put(serviceClass, (Service) ret);
     }
@@ -78,9 +79,9 @@ public class BeanManager {
         }
 
         Object ret = Proxy.newProxyInstance(
-                Configs.getConfigs(Configs.CLASSLOADER, CustomClassLoader.class),
+                Configs.getConfigs(Configs.CLASSLOADER, ClassLoader.class, () -> getClass().getClassLoader()),
                 new Class[]{serviceClass},
-                new ChangeOriginIH(null)
+                new ServiceIH(null)
         );
         this.services.put(serviceClass, serviceClass.cast(ret));
         return serviceClass.cast(ret);
@@ -102,7 +103,7 @@ public class BeanManager {
         }
 
         Object ret = Proxy.newProxyInstance(
-                Configs.getConfigs(Configs.CLASSLOADER, CustomClassLoader.class),
+                Configs.getConfigs(Configs.CLASSLOADER, ClassLoader.class, () -> getClass().getClassLoader()),
                 new Class[]{Controller.class},
                 new ChangeOriginIH(t)
         );
@@ -118,7 +119,7 @@ public class BeanManager {
         }
 
         Object ret = Proxy.newProxyInstance(
-                Configs.getConfigs(Configs.CLASSLOADER, CustomClassLoader.class),
+                Configs.getConfigs(Configs.CLASSLOADER, ClassLoader.class, () -> getClass().getClassLoader()),
                 new Class[]{Controller.class},
                 new ChangeOriginIH(null)
         );
@@ -127,10 +128,7 @@ public class BeanManager {
     }
 
     public <T extends EntityBeanI> T createBean(Class<T> clazz) {
-        ClassLoader classLoader = Configs.getConfigs(Configs.CLASSLOADER, CustomClassLoader.class);
-        if (null == classLoader) {
-            classLoader = getClass().getClassLoader();
-        }
+        ClassLoader classLoader = Configs.getConfigs(Configs.CLASSLOADER, ClassLoader.class, () -> getClass().getClassLoader());
         return clazz.cast(Proxy.newProxyInstance(
                 classLoader,
                 new Class[]{clazz},
