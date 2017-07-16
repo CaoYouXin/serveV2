@@ -50,6 +50,7 @@ public class DDLHandler implements InvocationHandler {
         StringBuilder columnDefs = new StringBuilder();
         StringJoiner keyColumns = new StringJoiner("`,`", "(`", "`)");
         StringBuilder keyColumnDef = new StringBuilder();
+        StringBuilder uniqueColumnsDef = new StringBuilder();
 
         boolean idColumnExist = false;
         for (Method method : this.entityClass.getMethods()) {
@@ -63,6 +64,10 @@ public class DDLHandler implements InvocationHandler {
                     .append('`')
                     .append(' ')
                     .append(this.getTypeDef(method.getReturnType().getTypeName(), column));
+
+            if (column.unique()) {
+                uniqueColumnsDef.append(String.format(", UNIQUE INDEX `%s_UNIQUE` (`%s` ASC)", column.name(), column.name()));
+            }
 
             Id id = method.getDeclaredAnnotation(Id.class);
             if (null == id) {
@@ -94,10 +99,12 @@ public class DDLHandler implements InvocationHandler {
 
         if (idColumnExist) {
             keyColumnDef.append("PRIMARY KEY ").append(keyColumns.toString());
+        } else {
+            throw new RuntimeException("no primary key error.");
         }
 
-        return String.format("CREATE TABLE `%s` (%s%s);"
-                , tableName, columnDefs.toString(), keyColumnDef.toString());
+        return String.format("CREATE TABLE `%s` (%s%s%s);"
+                , tableName, columnDefs.toString(), keyColumnDef.toString(), uniqueColumnsDef.toString());
     }
 
     private boolean canAutoIncrement(Class<?> type) {
@@ -110,11 +117,34 @@ public class DDLHandler implements InvocationHandler {
     private String getTypeDef(String typeName, Column column) {
         switch (typeName) {
             case "java.lang.Boolean":
+            case "java.lang.Byte":
                 return "TINYINT";
+            case "java.lang.Short":
+                return "SMALLINT";
+            case "java.lang.Integer":
+                return "INT";
             case "java.lang.Long":
                 return "BIGINT";
             case "java.lang.String":
-                return "VARCHAR(" + column.length() + ")";
+                if (column.length() <= 1 << 8 - 1) {
+                    return "VARCHAR(" + column.length() + ")";
+                }
+
+                if (column.length() <= 1 << 16 - 1) {
+                    return "TEXT";
+                }
+
+                if (column.length() <= 1 << 24 - 1) {
+                    return "MEDIUMTEXT";
+                }
+
+                if (column.length() <= Integer.MAX_VALUE * 2L + 1) {
+                    return "LONGTEXT";
+                }
+
+                throw new RuntimeException("string too long.");
+            case "java.util.Date":
+                return "DATETIME";
             default:
                 throw new RuntimeException("not known type " + typeName);
         }
