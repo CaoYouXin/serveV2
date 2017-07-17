@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import config.Configs;
 import org.apache.http.*;
+import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.util.EntityUtils;
@@ -84,6 +85,12 @@ public class RestHelper {
                 ContentType.APPLICATION_JSON
         ));
         logger.info(retString);
+    }
+
+    public static void responseImage(HttpResponse response, byte[] bytes, String type) {
+        response.setStatusCode(HttpStatus.SC_OK);
+        response.setEntity(new ByteArrayEntity(bytes, ContentType.create(type)));
+        logger.info(String.format("generated a ", type));
     }
 
     public static void responseHTML(HttpResponse response, int code, String html) {
