@@ -1,8 +1,9 @@
 package blog.controller;
 
 import beans.BeanManager;
+import blog.data.EIUser;
 import blog.service.IUserService;
-import blog.service.exp.UserException;
+import blog.view.EILoginUser;
 import blog.view.EIRegisterUser;
 import org.apache.http.HttpException;
 import org.apache.http.HttpRequest;
@@ -15,40 +16,40 @@ import rest.RestHelper;
 
 import java.io.IOException;
 
-public class UserRegisterCtrl extends HelperController {
+public class UserLoginCtrl extends HelperController {
 
     private IUserService userService = BeanManager.getInstance().getService(IUserService.class);
 
     @Override
     public String name() {
-        return "blog user register";
+        return "blog user login";
     }
 
     @Override
     public String urlPattern() {
-        return "/blog/user/register";
+        return "/blog/user/login";
     }
 
     @Override
-    public void handle(HttpRequest request, HttpResponse response, HttpContext context) throws HttpException, IOException {
+    public void handle(HttpRequest request, HttpResponse response, HttpContext httpContext) throws HttpException, IOException {
         if (!RestHelper.isPost(request, response)) {
             return;
         }
 
-        EIRegisterUser eiRegisterUser = RestHelper.getBodyAsObject(request, EIRegisterUser.class);
-        if (null == eiRegisterUser) {
+        EIUser eiUser = RestHelper.getBodyAsObject(request, EIUser.class);
+        if (null == eiUser) {
             RestHelper.responseJSON(response, JsonResponse.fail(RestCode.GENERAL_ERROR, "参数不正确."));
             return;
         }
 
-        Boolean register = null;
+        EILoginUser eiLoginUser = null;
         try {
-            register = this.userService.register(eiRegisterUser);
+            eiLoginUser = this.userService.login(eiUser);
         } catch (Throwable e) {
             RestHelper.catching(e, response, RestCode.GENERAL_ERROR);
             return;
         }
 
-        RestHelper.responseJSON(response, JsonResponse.success(register));
+        RestHelper.responseJSON(response, JsonResponse.success(eiLoginUser));
     }
 }
