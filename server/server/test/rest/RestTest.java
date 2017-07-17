@@ -7,7 +7,7 @@ class RestTest {
 
     @Test
     void serviceTest() {
-        BeanManager.getInstance().setService(Service1.class, Service1Impl.class);
+//        BeanManager.getInstance().setService(Service1.class, Service1Impl.class);
         Service1 service1 = BeanManager.getInstance().getService(Service1.class);
         try {
             System.out.println(service1.getA());
