@@ -12,6 +12,7 @@ import rest.HelperController;
 import rest.JsonResponse;
 import rest.RestCode;
 import rest.RestHelper;
+import util.BoolUtil;
 
 import java.io.IOException;
 import java.util.Map;
@@ -44,7 +45,7 @@ public class DisableServiceCtrl extends HelperController {
         Map<String, String> params = this.getUriPatternMatcher().getParams(request);
         Long id = Long.parseLong(params.get("id"));
         String disabledStr = params.get("disabled");
-        Boolean disabled = "T".equals(disabledStr) ? true : ("F".equals(disabledStr) ? false : null);
+        Boolean disabled = BoolUtil.parseTF(disabledStr);
         if (null == disabled) {
             RestHelper.responseJSON(response, JsonResponse.fail(RestCode.GENERAL_ERROR, "参数不正确"));
             return;
