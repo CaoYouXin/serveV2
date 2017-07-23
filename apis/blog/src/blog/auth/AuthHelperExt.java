@@ -15,7 +15,7 @@ public class AuthHelperExt extends AuthHelper {
     public static void addExtAuth() {
         Map<Integer, BiFunction<HttpRequest, HttpContext, Boolean>> authMap = Configs.getConfigs(Configs.AUTH_MAP, Map.class);
 
-
+        authMap.put(BLOG_LOGIN, new BlogLoginAuth());
     }
 
 }
