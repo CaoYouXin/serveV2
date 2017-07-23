@@ -3,9 +3,12 @@ package blog.auth;
 import auth.AuthRuntimeException;
 import auth.ServeAuth;
 import beans.BeanManager;
+import blog.data.EIResourceLevel;
 import blog.data.EIResourceLevelMapping;
 import blog.data.EIUserToken;
 import blog.repository.IResourceLevelMappingRepo;
+import blog.repository.IResourceLevelRepo;
+import blog.repository.IUserFavourRepo;
 import blog.repository.IUserTokenRepo;
 import config.Configs;
 import org.apache.http.Header;
@@ -20,8 +23,10 @@ public class ResourceLevelServeAuth implements ServeAuth {
 
     public static final String RESOURCE_LEVEL_SERVE_AUTH_CONFIG_KEY = "RESOURCE_LEVEL_SERVE_AUTH_CONFIG_KEY";
 
+    private IResourceLevelRepo resourceLevelRepo = BeanManager.getInstance().getRepository(IResourceLevelRepo.class);
     private IResourceLevelMappingRepo resourceLevelMappingRepo = BeanManager.getInstance().getRepository(IResourceLevelMappingRepo.class);
     private IUserTokenRepo userTokenRepo = BeanManager.getInstance().getRepository(IUserTokenRepo.class);
+    private IUserFavourRepo userFavourRepo = BeanManager.getInstance().getRepository(IUserFavourRepo.class);
 
     private List<EIResourceLevelMapping> eiResourceLevelMappingList;
 
@@ -42,7 +47,14 @@ public class ResourceLevelServeAuth implements ServeAuth {
 
         Long userId = this.getUserId(httpRequest);
 
-        return null;
+        List<EIResourceLevel> eiResourceLevels = this.userFavourRepo.queryByUserId(userId);
+        for (EIResourceLevel eiResourceLevel : eiResourceLevels) {
+            if (eiResourceLevel.getResourceLevelId().equals(matchedMapping.getResourceLevelId())) {
+                return true;
+            }
+        }
+
+        throw new AuthRuntimeException(this.resourceLevelRepo.find(matchedMapping.getResourceLevelId()).getResourceLevelExpMsg());
     }
 
     private Long getUserId(HttpRequest httpRequest) {

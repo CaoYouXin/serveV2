@@ -183,7 +183,7 @@ public class QueryHandler implements InvocationHandler {
     private String parseAlias(String clause, QueryRet queryRet) {
         String regex = String.format("(?<alias>%s)\\.(?<field>\\S+?)(?<after>>|<|\\s|\\)|=)", queryRet.getAllAlias());
         Pattern p = Pattern.compile(regex);
-        Matcher m = p.matcher(clause);
+        Matcher m = p.matcher(clause + " ");
         StringBuffer sb = new StringBuffer();
         while (m.find()) {
             String alias = m.group("alias");
@@ -229,10 +229,16 @@ public class QueryHandler implements InvocationHandler {
                 String[] split = column.trim().split("\\s+");
                 String[] columnDef = split[0].split("\\.");
 
-                retColumns.add(split[1]);
-
                 Class<?> type = queryRet.getAlias2type().get(columnDef[0]);
-                stringJoiner.add(String.format("%s.`%s` as `%s`", columnDef[0], this.getColumnDef(type, columnDef[1]), split[1]));
+                if (split.length == 2) {
+                    retColumns.add(split[1]);
+
+                    stringJoiner.add(String.format("%s.`%s` as `%s`", columnDef[0], this.getColumnDef(type, columnDef[1]), split[1]));
+                } else {
+                    retColumns.add(columnDef[1]);
+
+                    stringJoiner.add(String.format("%s.`%s` as `%s`", columnDef[0], this.getColumnDef(type, columnDef[1]), columnDef[1]));
+                }
             }
         }
 

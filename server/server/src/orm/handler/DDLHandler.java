@@ -66,7 +66,7 @@ public class DDLHandler implements InvocationHandler {
                     .append(this.getTypeDef(method.getReturnType().getTypeName(), column));
 
             if (column.unique()) {
-                uniqueColumnsDef.append(String.format(", UNIQUE INDEX `%s_UNIQUE` (`%s` ASC)", column.name(), column.name()));
+                uniqueColumnsDef.append(this.getIndexDef(method.getReturnType().getTypeName(), column));
             }
 
             Id id = method.getDeclaredAnnotation(Id.class);
@@ -107,6 +107,17 @@ public class DDLHandler implements InvocationHandler {
                 , tableName, columnDefs.toString(), keyColumnDef.toString(), uniqueColumnsDef.toString());
     }
 
+    private String getIndexDef(String typeName, Column column) {
+        switch (typeName) {
+            case "java.lang.String":
+                if (column.length() > (1 << 8) - 1) {
+                    return String.format(", UNIQUE INDEX `%s_UNIQUE` (`%s`(255) ASC)", column.name(), column.name());
+                }
+            default:
+                return String.format(", UNIQUE INDEX `%s_UNIQUE` (`%s` ASC)", column.name(), column.name());
+        }
+    }
+
     private boolean canAutoIncrement(Class<?> type) {
         return type.equals(Long.class)
                 || type.equals(Integer.class)
@@ -126,15 +137,15 @@ public class DDLHandler implements InvocationHandler {
             case "java.lang.Long":
                 return "BIGINT";
             case "java.lang.String":
-                if (column.length() <= 1 << 8 - 1) {
+                if (column.length() <= (1 << 8) - 1) {
                     return "VARCHAR(" + column.length() + ")";
                 }
 
-                if (column.length() <= 1 << 16 - 1) {
+                if (column.length() <= (1 << 16) - 1) {
                     return "TEXT";
                 }
 
-                if (column.length() <= 1 << 24 - 1) {
+                if (column.length() <= (1 << 24) - 1) {
                     return "MEDIUMTEXT";
                 }
 

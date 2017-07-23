@@ -42,6 +42,7 @@ public class BlogLoginAuth implements BiFunction<HttpRequest, HttpContext, Boole
             throw new AuthRuntimeException("Token过期，请重新登录");
         }
 
+        httpContext.setAttribute("infinitely-serve-user_id", eiUserToken.getUserId());
         return true;
     }
 }
