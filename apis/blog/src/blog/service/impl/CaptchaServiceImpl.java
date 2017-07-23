@@ -49,7 +49,7 @@ public class CaptchaServiceImpl implements ICaptchaService {
             throw new CaptchaException("无法保存验证码.");
         }
 
-        return this.generateImage(code, width, height, 10);
+        return this.generateImage(code, width, height, RANDOM.nextInt(12));
     }
 
     private byte[] generateImage(String str, int width, int height, int line) {
