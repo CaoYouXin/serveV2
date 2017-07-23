@@ -1,6 +1,6 @@
 package rest;
 
-public abstract class HelperController implements Controller {
+public abstract class WithMatcher implements Controller {
 
     protected IUriPatternMatcher uriPatternMatcher;
 

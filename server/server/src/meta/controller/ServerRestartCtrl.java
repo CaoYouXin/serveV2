@@ -6,14 +6,14 @@ import org.apache.http.HttpException;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.protocol.HttpContext;
-import rest.HelperController;
+import rest.WithMatcher;
 import rest.JsonResponse;
 import rest.RestHelper;
 import util.BashUtil;
 
 import java.io.IOException;
 
-public class ServerRestartCtrl extends HelperController {
+public class ServerRestartCtrl extends WithMatcher {
 
     @Override
     public int auth() {

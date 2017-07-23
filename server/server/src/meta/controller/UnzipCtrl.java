@@ -8,7 +8,7 @@ import org.apache.http.HttpException;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.protocol.HttpContext;
-import rest.HelperController;
+import rest.WithMatcher;
 import rest.JsonResponse;
 import rest.RestCode;
 import rest.RestHelper;
@@ -17,7 +17,7 @@ import util.BashUtil;
 import java.io.IOException;
 import java.util.Map;
 
-public class UnzipCtrl extends HelperController {
+public class UnzipCtrl extends WithMatcher {
 
     static {
         BeanManager.getInstance().setService(IResourceService.class, ResourceServiceImpl.class);

@@ -13,7 +13,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.protocol.HttpContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import rest.HelperController;
+import rest.WithMatcher;
 import rest.JsonResponse;
 import rest.RestCode;
 import rest.RestHelper;
@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Objects;
 
-public class SetServeAuthCtrl extends HelperController {
+public class SetServeAuthCtrl extends WithMatcher {
 
     private static final Logger logger = LogManager.getLogger(SetServeAuthCtrl.class);
 

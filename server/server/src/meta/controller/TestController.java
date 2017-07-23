@@ -5,7 +5,7 @@ import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.protocol.HttpContext;
 import rest.Controller;
-import rest.HelperController;
+import rest.WithMatcher;
 import rest.JsonResponse;
 import rest.RestHelper;
 
@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TestController extends HelperController implements Controller {
+public class TestController extends WithMatcher implements Controller {
 
     private Class<?> lastClass = null;
 

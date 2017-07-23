@@ -8,14 +8,14 @@ import org.apache.http.HttpException;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.protocol.HttpContext;
-import rest.HelperController;
+import rest.WithMatcher;
 import rest.JsonResponse;
 import rest.RestCode;
 import rest.RestHelper;
 
 import java.io.IOException;
 
-public class AdminVerifyCtrl extends HelperController {
+public class AdminVerifyCtrl extends WithMatcher {
 
     static {
         BeanManager.getInstance().setService(IAdminService.class, AdminServiceImpl.class);

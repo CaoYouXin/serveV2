@@ -8,14 +8,14 @@ import org.apache.http.HttpException;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.protocol.HttpContext;
-import rest.HelperController;
 import rest.JsonResponse;
 import rest.RestCode;
 import rest.RestHelper;
+import rest.WithMatcher;
 
 import java.io.IOException;
 
-public class UserLoginCtrl extends HelperController {
+public class UserLoginCtrl extends WithMatcher {
 
     private IUserService userService = BeanManager.getInstance().getService(IUserService.class);
 

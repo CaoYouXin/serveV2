@@ -21,7 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
-public class DataSourceActiveCtrl extends HelperController implements Controller {
+public class DataSourceActiveCtrl extends WithMatcher implements Controller {
 
     private static final Logger logger = LogManager.getLogger(DataSourceActiveCtrl.class);
 

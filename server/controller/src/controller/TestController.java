@@ -7,7 +7,7 @@ import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.protocol.HttpContext;
 import rest.Controller;
-import rest.HelperController;
+import rest.WithMatcher;
 import rest.JsonResponse;
 import rest.RestHelper;
 import service.ITestService;
@@ -15,7 +15,7 @@ import util.loader.CustomClassLoader;
 
 import java.io.IOException;
 
-public class TestController extends HelperController implements Controller {
+public class TestController extends WithMatcher implements Controller {
 
     static {
 

@@ -7,16 +7,16 @@ import org.apache.http.HttpException;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.protocol.HttpContext;
-import rest.HelperController;
 import rest.JsonResponse;
 import rest.RestCode;
 import rest.RestHelper;
+import rest.WithMatcher;
 import util.BoolUtil;
 
 import java.io.IOException;
 import java.util.Map;
 
-public class UserDisabledCtrl extends HelperController {
+public class UserDisabledCtrl extends WithMatcher {
 
     private IUserService userService = BeanManager.getInstance().getService(IUserService.class);
 

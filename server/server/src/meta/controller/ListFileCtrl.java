@@ -11,7 +11,7 @@ import org.apache.http.HttpException;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.protocol.HttpContext;
-import rest.HelperController;
+import rest.WithMatcher;
 import rest.JsonResponse;
 import rest.RestCode;
 import rest.RestHelper;
@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-public class ListFileCtrl extends HelperController {
+public class ListFileCtrl extends WithMatcher {
 
     static {
         BeanManager.getInstance().setService(IListFileService.class, ListFileServiceImpl.class);

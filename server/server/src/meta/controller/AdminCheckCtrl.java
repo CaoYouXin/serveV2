@@ -8,13 +8,13 @@ import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.protocol.HttpContext;
 import rest.Controller;
-import rest.HelperController;
+import rest.WithMatcher;
 import rest.JsonResponse;
 import rest.RestHelper;
 
 import java.io.IOException;
 
-public class AdminCheckCtrl extends HelperController implements Controller {
+public class AdminCheckCtrl extends WithMatcher implements Controller {
 
     static {
         BeanManager.getInstance().setService(IAdminService.class, AdminServiceImpl.class);

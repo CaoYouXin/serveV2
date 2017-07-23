@@ -12,7 +12,7 @@ import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.protocol.HttpContext;
 import rest.Controller;
-import rest.HelperController;
+import rest.WithMatcher;
 import rest.JsonResponse;
 import rest.RestHelper;
 import util.FileUtil;
@@ -20,7 +20,7 @@ import util.FileUtil;
 import java.io.File;
 import java.io.IOException;
 
-public class DatabaseStatusCtrl extends HelperController implements Controller {
+public class DatabaseStatusCtrl extends WithMatcher implements Controller {
 
     static {
         BeanManager.getInstance().setService(IDatabaseStatusService.class, DatabaseStatusServiceImpl.class);
