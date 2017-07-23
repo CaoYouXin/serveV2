@@ -2,10 +2,8 @@ package orm;
 
 import beans.BeanManager;
 import blog.data.EIResourceLevel;
-import blog.repository.IResourceLevelRepo;
-import blog.repository.IUserFavourMappingRepo;
-import blog.repository.IUserFavourRepo;
-import blog.repository.IUserRepo;
+import blog.repository.*;
+import blog.view.EIResourceLevelMappingDetail;
 import blog.view.EIUserFavourDetail;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -63,6 +61,20 @@ class FavourMappingTest {
         List<EIUserFavourDetail> eiUserFavourDetails = userFavourRepo.queryAll();
         eiUserFavourDetails.forEach(eiUserFavourDetail -> {
             System.out.println(eiUserFavourDetail.toJSONString());
+        });
+    }
+
+    @Test
+    void test4() {
+        IResourceLevelRepo resourceLevelRepo = BeanManager.getInstance().getRepository(IResourceLevelRepo.class);
+        IResourceLevelMappingRepo resourceLevelMappingRepo = BeanManager.getInstance().getRepository(IResourceLevelMappingRepo.class);
+
+        resourceLevelRepo.createTableIfNotExist();
+        resourceLevelMappingRepo.createTableIfNotExist();
+
+        List<EIResourceLevelMappingDetail> eiResourceLevelMappingDetails = resourceLevelMappingRepo.queryAll();
+        eiResourceLevelMappingDetails.forEach(eiResourceLevelMappingDetail -> {
+            System.out.println(eiResourceLevelMappingDetail.toJSONString());
         });
     }
 

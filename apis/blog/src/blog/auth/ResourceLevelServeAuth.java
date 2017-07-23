@@ -4,12 +4,12 @@ import auth.AuthRuntimeException;
 import auth.ServeAuth;
 import beans.BeanManager;
 import blog.data.EIResourceLevel;
-import blog.data.EIResourceLevelMapping;
 import blog.data.EIUserToken;
 import blog.repository.IResourceLevelMappingRepo;
 import blog.repository.IResourceLevelRepo;
 import blog.repository.IUserFavourRepo;
 import blog.repository.IUserTokenRepo;
+import blog.view.EIResourceLevelMappingDetail;
 import config.Configs;
 import org.apache.http.Header;
 import org.apache.http.HttpRequest;
@@ -28,7 +28,7 @@ public class ResourceLevelServeAuth implements ServeAuth {
     private IUserTokenRepo userTokenRepo = BeanManager.getInstance().getRepository(IUserTokenRepo.class);
     private IUserFavourRepo userFavourRepo = BeanManager.getInstance().getRepository(IUserFavourRepo.class);
 
-    private List<EIResourceLevelMapping> eiResourceLevelMappingList;
+    private List<EIResourceLevelMappingDetail> eiResourceLevelMappingDetailList;
 
     @Override
     public Boolean apply(HttpRequest httpRequest, HttpContext httpContext) {
@@ -40,7 +40,7 @@ public class ResourceLevelServeAuth implements ServeAuth {
 
         this.checkTableExistence();
 
-        EIResourceLevelMapping matchedMapping = this.getMatchedMapping(httpRequest);
+        EIResourceLevelMappingDetail matchedMapping = this.getMatchedMapping(httpRequest);
         if (null == matchedMapping) {
             return true;
         }
@@ -54,7 +54,7 @@ public class ResourceLevelServeAuth implements ServeAuth {
             }
         }
 
-        throw new AuthRuntimeException(this.resourceLevelRepo.find(matchedMapping.getResourceLevelId()).getResourceLevelExpMsg());
+        throw new AuthRuntimeException(matchedMapping.getResourceLevelExpMsg());
     }
 
     private Long getUserId(HttpRequest httpRequest) {
@@ -75,19 +75,19 @@ public class ResourceLevelServeAuth implements ServeAuth {
         return eiUserToken.getUserId();
     }
 
-    private EIResourceLevelMapping getMatchedMapping(HttpRequest httpRequest) {
-        if (null == this.eiResourceLevelMappingList || !Configs.getConfigs(RESOURCE_LEVEL_SERVE_AUTH_CONFIG_KEY, Boolean.class)) {
-            this.eiResourceLevelMappingList = this.resourceLevelMappingRepo.findAllByResourceLevelMappingDisabled(false);
+    private EIResourceLevelMappingDetail getMatchedMapping(HttpRequest httpRequest) {
+        if (null == this.eiResourceLevelMappingDetailList || !Configs.getConfigs(RESOURCE_LEVEL_SERVE_AUTH_CONFIG_KEY, Boolean.class)) {
+            this.eiResourceLevelMappingDetailList = this.resourceLevelMappingRepo.queryAll();
             Configs.setConfigs(RESOURCE_LEVEL_SERVE_AUTH_CONFIG_KEY, true);
         }
 
         int matchLength = -1;
-        EIResourceLevelMapping match = null;
+        EIResourceLevelMappingDetail match = null;
         String decodedUrl = RestHelper.getDecodedUrl(httpRequest);
-        for (EIResourceLevelMapping eiResourceLevelMapping : this.eiResourceLevelMappingList) {
-            if (eiResourceLevelMapping.getResourceUrlPrefix().length() > matchLength
-                    && decodedUrl.startsWith(eiResourceLevelMapping.getResourceUrlPrefix())) {
-                match = eiResourceLevelMapping;
+        for (EIResourceLevelMappingDetail eiResourceLevelMappingDetail : this.eiResourceLevelMappingDetailList) {
+            if (eiResourceLevelMappingDetail.getResourceUrlPrefix().length() > matchLength
+                    && decodedUrl.startsWith(eiResourceLevelMappingDetail.getResourceUrlPrefix())) {
+                match = eiResourceLevelMappingDetail;
             }
         }
 
@@ -95,6 +95,14 @@ public class ResourceLevelServeAuth implements ServeAuth {
     }
 
     private void checkTableExistence() {
+        if (!this.resourceLevelRepo.createTableIfNotExist()) {
+            throw new AuthRuntimeException("resource level table can not be created");
+        }
+
+        if (!this.userFavourRepo.createTableIfNotExist()) {
+            throw new AuthRuntimeException("user favour mapping table can not be created");
+        }
+
         if (!this.resourceLevelMappingRepo.createTableIfNotExist()) {
             throw new AuthRuntimeException("resource level mapping table can not be created");
         }
