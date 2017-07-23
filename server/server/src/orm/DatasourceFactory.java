@@ -70,4 +70,35 @@ public class DatasourceFactory {
             logger.catching(e);
         }
     }
+
+    public static void begin(int level) {
+        Connection connection = getConnection();
+        try {
+            connection.setTransactionIsolation(level);
+        } catch (SQLException e) {
+            logger.catching(e);
+        }
+    }
+
+    public static void commit() {
+        Connection connection = getConnection();
+
+        try {
+            connection.commit();
+        } catch (SQLException e1) {
+            logger.catching(e1);
+            try {
+                connection.rollback();
+            } catch (SQLException e2) {
+                logger.catching(e2);
+            }
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e3) {
+                logger.catching(e3);
+            }
+        }
+    }
+
 }
