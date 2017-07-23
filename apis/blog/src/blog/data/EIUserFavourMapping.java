@@ -12,12 +12,12 @@ public interface EIUserFavourMapping {
 
     void setUserFavourMappingId(Long userFavourMappingId);
 
-    @Column(name = "level_id")
+    @Column(name = "level_id", nullable = false)
     Long getResourceLevelId();
 
     void setResourceLevelId(Long resourceLevelId);
 
-    @Column(name = "threshold")
+    @Column(name = "threshold", nullable = false)
     Integer getUserFavourThreshold();
 
     void setUserFavourThreshold(Integer userFavourThreshold);

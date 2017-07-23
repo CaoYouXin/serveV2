@@ -14,12 +14,12 @@ public interface EIUserFavour extends EntityBeanI {
 
     void setUserFavourId(Long userFavourId);
 
-    @Column(name = "user_id")
+    @Column(name = "user_id", nullable = false)
     Long getUserId();
 
     void setUserId(Long userId);
 
-    @Column(name = "favour_value")
+    @Column(name = "favour_value", nullable = false)
     Integer getUserFavourValue();
 
     void setUserFavourValue(Integer userFavourValue);

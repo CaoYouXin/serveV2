@@ -14,12 +14,12 @@ public interface EIResourceLevel extends EntityBeanI {
 
     void setResourceLevelId(Long resourceLevelId);
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     String getResourceLevelName();
 
     void setResourceLevelName(String resourceName);
 
-    @Column(name = "expMsg")
+    @Column(name = "expMsg", nullable = false)
     String getResourceLevelExpMsg();
 
     void setResourceLevelExpMsg(String resourceLevelExpMsg);

@@ -12,17 +12,17 @@ public interface EIResourceLevelMapping {
 
     void setResourceLevelMappingId(Long resourceLevelMappingId);
 
-    @Column(name = "level_id")
+    @Column(name = "level_id", nullable = false)
     Long getResourceLevelId();
 
     void setResourceLevelId(Long resourceLevelId);
 
-    @Column(name = "url_prefix", length = 1024, unique = true)
+    @Column(name = "url_prefix", length = 1024, unique = true, nullable = false)
     String getResourceUrlPrefix();
 
     void setResourceUrlPrefix(String resourceUrlPrefix);
 
-    @Column(name = "disabled")
+    @Column(name = "disabled", nullable = false)
     Boolean getResourceLevelMappingDisabled();
 
     void setResourceLevelMappingDisabled(Boolean resourceLevelMappingDisabled);
