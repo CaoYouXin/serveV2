@@ -27,6 +27,10 @@ public class AdminAuth implements BiFunction<HttpRequest, HttpContext, Boolean> 
             throw new AuthRuntimeException("请求头中未包含【infinitely-serve-token】.");
         }
 
+        if (!this.configRepo.createTableIfNotExist()) {
+            throw new AuthRuntimeException("config table can not be created.");
+        }
+
         EIConfig config = this.configRepo.findByConfigKey("admin.token");
         if (null == config) {
             throw new AuthRuntimeException("奇怪：管理员未登录.");

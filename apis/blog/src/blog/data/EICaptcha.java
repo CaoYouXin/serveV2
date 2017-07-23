@@ -20,7 +20,7 @@ public interface EICaptcha extends EntityBeanI {
 
     void setCaptchaCode(String captchaCode);
 
-    @Column(name = "token", nullable = false)
+    @Column(name = "token", nullable = false, unique = true)
     String getCaptchaToken();
 
     void setCaptchaToken(String captchaToken);

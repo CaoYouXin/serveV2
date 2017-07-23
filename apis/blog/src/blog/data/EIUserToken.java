@@ -20,7 +20,7 @@ public interface EIUserToken extends EntityBeanI {
 
     void setUserId(Long userId);
 
-    @Column(name = "token")
+    @Column(name = "token", unique = true)
     String getUserToken();
 
     void setUserToken(String token);

@@ -5,4 +5,6 @@ import orm.Repository;
 
 public interface IUserTokenRepo extends Repository<EIUserToken, Long> {
 
+    EIUserToken findByUserToken(String userToken);
+
 }
