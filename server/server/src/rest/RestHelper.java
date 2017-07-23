@@ -5,6 +5,8 @@ import beans.EntityBeanI;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import config.Configs;
+import meta.data.EIInterceptor;
+import meta.repository.IInterceptorRepo;
 import org.apache.http.*;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.entity.ContentType;
@@ -12,17 +14,70 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.util.EntityUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import util.loader.CustomClassLoader;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URLDecoder;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 
 public class RestHelper {
 
     private static final Logger logger = LogManager.getLogger(RestHelper.class);
+
+    private static IInterceptorRepo interceptorRepo = BeanManager.getInstance().getRepository(IInterceptorRepo.class);
+
+    public static List<Interceptor> loadInterceptors() {
+        List<Interceptor> interceptorList = new ArrayList<>();
+
+        if (!interceptorRepo.createTableIfNotExist()) {
+            return interceptorList;
+        }
+
+        CustomClassLoader classLoader = Configs.getConfigs(Configs.CLASSLOADER, CustomClassLoader.class);
+
+        List<EIInterceptor> allByInterceptorNotDisabled = interceptorRepo.findAllByInterceptorDisabled(false);
+        try {
+            for (EIInterceptor eiInterceptor : allByInterceptorNotDisabled) {
+                Interceptor interceptor = (Interceptor) classLoader.loadClass(eiInterceptor.getInterceptorClassName()).newInstance();
+                UriPatternMatcher uriPatternMatcher = new UriPatternMatcher("");
+                uriPatternMatcher.setController(interceptor);
+                interceptor.setUriPatternMatcher(uriPatternMatcher);
+                interceptorList.add(interceptor);
+            }
+        } catch (InstantiationException | IllegalAccessException e) {
+            logger.catching(e);
+        }
+
+        return interceptorList;
+    }
+
+    public static List<Interceptor> matchedPreInterceptors(List<Interceptor> interceptors, HttpRequest request) {
+        return matchedInterceptors(interceptors, request, Boolean.TRUE);
+    }
+
+    public static List<Interceptor> matchedPostInterceptors(List<Interceptor> interceptors, HttpRequest request) {
+        return matchedInterceptors(interceptors, request, Boolean.FALSE);
+    }
+
+    private static List<Interceptor> matchedInterceptors(List<Interceptor> interceptors, HttpRequest request, Boolean isPre) {
+        List<Interceptor> matched = new ArrayList<>();
+        for (Interceptor interceptor : interceptors) {
+            if (isPre.equals(interceptor.isPost())) {
+                continue;
+            }
+
+            if (interceptor.getUriPatternMatcher().match(request, null)) {
+                matched.add(interceptor);
+            }
+        }
+
+        return matched;
+    }
 
     public static void catching(Throwable e, HttpResponse response, int code) {
         if (e instanceof RuntimeException) {
