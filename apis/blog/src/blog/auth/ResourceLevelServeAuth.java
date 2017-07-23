@@ -47,7 +47,7 @@ public class ResourceLevelServeAuth implements ServeAuth {
 
         Long userId = this.getUserId(httpRequest);
 
-        List<EIResourceLevel> eiResourceLevels = this.userFavourRepo.queryByUserId(userId);
+        List<EIResourceLevel> eiResourceLevels = this.resourceLevelRepo.queryByUserId(userId);
         for (EIResourceLevel eiResourceLevel : eiResourceLevels) {
             if (eiResourceLevel.getResourceLevelId().equals(matchedMapping.getResourceLevelId())) {
                 return true;

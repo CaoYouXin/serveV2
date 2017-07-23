@@ -44,7 +44,7 @@ class FavourMappingTest {
         resourceLevelRepo.createTableIfNotExist();
         userFavourMappingRepo.createTableIfNotExist();
 
-        List<EIResourceLevel> eiResourceLevels = userFavourRepo.queryByUserId(1L);
+        List<EIResourceLevel> eiResourceLevels = resourceLevelRepo.queryByUserId(1L);
         eiResourceLevels.forEach(eiResourceLevel -> {
             System.out.println(eiResourceLevel.toJSONString());
         });
