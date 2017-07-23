@@ -45,7 +45,7 @@ public class DatasourceFactory {
         try {
             if (null == connection || connection.isClosed()) {
                 connection = getMySQLDataSource().getConnection();
-                connection.setTransactionIsolation(Connection.TRANSACTION_NONE);
+                connection.setAutoCommit(true);
             }
         } catch (SQLException e) {
             logger.catching(e);
@@ -61,7 +61,7 @@ public class DatasourceFactory {
         }
 
         try {
-            if (conn.getTransactionIsolation() != Connection.TRANSACTION_NONE) {
+            if (!conn.getAutoCommit()) {
                 return;
             }
 
@@ -74,6 +74,7 @@ public class DatasourceFactory {
     public static void begin(int level) {
         Connection connection = getConnection();
         try {
+            connection.setAutoCommit(false);
             connection.setTransactionIsolation(level);
         } catch (SQLException e) {
             logger.catching(e);
