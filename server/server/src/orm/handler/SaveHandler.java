@@ -41,7 +41,9 @@ public class SaveHandler implements InvocationHandler {
             throw new RuntimeException("generate sql error.");
         }
 
-        try (Connection conn = DatasourceFactory.getMySQLDataSource().getConnection()) {
+        Connection conn = null;
+        try {
+            conn = DatasourceFactory.getConnection();
             PreparedStatement preparedStatement = conn.prepareStatement(generatedSQL.getSql(), Statement.RETURN_GENERATED_KEYS);
             logger.info(generatedSQL.getSql());
 
@@ -71,6 +73,8 @@ public class SaveHandler implements InvocationHandler {
                     return false;
                 }
             }
+        } finally {
+            DatasourceFactory.closeConnection(conn);
         }
     }
 

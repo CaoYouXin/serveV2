@@ -1,9 +1,7 @@
 import {Component, OnInit} from "@angular/core";
 import {ControllerService} from "../service/index";
 import {DaoUtil} from "caols-common-modules";
-import {
-  RestCode
-} from "../const/index";
+import {RestCode} from "../const/index";
 
 @Component({
   selector: 'controller',
@@ -34,7 +32,7 @@ export class ControllerComponent implements OnInit {
   data: Array<any> = [];
 
   constructor(private service: ControllerService,
-    private rest: RestCode) {
+              private rest: RestCode) {
   }
 
   ngOnInit() {

@@ -1,9 +1,7 @@
 package blog.repository;
 
-import blog.data.EIResourceLevel;
 import blog.data.EIUser;
 import blog.data.EIUserFavour;
-import blog.data.EIUserFavourMapping;
 import blog.view.EIUserFavourDetail;
 import orm.Query;
 import orm.Repository;

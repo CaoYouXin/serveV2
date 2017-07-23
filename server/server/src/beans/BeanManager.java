@@ -8,7 +8,6 @@ import orm.RepositoryManager;
 import rest.Controller;
 import rest.Service;
 import rest.ServiceIH;
-import util.loader.CustomClassLoader;
 
 import java.lang.reflect.Proxy;
 import java.util.HashMap;

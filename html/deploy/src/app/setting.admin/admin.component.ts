@@ -3,9 +3,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AdminService} from "../service/admin.service";
 import {DaoUtil} from "caols-common-modules";
 import {Router} from "@angular/router";
-import {
-  RestCode
-} from "../const/index";
+import {RestCode} from "../const/index";
 
 @Component({
   selector: 'admin-setting',

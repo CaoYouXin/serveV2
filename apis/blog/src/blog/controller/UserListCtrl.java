@@ -4,7 +4,6 @@ import auth.AuthHelper;
 import beans.BeanManager;
 import blog.data.EIUser;
 import blog.service.IUserService;
-import blog.service.exp.UserException;
 import org.apache.http.HttpException;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;

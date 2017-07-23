@@ -2,9 +2,7 @@ import {Component} from "@angular/core";
 import {Router} from "@angular/router";
 import {ServerService} from "../service/index";
 import {DaoUtil} from "caols-common-modules";
-import {
-  RestCode
-} from "../const/index";
+import {RestCode} from "../const/index";
 
 @Component({
   selector: 'restart',

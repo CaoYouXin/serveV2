@@ -6,7 +6,6 @@ import meta.data.EIInterceptor;
 import meta.repository.IInterceptorRepo;
 import meta.service.IInterceptorService;
 import meta.service.exp.InterceptorSetException;
-import rest.Controller;
 import rest.Interceptor;
 import util.loader.CustomClassLoader;
 

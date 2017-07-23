@@ -2,9 +2,7 @@ import {Component, OnInit} from "@angular/core";
 import {ActivatedRoute} from "@angular/router";
 import {DatabaseService} from "../service/index";
 import {DaoUtil} from "caols-common-modules";
-import {
-  RestCode
-} from "../const/index";
+import {RestCode} from "../const/index";
 
 @Component({
   selector: 'db-setting',
@@ -81,12 +79,12 @@ export class DBSettingComponent implements OnInit {
           self.loading = false;
           this.currentSchema = schema;
 
-            if (!this.schemas.find(s => s === schema)) {
-              this.schemas = [schema, ...this.schemas];
-            }
+          if (!this.schemas.find(s => s === schema)) {
+            this.schemas = [schema, ...this.schemas];
+          }
 
-            localStorage.removeItem("currentUser");
-            alert("初始化成功！");
+          localStorage.removeItem("currentUser");
+          alert("初始化成功！");
         }),
         err => {
           self.loading = false;

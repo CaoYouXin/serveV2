@@ -2,7 +2,6 @@ package blog.controller;
 
 import beans.BeanManager;
 import blog.service.IUserService;
-import blog.service.exp.UserException;
 import blog.view.EIRegisterUser;
 import org.apache.http.HttpException;
 import org.apache.http.HttpRequest;

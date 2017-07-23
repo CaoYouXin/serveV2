@@ -20,15 +20,14 @@ import java.util.Random;
 
 public class CaptchaServiceImpl implements ICaptchaService {
 
-    private ICaptchaRepo captchaRepo = BeanManager.getInstance().getRepository(ICaptchaRepo.class);
-
-    private final char[] CHAR_CODE = { '1', '2', '3', '4', '5', '6',
+    private static Random RANDOM = new Random();
+    private static Font FONT = new Font("Monospaced", Font.PLAIN, 18);
+    private final char[] CHAR_CODE = {'1', '2', '3', '4', '5', '6',
             '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
             'k', 'm', 'n', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y',
             'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L',
-            'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
-    private static Random RANDOM = new Random();
-    private static Font FONT = new Font("Monospaced", Font.PLAIN, 18);
+            'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
+    private ICaptchaRepo captchaRepo = BeanManager.getInstance().getRepository(ICaptchaRepo.class);
 
     @Override
     public void before() {

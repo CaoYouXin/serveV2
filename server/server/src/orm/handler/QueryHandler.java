@@ -96,7 +96,9 @@ public class QueryHandler implements InvocationHandler {
         }
         parsedSQL.setColumn2setter(column2setter);
 
-        try (Connection conn = DatasourceFactory.getMySQLDataSource().getConnection()) {
+        Connection conn = null;
+        try {
+            conn = DatasourceFactory.getConnection();
             PreparedStatement preparedStatement = conn.prepareStatement(parsedSQL.getSql());
             logger.info(parsedSQL.getSql());
 
@@ -127,8 +129,9 @@ public class QueryHandler implements InvocationHandler {
 
                 return getObject((Class<? extends EntityBeanI>) retType, parsedSQL, resultSet);
             }
+        } finally {
+            DatasourceFactory.closeConnection(conn);
         }
-//        return null;
     }
 
     private Object getObject(Class<? extends EntityBeanI> type, QueryRet parsedSQL, ResultSet resultSet) throws SQLException, InvocationTargetException, IllegalAccessException {

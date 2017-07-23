@@ -1,9 +1,7 @@
 import {Component} from "@angular/core";
 import {DaoUtil} from "caols-common-modules";
 import {ServiceService} from "../service/index";
-import {
-  RestCode
-} from "../const/index";
+import {RestCode} from "../const/index";
 
 @Component({
   selector: 'micro-service',
@@ -35,7 +33,7 @@ export class MicroServiceComponent {
   data: Array<any> = [];
 
   constructor(private service: ServiceService,
-    private rest: RestCode) {
+              private rest: RestCode) {
   }
 
   ngOnInit() {

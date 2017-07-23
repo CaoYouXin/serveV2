@@ -23,7 +23,7 @@ export class UploadCodeComponent implements OnInit {
   files: Array<any> = [];
 
   constructor(private service: FileService,
-    private rest: RestCode) {
+              private rest: RestCode) {
   }
 
   ngOnInit() {

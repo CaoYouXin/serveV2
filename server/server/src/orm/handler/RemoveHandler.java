@@ -34,7 +34,9 @@ public class RemoveHandler implements InvocationHandler {
             throw new RuntimeException("generate sql error.");
         }
 
-        try (Connection conn = DatasourceFactory.getMySQLDataSource().getConnection()) {
+        Connection conn = null;
+        try {
+            conn = DatasourceFactory.getConnection();
             PreparedStatement preparedStatement = conn.prepareStatement(generatedSQL.getSql());
             logger.info(generatedSQL.getSql());
 
@@ -60,6 +62,8 @@ public class RemoveHandler implements InvocationHandler {
             }
 
             return true;
+        } finally {
+            DatasourceFactory.closeConnection(conn);
         }
     }
 

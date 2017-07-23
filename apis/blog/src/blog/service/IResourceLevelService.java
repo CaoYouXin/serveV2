@@ -1,7 +1,6 @@
 package blog.service;
 
 import blog.data.EIResourceLevel;
-import blog.service.exp.ResourceLevelException;
 import rest.Service;
 
 import java.util.List;

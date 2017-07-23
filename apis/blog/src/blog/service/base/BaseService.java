@@ -10,6 +10,7 @@ import java.util.List;
 public abstract class BaseService<TABLE, ID> implements Service {
 
     protected abstract Repository<TABLE, ID> getRepository();
+
     protected abstract String getName();
 
     public List<TABLE> list() {

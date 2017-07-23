@@ -1,9 +1,7 @@
 import {Component} from "@angular/core";
 import {ServeAuthService} from "../service/index";
 import {DaoUtil} from "caols-common-modules";
-import {
-  RestCode
-} from "../const/index";
+import {RestCode} from "../const/index";
 
 @Component({
   selector: 'serve-auth',
@@ -16,7 +14,7 @@ export class ServeAuthComponent {
   loading: boolean = false;
 
   constructor(private service: ServeAuthService,
-    private rest: RestCode) {
+              private rest: RestCode) {
   }
 
   set(filePath) {

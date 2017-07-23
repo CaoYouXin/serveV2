@@ -2,11 +2,8 @@ package meta.controller;
 
 import auth.AuthHelper;
 import beans.BeanManager;
-import meta.data.EIController;
 import meta.data.EIInterceptor;
-import meta.service.IControllerService;
 import meta.service.IInterceptorService;
-import meta.service.impl.ControllerServiceImpl;
 import meta.service.impl.InterceptorServiceImpl;
 import org.apache.http.HttpException;
 import org.apache.http.HttpRequest;

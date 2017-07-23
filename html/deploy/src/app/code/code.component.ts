@@ -1,17 +1,7 @@
-import {
-  Component,
-  EventEmitter,
-  Output
-} from "@angular/core";
-import {
-  FileService
-} from "../service/index";
-import {
-  DaoUtil
-} from "caols-common-modules";
-import {
-  RestCode
-} from "../const/index";
+import {Component, EventEmitter, Output} from "@angular/core";
+import {FileService} from "../service/index";
+import {DaoUtil} from "caols-common-modules";
+import {RestCode} from "../const/index";
 
 @Component({
   selector: 'code-res',
@@ -21,7 +11,7 @@ import {
 export class CodeComponent {
 
   @Output()
-  change: EventEmitter < string > = new EventEmitter();
+  change: EventEmitter<string> = new EventEmitter();
 
   root: string = "classpath/";
 
@@ -29,10 +19,11 @@ export class CodeComponent {
   clicked: string = "";
   loading: boolean = false;
 
-  files: Array < any > = [];
+  files: Array<any> = [];
 
   constructor(private service: FileService,
-    private rest: RestCode) {}
+              private rest: RestCode) {
+  }
 
   ngOnInit() {
     this.fetch(this.root);

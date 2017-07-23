@@ -1,10 +1,7 @@
 package hanlder;
 
 import auth.ServeAuth;
-import beans.BeanManager;
 import config.Configs;
-import meta.data.EIInterceptor;
-import meta.repository.IInterceptorRepo;
 import org.apache.http.HttpException;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
@@ -16,10 +13,8 @@ import rest.Interceptor;
 import rest.JsonResponse;
 import rest.RestCode;
 import rest.RestHelper;
-import util.loader.CustomClassLoader;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ServeHandler implements HttpRequestHandler {

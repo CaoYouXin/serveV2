@@ -169,7 +169,9 @@ public class DDLHandler implements InvocationHandler {
         }
         String tableName = entity.name();
 
-        try (Connection conn = DatasourceFactory.getMySQLDataSource().getConnection()) {
+        Connection conn = null;
+        try {
+            conn = DatasourceFactory.getConnection();
             Statement statement = conn.createStatement();
             ResultSet resultSet = statement.executeQuery("show tables;");
             while (resultSet.next()) {
@@ -185,6 +187,8 @@ public class DDLHandler implements InvocationHandler {
         } catch (Throwable t) {
             logger.catching(t);
             return false;
+        } finally {
+            DatasourceFactory.closeConnection(conn);
         }
     }
 }

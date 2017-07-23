@@ -130,7 +130,9 @@ public class FindHandler implements InvocationHandler {
             throw new RuntimeException("generate sql error.");
         }
 
-        try (Connection conn = DatasourceFactory.getMySQLDataSource().getConnection()) {
+        Connection conn = null;
+        try {
+            conn = DatasourceFactory.getConnection();
             PreparedStatement preparedStatement = conn.prepareStatement(generatedSQL.getSql());
             logger.info(generatedSQL.getSql());
 
@@ -157,6 +159,8 @@ public class FindHandler implements InvocationHandler {
 
                 return getObject((Class<? extends EntityBeanI>) type, generatedSQL, resultSet);
             }
+        } finally {
+            DatasourceFactory.closeConnection(conn);
         }
     }
 
