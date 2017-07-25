@@ -33,6 +33,8 @@ public class ServeHandler implements HttpRequestHandler {
     public void handle(HttpRequest request, HttpResponse response, HttpContext context) throws HttpException, IOException {
         ServeAuth serveAuth = Configs.getConfigs(Configs.SERVE_AUTH, ServeAuth.class);
 
+        logger.info(request.getRequestLine());
+
         try {
             if (!serveAuth.apply(request, context)) {
                 RestHelper.responseJSON(response, JsonResponse.fail(RestCode.FORBIDDEN_RESOURCE, "未授权的资源访问."));
