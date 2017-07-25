@@ -88,6 +88,7 @@ public class ResourceLevelServeAuth implements ServeAuth {
             if (eiResourceLevelMappingDetail.getResourceUrlPrefix().length() > matchLength
                     && decodedUrl.startsWith(eiResourceLevelMappingDetail.getResourceUrlPrefix())) {
                 match = eiResourceLevelMappingDetail;
+                matchLength = eiResourceLevelMappingDetail.getResourceUrlPrefix().length();
             }
         }
 
