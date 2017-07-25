@@ -102,4 +102,20 @@ public class DatasourceFactory {
         }
     }
 
+    public static void rollback() {
+        Connection connection = getConnection();
+
+        try {
+            connection.rollback();
+        } catch (SQLException e) {
+            logger.catching(e);
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                logger.catching(e);
+            }
+        }
+    }
+
 }
