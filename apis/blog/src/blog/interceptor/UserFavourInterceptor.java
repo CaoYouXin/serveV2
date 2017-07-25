@@ -18,10 +18,7 @@ import rest.WithMatcher;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Pattern;
 
 public class UserFavourInterceptor extends WithMatcher implements Interceptor {
@@ -68,7 +65,7 @@ public class UserFavourInterceptor extends WithMatcher implements Interceptor {
 
         String decodedUrl = RestHelper.getDecodedUrl(httpRequest);
 
-        List<EIUserFavourRule> theMostMatchedRule = new ArrayList<>();
+        List<EIUserFavourRule> theMostMatchedRules = new ArrayList<>();
         for (EIUserFavourRule userFavourRule : this.userFavourRules) {
             String userFavourRulePattern = userFavourRule.getUserFavourRulePattern();
             Pattern pattern = this.patternCache.get(userFavourRulePattern);
@@ -78,22 +75,17 @@ public class UserFavourInterceptor extends WithMatcher implements Interceptor {
             }
 
             if (pattern.matcher(decodedUrl).matches()) {
-                if (theMostMatchedRule.isEmpty()) {
-                    theMostMatchedRule.add(userFavourRule);
-                } else if (theMostMatchedRule.get(0).getUserFavourRuleScore() > userFavourRule.getUserFavourRuleScore()) {
-                    theMostMatchedRule = new ArrayList<>();
-                    theMostMatchedRule.add(userFavourRule);
-                } else if (theMostMatchedRule.get(0).getUserFavourRuleScore().equals(userFavourRule.getUserFavourRuleScore())) {
-                    theMostMatchedRule.add(userFavourRule);
-                }
+                theMostMatchedRules.add(userFavourRule);
             }
         }
 
-        if (theMostMatchedRule.isEmpty()) {
+        if (theMostMatchedRules.isEmpty()) {
             return;
         }
 
-        for (EIUserFavourRule eiUserFavourRule : theMostMatchedRule) {
+        theMostMatchedRules.sort(Comparator.comparingInt(EIUserFavourRule::getUserFavourRuleScore));
+
+        for (EIUserFavourRule eiUserFavourRule : theMostMatchedRules) {
             DatasourceFactory.begin(Connection.TRANSACTION_SERIALIZABLE);
             if (!this.userFavourRuleService.isFillRule(userId, eiUserFavourRule.getUserFavourRuleId(), eiUserFavourRule.getUserFavourRuleLimit())) {
                 DatasourceFactory.rollback();
