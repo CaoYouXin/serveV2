@@ -19,6 +19,7 @@ import util.loader.CustomClassLoader;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -77,6 +78,27 @@ public class RestHelper {
         }
 
         return matched;
+    }
+
+    public static void oneCallAndRet(HttpResponse response, Service service, String methodName, Object... params) {
+        Class[] paramTypes = new Class[params.length];
+        int idx = 0;
+        for (Object param : params) {
+            paramTypes[idx++] = param.getClass();
+        }
+
+        Object ret;
+        try {
+            Method method = service.getClass().getDeclaredMethod(methodName, paramTypes);
+            ret = method.invoke(service, params);
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            logger.catching(e);
+            return;
+        } catch (Throwable t) {
+            catching(t, response, RestCode.GENERAL_ERROR);
+            return;
+        }
+        responseJSON(response, JsonResponse.success(ret));
     }
 
     public static void catching(Throwable e, HttpResponse response, int code) {
