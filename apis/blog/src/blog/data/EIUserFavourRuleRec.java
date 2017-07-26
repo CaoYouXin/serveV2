@@ -2,11 +2,9 @@ package blog.data;
 
 import beans.EntityBeanI;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
+@Entity(name = "blog_favour_record")
 public interface EIUserFavourRuleRec extends EntityBeanI {
 
     @Id

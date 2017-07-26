@@ -78,4 +78,11 @@ class FavourMappingTest {
         });
     }
 
+    @Test
+    void test5() {
+        IBlogPostRepo blogPostRepo = BeanManager.getInstance().getRepository(IBlogPostRepo.class);
+        System.out.println(blogPostRepo.createTableIfNotExist());
+        System.out.println(blogPostRepo.createTableIfNotExist());
+    }
+
 }
