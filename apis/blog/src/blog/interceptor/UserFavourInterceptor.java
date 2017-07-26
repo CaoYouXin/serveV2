@@ -4,17 +4,18 @@ import beans.BeanManager;
 import blog.data.EIUserFavourRule;
 import blog.service.IUserFavourRuleService;
 import blog.service.IUserFavourService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import config.Configs;
 import org.apache.http.HttpException;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
 import org.apache.http.protocol.HttpContext;
+import org.apache.http.util.EntityUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import orm.DatasourceFactory;
-import rest.Interceptor;
-import rest.RestHelper;
-import rest.WithMatcher;
+import rest.*;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -46,6 +47,19 @@ public class UserFavourInterceptor extends WithMatcher implements Interceptor {
         Long userId = (Long) httpContext.getAttribute("infinitely-serve-user_id");
         if (null == userId) {
             return;
+        }
+
+        if (httpResponse.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
+            return;
+        }
+
+        if (httpResponse.getEntity().getContentType().getValue().equals("application/json")) {
+            String ret = EntityUtils.toString(httpResponse.getEntity());
+            ObjectMapper objectMapper = Configs.getConfigs(Configs.OBJECT_MAPPER, ObjectMapper.class);
+            JsonResponse jsonResponse = objectMapper.readValue(ret, JsonResponse.class);
+            if (jsonResponse.getCode() != RestCode.VALID) {
+                return;
+            }
         }
 
         if (null == this.userFavourRules || !Configs.getConfigs(USER_FAVOUR_INTERCEPTOR_CONFIG_KEY, Boolean.class)) {
