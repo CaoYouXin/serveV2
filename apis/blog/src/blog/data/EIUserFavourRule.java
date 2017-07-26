@@ -1,9 +1,11 @@
 package blog.data;
 
+import beans.EntityBeanI;
+
 import javax.persistence.*;
 
 @Entity(name = "blog_favour_rule")
-public interface EIUserFavourRule {
+public interface EIUserFavourRule extends EntityBeanI {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
