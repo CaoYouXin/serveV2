@@ -15,6 +15,4 @@ public interface IResourceLevelMappingRepo extends Repository<EIResourceLevelMap
 
     List<EIResourceLevelMapping> findAllByResourceLevelMappingDisabled(Boolean resourceLevelMappingDisabled);
 
-    Boolean softRemoveByResourceLevelMappingIdAtResourceLevelMappingDisabled(Long resourceLevelMappingId);
-
 }

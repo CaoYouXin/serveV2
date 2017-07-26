@@ -11,6 +11,4 @@ public interface IResourceLevelMappingService extends Service {
 
     EIResourceLevelMapping save(EIResourceLevelMapping resourceLevelMapping);
 
-    Boolean delete(Long id);
-
 }

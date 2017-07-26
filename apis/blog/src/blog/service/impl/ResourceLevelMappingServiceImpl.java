@@ -26,17 +26,15 @@ public class ResourceLevelMappingServiceImpl extends BaseService<EIResourceLevel
     }
 
     @Override
-    public Boolean delete(Long id) {
-        return this.resourceLevelMappingRepo.softRemoveByResourceLevelMappingIdAtResourceLevelMappingDisabled(id);
-    }
-
-    @Override
     public List<EIResourceLevelMapping> list() {
         return this.resourceLevelMappingRepo.findAllByResourceLevelMappingDisabled(false);
     }
 
     @Override
     public EIResourceLevelMapping save(EIResourceLevelMapping data) {
+        if (null == data.getResourceLevelMappingDisabled()) {
+            data.setResourceLevelMappingDisabled(false);
+        }
         Configs.setConfigs(ResourceLevelServeAuth.RESOURCE_LEVEL_SERVE_AUTH_CONFIG_KEY, false);
         return super.save(data);
     }

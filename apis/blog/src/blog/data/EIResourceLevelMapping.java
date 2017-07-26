@@ -1,9 +1,11 @@
 package blog.data;
 
+import beans.EntityBeanI;
+
 import javax.persistence.*;
 
 @Entity(name = "blog_resource_level_mapping")
-public interface EIResourceLevelMapping {
+public interface EIResourceLevelMapping extends EntityBeanI {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
