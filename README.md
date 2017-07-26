@@ -1,7 +1,12 @@
 # serveV2
-infinitely serve version 2
+---
+Infinitely Serve --- version 2
 
-#### core
+基于 httpcore 实现的服务器框架，最大的优点是API动态修改功能。
+并包含基本的文件读取和上传功能。
+
+### core
+---
 * handler
     * upload support
     * http file serving
@@ -21,12 +26,18 @@ infinitely serve version 2
         * request method detecting
         * request body parsing
         * interceptor utilities
+        * one service call with exception handler
     * controller & interceptor & service
 * auth
     * api access auth
     * file access auth
+* bean manager
+    * bean cache using hash map
+    * bean proxy with origin switch function
+    * interface declared bean's initialization
 
 ##### core apis
+---
 * admin existence check
 * admin setting
 * admin login
