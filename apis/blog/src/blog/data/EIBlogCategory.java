@@ -14,7 +14,7 @@ public interface EIBlogCategory extends EntityBeanI {
 
     void setBlogCategoryId(Long blogCategoryId);
 
-    @Column(name = "pid", nullable = false)
+    @Column(name = "pid")
     Long getParentBlogCategoryId();
 
     void setParentBlogCategoryId(Long parentBlogCategoryId);
