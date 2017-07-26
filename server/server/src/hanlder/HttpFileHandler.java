@@ -14,10 +14,29 @@ import rest.RestHelper;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.HashMap;
+import java.util.Map;
 
 public class HttpFileHandler implements HttpRequestHandler {
 
     private static final Logger logger = LogManager.getLogger(HttpFileHandler.class);
+
+    private static final Map<String, String> fileTypeMap = new HashMap<>();
+
+    static {
+        fileTypeMap.put("html", "text/html");
+        fileTypeMap.put("js", "text/javascript");
+        fileTypeMap.put("css", "text/css");
+        fileTypeMap.put("xml", "text/xml");
+        fileTypeMap.put("txt", "text/plain");
+        fileTypeMap.put("json", "application/json");
+        fileTypeMap.put("png", "image/png");
+        fileTypeMap.put("jpg", "image/jpeg");
+        fileTypeMap.put("jpeg", "image/jpeg");
+        fileTypeMap.put("bmp", "image/bmp");
+        fileTypeMap.put("gif", "image/gif");
+        fileTypeMap.put("svg", "image/svg+xml");
+    }
 
     private final String docRoot;
     private final String urlRoot;
@@ -82,7 +101,8 @@ public class HttpFileHandler implements HttpRequestHandler {
             HttpCoreContext coreContext = HttpCoreContext.adapt(httpContext);
             HttpConnection conn = coreContext.getConnection(HttpConnection.class);
             httpResponse.setStatusCode(HttpStatus.SC_OK);
-            FileEntity body = new FileEntity(file, ContentType.create("text/html", (Charset) null));
+            String typeStr = file.getName().substring(file.getName().lastIndexOf(".") + 1);
+            FileEntity body = new FileEntity(file, ContentType.create(fileTypeMap.getOrDefault(typeStr, "text/html"), (Charset) null));
             httpResponse.setEntity(body);
             logger.info(conn + ": serving file " + file.getPath());
         }

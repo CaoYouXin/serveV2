@@ -29,6 +29,7 @@ public class Server {
                 .setListenerPort(Configs.getConfigs(InitConfig.CONFIG_KEY, InitConfig.class, null).getPort())
                 .setServerInfo("Infinitely Serve/2.1")
                 .setSocketConfig(socketConfig)
+//                .setHttpProcessor(new GzipHttpProcessor())
                 .setExceptionLogger(new StdErrorExceptionLogger());
     }
 
