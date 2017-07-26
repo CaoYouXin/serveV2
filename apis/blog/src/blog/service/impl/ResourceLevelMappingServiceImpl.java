@@ -35,7 +35,8 @@ public class ResourceLevelMappingServiceImpl extends BaseService<EIResourceLevel
         if (null == data.getResourceLevelMappingDisabled()) {
             data.setResourceLevelMappingDisabled(false);
         }
+        EIResourceLevelMapping save = super.save(data);
         Configs.setConfigs(ResourceLevelServeAuth.RESOURCE_LEVEL_SERVE_AUTH_CONFIG_KEY, false);
-        return super.save(data);
+        return save;
     }
 }
