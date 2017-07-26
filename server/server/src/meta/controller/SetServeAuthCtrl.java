@@ -13,10 +13,10 @@ import org.apache.http.HttpResponse;
 import org.apache.http.protocol.HttpContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import rest.WithMatcher;
 import rest.JsonResponse;
 import rest.RestCode;
 import rest.RestHelper;
+import rest.WithMatcher;
 import util.loader.CustomClassLoader;
 
 import java.io.IOException;

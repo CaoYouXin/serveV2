@@ -8,9 +8,9 @@ import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.protocol.HttpContext;
 import rest.Controller;
-import rest.WithMatcher;
 import rest.JsonResponse;
 import rest.RestHelper;
+import rest.WithMatcher;
 
 import java.io.IOException;
 

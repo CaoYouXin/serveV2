@@ -156,6 +156,7 @@ public class ServeV2Main {
 
         URL url = null;
         try {
+            assert configs != null;
             url = new File(configs.getClasspath()).toURI().toURL();
         } catch (MalformedURLException e) {
             logger.catching(e);

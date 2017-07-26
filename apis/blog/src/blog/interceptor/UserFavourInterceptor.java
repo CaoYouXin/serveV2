@@ -23,10 +23,8 @@ import java.util.regex.Pattern;
 
 public class UserFavourInterceptor extends WithMatcher implements Interceptor {
 
-    private static final Logger logger = LogManager.getLogger(UserFavourInterceptor.class);
-
     public static final String USER_FAVOUR_INTERCEPTOR_CONFIG_KEY = "USER_FAVOUR_INTERCEPTOR_CONFIG_KEY";
-
+    private static final Logger logger = LogManager.getLogger(UserFavourInterceptor.class);
     private IUserFavourService userFavourService = BeanManager.getInstance().getService(IUserFavourService.class);
     private IUserFavourRuleService userFavourRuleService = BeanManager.getInstance().getService(IUserFavourRuleService.class);
     private List<EIUserFavourRule> userFavourRules;
