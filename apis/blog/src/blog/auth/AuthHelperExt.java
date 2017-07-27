@@ -10,7 +10,7 @@ import java.util.function.BiFunction;
 
 public class AuthHelperExt extends AuthHelper {
 
-    public static final int BLOG_LOGIN = 3;
+    public static final int BLOG_LOGIN = 1 << 2;
 
     public static void addExtAuth() {
         Map<Integer, BiFunction<HttpRequest, HttpContext, Boolean>> authMap = Configs.getConfigs(Configs.AUTH_MAP, Map.class);
