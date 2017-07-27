@@ -1,13 +1,18 @@
 package orm;
 
 import beans.BeanManager;
+import blog.data.EIBlogPost;
 import blog.data.EIResourceLevel;
+import blog.data.EIScreenshot;
 import blog.repository.*;
+import blog.view.EIBlogPostAndScreenshot;
+import blog.view.EIBlogPostDetail;
 import blog.view.EIResourceLevelMappingDetail;
 import blog.view.EIUserFavourDetail;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.util.Date;
 import java.util.List;
 
 class FavourMappingTest {
@@ -83,6 +88,41 @@ class FavourMappingTest {
         IBlogPostRepo blogPostRepo = BeanManager.getInstance().getRepository(IBlogPostRepo.class);
         System.out.println(blogPostRepo.createTableIfNotExist());
         System.out.println(blogPostRepo.createTableIfNotExist());
+    }
+
+    @Test
+    void test6() {
+        IBlogPostRepo blogPostRepo = BeanManager.getInstance().getRepository(IBlogPostRepo.class);
+        IScreenshotRepo screenshotRepo = BeanManager.getInstance().getRepository(IScreenshotRepo.class);
+
+        blogPostRepo.createTableIfNotExist();
+        screenshotRepo.createTableIfNotExist();
+
+//        EIBlogPost blogPost = BeanManager.getInstance().createBean(EIBlogPost.class);
+//        blogPost.setBlogCategoryId(1L);
+//        blogPost.setBlogPostCreateTime(new Date());
+//        blogPost.setBlogPostDisabled(false);
+//        blogPost.setBlogPostName("test blog post");
+//        blogPost.setBlogPostType(EIBlogPost.APP);
+//        blogPost.setBlogPostScript("//a.js");
+//        blogPost.setBlogPostUpdateTime(new Date());
+//        blogPost.setBlogPostUrl("//a.html");
+//        blogPostRepo.save(blogPost);
+//
+//        EIScreenshot screenshot = BeanManager.getInstance().createBean(EIScreenshot.class);
+//        screenshot.setBlogPostId(blogPost.getBlogPostId());
+//        screenshot.setScreenshotDisabled(false);
+//        screenshot.setScreenshotUrl("//a.png");
+//        screenshotRepo.save(screenshot);
+//
+//        EIScreenshot screenshot2 = BeanManager.getInstance().createBean(EIScreenshot.class);
+//        screenshot2.setBlogPostId(blogPost.getBlogPostId());
+//        screenshot2.setScreenshotDisabled(false);
+//        screenshot2.setScreenshotUrl("//a2.png");
+//        screenshotRepo.save(screenshot2);
+
+        List<EIBlogPostAndScreenshot> blogPostDetails = blogPostRepo.queryAll();
+        blogPostDetails.forEach(blogPostDetail -> System.out.println(blogPostDetail.toJSONString()));
     }
 
 }
