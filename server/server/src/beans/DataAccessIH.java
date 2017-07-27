@@ -2,12 +2,11 @@ package beans;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import config.Configs;
+import util.StringUtil;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class DataAccessIH implements InvocationHandler {
 
@@ -51,9 +50,64 @@ public class DataAccessIH implements InvocationHandler {
 
         if (name.equals("copyFrom")) {
             Map<String, Object> copyFrom = ((EntityBeanI) args[0]).toMap();
-            this.data.putAll(copyFrom);
+            if (args.length == 1) {
+                this.data.putAll(copyFrom);
+                return null;
+            }
+            if (args.length == 2) {
+                this.data.putAll(this.filter(copyFrom, (Class<?>) args[1]));
+                return null;
+            }
+        }
+
+        if (name.equals("copyFromInclude")) {
+            this.data.putAll(this.filter(args, true));
+            return null;
+        }
+
+        if (name.equals("copyFromExclude")) {
+            this.data.putAll(this.filter(args, false));
+            return null;
         }
 
         return null;
     }
+
+    private Map<String, Object> filter(Map<String, Object> source, Class<?> template) {
+        Map<String, Object> ret = new HashMap<>();
+        for (Method method : template.getMethods()) {
+            if (!method.getName().startsWith("set")) {
+                continue;
+            }
+
+//            System.out.println(method.getName());
+
+            String key = StringUtil.cutPrefix(method.getName(), "set");
+            ret.put(key, source.get(key));
+        }
+        return ret;
+    }
+
+    private Map<String, Object> filter(Object[] args, boolean includeMode) {
+        Map<String, Object> ret = new HashMap<>();
+        Map<String, Object> source = ((EntityBeanI) args[0]).toMap();
+
+        List<String> keyList = Arrays.asList((String[]) args[1]);
+
+        for (String key : source.keySet()) {
+            boolean contains = keyList.contains(key);
+
+//            System.out.println(key);
+//            System.out.println(contains);
+//            System.out.println(includeMode == contains);
+
+            if (includeMode == contains) {
+//                System.out.println(source.get(key));
+                ret.put(key, source.get(key));
+//                System.out.println(ret.get(key));
+            }
+        }
+        return ret;
+    }
+
 }
