@@ -212,35 +212,34 @@ public class QueryHandler implements InvocationHandler {
         List<String> retColumns = new ArrayList<>();
         StringJoiner stringJoiner = new StringJoiner(",");
 
-        if (-1 == select.indexOf('.')) {
-            String alias = select.trim();
-            Class<?> type = queryRet.getAlias2type().get(alias);
+        for (String def : select.split(",")) {
+            def = def.trim();
+            if (-1 == def.indexOf('.')) {
+                Class<?> type = queryRet.getAlias2type().get(def);
 
-            for (Method method : type.getMethods()) {
-                Column column = method.getDeclaredAnnotation(Column.class);
-                if (null == column) {
-                    continue;
+                for (Method method : type.getMethods()) {
+                    Column column = method.getDeclaredAnnotation(Column.class);
+                    if (null == column) {
+                        continue;
+                    }
+
+                    String retColumn = StringUtil.cutPrefix(method.getName(), "get", "is");
+                    retColumns.add(retColumn);
+                    stringJoiner.add(String.format("%s.`%s` as `%s`", def, column.name(), retColumn));
                 }
+            } else {
+                String[] defAndAlias = def.split("\\s+");
+                String[] tableAndColumn = defAndAlias[0].split("\\.");
 
-                String retColumn = StringUtil.cutPrefix(method.getName(), "get", "is");
-                retColumns.add(retColumn);
-                stringJoiner.add(String.format("%s.`%s` as `%s`", alias, column.name(), retColumn));
-            }
-        } else {
+                Class<?> type = queryRet.getAlias2type().get(tableAndColumn[0]);
+                if (defAndAlias.length == 2) {
+                    retColumns.add(defAndAlias[1]);
 
-            for (String column : select.split(",")) {
-                String[] split = column.trim().split("\\s+");
-                String[] columnDef = split[0].split("\\.");
-
-                Class<?> type = queryRet.getAlias2type().get(columnDef[0]);
-                if (split.length == 2) {
-                    retColumns.add(split[1]);
-
-                    stringJoiner.add(String.format("%s.`%s` as `%s`", columnDef[0], this.getColumnDef(type, columnDef[1]), split[1]));
+                    stringJoiner.add(String.format("%s.`%s` as `%s`", tableAndColumn[0], this.getColumnDef(type, tableAndColumn[1]), defAndAlias[1]));
                 } else {
-                    retColumns.add(columnDef[1]);
+                    retColumns.add(tableAndColumn[1]);
 
-                    stringJoiner.add(String.format("%s.`%s` as `%s`", columnDef[0], this.getColumnDef(type, columnDef[1]), columnDef[1]));
+                    stringJoiner.add(String.format("%s.`%s` as `%s`", tableAndColumn[0], this.getColumnDef(type, tableAndColumn[1]), tableAndColumn[1]));
                 }
             }
         }
