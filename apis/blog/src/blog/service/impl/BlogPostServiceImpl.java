@@ -2,23 +2,23 @@ package blog.service.impl;
 
 import beans.BeanManager;
 import blog.data.EIBlogPost;
+import blog.data.EILikeRec;
 import blog.data.EIScreenshot;
 import blog.repository.IBlogPostRepo;
+import blog.repository.ILikeRecRepo;
 import blog.service.IBlogPostService;
 import blog.service.base.BaseService;
 import blog.view.EIBlogPostAndScreenshot;
 import blog.view.EIBlogPostDetail;
 import orm.Repository;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class BlogPostServiceImpl extends BaseService<EIBlogPost, Long> implements IBlogPostService {
 
     private IBlogPostRepo blogPostRepo = BeanManager.getInstance().getRepository(IBlogPostRepo.class);
+    private ILikeRecRepo likeRecRepo = BeanManager.getInstance().getRepository(ILikeRecRepo.class);
 
     @Override
     public List<EIBlogPostDetail> listByCategory(Long categoryId) {
@@ -28,6 +28,38 @@ public class BlogPostServiceImpl extends BaseService<EIBlogPost, Long> implement
     @Override
     public List<EIBlogPostDetail> listWithDetails() {
         return this.transform(this.blogPostRepo.queryAll());
+    }
+
+    @Override
+    public EIBlogPost previous(Date updateTime) {
+        return this.blogPostRepo.queryPrevious(updateTime);
+    }
+
+    @Override
+    public EIBlogPost next(Date updateTime) {
+        return this.blogPostRepo.queryNext(updateTime);
+    }
+
+    @Override
+    public List<EIBlogPost> top5() {
+        List<Long> ids = new ArrayList<>();
+
+        List<EILikeRec> likeRecs = this.likeRecRepo.queryTop5();
+        likeRecs.forEach(likeRec -> ids.add(likeRec.getBlogPostId()));
+
+        if (likeRecs.size() < 5) {
+            List<EIBlogPost> blogPosts = this.blogPostRepo.queryAllOrderByUpdateTime();
+
+            for (int i = 0; i < 5 - likeRecs.size(); i++) {
+                ids.add(blogPosts.get(i).getBlogPostId());
+            }
+        }
+
+        StringJoiner inClause = new StringJoiner(",", "(", ")");
+        ids.forEach(id -> inClause.add(Long.toString(id)));
+        String sql = String.format("select a from EIBlogPost a where a.BlogCategoryId in %s", inClause.toString());
+
+        return this.blogPostRepo.queryAllByPostIds(sql);
     }
 
     private List<EIBlogPostDetail> transform(List<EIBlogPostAndScreenshot> data) {

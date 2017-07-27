@@ -2,6 +2,7 @@ package orm;
 
 import beans.BeanManager;
 import blog.data.EIBlogPost;
+import blog.data.EILikeRec;
 import blog.data.EIResourceLevel;
 import blog.data.EIScreenshot;
 import blog.repository.*;
@@ -123,6 +124,34 @@ class FavourMappingTest {
 
         List<EIBlogPostAndScreenshot> blogPostDetails = blogPostRepo.queryAll();
         blogPostDetails.forEach(blogPostDetail -> System.out.println(blogPostDetail.toJSONString()));
+    }
+
+    @Test
+    void test7() {
+        IBlogPostRepo blogPostRepo = BeanManager.getInstance().getRepository(IBlogPostRepo.class);
+
+        EIBlogPost blogPost = blogPostRepo.find(1L);
+
+        System.out.println(blogPost.toJSONString());
+
+        EIBlogPost next = blogPostRepo.queryNext(blogPost.getBlogPostUpdateTime());
+
+        System.out.println(next.toJSONString());
+
+        EIBlogPost previous = blogPostRepo.queryPrevious(next.getBlogPostUpdateTime());
+
+        System.out.println(previous.toJSONString());
+    }
+
+    @Test
+    void test8() {
+        ILikeRecRepo likeRecRepo = BeanManager.getInstance().getRepository(ILikeRecRepo.class);
+
+        likeRecRepo.createTableIfNotExist();
+
+        List<EILikeRec> likeRecs = likeRecRepo.queryTop5();
+
+        likeRecs.forEach(likeRec -> System.out.println(likeRec.toJSONString()));
     }
 
 }

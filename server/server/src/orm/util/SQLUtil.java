@@ -134,9 +134,9 @@ public class SQLUtil {
                 break;
             case "java.util.Date":
                 if (isIntParam) {
-                    setterMethod.invoke(one, resultSet.getTimestamp(index, CALENDAR));
+                    setterMethod.invoke(one, new Date(resultSet.getTimestamp(index, CALENDAR).getTime()));
                 } else {
-                    setterMethod.invoke(one, resultSet.getTimestamp(columnName, CALENDAR));
+                    setterMethod.invoke(one, new Date(resultSet.getTimestamp(columnName, CALENDAR).getTime()));
                 }
                 break;
             case "java.lang.String":

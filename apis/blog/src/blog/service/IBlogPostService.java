@@ -4,6 +4,7 @@ import blog.data.EIBlogPost;
 import blog.view.EIBlogPostDetail;
 import rest.Service;
 
+import java.util.Date;
 import java.util.List;
 
 public interface IBlogPostService extends Service {
@@ -15,5 +16,11 @@ public interface IBlogPostService extends Service {
     List<EIBlogPostDetail> listByCategory(Long categoryId);
 
     List<EIBlogPostDetail> listWithDetails();
+
+    EIBlogPost previous(Date updateTime);
+
+    EIBlogPost next(Date updateTime);
+
+    List<EIBlogPost> top5();
 
 }

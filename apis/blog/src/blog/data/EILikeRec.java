@@ -1,10 +1,12 @@
 package blog.data;
 
+import beans.EntityBeanI;
+
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity(name = "blog_like_record")
-public interface EILikeRec {
+public interface EILikeRec extends EntityBeanI {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
