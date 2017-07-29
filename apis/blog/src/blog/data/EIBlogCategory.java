@@ -20,7 +20,7 @@ public interface EIBlogCategory extends EntityBeanI {
     void setParentBlogCategoryId(Long parentBlogCategoryId);
 
     @Column(name = "name", nullable = false)
-    String  getBlogCategoryName();
+    String getBlogCategoryName();
 
     void setBlogCategoryName(String blogCategoryName);
 

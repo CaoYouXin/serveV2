@@ -4,16 +4,13 @@ import beans.BeanManager;
 import blog.data.EIBlogPost;
 import blog.data.EILikeRec;
 import blog.data.EIResourceLevel;
-import blog.data.EIScreenshot;
 import blog.repository.*;
 import blog.view.EIBlogPostAndScreenshot;
-import blog.view.EIBlogPostDetail;
 import blog.view.EIResourceLevelMappingDetail;
 import blog.view.EIUserFavourDetail;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.util.Date;
 import java.util.List;
 
 class FavourMappingTest {

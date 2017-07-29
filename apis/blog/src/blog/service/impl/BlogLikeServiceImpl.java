@@ -6,7 +6,6 @@ import blog.repository.ILikeRecRepo;
 import blog.service.IBlogLikeService;
 import blog.service.exp.BlogLikeException;
 import blog.service.exp.TableNotCreateException;
-import blog.view.EICount;
 import orm.DatasourceFactory;
 
 import java.sql.Connection;

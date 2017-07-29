@@ -1,7 +1,6 @@
 package blog.data;
 
 import beans.EntityBeanI;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import javax.persistence.*;
 import java.util.Date;

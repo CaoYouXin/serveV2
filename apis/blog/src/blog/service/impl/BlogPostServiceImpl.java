@@ -13,7 +13,6 @@ import blog.view.EIBlogPostDetail;
 import orm.Repository;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class BlogPostServiceImpl extends BaseService<EIBlogPost, Long> implements IBlogPostService {
 
