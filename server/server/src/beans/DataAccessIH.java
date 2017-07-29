@@ -6,6 +6,8 @@ import util.StringUtil;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class DataAccessIH implements InvocationHandler {
@@ -16,7 +18,24 @@ public class DataAccessIH implements InvocationHandler {
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         String name = method.getName();
         if (name.startsWith("get")) {
-            return this.data.get(name.substring("get".length()));
+            Object value = this.data.get(name.substring("get".length()));
+
+            switch (method.getReturnType().getTypeName()) {
+                case "java.util.Date":
+                    if (value instanceof Date) {
+                        return value;
+                    }
+
+                    DateFormat dateFormat = Configs.getConfigs(Configs.DATE_FORMAT, DateFormat.class, () -> {
+                        DateFormat fallback = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        fallback.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
+
+                        return fallback;
+                    });
+                    return dateFormat.parse((String) value);
+                default:
+                    return value;
+            }
         }
 
         if (name.startsWith("set")) {

@@ -145,6 +145,7 @@ public class ServeV2Main {
         dateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
         OBJECT_MAPPER.setDateFormat(dateFormat);
 
+        Configs.setConfigs(Configs.DATE_FORMAT, dateFormat);
         Configs.setConfigs(Configs.OBJECT_MAPPER, OBJECT_MAPPER);
     }
 

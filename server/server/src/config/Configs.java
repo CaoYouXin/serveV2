@@ -18,6 +18,7 @@ public class Configs {
     public static final String SERVE_AUTH = "SERVE_AUTH";
     public static final String AUTH_MAP = "AUTH_MAP";
     public static final String WITH_SCHEMA = "WITH_SCHEMA";
+    public static final String DATE_FORMAT = "DATE_FORMAT";
     private static final Logger logger = LogManager.getLogger(Configs.class);
 
     /**

@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import rest.JsonResponse;
 
+import java.util.Date;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class DataAccessTest {
@@ -48,7 +50,7 @@ class DataAccessTest {
     }
 
     @Test
-    void test6() {
+    void test5() {
         ObjectMapper objectMapper = new ObjectMapper();
         Entity1 bean = BeanManager.getInstance().createBean(Entity1.class);
         bean.setA("AAA");
@@ -61,9 +63,19 @@ class DataAccessTest {
     }
 
     @Test
-    void test5() {
+    void test6() {
         Entity1 bean = BeanManager.getInstance().createBean(Entity1.class, "{\"A\":\"AAA\"}");
         assertEquals("AAA", bean.getA());
+    }
+
+    @Test
+    void test7() {
+        DateEntity bean = BeanManager.getInstance().createBean(DateEntity.class, "{\"Date\":\"2017-01-01 12:00:00\"}");
+        System.out.println(bean.getDate());
+
+        DateEntity anotherBean = BeanManager.getInstance().createBean(DateEntity.class);
+        anotherBean.setDate(new Date());
+        System.out.println(anotherBean.getDate());
     }
 
 }
