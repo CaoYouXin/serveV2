@@ -5,6 +5,7 @@ import blog.data.EILikeRec;
 import blog.repository.ILikeRecRepo;
 import blog.service.IBlogLikeService;
 import blog.service.exp.BlogLikeException;
+import blog.service.exp.TableNotCreateException;
 import blog.view.EICount;
 import orm.DatasourceFactory;
 
@@ -14,6 +15,13 @@ import java.util.Date;
 public class BlogLikeServiceImpl implements IBlogLikeService {
 
     private ILikeRecRepo likeRecRepo = BeanManager.getInstance().getRepository(ILikeRecRepo.class);
+
+    @Override
+    public void before() {
+        if (!this.likeRecRepo.createTableIfNotExist()) {
+            throw new TableNotCreateException("like record");
+        }
+    }
 
     @Override
     public Boolean like(Long postId, Long userId) throws BlogLikeException {

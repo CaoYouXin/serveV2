@@ -8,6 +8,7 @@ import blog.repository.IUserFavourRuleRecRepo;
 import blog.repository.IUserFavourRuleRepo;
 import blog.service.IUserFavourRuleService;
 import blog.service.base.BaseService;
+import blog.service.exp.TableNotCreateException;
 import config.Configs;
 import orm.Repository;
 
@@ -17,6 +18,15 @@ public class UserFavourRuleServiceImpl extends BaseService<EIUserFavourRule, Lon
 
     private IUserFavourRuleRepo userFavourRuleRepo = BeanManager.getInstance().getRepository(IUserFavourRuleRepo.class);
     private IUserFavourRuleRecRepo userFavourRuleRecRepo = BeanManager.getInstance().getRepository(IUserFavourRuleRecRepo.class);
+
+    @Override
+    public void before() {
+        super.before();
+
+        if (!this.userFavourRuleRecRepo.createTableIfNotExist()) {
+            throw new TableNotCreateException("user favour rule record");
+        }
+    }
 
     @Override
     public Boolean isFillRule(Long userId, Long ruleId, int limit) {
