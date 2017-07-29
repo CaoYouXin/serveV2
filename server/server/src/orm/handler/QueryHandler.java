@@ -137,6 +137,7 @@ public class QueryHandler implements InvocationHandler {
     private Object getObject(Class<? extends EntityBeanI> type, QueryRet parsedSQL, ResultSet resultSet) throws SQLException, InvocationTargetException, IllegalAccessException {
         Object ret = BeanManager.getInstance().createBean(type);
         Map<String, Method> column2setter = parsedSQL.getColumn2setter();
+
         for (String column : parsedSQL.getRetColumns()) {
             Method setterMethod = column2setter.get(column);
             SQLUtil.fill(
@@ -227,7 +228,8 @@ public class QueryHandler implements InvocationHandler {
                     retColumns.add(retColumn);
                     stringJoiner.add(String.format("%s.`%s` as `%s`", def, column.name(), retColumn));
                 }
-            } else {
+            } else if (-1 == def.indexOf('(')) {
+
                 String[] defAndAlias = def.split("\\s+");
                 String[] tableAndColumn = defAndAlias[0].split("\\.");
 
@@ -241,6 +243,26 @@ public class QueryHandler implements InvocationHandler {
 
                     stringJoiner.add(String.format("%s.`%s` as `%s`", tableAndColumn[0], this.getColumnDef(type, tableAndColumn[1]), tableAndColumn[1]));
                 }
+            } else {
+
+                String[] defAndAlias = def.split("\\s+");
+
+                if (defAndAlias.length != 2) {
+                    throw new RuntimeException("sql syntax error.");
+                }
+
+                String prefix = defAndAlias[0].substring(0, defAndAlias[0].indexOf('('));
+                String suffix = defAndAlias[0].substring(defAndAlias[0].indexOf(')') + 1);
+
+                def = defAndAlias[0].substring(defAndAlias[0].indexOf('(') + 1, defAndAlias[0].indexOf(')')).trim();
+
+                String[] tableAndColumn = def.split("\\.");
+
+                Class<?> type = queryRet.getAlias2type().get(tableAndColumn[0]);
+
+                retColumns.add(defAndAlias[1]);
+
+                stringJoiner.add(String.format("%s(%s.`%s`)%s as `%s`", prefix, tableAndColumn[0], this.getColumnDef(type, tableAndColumn[1]), suffix, defAndAlias[1]));
             }
         }
 
