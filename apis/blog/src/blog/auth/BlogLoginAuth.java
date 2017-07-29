@@ -14,6 +14,8 @@ import java.util.function.BiFunction;
 
 public class BlogLoginAuth implements BiFunction<HttpRequest, HttpContext, Boolean> {
 
+    public static final String USER_ID_KEY = "infinitely-serve-user_id";
+
     private IUserTokenRepo userTokenRepo = BeanManager.getInstance().getRepository(IUserTokenRepo.class);
 
     @Override
@@ -42,7 +44,7 @@ public class BlogLoginAuth implements BiFunction<HttpRequest, HttpContext, Boole
             throw new AuthRuntimeException("Token过期，请重新登录");
         }
 
-        httpContext.setAttribute("infinitely-serve-user_id", eiUserToken.getUserId());
+        httpContext.setAttribute(USER_ID_KEY, eiUserToken.getUserId());
         return true;
     }
 }
