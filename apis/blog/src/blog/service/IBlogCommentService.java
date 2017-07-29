@@ -8,8 +8,6 @@ import java.util.List;
 
 public interface IBlogCommentService extends Service {
 
-    List<EIComment> list();
-
     EIComment save(EIComment comment);
 
     List<EICommentTree> listByPostId(Long postId);
