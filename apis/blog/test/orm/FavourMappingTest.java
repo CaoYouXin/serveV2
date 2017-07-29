@@ -154,4 +154,16 @@ class FavourMappingTest {
         likeRecs.forEach(likeRec -> System.out.println(likeRec.toJSONString()));
     }
 
+    @Test
+    void test9() {
+        ILikeRecRepo likeRecRepo = BeanManager.getInstance().getRepository(ILikeRecRepo.class);
+
+        likeRecRepo.createTableIfNotExist();
+
+        System.out.println(likeRecRepo.queryCount(1L).toJSONString());
+        System.out.println(likeRecRepo.queryCount(2L).getCount());
+        System.out.println(likeRecRepo.queryCount(3L));
+        System.out.println(likeRecRepo.queryCount(3L).getCount());
+    }
+
 }
