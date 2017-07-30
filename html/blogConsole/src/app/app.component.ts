@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import {Component} from "@angular/core";
+import {Routes} from "@angular/router";
+import {routes as appRoutes} from "./app.router";
+import {DaoUtil} from "caols-common-modules";
 
 @Component({
   selector: 'app-root',
@@ -6,5 +9,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app works!';
+
+  routes: Routes = appRoutes.filter(route => {
+    return route.data;
+  });
+
 }

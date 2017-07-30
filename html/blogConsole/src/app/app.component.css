@@ -1,0 +1,52 @@
+h1 {
+  position: fixed;
+  z-index: 1;
+
+  width: 100%;
+
+  color: #369;
+  font-size: 30px;
+  padding: 0 1em;
+
+  line-height: 2em;
+  background-color: #F5F6EB;
+}
+
+h1:after {
+  content: '';
+  display: block;
+  width: 100%;
+  height: calc(100% - 2em);
+
+  position: fixed;
+  left: 0;
+
+  background: transparent;
+
+  pointer-events: none;
+  box-shadow: 0 0 4px 5px #EEF0CC;
+}
+
+.placeholder {
+  height: 60px;
+}
+
+nav {
+  display: block;
+
+  position: fixed;
+  top: 60px;
+  left: 0;
+
+  width: 20%;
+  max-height: calc(100% - 60px);
+
+  overflow: auto;
+
+  perspective: 800px;
+}
+
+.view {
+  width: 80%;
+  float: right;
+}

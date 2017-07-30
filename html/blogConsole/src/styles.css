@@ -1,1 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
+*, *:before, *:after {
+  margin: 0;
+  padding: 0;
+  border: none;
+  box-sizing: border-box;
+
+  font-family: "Wawati SC", "Hiragino Sans GB", "Microsoft Yahei", "WenQuanYi Micro Hei", monospace;
+}
+
+code {
+  font-family: "CQ Mono", Monaco, "Lucida Console", "Courier New", monospace;
+}

@@ -1,0 +1,92 @@
+.tHead {
+  border-top: solid 2px royalblue;
+  border-bottom: solid 2px royalblue;
+}
+
+.tHead, .tBody, .row, .col {
+  overflow: hidden;
+}
+
+.tHead > .col {
+  line-height: 2em;
+  height: 2em;
+  user-select: none;
+}
+
+.tHead > .col > span {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+
+.row {
+  width: inherit;
+}
+
+.rowBar {
+  float: left;
+  height: 2px;
+  background-color: royalblue;
+
+  cursor: ns-resize;
+}
+
+.col {
+  float: left;
+  background-color: transparent;
+}
+
+.row > .col {
+  box-sizing: content-box;
+  border-right: solid 2px cornflowerblue;
+}
+
+.row > .col.btns {
+  box-sizing: border-box;
+  border-right: none;
+}
+
+.col.btns > * {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.col.btns:after {
+  content: '';
+  vertical-align: top;
+  display: inline-block;
+  width: 0;
+  height: 100%;
+}
+
+.col > .btn {
+  margin-left: 0.3em;
+  border-radius: 0.3em;
+  padding: 0.3em;
+  cursor: default;
+  user-select: none;
+  background-color: ghostwhite;
+}
+
+.col > .btn:hover {
+  background-color: blueviolet;
+}
+
+.col > .btn:active {
+  color: whitesmoke;
+  background-color: blue;
+}
+
+.bar {
+  position: relative;
+  bottom: 100%;
+  left: calc(100% - 2px);
+
+  width: 2px;
+  height: inherit;
+
+  background-color: cornflowerblue;
+
+  cursor: ew-resize;
+}

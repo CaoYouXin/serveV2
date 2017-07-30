@@ -1,0 +1,82 @@
+.nav {
+  display: block;
+  width: 100%;
+  height: 2em;
+  line-height: 2em;
+
+  font-size: 1.5rem;
+
+  text-align: center;
+
+  background-color: #EFF0DC;
+
+  padding: 0;
+
+  border: 3px solid navajowhite;
+  border-bottom: 7px solid ghostwhite;
+  border-right: 7px solid ghostwhite;
+
+  overflow: hidden;
+
+  transform-style: preserve-3d;
+  transform-origin: 0 0 0;
+  transform: skewY(-2deg) rotateY(6deg);
+
+  transition: transform .5s;
+  transition-timing-function: cubic-bezier(0,-1,.62,1.78);
+}
+
+.nav.clicked {
+  transform: skewY(-2deg) rotateY(16deg);
+}
+
+.nav > a {
+  color: royalblue;
+  text-decoration: none;
+  text-shadow: 2px 2px 3px ghostwhite;
+
+  transition: color ease-in-out .5s;
+}
+
+.nav > a.show {
+  color: black;
+}
+
+.nav > .container {
+  display: inline-block;
+
+  width: 100%;
+  height: 100%;
+
+  position: relative;
+  bottom: calc(100% + 10px);
+
+  overflow: hidden;
+}
+
+.nav > .container:not(.show) > .radius {
+  display: none;
+}
+
+.nav > .container > .radius {
+  display: inline-block;
+
+  border-radius: 50%;
+
+  background-color: royalblue;
+  opacity: 0.3;
+
+  position: relative;
+
+  transform: scale(0);
+  transform-origin: 50% 50% 0;
+  transition: transform .3s ease-in-out;
+}
+
+.nav > .container > .radius.animated {
+  transform: scale(1);
+}
+
+.nav:hover {
+  box-shadow: inset 0 0 5px #EFF0DC;
+}

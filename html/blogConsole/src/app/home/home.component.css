@@ -1,0 +1,6 @@
+.wrapper {
+  margin: 1em 1.2em;
+  padding: 0.1em 0.2em;
+  border: solid 1px rgb(222, 222, 222);
+  box-shadow: .5em .5em 1em rgb(150, 150, 150);
+}
