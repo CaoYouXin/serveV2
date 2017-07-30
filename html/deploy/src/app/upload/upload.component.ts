@@ -37,7 +37,7 @@ export class UploadComponent {
     this.util.send(this.currentForm.nativeElement,
       API.getAPI("upload/code")("/code/"
         + date.getFullYear() + "/"
-        + date.getMonth() + "/"
+        + (date.getMonth() + 1) + "/"
         + date.getDate() + "/"
         + date.getHours() + ":"
         + date.getMinutes() + ":"
