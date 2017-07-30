@@ -72,6 +72,10 @@ public class ControllerServiceImpl implements IControllerService {
             throw new ControllerSetException("controller def can to be saved.");
         }
 
+        if (!disabled) {
+            CustomClassLoader classLoader = Configs.getConfigs(Configs.CLASSLOADER, CustomClassLoader.class);
+            BeanManager.getInstance().setController((Class<? extends Controller>) classLoader.loadClass(controller.getControllerClassName()));
+        }
         this.setupApi(controller);
 
         return disabled;
@@ -102,8 +106,7 @@ public class ControllerServiceImpl implements IControllerService {
         List<Controller> apis = Configs.getConfigs(Configs.APIS, List.class);
 
         if (controller.isControllerDisabled()) {
-            EIController finalByControllerName = controller;
-            apis.removeIf(api -> api.name().equals(finalByControllerName.getControllerName()));
+            apis.removeIf(api -> api.name().equals(controller.getControllerName()));
 
         } else if (!controller.isControllerDisabled()) {
             for (Controller api : apis) {

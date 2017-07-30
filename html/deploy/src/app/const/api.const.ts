@@ -100,6 +100,26 @@ export class API {
       "dev": function (className) {
         return `http://localhost:9999/metaApi/serve/auth/${className}`;
       }
+    },
+    "inter/list": {
+      "prod": "http://server.caols.tech:9999/metaApi/interceptor/list",
+      "dev": "http://localhost:9999/metaApi/interceptor/list"
+    },
+    "inter/set": {
+      "prod": function (className) {
+        return `http://server.caols.tech:9999/metaApi/interceptor/set/${className}`;
+      },
+      "dev": function (className) {
+        return `http://localhost:9999/metaApi/interceptor/set/${className}`;
+      }
+    },
+    "inter/set/dis": {
+      "prod": function (id, disabled) {
+        return `http://server.caols.tech:9999/metaApi/interceptor/set/disabled/${id}/${disabled ? "T" : "F"}`;
+      },
+      "dev": function (id, disabled) {
+        return `http://localhost:9999/metaApi/interceptor/set/disabled/${id}/${disabled ? "T" : "F"}`;
+      }
     }
   };
 

@@ -21,6 +21,7 @@ import {
   TableComponent,
   UploadCodeComponent,
   UploadComponent,
+  InterceptorComponent,
   UploadUtil
 } from "./component/index";
 import {AuthGuard, DBStatusResolver, InitResolver, LoginResolver} from "./guard/index";
@@ -32,7 +33,8 @@ import {
   RouteService,
   ServeAuthService,
   ServerService,
-  ServiceService
+  ServiceService,
+  InterceptorService
 } from "./service/index";
 
 @NgModule({
@@ -50,7 +52,8 @@ import {
     UploadCodeComponent,
     CodeComponent,
     TableComponent,
-    ServeAuthComponent
+    ServeAuthComponent,
+    InterceptorComponent
   ],
   imports: [
     BrowserModule,
@@ -74,7 +77,8 @@ import {
     FileService,
     ControllerService,
     ServiceService,
-    ServeAuthService
+    ServeAuthService,
+    InterceptorService
   ],
   bootstrap: [AppComponent]
 })

@@ -21,7 +21,9 @@ export class MicroServiceComponent {
       {key: "ServiceId", text: "ID", width: 50},
       {key: "ServiceIntfClassName", text: "接口类名称", width: 300},
       {key: "ServiceImplClassName", text: "实现类路径", width: 300},
-      {key: "ServiceDisabled", text: "禁用", width: 100},
+      {key: "ServiceDisabled", text: "状态", width: 100, render: function (disabled) {
+        return disabled ? '禁用' : '启用';
+      }},
     ],
     ctrls: [
       {text: (idx) => 'Reload', handler: this.reload.bind(this)},

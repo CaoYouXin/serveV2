@@ -65,13 +65,16 @@ public class InterceptorServiceImpl implements IInterceptorService {
             throw new InterceptorSetException("没有相应的拦截器.");
         }
 
+        boolean needReload = eiInterceptor.isInterceptorDisabled() != disabled;
         eiInterceptor.setInterceptorDisabled(disabled);
 
         if (!this.interceptorRepo.save(eiInterceptor)) {
             throw new InterceptorSetException("无法保存拦截器状态.");
         }
 
-        Configs.setConfigs(Interceptor.INTERCEPTOR_CONFIG_KEY, false);
+        if (needReload) {
+            Configs.setConfigs(Interceptor.INTERCEPTOR_CONFIG_KEY, false);
+        }
         return disabled;
     }
 }

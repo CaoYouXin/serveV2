@@ -10,13 +10,15 @@ import {
   MicroServiceComponent,
   RestartComponent,
   ServeAuthComponent,
-  UploadComponent
+  UploadComponent,
+  InterceptorComponent
 } from "./component/index";
 
 export const routes: Routes = [
   {path: '', component: HomeComponent, data: {name: 'Home'}},
   {path: 'upload', component: UploadComponent, canActivate: [AuthGuard], data: {name: '代码'}},
   {path: 'controller', component: ControllerComponent, canActivate: [AuthGuard], data: {name: '控制器'}},
+  {path: 'interceptor', component: InterceptorComponent, canActivate: [AuthGuard], data: {name: '拦截器'}},
   {path: 'microservice', component: MicroServiceComponent, canActivate: [AuthGuard], data: {name: '微服务'}},
   {path: 'serve/auth', component: ServeAuthComponent, canActivate: [AuthGuard], data: {name: '资源验证'}},
   {path: 'login', component: LoginComponent, resolve: {init: InitResolver}},

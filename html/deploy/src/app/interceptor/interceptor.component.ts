@@ -1,15 +1,14 @@
-import {Component, OnInit} from "@angular/core";
-import {ControllerService} from "../service/index";
-import {DaoUtil} from "caols-common-modules";
+import {Component} from "@angular/core";
+import {InterceptorService} from "../service/index";
 import {RestCode} from "../const/index";
+import {DaoUtil} from "caols-common-modules";
 
 @Component({
-  selector: 'controller',
-  templateUrl: './controller.component.html',
-  styleUrls: ['./controller.component.css']
+  selector: 'interceptor',
+  templateUrl: './interceptor.component.html',
+  styleUrls: ['./interceptor.component.css']
 })
-export class ControllerComponent implements OnInit {
-
+export class InterceptorComponent {
   private className: string;
 
   mask: boolean = false;
@@ -17,23 +16,22 @@ export class ControllerComponent implements OnInit {
 
   tableDef: any = {
     heads: [
-      {key: "ControllerId", text: "ID", width: 50},
-      {key: "ControllerName", text: "名称", width: 200},
-      {key: "ControllerClassName", text: "类路径", width: 300},
-      {key: "ControllerDisabled", text: "状态", width: 100, render: function (disabled) {
-        return disabled ? "禁用" : "启用";
-      }},
+      {key: "InterceptorId", text: "ID", width: 50},
+      {key: "PostInterceptor", text: "服务后", width: 100},
+      {key: "InterceptorName", text: "名称", width: 200},
+      {key: "InterceptorClassName", text: "类路径", width: 300},
+      {key: "InterceptorDisabled", text: "禁用", width: 100},
     ],
     ctrls: [
       {text: (idx) => 'Reload', handler: this.reload.bind(this)},
-      {text: (idx) => this.data[idx]["ControllerDisabled"] ? "启用" : "禁用", handler: this.toggle.bind(this)}
+      {text: (idx) => this.data[idx]["InterceptorDisabled"] ? "启用" : "禁用", handler: this.toggle.bind(this)}
     ],
     ctrlsWidth: 130
   };
 
   data: Array<any> = [];
 
-  constructor(private service: ControllerService,
+  constructor(private service: InterceptorService,
               private rest: RestCode) {
   }
 
@@ -128,5 +126,4 @@ export class ControllerComponent implements OnInit {
         }
       );
   }
-
 }

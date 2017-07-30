@@ -11,3 +11,4 @@ export * from '../upload.code/index';
 export * from '../table/index';
 export * from '../code/index';
 export * from '../serve.auth/index';
+export * from '../interceptor/index';
