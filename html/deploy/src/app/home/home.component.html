@@ -1,18 +1,20 @@
-<h2>Infinitely Serve 2.0</h2>
+<div class="wrapper">
+  <h2>Infinitely Serve 2.0</h2>
 
-<p>致力于开发属于自己的服务器，包含 <a href="#jpa">JPA</a>，<a href="#restful">Restful</a>，<a href="#upload">文件上传</a>， <a href="#api">API动态更改</a>
-  等特性。</p>
+  <p>致力于开发属于自己的服务器，包含 <a href="#jpa">JPA</a>，<a href="#restful">Restful</a>，<a href="#upload">文件上传</a>， <a href="#api">API动态更改</a>
+    等特性。</p>
 
-<h3 id="jpa">JPA</h3>
-<p>接口就是配置文件，全部面向接口编程。可以实现 <code>repoIntf.findByXxx</code> 的功能。可以方便地使用 Repo，但有一个限制，修改 Repo 类后服务器必须重启，否则使用该 Repo 的类将发生错误。
-</p>
+  <h3 id="jpa">JPA</h3>
+  <p>接口就是配置文件，全部面向接口编程。可以实现 <code>repoIntf.findByXxx</code> 的功能。可以方便地使用 Repo，但有一个限制，修改 Repo 类后服务器必须重启，否则使用该 Repo 的类将发生错误。
+  </p>
 
-<h3 id="restful">Restful</h3>
-<p>使用Restful风格解析Url。配置例如：<code>/data/:param1/:param2?p3=:param3&p4=:param4</code> 。位或运算的 Auth 配置，目前提供 Admin，StartLog 两种
-  Auth 验证。</p>
+  <h3 id="restful">Restful</h3>
+  <p>使用Restful风格解析Url。配置例如：<code>/data/:param1/:param2?p3=:param3&p4=:param4</code> 。位或运算的 Auth 配置，目前提供 Admin，StartLog 两种
+    Auth 验证。</p>
 
-<h3 id="upload">文件上传</h3>
-<p>Url 指定文件上传路径，所有上传的文件存放在统一路径下。</p>
+  <h3 id="upload">文件上传</h3>
+  <p>Url 指定文件上传路径，所有上传的文件存放在统一路径下。</p>
 
-<h3 id="api">API动态更改</h3>
-<p>API 在程序中使用 Controller 机制，可以配置 Restful Url，Auth。API 可以 Reload，实时禁用和启用。禁用的 API 在下一次服务器重启时不会加载。</p>
+  <h3 id="api">API动态更改</h3>
+  <p>API 在程序中使用 Controller 机制，可以配置 Restful Url，Auth。API 可以 Reload，实时禁用和启用。禁用的 API 在下一次服务器重启时不会加载。</p>
+</div>
