@@ -2,6 +2,8 @@ import {BrowserModule} from "@angular/platform-browser";
 import {NgModule} from "@angular/core";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpModule} from "@angular/http";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+
 
 import {RestCode} from "./const/index";
 import {DaoUtil} from "caols-common-modules";
@@ -18,6 +20,7 @@ import {
   AdminService,
   RouteService,
 } from "./service/index";
+import {TestComponent} from "./test/test.component";
 
 @NgModule({
   declarations: [
@@ -26,9 +29,11 @@ import {
     HomeComponent,
     LoginComponent,
     TableComponent,
+    TestComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     ReactiveFormsModule,
     FormsModule,
     HttpModule,

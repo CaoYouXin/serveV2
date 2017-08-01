@@ -26,6 +26,10 @@
   transition-timing-function: cubic-bezier(0,-1,.62,1.78);
 }
 
+.nav:focus {
+  outline: none;
+}
+
 .nav.clicked {
   transform: skewY(-2deg) rotateY(16deg);
 }

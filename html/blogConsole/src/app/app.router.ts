@@ -5,13 +5,12 @@ import {
   HomeComponent,
   LoginComponent,
 } from "./component/index";
+import {TestComponent} from "./test/test.component";
 
 export const routes: Routes = [
   {path: 'never-match', component: HomeComponent, data: {name: '菜单'}},
   {path: '', component: HomeComponent, data: {name: 'Home'}},
-  {path: '', component: HomeComponent, data: {name: 'Home'}},
-  {path: '', component: HomeComponent, data: {name: 'Home'}},
-  {path: '', component: HomeComponent, data: {name: 'Home'}},
+  {path: 'red', component: TestComponent, data: {name: 'Test1', color: 'red'}},
   {path: 'login', component: LoginComponent},
 
   // otherwise redirect to home

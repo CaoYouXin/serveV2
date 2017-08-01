@@ -14,4 +14,8 @@ export class AppComponent {
     return route.data;
   });
 
+  clicked(r) {
+    console.log(r);
+  }
+
 }

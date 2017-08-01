@@ -37,7 +37,8 @@ export class AppRoutingComponent implements OnInit {
     // this.isSelected = false;
     this.service.getRoute().subscribe(
       msg => {
-        let equals = this.r.path === msg.url.substr(1);
+        let path = msg.url.substr(1);
+        let equals = '' === this.r.path ? '' === path || path.startsWith('#') : path.startsWith(this.r.path);
 
         if (equals) {
           this.isSelected(msg.seleted);
