@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild, ElementRef} from "@angular/core";
+import {Component, ElementRef, Input, OnInit, ViewChild} from "@angular/core";
 import {RouteService} from "../service/index";
 
 const falsePromise = new Promise<boolean>((resolve, reject) => {
@@ -20,7 +20,7 @@ export class AppRoutingComponent implements OnInit {
 
   isShow: boolean = false;
   isAnimated: Promise<boolean> = falsePromise;
-  clickAnimate : Promise<boolean> = falsePromise;
+  clickAnimate: Promise<boolean> = falsePromise;
 
   width: string;
   height: string;
@@ -83,7 +83,8 @@ export class AppRoutingComponent implements OnInit {
     });
   }
 
-  @Input() isSelected(s: boolean) {
+  @Input()
+  isSelected(s: boolean) {
     if (!s) {
       this.isShow = s;
       this.isAnimated = falsePromise;

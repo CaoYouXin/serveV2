@@ -2,6 +2,7 @@
   display: inline-block;
   line-height: 2em;
   margin: 0.3em 0.2em;
+  padding: 0 .5em;
   border: solid 1px yellowgreen;
 
   border-radius: 0.6em;

@@ -5,13 +5,13 @@ import {slideInDownAnimation} from "../animation/route.animation";
   selector: 'home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
-  animations: [ slideInDownAnimation ]
+  animations: [slideInDownAnimation]
 })
 export class HomeComponent {
 
   @HostBinding('@routeAnimation') routeAnimation = true;
-  @HostBinding('style.display')   display = 'block';
-  @HostBinding('style.position')  position = 'absolute';
-  @HostBinding('style.width')  width = '80%';
+  @HostBinding('style.display') display = 'block';
+  @HostBinding('style.position') position = 'absolute';
+  @HostBinding('style.width') width = '80%';
 
 }

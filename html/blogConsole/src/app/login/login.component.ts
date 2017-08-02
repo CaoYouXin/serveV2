@@ -16,6 +16,22 @@ export class LoginComponent implements OnInit {
   loading: boolean = false;
 
   loginForm: FormGroup;
+  formErrors = {
+    'username': '',
+    'password': ''
+  };
+  validationMessages = {
+    'username': {
+      'required': '用户名是必填项.',
+      'minlength': '用户名最短6个字符.',
+      'maxlength': '用户名最长24个字符.',
+    },
+    'password': {
+      'required': '密码是必填项.',
+      'minlength': '密码最短6个字符.',
+      'maxlength': '密码最长24个字符.',
+    }
+  };
 
   constructor(private fb: FormBuilder,
               private service: AdminService,
@@ -88,23 +104,5 @@ export class LoginComponent implements OnInit {
       }
     }
   }
-
-  formErrors = {
-    'username': '',
-    'password': ''
-  };
-
-  validationMessages = {
-    'username': {
-      'required': '用户名是必填项.',
-      'minlength': '用户名最短6个字符.',
-      'maxlength': '用户名最长24个字符.',
-    },
-    'password': {
-      'required': '密码是必填项.',
-      'minlength': '密码最短6个字符.',
-      'maxlength': '密码最长24个字符.',
-    }
-  };
 
 }

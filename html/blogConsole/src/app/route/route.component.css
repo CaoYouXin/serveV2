@@ -23,7 +23,7 @@
   transform: skewY(-2deg) rotateY(6deg);
 
   transition: transform .5s;
-  transition-timing-function: cubic-bezier(0,-1,.62,1.78);
+  transition-timing-function: cubic-bezier(0, -1, .62, 1.78);
 }
 
 .nav:focus {

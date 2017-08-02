@@ -1,5 +1,6 @@
 <div *ngIf="r">
-  <div class="nav" [class.clicked]="clickAnimate | async" (click)="awesome($event)" routerLink="{{r.path}}" routerLinkActive="active">
+  <div class="nav" [class.clicked]="clickAnimate | async" (click)="awesome($event)" routerLink="{{r.path}}"
+       routerLinkActive="active">
     <a [class.show]="isShow">{{r.data.name}}</a><br>
     <div class="container" [class.show]="isShow">
       <div class="radius" [class.animated]="isAnimated | async"

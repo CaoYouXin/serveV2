@@ -1,27 +1,59 @@
 import {NgModule} from "@angular/core";
 import {RouterModule, Routes} from "@angular/router";
-import {AuthGuard, LoginResolver} from "./guard/index";
-import {
-  HomeComponent,
-  LoginComponent,
-} from "./component/index";
+import {HomeComponent, LoginComponent,} from "./component/index";
 import {TestComponent} from "./test/test.component";
 import {TabsComponent} from "./tabs/tabs.component";
 
 export const routes: Routes = [
-  {path: 'never-match', component: HomeComponent, data: {name: '菜单'}},
   {path: '', component: HomeComponent, data: {name: 'Home'}},
-  {path: 'red', component: TabsComponent, data: {name: 'Test1', color: 'red', children: ['blue', 'green']},
+  {
+    path: 'resource', component: TabsComponent, data: {name: '资源管理'},
     children: [
       {
-        path: 'yellow',
+        path: 'types',
         component: TestComponent,
-        data: {name: "Test1-1", color: 'yellow'}
+        data: {name: "资源类型管理", color: 'yellow'}
       },
       {
-        path: 'green',
+        path: 'mapping',
         component: TestComponent,
-        data: {name: "Test1-2", color: 'green'}
+        data: {name: "资源-文件映射管理", color: 'green'}
+      }
+    ]
+  },
+  {path: 'user', component: TestComponent, data: {name: '用户管理', color: 'greenyellow', width: '80%'}},
+  {
+    path: 'favour', component: TabsComponent, data: {name: '好感度管理'},
+    children: [
+      {
+        path: 'list',
+        component: TestComponent,
+        data: {name: "用户好感度列表", color: 'yellow'}
+      },
+      {
+        path: 'mapping',
+        component: TestComponent,
+        data: {name: "好感度-资源映射管理", color: 'green'}
+      }
+    ]
+  },
+  {
+    path: 'post', component: TabsComponent, data: {name: 'POST 管理'},
+    children: [
+      {
+        path: 'category',
+        component: TestComponent,
+        data: {name: "分类管理", color: 'yellow'}
+      },
+      {
+        path: 'post',
+        component: TestComponent,
+        data: {name: "Post 管理", color: 'green'}
+      },
+      {
+        path: 'comment',
+        component: TestComponent,
+        data: {name: "评论管理", color: 'indianred'}
       }
     ]
   },
