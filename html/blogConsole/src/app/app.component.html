@@ -1,7 +1,7 @@
 <h1>Infinitely Serve 2.0 - Blog Console</h1>
 <div class="placeholder"></div>
 <nav>
-  <route *ngFor="let r of routes" [r]="r" (click)="clicked(r)"></route>
+  <route *ngFor="let r of routes" [r]="r"></route>
 </nav>
 <div class="view">
   <router-outlet></router-outlet>

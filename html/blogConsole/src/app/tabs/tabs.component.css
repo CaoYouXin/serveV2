@@ -1,0 +1,18 @@
+.nav {
+  display: inline-block;
+  line-height: 2em;
+  margin: 0.3em 0.2em;
+  border: solid 1px yellowgreen;
+
+  border-radius: 0.6em;
+
+  cursor: default;
+}
+
+.nav.selected {
+  background-color: yellowgreen;
+}
+
+.nav:focus {
+  outline: none;
+}

@@ -21,6 +21,7 @@ import {
   RouteService,
 } from "./service/index";
 import {TestComponent} from "./test/test.component";
+import {TabsComponent} from "./tabs/tabs.component";
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import {TestComponent} from "./test/test.component";
     HomeComponent,
     LoginComponent,
     TableComponent,
-    TestComponent
+    TestComponent,
+    TabsComponent
   ],
   imports: [
     BrowserModule,

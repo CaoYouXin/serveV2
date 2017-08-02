@@ -1,0 +1,7 @@
+<nav *ngIf="children && children.length">
+  <div class="nav" [class.selected]="r===selectedR" (click)="selectedR=r" *ngFor="let r of children" routerLink="{{r.path}}" routerLinkActive="active">
+    {{r.data.name}}
+  </div>
+</nav>
+
+<router-outlet></router-outlet>
