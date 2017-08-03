@@ -17,6 +17,24 @@ input[type="password"]:focus {
   border-left: solid 5px blueviolet;
 }
 
+textarea {
+  outline: none;
+  resize: none;
+
+  width: 300px;
+  height: 5em;
+
+  border: solid 1px blueviolet;
+  border-radius: 5px;
+
+  border-left: solid 5px green;
+}
+
+textarea:focus {
+  box-shadow: 0 0 5px blueviolet;
+  border-left: solid 5px blueviolet;
+}
+
 input[type="button"],
 input[type="submit"] {
   outline: none;
@@ -68,6 +86,8 @@ h2 {
 
 .other-button {
   font-size: x-small;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .help {

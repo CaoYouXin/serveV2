@@ -21,7 +21,7 @@ import {
   AdminService,
   RouteService,
   BlogService,
-  ResourceManangerService
+  TableletService
 } from "./service/index";
 import { TestComponent } from "./test/test.component";
 
@@ -53,7 +53,7 @@ import { TestComponent } from "./test/test.component";
     RouteService,
     AdminService,
     BlogService,
-    ResourceManangerService
+    TableletService
   ],
   bootstrap: [AppComponent]
 })

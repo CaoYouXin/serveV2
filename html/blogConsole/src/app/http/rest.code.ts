@@ -20,6 +20,7 @@ export class RestCode {
 
     if (ret.code !== 20000) {
       ret.body.error = ret.code;
+      return;
     }
 
     cb(ret.body);

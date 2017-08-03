@@ -1,7 +1,9 @@
 import { Component, OnInit, OnDestroy, HostBinding } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { ResourceManangerService, RouteService } from "../../service/index";
+import { TableletService, RouteService } from "../../service/index";
 import { slideInUpAnimation } from "../../animation/route.animation";
+import { DaoUtil, RestCode } from "../../http/index";
+import { API } from "../../const/index";
 
 @Component({
   selector: 'resource-manager',
@@ -18,24 +20,23 @@ export class ResourceManagerComponent implements OnInit, OnDestroy {
 
   tableDef: any = {
     heads: [
-      { key: "ControllerId", text: "ID", width: 50 },
-      { key: "ControllerName", text: "名称", width: 200 },
-      { key: "ControllerClassName", text: "类路径", width: 300 },
-      {
-        key: "ControllerDisabled", text: "状态", width: 100, render: (disabled) => {
-          return disabled ? "禁用" : "启用";
-        }
-      },
+      { key: "ResourceLevelId", text: "ID", width: 50 },
+      { key: "ResourceLevelName", text: "名称", width: 200 },
+      { key: "ResourceLevelExpMsg", text: "类路径", width: 450 }
     ],
-    ctrls: [],
-    ctrlsWidth: 130
+    ctrls: [
+      { text: (idx) => '编辑', handler: this.edit.bind(this) }
+    ],
+    ctrlsWidth: 50
   };
 
   data: Array<any> = [];
 
-  constructor(private service: ResourceManangerService,
+  constructor(private tablelet: TableletService,
     private routeService: RouteService,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private dao: DaoUtil,
+    private restCode: RestCode) {
   }
 
   ngOnInit() {
@@ -43,6 +44,19 @@ export class ResourceManagerComponent implements OnInit, OnDestroy {
       init: true,
       route: this.route.routeConfig
     });
+
+    const self = this;
+    this.tablelet.getData(TableletService.RESOURCE_MANAGER).subscribe(
+      data => self.data = data
+    );
+
+    this.dao.getJSON(API.getAPI("resource-level/list"))
+      .subscribe(
+        ret => this.restCode.checkCode(ret, (retBody) => {
+          self.tablelet.setData(TableletService.RESOURCE_MANAGER, retBody);
+        }),
+        err => DaoUtil.logError(err)
+      );
   }
 
   ngOnDestroy() {
@@ -53,7 +67,19 @@ export class ResourceManagerComponent implements OnInit, OnDestroy {
   }
 
   toAdd() {
-    this.service.setMaskStatus(true);
+    this.tablelet.setMaskStatus(TableletService.RESOURCE_MANAGER, {
+      mask: true,
+      submitText: '添加'
+    });
+  }
+
+  edit(idx) {
+    this.tablelet.setMaskStatus(TableletService.RESOURCE_MANAGER, {
+      idx: idx,
+      model: this.data[idx],
+      mask: true,
+      submitText: '保存'
+    });
   }
 
 }

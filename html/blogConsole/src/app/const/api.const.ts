@@ -12,6 +12,14 @@ export class API {
     "admin/verify": {
       "prod": "http://server.caols.tech:9999/metaApi/admin/verify",
       "dev": "http://localhost:9999/metaApi/admin/verify"
+    },
+    "resource-level/set": {
+      "prod": "http://server.caols.tech:9999/api/blog/resource-level/set",
+      "dev": "http://localhost:9999/api/blog/resource-level/set"
+    },
+    "resource-level/list": {
+      "prod": "http://server.caols.tech:9999/api/blog/resource-level/list",
+      "dev": "http://localhost:9999/api/blog/resource-level/list"
     }
   };
 
