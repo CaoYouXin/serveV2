@@ -4,14 +4,12 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpModule} from "@angular/http";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
-
-import {RestCode} from "./const/index";
-import {DaoUtil} from "caols-common-modules";
+import {RestCode, DaoUtil} from "./http/index";
 import {AppComponent} from "./app.component";
 import {AppRoutingModule} from "./app.router";
 import {AppRoutingComponent, HomeComponent, LoginComponent, TableComponent,} from "./component/index";
 import {AuthGuard, LoginResolver} from "./guard/index";
-import {AdminService, RouteService,} from "./service/index";
+import {AdminService, RouteService, BlogService} from "./service/index";
 import {TestComponent} from "./test/test.component";
 import {TabsComponent} from "./tabs/tabs.component";
 
@@ -40,6 +38,7 @@ import {TabsComponent} from "./tabs/tabs.component";
     LoginResolver,
     RouteService,
     AdminService,
+    BlogService
   ],
   bootstrap: [AppComponent]
 })

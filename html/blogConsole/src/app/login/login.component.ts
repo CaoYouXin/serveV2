@@ -3,12 +3,12 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {AdminService} from "../service/index";
 import {DaoUtil} from "caols-common-modules";
-import {RestCode} from "../const/index";
+import {RestCode} from "../http/index";
 
 @Component({
   selector: 'login',
   templateUrl: './login.component.html',
-  styleUrls: ['../form/form.component.css']
+  styleUrls: ['../common-style/form.component.css']
 })
 export class LoginComponent implements OnInit {
 

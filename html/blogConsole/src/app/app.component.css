@@ -50,3 +50,11 @@ nav {
   width: 80%;
   float: right;
 }
+
+.ext {
+  position: fixed;
+  z-index: 2;
+
+  top: 0.5em;
+  right: 3em;
+}

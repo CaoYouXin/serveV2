@@ -1,5 +1,5 @@
 import {Component, HostBinding, OnInit} from "@angular/core";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {slideInDownAnimation} from "../animation/route.animation";
 import {RouteService} from "../service/index";
 
@@ -20,11 +20,17 @@ export class TabsComponent implements OnInit {
   selectedR: any;
 
   constructor(private route: ActivatedRoute,
-              private service: RouteService) {
+              private service: RouteService,
+              private router: Router) {
   }
 
   ngOnInit() {
     this.children = this.route.routeConfig.children;
+    
+    if (this.children && this.children.length) {
+      this.selectedR = this.children[0];
+      this.router.navigate([this.route.routeConfig.path, this.children[0].path]);
+    }
 
     // const self = this;
     // this.service.getRoute().subscribe(
