@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import rest.JsonResponse;
 
+import java.lang.reflect.Proxy;
+import java.util.Arrays;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -76,6 +78,14 @@ class DataAccessTest {
         DateEntity anotherBean = BeanManager.getInstance().createBean(DateEntity.class);
         anotherBean.setDate(new Date());
         System.out.println(anotherBean.getDate());
+    }
+
+    @Test
+    void test8() {
+        Entity1 bean = BeanManager.getInstance().createBean(Entity1.class, "{\"A\":\"AAA\"}");
+        System.out.println(bean.getClass());
+        System.out.println(Proxy.isProxyClass(bean.getClass()));
+        System.out.println(Arrays.toString(bean.getClass().getInterfaces()));
     }
 
 }

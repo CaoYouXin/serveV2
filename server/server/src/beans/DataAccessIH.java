@@ -33,6 +33,16 @@ public class DataAccessIH implements InvocationHandler {
                         return fallback;
                     });
                     return dateFormat.parse((String) value);
+                case "java.lang.Long":
+                    if (value instanceof Long) {
+                        return value;
+                    }
+
+                    if (value instanceof Integer) {
+                        return Long.parseLong(Integer.toString((Integer) value));
+                    }
+
+                    throw new RuntimeException("value is not a number type.");
                 default:
                     return value;
             }

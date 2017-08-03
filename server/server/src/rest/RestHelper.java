@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -84,17 +85,24 @@ public class RestHelper {
         Class[] paramTypes = new Class[params.length];
         int idx = 0;
         for (Object param : params) {
-            paramTypes[idx++] = param.getClass();
+            Class<?> aClass = param.getClass();
+            if (Proxy.isProxyClass(aClass)) {
+                paramTypes[idx++] = aClass.getInterfaces()[0];
+            } else {
+                paramTypes[idx++] = aClass;
+            }
         }
 
         Object ret;
         try {
             Method method = service.getClass().getDeclaredMethod(methodName, paramTypes);
             ret = method.invoke(service, params);
-        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             logger.catching(e);
+            responseJSON(response, JsonResponse.fail(RestCode.GENERAL_ERROR, "发生程序错误！"));
             return;
         } catch (Throwable t) {
+            logger.catching(t);
             catching(t, response, RestCode.GENERAL_ERROR);
             return;
         }
