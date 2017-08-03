@@ -1,0 +1,9 @@
+<div class="mask" *ngIf="mask">
+  <div class="wrapper">
+
+    <div class="buttons">
+      <button (click)="add()" [disabled]="loading">添加</button>
+      <button (click)="cancel()">取消</button>
+    </div>
+  </div>
+</div>

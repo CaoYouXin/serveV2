@@ -1,11 +1,11 @@
 import {Component, HostBinding} from "@angular/core";
-import {slideInDownAnimation} from "../animation/route.animation";
+import {slideInUpAnimation} from "../animation/route.animation";
 
 @Component({
   selector: 'home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
-  animations: [slideInDownAnimation]
+  animations: [slideInUpAnimation]
 })
 export class HomeComponent {
 

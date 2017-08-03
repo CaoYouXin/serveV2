@@ -6,6 +6,7 @@ import {NavigationCancel, NavigationEnd, Router} from "@angular/router";
 @Injectable()
 export class RouteService {
   private subject = new Subject<any>();
+  private currentRouteConfig = new Subject<any>();
 
   constructor(private router: Router) {
     const self = this;
@@ -27,5 +28,13 @@ export class RouteService {
 
   getRoute(): Observable<any> {
     return this.subject.asObservable();
+  }
+
+  getCurrentRouteConfig(): Observable<any> {
+    return this.currentRouteConfig.asObservable();
+  }
+
+  setCurrentRouteConfig(routeConfig) {
+    this.currentRouteConfig.next(routeConfig);
   }
 }

@@ -8,6 +8,7 @@
   border-radius: 0.6em;
 
   cursor: default;
+  user-select: none;
 }
 
 .nav.selected {

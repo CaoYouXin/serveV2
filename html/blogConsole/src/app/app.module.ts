@@ -7,9 +7,22 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RestCode, DaoUtil } from "./http/index";
 import { AppComponent } from "./app.component";
 import { AppRoutingModule } from "./app.router";
-import { AppRoutingComponent, HomeComponent, LoginComponent, TableComponent, TabsComponent } from "./component/index";
+import {
+  AppRoutingComponent,
+  HomeComponent,
+  LoginComponent,
+  TableComponent,
+  TabsComponent,
+  ResourceManagerComponent,
+  ResourceManangerMaskComponent
+} from "./component/index";
 import { AuthGuard, LoginResolver } from "./guard/index";
-import { AdminService, RouteService, BlogService } from "./service/index";
+import {
+  AdminService,
+  RouteService,
+  BlogService,
+  ResourceManangerService
+} from "./service/index";
 import { TestComponent } from "./test/test.component";
 
 @NgModule({
@@ -20,7 +33,9 @@ import { TestComponent } from "./test/test.component";
     LoginComponent,
     TableComponent,
     TestComponent,
-    TabsComponent
+    TabsComponent,
+    ResourceManagerComponent,
+    ResourceManangerMaskComponent
   ],
   imports: [
     BrowserModule,
@@ -37,7 +52,8 @@ import { TestComponent } from "./test/test.component";
     LoginResolver,
     RouteService,
     AdminService,
-    BlogService
+    BlogService,
+    ResourceManangerService
   ],
   bootstrap: [AppComponent]
 })

@@ -1,13 +1,13 @@
-import {Component, HostBinding, OnInit} from "@angular/core";
-import {ActivatedRoute, Router} from "@angular/router";
-import {slideInDownAnimation} from "../animation/route.animation";
-import {RouteService} from "../service/index";
+import { Component, HostBinding, OnInit } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
+import { slideInUpAnimation } from "../animation/route.animation";
+import { RouteService } from "../service/index";
 
 @Component({
   selector: 'tabs',
   templateUrl: './tabs.component.html',
   styleUrls: ['./tabs.component.css'],
-  animations: [slideInDownAnimation]
+  animations: [slideInUpAnimation]
 })
 export class TabsComponent implements OnInit {
 
@@ -20,35 +20,43 @@ export class TabsComponent implements OnInit {
   selectedR: any;
 
   constructor(private route: ActivatedRoute,
-              private service: RouteService,
-              private router: Router) {
+    private service: RouteService,
+    private router: Router) {
   }
 
   ngOnInit() {
     this.children = this.route.routeConfig.children;
-    
-    if (this.children && this.children.length) {
-      this.selectedR = this.children[0];
-      this.router.navigate([this.route.routeConfig.path, this.children[0].path]);
-    }
+    this.selectedR = null;
 
-    // const self = this;
-    // this.service.getRoute().subscribe(
-    //   msg => {
-    //     let root = self.route.routeConfig.path;
-    //     let path = msg.url.substr(1);
-    //
-    //     self.children.forEach(router => {
-    //       let equals = path.startsWith(root + '/' + router.path);
-    //
-    //       if (equals && msg.seleted) {
-    //         self.selectedR = router;
-    //       } else if (self.selectedR === router) {
-    //         self.selectedR = null;
-    //       }
-    //     });
-    //   }
-    // );
+    const self = this;
+    this.service.getCurrentRouteConfig().subscribe(
+      msg => {
+        let eqauls = false;
+        let selected = null;
+        self.children.forEach(router => {
+          if (router === msg.route) {
+            eqauls = true;
+            selected = router;
+          }
+        });
+
+        if (eqauls) {
+          if (msg.init) {
+            setTimeout((self) => { self.selectedR = selected; }, 0, self);
+          } else {
+            setTimeout((self) => { self.selectedR = null; }, 0, self);
+          }
+        }
+        // self.selectedR = routeConfig;
+      }
+    );
+
+    setTimeout((self) => {
+      if (!self.selectedR && self.children && self.children.length) {
+        self.selectedR = self.children[0];
+        self.router.navigate([self.route.routeConfig.path, self.children[0].path]);
+      }
+    }, 1000, this);
   }
 
 }

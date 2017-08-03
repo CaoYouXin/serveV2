@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { HomeComponent, LoginComponent, TabsComponent } from "./component/index";
+import { HomeComponent, LoginComponent, TabsComponent, ResourceManagerComponent } from "./component/index";
 import { TestComponent } from "./test/test.component";
 
 export const routes: Routes = [
@@ -10,8 +10,8 @@ export const routes: Routes = [
     children: [
       {
         path: 'types',
-        component: TestComponent,
-        data: { name: "资源类型管理", color: 'yellow' }
+        component: ResourceManagerComponent,
+        data: { name: "资源类型管理" }
       },
       {
         path: 'mapping',

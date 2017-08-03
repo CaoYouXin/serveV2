@@ -1,7 +1,7 @@
 import {animate, AnimationEntryMetadata, state, style, transition, trigger} from '@angular/core';
 
 // Component transition animations
-export const slideInDownAnimation: AnimationEntryMetadata =
+export const slideInUpAnimation: AnimationEntryMetadata =
   trigger('routeAnimation', [
     state('*',
       style({
