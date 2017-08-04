@@ -1,10 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
-*, *:before, *:after {
+
+@font-face {
+  font-family: 'D_Wawati';
+  /* src: url('YourWebFontName.eot?') format('eot');
+  src: url('YourWebFontName.woff') format('woff'), url('YourWebFontName.ttf') format('truetype'); */
+  src: url('assets/Wawati-SC-Regular.otf') format('otf');
+}
+
+*,
+*:before,
+*:after {
   margin: 0;
   padding: 0;
   border: none;
   box-sizing: border-box;
-
   font-family: "Wawati SC", "Hiragino Sans GB", "Microsoft Yahei", "WenQuanYi Micro Hei", monospace;
 }
 
