@@ -29,7 +29,7 @@ public class SetResourceLevelMappingCtrl extends WithMatcher {
 
     @Override
     public String urlPattern() {
-        return "/blog/resource-level-mapping/list";
+        return "/blog/resource-level-mapping/set";
     }
 
     @Override
