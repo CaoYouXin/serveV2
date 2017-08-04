@@ -31,9 +31,9 @@ export class TabsComponent implements OnInit {
     const self = this;
     this.service.getCurrentRouteConfig().subscribe(
       msg => {
-        if (msg.init && null !== self.selectedR) {
-          return;
-        }
+        // if (msg.init && null !== self.selectedR) {
+        //   return;
+        // }
 
         let eqauls = false;
         let selected = null;
