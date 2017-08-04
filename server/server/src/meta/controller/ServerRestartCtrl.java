@@ -12,6 +12,7 @@ import rest.WithMatcher;
 import util.BashUtil;
 
 import java.io.IOException;
+import java.util.Map;
 
 public class ServerRestartCtrl extends WithMatcher {
 
@@ -27,13 +28,16 @@ public class ServerRestartCtrl extends WithMatcher {
 
     @Override
     public String urlPattern() {
-        return "/server/restart";
+        return "/server/restart/:downCount";
     }
 
     @Override
     public void handle(HttpRequest request, HttpResponse response, HttpContext context) throws HttpException, IOException {
+        Map<String, String> params = this.getUriPatternMatcher().getParams(request);
+        String downCount = params.get("downCount");
+
         String jarFilepath = Configs.getConfigs(Configs.JAR_FILE_PATH, String.class);
-        BashUtil.run(String.format("nohup java -jar %s restart", jarFilepath), false);
-        RestHelper.responseJSON(response, JsonResponse.success(125));
+        BashUtil.run(String.format("nohup java -jar %s restart " + downCount, jarFilepath), false);
+        RestHelper.responseJSON(response, JsonResponse.success(Math.min(10, Integer.parseInt(downCount)) + 5));
     }
 }

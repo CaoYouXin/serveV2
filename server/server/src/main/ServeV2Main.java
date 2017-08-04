@@ -65,17 +65,17 @@ public class ServeV2Main {
                 stopServer();
                 break;
             case "restart":
-                restartServer();
+                restartServer(Integer.parseInt(args[1]));
                 break;
             default:
                 System.err.println(String.format("未识别参数 : %s！", args[0]));
         }
     }
 
-    private static void restartServer() {
+    private static void restartServer(int seconds) {
         stopServer();
         try {
-            TimeUnit.MINUTES.sleep(2);
+            TimeUnit.SECONDS.sleep(Math.min(10, seconds));
             startServer();
         } catch (InterruptedException e) {
             logger.catching(e);

@@ -26,8 +26,8 @@ export class API {
       "dev": "http://localhost:9999/metaApi/admin/verify"
     },
     "server/restart": {
-      "prod": "http://server.caols.tech:9999/metaApi/server/restart",
-      "dev": "http://localhost:9999/metaApi/server/restart"
+      "prod": "http://server.caols.tech:9999/metaApi/server/restart/125",
+      "dev": "http://localhost:9999/metaApi/server/restart/12"
     },
     "upload/code": {
       "prod": function (path) {

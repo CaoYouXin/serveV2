@@ -6,4 +6,6 @@ cp -a production/service/auth out/classpath
 cp -a production/repository/repository out/classpath
 cp -a production/repository/data out/classpath
 
+cp -a production/blog/blog out/classpath
+
 echo "done"
