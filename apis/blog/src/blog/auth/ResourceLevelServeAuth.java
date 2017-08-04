@@ -46,6 +46,9 @@ public class ResourceLevelServeAuth implements ServeAuth {
         }
 
         Long userId = this.getUserId(httpRequest);
+        if (null == userId) {
+            throw new AuthRuntimeException(matchedMapping.getResourceLevelExpMsg());
+        }
 
         List<EIResourceLevel> eiResourceLevels = this.resourceLevelRepo.queryByUserId(userId);
         for (EIResourceLevel eiResourceLevel : eiResourceLevels) {
@@ -60,16 +63,16 @@ public class ResourceLevelServeAuth implements ServeAuth {
     private Long getUserId(HttpRequest httpRequest) {
         Header header = httpRequest.getLastHeader("infinitely-serve-token");
         if (null == header) {
-            throw new AuthRuntimeException("请求头中未包含【infinitely-serve-token】.");
+            return null;
         }
 
         EIUserToken eiUserToken = this.userTokenRepo.findByUserToken(header.getValue());
         if (null == eiUserToken) {
-            throw new AuthRuntimeException("没有登录信息");
+            return null;
         }
 
         if (eiUserToken.getUserTokenDeadTime().before(new Date())) {
-            throw new AuthRuntimeException("Token过期，请重新登录");
+            return null;
         }
 
         return eiUserToken.getUserId();
