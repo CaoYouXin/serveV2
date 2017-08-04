@@ -46,6 +46,10 @@ public class DataAccessIH implements InvocationHandler {
                         return Long.parseLong(Integer.toString((Integer) value));
                     }
 
+                    if (value instanceof String) {
+                        return Long.parseLong((String) value);
+                    }
+
                     throw new RuntimeException("value is not a number type.");
                 default:
                     return value;
