@@ -37,7 +37,7 @@ export class TableletService {
     this.makeExist(this.lastData, key, () => []);
 
     let dataArray = this.lastData[key];
-    if (!idx) {
+    if (null === idx) {
       dataArray = [data, ...dataArray];
     } else {
       dataArray = [...dataArray.slice(0, idx), data, ...dataArray.slice(idx + 1)];

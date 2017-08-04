@@ -112,7 +112,7 @@ export class ResourceManangerMaskComponent implements OnInit {
       ret => {
         self.loading = false;
         self.restCode.checkCode(ret, (retBody) => {
-          self.tablelet.addData(TableletService.RESOURCE_MANAGER, !data.ResourceLevelId ? null : self.idx, retBody);
+          self.tablelet.addData(TableletService.RESOURCE_MANAGER, null === data.ResourceLevelId ? null : self.idx, retBody);
           self.tablelet.setMaskStatus(TableletService.RESOURCE_MANAGER, { mask: false });
         });
       },
