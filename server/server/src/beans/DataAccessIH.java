@@ -20,6 +20,10 @@ public class DataAccessIH implements InvocationHandler {
         if (name.startsWith("get")) {
             Object value = this.data.get(name.substring("get".length()));
 
+            if (null == value) {
+                return null;
+            }
+
             switch (method.getReturnType().getTypeName()) {
                 case "java.util.Date":
                     if (value instanceof Date) {

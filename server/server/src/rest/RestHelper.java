@@ -21,6 +21,7 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.lang.reflect.UndeclaredThrowableException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -102,7 +103,6 @@ public class RestHelper {
             responseJSON(response, JsonResponse.fail(RestCode.GENERAL_ERROR, "发生程序错误！"));
             return;
         } catch (Throwable t) {
-            logger.catching(t);
             catching(t, response, RestCode.GENERAL_ERROR);
             return;
         }
@@ -110,17 +110,13 @@ public class RestHelper {
     }
 
     public static void catching(Throwable e, HttpResponse response, int code) {
-        if (e instanceof RuntimeException) {
-            RestHelper.responseJSON(response, JsonResponse.fail(RestCode.GENERAL_ERROR, e.getMessage()));
-            return;
+        logger.catching(e);
+
+        while (null != e.getCause()) {
+            e = e.getCause();
         }
 
-        e = e.getCause();
-        if (!(e instanceof InvocationTargetException)) {
-            RestHelper.responseJSON(response, JsonResponse.fail(RestCode.GENERAL_ERROR, "未知错误"));
-            return;
-        }
-        RestHelper.responseJSON(response, JsonResponse.fail(code, e.getCause().getMessage()));
+        RestHelper.responseJSON(response, JsonResponse.fail(code, "错误：" + e.getMessage()));
     }
 
     public static void crossOrigin(HttpRequest request, HttpResponse response) {
