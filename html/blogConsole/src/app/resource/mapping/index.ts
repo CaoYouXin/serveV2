@@ -1,1 +1,2 @@
-export * from './component';
+export * from './table.component';
+export * from './mask.component';

@@ -6,6 +6,7 @@ import {Subject} from "rxjs/Subject";
 export class TableletService {
 
   static RESOURCE_MANAGER = "RESOURCE_MANAGER";
+  static RESOURCE_MAPPING = "RESOURCE_MAPPING";
 
   private maskStatusSubjects = {};
   private dataSubjects = {};

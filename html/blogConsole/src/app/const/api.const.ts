@@ -20,6 +20,14 @@ export class API {
     "resource-level/list": {
       "prod": "http://server.caols.tech:9999/api/blog/resource-level/list",
       "dev": "http://localhost:9999/api/blog/resource-level/list"
+    },
+    "resource-mapping/list": {
+      "prod": "http://server.caols.tech:9999/api/blog/resource-level-mapping/list",
+      "dev": "http://localhost:9999/api/blog/resource-level-mapping/list"
+    },
+    "resource-level-mapping/set": {
+      "prod": "http://server.caols.tech:9999/api/blog/resource-level-mapping/set",
+      "dev": "http://localhost:9999/api/blog/resource-level-mapping/set"
     }
   };
 

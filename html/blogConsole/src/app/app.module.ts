@@ -14,7 +14,9 @@ import {
   TableComponent,
   TabsComponent,
   ResourceManagerComponent,
-  ResourceManangerMaskComponent
+  ResourceManangerMaskComponent,
+  ResourceMappingComponent,
+  ResourceMappingMaskComponent
 } from "./component/index";
 import { AuthGuard, LoginResolver } from "./guard/index";
 import {
@@ -35,7 +37,9 @@ import { TestComponent } from "./test/test.component";
     TestComponent,
     TabsComponent,
     ResourceManagerComponent,
-    ResourceManangerMaskComponent
+    ResourceManangerMaskComponent,
+    ResourceMappingComponent,
+    ResourceMappingMaskComponent
   ],
   imports: [
     BrowserModule,

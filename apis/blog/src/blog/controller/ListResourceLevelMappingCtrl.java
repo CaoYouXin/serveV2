@@ -33,6 +33,6 @@ public class ListResourceLevelMappingCtrl extends WithMatcher {
 
     @Override
     public void handle(HttpRequest httpRequest, HttpResponse httpResponse, HttpContext httpContext) throws HttpException, IOException {
-        RestHelper.oneCallAndRet(httpResponse, this.resourceLevelMappingService, "list");
+        RestHelper.oneCallAndRet(httpResponse, this.resourceLevelMappingService, "listDetails");
     }
 }

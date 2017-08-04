@@ -31,6 +31,10 @@ export class TabsComponent implements OnInit {
     const self = this;
     this.service.getCurrentRouteConfig().subscribe(
       msg => {
+        if (msg.init && null !== self.selectedR) {
+          return;
+        }
+
         let eqauls = false;
         let selected = null;
         self.children.forEach(router => {
@@ -52,7 +56,7 @@ export class TabsComponent implements OnInit {
     );
 
     setTimeout((self) => {
-      if (!self.selectedR && self.children && self.children.length) {
+      if (null === self.selectedR && self.children && self.children.length) {
         self.selectedR = self.children[0];
         self.router.navigate([self.route.routeConfig.path, self.children[0].path]);
       }

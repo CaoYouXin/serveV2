@@ -21,8 +21,8 @@ export class ResourceManagerComponent implements OnInit, OnDestroy {
   tableDef: any = {
     heads: [
       { key: "ResourceLevelId", text: "ID", width: 50 },
-      { key: "ResourceLevelName", text: "名称", width: 200 },
-      { key: "ResourceLevelExpMsg", text: "类路径", width: 450 }
+      { key: "ResourceLevelName", text: "资源等级名称", width: 200 },
+      { key: "ResourceLevelExpMsg", text: "资源等级例外说明", width: 450 }
     ],
     ctrls: [
       { text: (idx) => '编辑', handler: this.edit.bind(this) }

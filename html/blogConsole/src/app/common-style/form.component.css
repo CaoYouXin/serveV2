@@ -1,13 +1,10 @@
 input[type="text"],
 input[type="password"] {
   outline: none;
-
   width: 300px;
   height: 25px;
-
   border: solid 1px blueviolet;
   border-radius: 5px;
-
   border-left: solid 5px green;
 }
 
@@ -20,13 +17,10 @@ input[type="password"]:focus {
 textarea {
   outline: none;
   resize: none;
-
   width: 300px;
   height: 5em;
-
   border: solid 1px blueviolet;
   border-radius: 5px;
-
   border-left: solid 5px green;
 }
 
@@ -35,14 +29,35 @@ textarea:focus {
   border-left: solid 5px blueviolet;
 }
 
+select {
+  outline: none;
+  user-select: none;
+  
+  background-image: linear-gradient(#FAFAFA, #F4F4F4 40%, #E5E5E5);
+  color: #555;
+  font-size: inherit;
+  overflow: hidden;
+  padding: 5px 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 300px;
+
+  border: solid 1px blueviolet;
+  border-radius: 5px;
+  border-left: solid 5px green;
+}
+
+select:focus {
+  box-shadow: 0 0 5px blueviolet;
+  border-left: solid 5px blueviolet;
+}
+
 input[type="button"],
 input[type="submit"] {
   outline: none;
-
   background: white;
   color: black;
   padding: .5em 1.5em;
-
   border-radius: 5px;
   border: solid 1px #34352C;
 }
@@ -61,7 +76,7 @@ input[type="submit"]:active:not(*[disabled]) {
   top: 2px;
 }
 
-fieldset + fieldset {
+fieldset+fieldset {
   margin-top: 1em;
 }
 
@@ -73,10 +88,8 @@ h2 {
 .center {
   margin: 0 auto;
   width: 330px;
-
   padding: 15px;
   border-radius: 10px;
-
   background-color: rgba(149, 200, 123, 0.8);
 }
 

@@ -1,6 +1,12 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { HomeComponent, LoginComponent, TabsComponent, ResourceManagerComponent } from "./component/index";
+import {
+  HomeComponent,
+  LoginComponent,
+  TabsComponent,
+  ResourceManagerComponent,
+  ResourceMappingComponent
+} from "./component/index";
 import { TestComponent } from "./test/test.component";
 
 export const routes: Routes = [
@@ -15,8 +21,18 @@ export const routes: Routes = [
       },
       {
         path: 'mapping',
+        component: ResourceMappingComponent,
+        data: { name: "资源-文件映射管理" }
+      },
+      {
+        path: 'upload',
         component: TestComponent,
-        data: { name: "资源-文件映射管理", color: 'green' }
+        data: { name: "资源上传管理", color: 'greenyellow' }
+      },
+      {
+        path: 'deploy',
+        component: TestComponent,
+        data: { name: "资源部署管理", color: 'yellowgreen' }
       }
     ]
   },
