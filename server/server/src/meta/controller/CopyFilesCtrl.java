@@ -4,9 +4,10 @@ import auth.AuthHelper;
 import beans.BeanManager;
 import meta.service.IFileService;
 import meta.service.IResourceService;
+import meta.service.exp.ResourceTransformException;
 import meta.service.impl.FileServiceImpl;
 import meta.service.impl.ResourceServiceImpl;
-import meta.view.EIFileInfo;
+import meta.view.EIFileCopy;
 import org.apache.http.HttpException;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
@@ -16,12 +17,10 @@ import rest.RestCode;
 import rest.RestHelper;
 import rest.WithMatcher;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
+import java.util.ArrayList;
 
-public class ListFileCtrl extends WithMatcher {
+public class CopyFilesCtrl extends WithMatcher {
 
     static {
         BeanManager.getInstance().setService(IFileService.class, FileServiceImpl.class);
@@ -31,6 +30,7 @@ public class ListFileCtrl extends WithMatcher {
     private IFileService fileService = BeanManager.getInstance().getService(IFileService.class);
     private IResourceService resourceService = BeanManager.getInstance().getService(IResourceService.class);
 
+
     @Override
     public int auth() {
         return AuthHelper.ADMIN;
@@ -38,29 +38,38 @@ public class ListFileCtrl extends WithMatcher {
 
     @Override
     public String name() {
-        return "meta list file";
+        return "copy files";
     }
 
     @Override
     public String urlPattern() {
-        return "/list/:path";
+        return "/copy";
     }
 
     @Override
     public void handle(HttpRequest request, HttpResponse response, HttpContext context) throws HttpException, IOException {
-        Map<String, String> params = this.getUriPatternMatcher().getParams(request);
-        String path = params.get("path");
-
-
-        String transformed = null;
-        try {
-            transformed = this.resourceService.transformFromPath(path);
-        } catch (Throwable e) {
-            RestHelper.catching(e, response, RestCode.GENERAL_ERROR);
+        if (!RestHelper.isPost(request, response)) {
             return;
         }
 
-        List<EIFileInfo> children = this.fileService.getChildren(new File(transformed));
-        RestHelper.responseJSON(response, JsonResponse.success(children));
+        EIFileCopy fileCopy = RestHelper.getBodyAsObject(request, EIFileCopy.class);
+        EIFileCopy transformedFileCopy = BeanManager.getInstance().createBean(EIFileCopy.class);
+
+        try {
+            transformedFileCopy.setDst(this.resourceService.transformFromPath(fileCopy.getDst()));
+            for (String src : fileCopy.getSrc()) {
+                if (null == transformedFileCopy.getSrc()) {
+                    transformedFileCopy.setSrc(new ArrayList<>());
+                }
+
+                transformedFileCopy.getSrc().add(this.resourceService.transformFromPath(src));
+            }
+        } catch (ResourceTransformException e) {
+            RestHelper.responseJSON(response, JsonResponse.fail(RestCode.GENERAL_ERROR, "操作出错"));
+            return;
+        }
+
+        Boolean copyRet = this.fileService.copy(transformedFileCopy.getSrc(), transformedFileCopy.getDst());
+        RestHelper.responseJSON(response, JsonResponse.success(copyRet ? "操作成功" : "操作失败"));
     }
 }

@@ -6,7 +6,6 @@ import meta.service.IFileService;
 import meta.service.IResourceService;
 import meta.service.impl.FileServiceImpl;
 import meta.service.impl.ResourceServiceImpl;
-import meta.view.EIFileInfo;
 import org.apache.http.HttpException;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
@@ -18,10 +17,9 @@ import rest.WithMatcher;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 
-public class ListFileCtrl extends WithMatcher {
+public class DeleteFileCtrl extends WithMatcher {
 
     static {
         BeanManager.getInstance().setService(IFileService.class, FileServiceImpl.class);
@@ -38,12 +36,12 @@ public class ListFileCtrl extends WithMatcher {
 
     @Override
     public String name() {
-        return "meta list file";
+        return "delete file";
     }
 
     @Override
     public String urlPattern() {
-        return "/list/:path";
+        return "/delete/:path";
     }
 
     @Override
@@ -60,7 +58,7 @@ public class ListFileCtrl extends WithMatcher {
             return;
         }
 
-        List<EIFileInfo> children = this.fileService.getChildren(new File(transformed));
-        RestHelper.responseJSON(response, JsonResponse.success(children));
+        Boolean deleteRet = this.fileService.delete(new File(transformed));
+        RestHelper.responseJSON(response, JsonResponse.success(deleteRet ? "操作成功" : "操作失败"));
     }
 }
