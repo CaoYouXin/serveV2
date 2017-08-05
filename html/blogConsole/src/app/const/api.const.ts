@@ -52,6 +52,26 @@ export class API {
       "dev": function (path, to) {
         return `http://localhost:9999/metaApi/unzip/${path}?to=${to}`;
       }
+    },
+    "delete/file": {
+      "prod": function (path) {
+        return `http://server.caols.tech:9999/metaApi/delete/${path}`;
+      },
+      "dev": function (path) {
+        return `http://localhost:9999/metaApi/delete/${path}`;
+      }
+    },
+    "create/file": {
+      "prod": function (path) {
+        return `http://server.caols.tech:9999/metaApi/create/${path}`;
+      },
+      "dev": function (path) {
+        return `http://localhost:9999/metaApi/create/${path}`;
+      }
+    },
+    "copy/file": {
+      "prod": "http://server.caols.tech:9999/metaApi/copy",
+      "dev": "http://localhost:9999/metaApi/copy"
     }
   };
 

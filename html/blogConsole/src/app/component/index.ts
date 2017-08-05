@@ -5,3 +5,5 @@ export * from '../login/index';
 export * from '../tabs/index';
 export * from '../resource/index';
 export * from "../upload.code";
+export * from "../deploy.dst";
+export * from "../deploy.src";

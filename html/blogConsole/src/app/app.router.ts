@@ -6,7 +6,8 @@ import {
   TabsComponent,
   ResourceManagerComponent,
   ResourceMappingComponent,
-  ResourceUploadComponent
+  ResourceUploadComponent,
+  ResourceDeployComponent
 } from "./component/index";
 import { TestComponent } from "./test/test.component";
 
@@ -32,8 +33,8 @@ export const routes: Routes = [
       },
       {
         path: 'deploy',
-        component: TestComponent,
-        data: { name: "资源部署管理", color: 'yellowgreen' }
+        component: ResourceDeployComponent,
+        data: { name: "资源部署管理" }
       }
     ]
   },

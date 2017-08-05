@@ -5,7 +5,7 @@ import {DaoUtil, RestCode} from "../http";
 @Component({
   selector: 'upload-code',
   templateUrl: './upload.code.component.html',
-  styleUrls: ['./upload.code.component.css']
+  styleUrls: ['../common-style/resource.component.css']
 })
 export class UploadCodeComponent implements OnInit {
 

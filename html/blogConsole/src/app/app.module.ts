@@ -14,11 +14,14 @@ import {
   TableComponent,
   TabsComponent,
   UploadCodeComponent,
+  DeployDstComponent,
+  DeploySrcComponent,
   ResourceManagerComponent,
   ResourceManangerMaskComponent,
   ResourceMappingComponent,
   ResourceMappingMaskComponent,
-  ResourceUploadComponent
+  ResourceUploadComponent,
+  ResourceDeployComponent
 } from "./component/index";
 import { AuthGuard, LoginResolver } from "./guard/index";
 import {
@@ -41,11 +44,14 @@ import { TestComponent } from "./test/test.component";
     TestComponent,
     TabsComponent,
     UploadCodeComponent,
+    DeployDstComponent,
+    DeploySrcComponent,
     ResourceManagerComponent,
     ResourceManangerMaskComponent,
     ResourceMappingComponent,
     ResourceMappingMaskComponent,
-    ResourceUploadComponent
+    ResourceUploadComponent,
+    ResourceDeployComponent
   ],
   imports: [
     BrowserModule,

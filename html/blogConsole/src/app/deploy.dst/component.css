@@ -1,0 +1,8 @@
+button.red {
+  color: white;
+  background-color: red;
+}
+
+button.red:hover {
+  background-color: indianred;
+}
