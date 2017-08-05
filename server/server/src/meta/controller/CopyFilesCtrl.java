@@ -55,6 +55,7 @@ public class CopyFilesCtrl extends WithMatcher {
         EIFileCopy fileCopy = RestHelper.getBodyAsObject(request, EIFileCopy.class);
         EIFileCopy transformedFileCopy = BeanManager.getInstance().createBean(EIFileCopy.class);
 
+        Boolean copyRet = null;
         try {
             transformedFileCopy.setDst(this.resourceService.transformFromPath(fileCopy.getDst()));
             for (String src : fileCopy.getSrc()) {
@@ -64,12 +65,12 @@ public class CopyFilesCtrl extends WithMatcher {
 
                 transformedFileCopy.getSrc().add(this.resourceService.transformFromPath(src));
             }
-        } catch (ResourceTransformException e) {
-            RestHelper.responseJSON(response, JsonResponse.fail(RestCode.GENERAL_ERROR, "操作出错"));
+            copyRet = this.fileService.copy(transformedFileCopy.getSrc(), transformedFileCopy.getDst());
+        } catch (Throwable e) {
+            RestHelper.catching(e, response, RestCode.GENERAL_ERROR);
             return;
         }
 
-        Boolean copyRet = this.fileService.copy(transformedFileCopy.getSrc(), transformedFileCopy.getDst());
         RestHelper.responseJSON(response, JsonResponse.success(copyRet ? "操作成功" : "操作失败"));
     }
 }

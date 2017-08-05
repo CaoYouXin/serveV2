@@ -52,15 +52,15 @@ public class ListFileCtrl extends WithMatcher {
         String path = params.get("path");
 
 
-        String transformed = null;
+        List<EIFileInfo> children = null;
         try {
-            transformed = this.resourceService.transformFromPath(path);
+            String transformed = this.resourceService.transformFromPath(path);
+            children = this.fileService.getChildren(new File(transformed));
         } catch (Throwable e) {
             RestHelper.catching(e, response, RestCode.GENERAL_ERROR);
             return;
         }
 
-        List<EIFileInfo> children = this.fileService.getChildren(new File(transformed));
         RestHelper.responseJSON(response, JsonResponse.success(children));
     }
 }

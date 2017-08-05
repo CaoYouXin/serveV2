@@ -18,8 +18,10 @@ export class ResourceDeployComponent {
   @HostBinding("style.position") position = 'absolute';
   @HostBinding("style.width") width = '100%';
 
+  srcFileRoot: string = "upload/ready2deploy/";
   dstFileRoot: string = "serve/";
 
+  srcFiles: Array<string> = [];
   dstFile: string;
 
   constructor(private route: ActivatedRoute,
@@ -41,9 +43,41 @@ export class ResourceDeployComponent {
     });
   }
 
+  srcChange(msg) {
+    if (msg.clear) {
+      this.srcFiles = [];
+      return;
+    }
+
+    if (msg.selected) {
+      this.srcFiles = [msg.filepath, ...this.srcFiles];
+    } else {
+      let idx = this.srcFiles.findIndex((src) => src === msg.filepath);
+      this.srcFiles = [...this.srcFiles.slice(0, idx), ...this.srcFiles.slice(idx + 1)];
+    }
+  }
+
   dstChange(crtDst) {
     this.dstFile = crtDst;
-    console.log(this.dstFile);
+  }
+
+  deploy() {
+    if (this.srcFiles.length <= 0) {
+      alert('请选择要部署的文件。');
+      return;
+    }
+
+    if (!this.dstFile) {
+      alert('请锁定目标文件夹。');
+      return;
+    }
+
+    this.fileService.copy(this.srcFiles, this.dstFile).subscribe(
+      ret => this.rest.checkCode(ret, (retBody) => {
+        alert(retBody);
+      }),
+      err => DaoUtil.logError(err)
+    );
   }
 
 }

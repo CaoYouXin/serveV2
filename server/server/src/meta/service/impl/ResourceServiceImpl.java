@@ -5,6 +5,7 @@ import config.InitConfig;
 import meta.service.IResourceService;
 import meta.service.exp.ResourceTransformException;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,7 +28,7 @@ public class ResourceServiceImpl implements IResourceService {
 
     @Override
     public String transformFromPath(String path) throws ResourceTransformException {
-        int beginIndex = path.indexOf('/');
+        int beginIndex = path.indexOf(File.separatorChar);
         String head = path.substring(0, beginIndex);
 
         String transformed = this.transform(head);

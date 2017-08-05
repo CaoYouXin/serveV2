@@ -49,6 +49,7 @@ export class DeployDstComponent {
     this.service.create(this.path + input).subscribe(
       ret => this.rest.checkCode(ret, (retBody) => {
         self.fetch('.');
+        alert(retBody);
       }),
       err => DaoUtil.logError(err)
     );
@@ -71,6 +72,7 @@ export class DeployDstComponent {
         this.service.delete(this.path + file.Name).subscribe(
           ret => this.rest.checkCode(ret, (retBody) => {
             self.fetch('.');
+            alert(retBody);
           }),
           err => DaoUtil.logError(err)
         );
@@ -133,6 +135,7 @@ export class DeployDstComponent {
     if (this.LOCK_MODE === this.mode) {
       this.mode = this.CAN_LOCK_MODE;
 
+      this.handler.emit(null);
       this.fetch('.');
       return;
     }

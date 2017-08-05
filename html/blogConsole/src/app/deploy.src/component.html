@@ -1,0 +1,7 @@
+<div class="resource" [class.loading]="loading">
+  <div class="dir" (dblclick)="fetch('..')" *ngIf="path!==root">..</div>
+  <div *ngFor="let file of files" [class.file]="!file.Dir" [class.dir]="file.Dir"
+       (click)="append($event, file)" [class.selected]="file.selected" class="item"
+       (dblclick)="fetch(file.Dir ? file.Name + '/' : null)">{{file.Name}}
+  </div>
+</div>

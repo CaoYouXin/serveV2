@@ -26,7 +26,7 @@ public class FileCopy implements Callable<Boolean> {
                 if (ret) {
                     ret = new FileCopy(
                             this.src + (this.hasSepInEnd(this.src) ? "" : File.separator) + file.getName(),
-                            this.dst + (this.hasSepInEnd(this.dst) ? "" : File.separator) + file.getName()
+                            this.dst + (this.hasSepInEnd(this.dst) ? "" : File.separator) + srcFile.getName()
                     ).call();
                 }
             }
@@ -35,6 +35,12 @@ public class FileCopy implements Callable<Boolean> {
         }
 
         File dstFile = new File(this.dst + (this.hasSepInEnd(this.dst) ? "" : File.separator) + srcFile.getName());
+
+        if (!dstFile.exists()) {
+            dstFile.getParentFile().mkdirs();
+            dstFile.createNewFile();
+        }
+
         Files.copy(srcFile.toPath(), dstFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
         return true;

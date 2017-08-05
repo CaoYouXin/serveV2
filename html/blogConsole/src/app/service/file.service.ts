@@ -27,8 +27,8 @@ export class FileService {
 
   copy(src, dst) {
     return this.dao.postJSON(API.getAPI("copy/file"), {
-      src,
-      dst
+      Src: src,
+      Dst: dst
     });
   }
 

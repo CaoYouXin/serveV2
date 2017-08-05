@@ -58,6 +58,7 @@ public class FileServiceImpl implements IFileService {
                 }
             }
         } catch (Exception e) {
+            logger.catching(e);
             return false;
         }
         return ret;

@@ -50,15 +50,15 @@ public class DeleteFileCtrl extends WithMatcher {
         String path = params.get("path");
 
 
-        String transformed = null;
+        Boolean deleteRet = null;
         try {
-            transformed = this.resourceService.transformFromPath(path);
+            String transformed = this.resourceService.transformFromPath(path);
+            deleteRet = this.fileService.delete(new File(transformed));
         } catch (Throwable e) {
             RestHelper.catching(e, response, RestCode.GENERAL_ERROR);
             return;
         }
 
-        Boolean deleteRet = this.fileService.delete(new File(transformed));
         RestHelper.responseJSON(response, JsonResponse.success(deleteRet ? "操作成功" : "操作失败"));
     }
 }

@@ -50,15 +50,15 @@ public class CreateDirCtrl extends WithMatcher {
         String path = params.get("path");
 
 
-        String transformed = null;
+        Boolean createRet = null;
         try {
-            transformed = this.resourceService.transformFromPath(path);
+            String transformed = this.resourceService.transformFromPath(path);
+            createRet = this.fileService.createDir(new File(transformed));
         } catch (Throwable e) {
             RestHelper.catching(e, response, RestCode.GENERAL_ERROR);
             return;
         }
 
-        Boolean createRet = this.fileService.createDir(new File(transformed));
         RestHelper.responseJSON(response, JsonResponse.success(createRet ? "操作成功" : "操作失败"));
     }
 }

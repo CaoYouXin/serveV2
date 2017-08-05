@@ -1,1 +1,9 @@
-<deploy-dst [root]="dstFileRoot" (handler)="dstChange($event)"></deploy-dst>
+<div class="left">
+  <deploy-src [root]="srcFileRoot" (handler)="srcChange($event)"></deploy-src>
+</div>
+<div class="center" (click)="deploy()">
+  部署
+</div>
+<div class="right">
+  <deploy-dst [root]="dstFileRoot" (handler)="dstChange($event)"></deploy-dst>
+</div>

@@ -1,0 +1,29 @@
+.left, .center, .right {
+  float: left;
+}
+
+.left, .right {
+  width: 45%;
+}
+
+.center {
+  width: 8%;
+  margin: 5em 1%;
+  border: solid 1px blueviolet;
+  border-top-right-radius: 1em;
+  border-bottom-right-radius: 1em;
+  line-height: 2em;
+  text-align: center;
+  cursor: default;
+  user-select: none;
+}
+
+.center:hover {
+  color: darkkhaki;
+  background-color: blueviolet;
+}
+
+.center:active {
+  color: whitesmoke;
+  background-color: blue;
+}
