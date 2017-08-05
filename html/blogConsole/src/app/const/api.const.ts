@@ -28,6 +28,30 @@ export class API {
     "resource-level-mapping/set": {
       "prod": "http://server.caols.tech:9999/api/blog/resource-level-mapping/set",
       "dev": "http://localhost:9999/api/blog/resource-level-mapping/set"
+    },
+    "upload/code": {
+      "prod": function (path) {
+        return `http://server.caols.tech:9999/upload${path}`;
+      },
+      "dev": function (path) {
+        return `http://localhost:9999/upload${path}`;
+      }
+    },
+    "list/file": {
+      "prod": function (path) {
+        return `http://server.caols.tech:9999/metaApi/list/${path}`;
+      },
+      "dev": function (path) {
+        return `http://localhost:9999/metaApi/list/${path}`;
+      }
+    },
+    "unzip/file": {
+      "prod": function (path, to) {
+        return `http://server.caols.tech:9999/metaApi/unzip/${path}?to=${to}`;
+      },
+      "dev": function (path, to) {
+        return `http://localhost:9999/metaApi/unzip/${path}?to=${to}`;
+      }
     }
   };
 

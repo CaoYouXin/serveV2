@@ -13,17 +13,21 @@ import {
   LoginComponent,
   TableComponent,
   TabsComponent,
+  UploadCodeComponent,
   ResourceManagerComponent,
   ResourceManangerMaskComponent,
   ResourceMappingComponent,
-  ResourceMappingMaskComponent
+  ResourceMappingMaskComponent,
+  ResourceUploadComponent
 } from "./component/index";
 import { AuthGuard, LoginResolver } from "./guard/index";
 import {
   AdminService,
   RouteService,
   BlogService,
-  TableletService
+  TableletService,
+  FileService,
+  UploadService
 } from "./service/index";
 import { TestComponent } from "./test/test.component";
 
@@ -36,10 +40,12 @@ import { TestComponent } from "./test/test.component";
     TableComponent,
     TestComponent,
     TabsComponent,
+    UploadCodeComponent,
     ResourceManagerComponent,
     ResourceManangerMaskComponent,
     ResourceMappingComponent,
-    ResourceMappingMaskComponent
+    ResourceMappingMaskComponent,
+    ResourceUploadComponent
   ],
   imports: [
     BrowserModule,
@@ -57,7 +63,9 @@ import { TestComponent } from "./test/test.component";
     RouteService,
     AdminService,
     BlogService,
-    TableletService
+    TableletService,
+    FileService,
+    UploadService
   ],
   bootstrap: [AppComponent]
 })

@@ -5,7 +5,8 @@ import {
   LoginComponent,
   TabsComponent,
   ResourceManagerComponent,
-  ResourceMappingComponent
+  ResourceMappingComponent,
+  ResourceUploadComponent
 } from "./component/index";
 import { TestComponent } from "./test/test.component";
 
@@ -26,8 +27,8 @@ export const routes: Routes = [
       },
       {
         path: 'upload',
-        component: TestComponent,
-        data: { name: "资源上传管理", color: 'greenyellow' }
+        component: ResourceUploadComponent,
+        data: { name: "资源上传管理" }
       },
       {
         path: 'deploy',
