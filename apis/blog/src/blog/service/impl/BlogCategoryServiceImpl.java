@@ -70,7 +70,7 @@ public class BlogCategoryServiceImpl extends BaseService<EIBlogCategory, Long> i
     }
 
     private boolean isTopCategory(EIBlogCategory eiBlogCategory) {
-        return null == eiBlogCategory.getParentBlogCategoryId();
+        return null == eiBlogCategory.getParentBlogCategoryId() || 0 == eiBlogCategory.getParentBlogCategoryId();
     }
 
     @Override
@@ -81,5 +81,14 @@ public class BlogCategoryServiceImpl extends BaseService<EIBlogCategory, Long> i
     @Override
     protected String getName() {
         return "blog category";
+    }
+
+    @Override
+    public EIBlogCategory save(EIBlogCategory data) {
+        if (null == data.getBlogCategoryDisabled()) {
+            data.setBlogCategoryDisabled(false);
+        }
+
+        return super.save(data);
     }
 }

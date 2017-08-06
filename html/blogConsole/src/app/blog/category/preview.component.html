@@ -1,0 +1,6 @@
+<div class="mask" *ngIf="mask" (click)="clicked()">
+  <div class="center">
+    <h1 *ngIf="loading">Loading...</h1>
+    <blog-category-item *ngFor="let c of categories" [config]="c" [tabCount]="0"></blog-category-item>
+  </div>
+</div>

@@ -1,0 +1,11 @@
+.center {
+  margin: 0 auto;
+  margin-top: 5em;
+
+  width: 800px;
+  overflow: auto;
+}
+
+h1 {
+  color: whitesmoke;
+}

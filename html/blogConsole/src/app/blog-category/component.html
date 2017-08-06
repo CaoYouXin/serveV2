@@ -1,0 +1,2 @@
+<div #item class="item">{{config.BlogCategoryName}}</div>
+<blog-category-item *ngFor="let c of config.ChildCategories" [config]="c" [tabCount]="tabCount + 1"></blog-category-item>

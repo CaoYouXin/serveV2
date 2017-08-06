@@ -55,17 +55,20 @@ export class ResourceMappingMaskComponent implements OnInit {
         self.mask = msg.mask;
         self.submitText = msg.submitText;
 
+        if (!self.mask) {
+          return;
+        }
+
         self.buildForm();
+
+        self.dao.getJSON(API.getAPI("resource-level/list")).subscribe(
+          ret => self.restCode.checkCode(ret, (retBody) => {
+            self.resourceLevels = retBody;
+          }),
+          err => DaoUtil.logError(err)
+        );
       }
     );
-
-    this.dao.getJSON(API.getAPI("resource-level/list"))
-      .subscribe(
-        ret => this.restCode.checkCode(ret, (retBody) => {
-          self.resourceLevels = retBody;
-        }),
-        err => DaoUtil.logError(err)
-      );
   }
 
   buildForm(): void {

@@ -11,7 +11,8 @@ import {
   BlogUserComponent,
   FavourDetailComponent,
   FavourMappingComponent,
-  FavourRuleComponent
+  FavourRuleComponent,
+  BlogCategoryComponent
 } from "./component/index";
 import { TestComponent } from "./test/test.component";
 
@@ -38,7 +39,7 @@ export const routes: Routes = [
   {
     path: 'post', component: TabsComponent, data: { name: 'POST 管理' },
     children: [
-      { path: 'category', component: TestComponent, data: { name: "分类管理", color: 'yellow' } },
+      { path: 'category', component: BlogCategoryComponent, data: { name: "分类管理" } },
       { path: 'post', component: TestComponent, data: { name: "Post 管理", color: 'green' } },
       { path: 'comment', component: TestComponent, data: { name: "评论管理", color: 'indianred' } }
     ]

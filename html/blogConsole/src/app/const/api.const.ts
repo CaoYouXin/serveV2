@@ -108,6 +108,18 @@ export class API {
     "favour-rule/set": {
       "prod": "http://server.caols.tech:9999/api/blog/user-favour-rule/set",
       "dev": "http://localhost:9999/api/blog/user-favour-rule/set"
+    },
+    "category/list": {
+      "prod": "http://server.caols.tech:9999/api/blog/category/list/all",
+      "dev": "http://localhost:9999/api/blog/category/list/all"
+    },
+    "category/set": {
+      "prod": "http://server.caols.tech:9999/api/blog/category/set",
+      "dev": "http://localhost:9999/api/blog/category/set"
+    },
+    "category/list/client": {
+      "prod": "http://server.caols.tech:9999/api/blog/category/list/client",
+      "dev": "http://localhost:9999/api/blog/category/list/client"
     }
   };
 

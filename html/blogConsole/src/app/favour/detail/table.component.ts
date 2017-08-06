@@ -34,7 +34,7 @@ export class FavourDetailComponent implements OnInit, OnDestroy {
       { key: "UserProfession", text: "职业", width: 100 },
       { key: "UserAvatar", text: "头像", width: 100 },
       {
-        key: "UserDisabled", text: "状态", width: 100, render: (disabled) => {
+        key: "UserDisabled", text: "用户状态", width: 100, render: (disabled) => {
           return disabled ? "禁用" : "可用";
         }
       },

@@ -25,19 +25,35 @@ public class SQLUtil {
                 break;
             case "byte":
             case "java.lang.Byte":
-                preparedStatement.setByte(index, (Byte) param);
+                if (null == param) {
+                    preparedStatement.setByte(index, (byte) 0);
+                } else {
+                    preparedStatement.setByte(index, (Byte) param);
+                }
                 break;
             case "short":
             case "java.lang.Short":
-                preparedStatement.setShort(index, (Short) param);
+                if (null == param) {
+                    preparedStatement.setShort(index, (short) 0);
+                } else {
+                    preparedStatement.setShort(index, (Short) param);
+                }
                 break;
             case "int":
             case "java.lang.Integer":
-                preparedStatement.setInt(index, (Integer) param);
+                if (null == param) {
+                    preparedStatement.setInt(index, 0);
+                } else {
+                    preparedStatement.setInt(index, (Integer) param);
+                }
                 break;
             case "long":
             case "java.lang.Long":
-                preparedStatement.setLong(index, (Long) param);
+                if (null == param) {
+                    preparedStatement.setLong(index, 0);
+                } else {
+                    preparedStatement.setLong(index, (Long) param);
+                }
                 break;
             case "float":
             case "java.lang.Float":

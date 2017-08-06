@@ -1,0 +1,39 @@
+<div class="mask" *ngIf="mask">
+  <div class="center">
+    <form [formGroup]="categoryForm" (ngSubmit)="submit()">
+      <fieldset>
+        <legend>分类ID</legend>
+        <input type="text" placeholder="禁止输入" formControlName="BlogCategoryId">
+        <div *ngIf="formErrors.BlogCategoryId" class="help help-block">{{formErrors.BlogCategoryId}}</div>
+      </fieldset>
+      <fieldset>
+        <legend>父级分类</legend>
+        <select formControlName="ParentBlogCategoryId">
+          <option *ngFor="let c of categories " [value]="c.BlogCategoryId">{{c.BlogCategoryName}}</option>
+        </select>
+        <div *ngIf="formErrors.ParentBlogCategoryId" class="help help-block">{{formErrors.ParentBlogCategoryId}}</div>
+      </fieldset>
+      <fieldset>
+        <legend>名称</legend>
+        <input type="text" placeholder="请输入 名称" formControlName="BlogCategoryName" required>
+        <div *ngIf="formErrors.BlogCategoryName" class="help help-block">{{formErrors.BlogCategoryName}}</div>
+      </fieldset>
+      <fieldset>
+        <legend>URL</legend>
+        <textarea placeholder="请输入 URL" formControlName="BlogCategoryUrl" required></textarea>
+        <div *ngIf="formErrors.BlogCategoryUrl" class="help help-block">{{formErrors.BlogCategoryUrl}}</div>
+      </fieldset>
+      <fieldset>
+        <legend>SCRIPT</legend>
+        <textarea placeholder="请输入 SCRIPT" formControlName="BlogCategoryScript" required></textarea>
+        <div *ngIf="formErrors.BlogCategoryScript" class="help help-block">{{formErrors.BlogCategoryScript}}</div>
+      </fieldset>
+      <div class="buttons">
+        <input type="submit" [disabled]="loading" [value]="submitText">
+        <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
+        />
+        <a class="other-button" (click)="cancel()">取消</a>
+      </div>
+    </form>
+  </div>
+</div>

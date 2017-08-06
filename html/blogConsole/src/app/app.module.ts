@@ -29,7 +29,11 @@ import {
   FavourMappingComponent,
   FavourMappingMaskComponent,
   FavourRuleComponent,
-  FavourRuleMaskComponent
+  FavourRuleMaskComponent,
+  BlogCategoryComponent,
+  BlogCategoryMaskComponent,
+  BlogCategoryPreviewComponent,
+  BlogCategoryItemComponent
 } from "./component/index";
 import { AuthGuard, LoginResolver } from "./guard/index";
 import {
@@ -68,7 +72,11 @@ import { TestComponent } from "./test/test.component";
     FavourMappingComponent,
     FavourMappingMaskComponent,
     FavourRuleComponent,
-    FavourRuleMaskComponent
+    FavourRuleMaskComponent,
+    BlogCategoryComponent,
+    BlogCategoryMaskComponent,
+    BlogCategoryPreviewComponent,
+    BlogCategoryItemComponent
   ],
   imports: [
     BrowserModule,

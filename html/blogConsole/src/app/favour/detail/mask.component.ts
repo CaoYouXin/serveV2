@@ -54,15 +54,19 @@ export class FavourDetialMaskComponent implements OnInit {
         self.mask = msg.mask;
         self.submitText = msg.submitText;
 
-        self.buildForm();
-      }
-    );
+        if (!self.mask) {
+          return;
+        }
 
-    this.dao.getJSON(API.getAPI("user/list")).subscribe(
-      ret => this.restCode.checkCode(ret, (retBody) => {
-        self.users = retBody;
-      }),
-      err => DaoUtil.logError(err)
+        self.buildForm();
+
+        self.dao.getJSON(API.getAPI("user/list")).subscribe(
+          ret => self.restCode.checkCode(ret, (retBody) => {
+            self.users = retBody;
+          }),
+          err => DaoUtil.logError(err)
+        );
+      }
     );
   }
 

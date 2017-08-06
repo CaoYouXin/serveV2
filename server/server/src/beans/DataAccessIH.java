@@ -9,6 +9,7 @@ import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class DataAccessIH implements InvocationHandler {
 
@@ -66,7 +67,26 @@ public class DataAccessIH implements InvocationHandler {
         }
 
         if (name.equals("toMap")) {
-            return Collections.unmodifiableMap(this.data);
+            Map<String, Object> data = this.data;
+
+            for (String key : data.keySet()) {
+                Object value = data.get(key);
+
+                if (value instanceof EntityBeanI) {
+                    data.put(key, ((EntityBeanI) value).toMap());
+                }
+
+                if (value instanceof List) {
+                    data.put(key, ((List) value).stream().map(obj -> {
+                        if (obj instanceof EntityBeanI) {
+                            return ((EntityBeanI) obj).toMap();
+                        }
+                        return obj;
+                    }).collect(Collectors.toList()));
+                }
+            }
+
+            return Collections.unmodifiableMap(data);
         }
 
         if (name.equals("fromMap")) {
