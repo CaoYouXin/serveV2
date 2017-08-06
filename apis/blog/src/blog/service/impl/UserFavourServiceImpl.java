@@ -28,11 +28,18 @@ public class UserFavourServiceImpl implements IUserFavourService {
 
     @Override
     public EIUserFavour save(EIUserFavour userFavour) throws UserFavourException {
-        if (!this.userFavourRepo.save(userFavour)) {
+        EIUserFavour byUserId = this.userFavourRepo.findByUserId(userFavour.getUserId());
+        if (null == byUserId) {
+            byUserId = userFavour;
+        } else {
+            byUserId.setUserFavourValue(userFavour.getUserFavourValue());
+        }
+
+        if (!this.userFavourRepo.save(byUserId)) {
             throw new UserFavourException("无法保存好感度.");
         }
 
-        return userFavour;
+        return byUserId;
     }
 
     @Override

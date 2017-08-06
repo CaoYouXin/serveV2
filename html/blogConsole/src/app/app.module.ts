@@ -23,7 +23,8 @@ import {
   ResourceUploadComponent,
   ResourceDeployComponent,
   BlogUserComponent,
-  FavourDetailComponent
+  FavourDetailComponent,
+  FavourDetialMaskComponent
 } from "./component/index";
 import { AuthGuard, LoginResolver } from "./guard/index";
 import {
@@ -55,7 +56,8 @@ import { TestComponent } from "./test/test.component";
     ResourceUploadComponent,
     ResourceDeployComponent,
     BlogUserComponent,
-    FavourDetailComponent
+    FavourDetailComponent,
+    FavourDetialMaskComponent
   ],
   imports: [
     BrowserModule,

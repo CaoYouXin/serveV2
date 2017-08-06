@@ -1,5 +1,6 @@
 input[type="text"],
-input[type="password"] {
+input[type="password"],
+input[type="number"] {
   outline: none;
   width: 300px;
   height: 25px;
@@ -9,7 +10,8 @@ input[type="password"] {
 }
 
 input[type="text"]:focus,
-input[type="password"]:focus {
+input[type="password"]:focus,
+input[type="number"]:focus {
   box-shadow: 0 0 5px blueviolet;
   border-left: solid 5px blueviolet;
 }
