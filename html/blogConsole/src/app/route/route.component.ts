@@ -1,5 +1,5 @@
-import {Component, ElementRef, Input, OnInit, ViewChild} from "@angular/core";
-import {RouteService} from "../service/index";
+import { Component, ElementRef, Input, OnInit, ViewChild } from "@angular/core";
+import { RouteService, SoundService } from "../service/index";
 
 const falsePromise = new Promise<boolean>((resolve, reject) => {
   resolve(false);
@@ -27,10 +27,8 @@ export class AppRoutingComponent implements OnInit {
   left: string;
   top: string;
 
-  @ViewChild("player")
-  player: ElementRef;
-
-  constructor(private service: RouteService) {
+  constructor(private service: RouteService,
+    private soundService: SoundService) {
   }
 
   ngOnInit() {
@@ -57,11 +55,11 @@ export class AppRoutingComponent implements OnInit {
     if (undefined !== e.buttons) {
 
       this.clickAnimate = truePromise;
-      this.player.nativeElement.play();
+      this.soundService.addCmd(SoundService.ROUTE_CLICK);
 
       setTimeout(() => {
         this.clickAnimate = falsePromise;
-        this.player.nativeElement.play();
+        this.soundService.addCmd(SoundService.ROUTE_CLICK);
       }, 666);
     }
 

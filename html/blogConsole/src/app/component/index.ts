@@ -9,3 +9,4 @@ export * from "../deploy.dst";
 export * from "../deploy.src";
 export * from "../blog-user";
 export * from "../favour";
+export * from "../sound";

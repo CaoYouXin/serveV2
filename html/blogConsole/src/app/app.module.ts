@@ -13,6 +13,7 @@ import {
   LoginComponent,
   TableComponent,
   TabsComponent,
+  SoundComponent,
   UploadCodeComponent,
   DeployDstComponent,
   DeploySrcComponent,
@@ -37,7 +38,8 @@ import {
   BlogService,
   TableletService,
   FileService,
-  UploadService
+  UploadService,
+  SoundService
 } from "./service/index";
 import { TestComponent } from "./test/test.component";
 
@@ -48,6 +50,7 @@ import { TestComponent } from "./test/test.component";
     HomeComponent,
     LoginComponent,
     TableComponent,
+    SoundComponent,
     TestComponent,
     TabsComponent,
     UploadCodeComponent,
@@ -85,7 +88,8 @@ import { TestComponent } from "./test/test.component";
     BlogService,
     TableletService,
     FileService,
-    UploadService
+    UploadService,
+    SoundService
   ],
   bootstrap: [AppComponent]
 })

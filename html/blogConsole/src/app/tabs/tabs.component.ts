@@ -1,7 +1,7 @@
 import { Component, HostBinding, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { slideInUpAnimation } from "../animation/route.animation";
-import { RouteService } from "../service/index";
+import { RouteService, SoundService } from "../service/index";
 
 @Component({
   selector: 'tabs',
@@ -21,7 +21,8 @@ export class TabsComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
     private service: RouteService,
-    private router: Router) {
+    private router: Router,
+    private soundService: SoundService) {
   }
 
   ngOnInit() {
@@ -61,6 +62,10 @@ export class TabsComponent implements OnInit {
         self.router.navigate([self.route.routeConfig.path, self.children[0].path]);
       }
     }, 1000, this);
+  }
+
+  clicked() {
+    this.soundService.addCmd(SoundService.ROUTE_CLICK);
   }
 
 }

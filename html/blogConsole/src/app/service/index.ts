@@ -4,3 +4,4 @@ export * from './blog.service';
 export * from './tablelet.service';
 export * from './file.service';
 export * from './upload.service';
+export * from './sound.service';
