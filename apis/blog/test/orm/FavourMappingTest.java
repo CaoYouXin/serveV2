@@ -163,4 +163,10 @@ class FavourMappingTest {
         System.out.println(likeRecRepo.queryCount(3L).getCount());
     }
 
+    @Test
+    void test10() {
+        IUserFavourMappingRepo userFavourMappingRepo = BeanManager.getInstance().getRepository(IUserFavourMappingRepo.class);
+        userFavourMappingRepo.queryAll().forEach(eiUserFavourMappingDetail -> System.out.println(eiUserFavourMappingDetail.toJSONString()));
+    }
+
 }

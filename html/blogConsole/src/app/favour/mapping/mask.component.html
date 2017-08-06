@@ -1,0 +1,29 @@
+<div class="mask" *ngIf="mask">
+  <div class="center">
+    <form [formGroup]="favourMappingForm" (ngSubmit)="submit()">
+      <fieldset>
+        <legend>好感度映射ID</legend>
+        <input type="text" placeholder="禁止输入" formControlName="UserFavourMappingId">
+        <div *ngIf="formErrors.UserFavourMappingId" class="help help-block">{{formErrors.UserFavourMappingId}}</div>
+      </fieldset>
+      <fieldset>
+        <legend>资源等级</legend>
+        <select formControlName="ResourceLevelId" required>
+          <option *ngFor="let rl of resourceLevels" [value]="rl.ResourceLevelId">{{rl.ResourceLevelName}}</option>
+        </select>
+        <div *ngIf="formErrors.ResourceLevelId" class="help help-block">{{formErrors.ResourceLevelId}}</div>
+      </fieldset>
+      <fieldset>
+        <legend>阈值</legend>
+        <input type="number" placeholder="请输入 阈值" formControlName="UserFavourThreshold" required>
+        <div *ngIf="formErrors.UserFavourThreshold" class="help help-block">{{formErrors.UserFavourThreshold}}</div>
+      </fieldset>
+      <div class="buttons">
+        <input type="submit" [disabled]="loading" [value]="submitText">
+        <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
+        />
+        <a class="other-button" (click)="cancel()">取消</a>
+      </div>
+    </form>
+  </div>
+</div>

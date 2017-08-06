@@ -9,7 +9,8 @@ import {
   ResourceUploadComponent,
   ResourceDeployComponent,
   BlogUserComponent,
-  FavourDetailComponent
+  FavourDetailComponent,
+  FavourMappingComponent,
 } from "./component/index";
 import { TestComponent } from "./test/test.component";
 
@@ -29,7 +30,7 @@ export const routes: Routes = [
     path: 'favour', component: TabsComponent, data: { name: '好感度管理' },
     children: [
       { path: 'list', component: FavourDetailComponent, data: { name: "用户好感度列表" } },
-      { path: 'mapping', component: TestComponent, data: { name: "好感度-资源映射管理", color: 'green' } }
+      { path: 'mapping', component: FavourMappingComponent, data: { name: "好感度-资源映射管理" } }
     ]
   },
   {

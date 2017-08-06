@@ -5,11 +5,11 @@ import { DaoUtil, RestCode } from "../../http/index";
 import { API } from "../../const/index";
 
 @Component({
-  selector: 'favour-detail-mask',
+  selector: 'favour-mapping-mask',
   templateUrl: './mask.component.html',
   styleUrls: ['../../common-style/mask&btns.component.css', '../../common-style/form.component.css', './mask.component.css']
 })
-export class FavourDetialMaskComponent implements OnInit {
+export class FavourMappingMaskComponent implements OnInit {
 
   private idx: number;
 
@@ -19,23 +19,23 @@ export class FavourDetialMaskComponent implements OnInit {
   model: any = {};
   loading: boolean;
 
-  favourDetailForm: FormGroup;
+  favourMappingForm: FormGroup;
   formErrors = {
-    'UserFavourId': '',
-    'UserId': '',
-    'UserFavourValue': ''
+    'UserFavourMappingId': '',
+    'ResourceLevelId': '',
+    'UserFavourThreshold': ''
   };
   validationMessages = {
-    'UserFavourId': {},
-    'UserId': {
-      'required': '用户是必选的.'
+    'UserFavourMappingId': {},
+    'ResourceLevelId': {
+      'required': '资源等级是必选的.'
     },
-    'UserFavourValue': {
-      'required': '好感度值是必填项.'
+    'UserFavourThreshold': {
+      'required': '阈值是必填项.'
     }
   };
 
-  users: Array<any> = [];
+  resourceLevels: Array<any> = [];
 
   constructor(private tablelet: TableletService,
     private fb: FormBuilder,
@@ -47,7 +47,7 @@ export class FavourDetialMaskComponent implements OnInit {
     this.model = {};
 
     const self = this;
-    this.tablelet.getMaskStatus(TableletService.USER_FAVOUR).subscribe(
+    this.tablelet.getMaskStatus(TableletService.FAVOUR_MAPPING).subscribe(
       msg => {
         self.idx = msg.idx;
         self.model = msg.model || {};
@@ -58,36 +58,37 @@ export class FavourDetialMaskComponent implements OnInit {
       }
     );
 
-    this.dao.getJSON(API.getAPI("user/list")).subscribe(
-      ret => this.restCode.checkCode(ret, (retBody) => {
-        self.users = retBody;
-      }),
-      err => DaoUtil.logError(err)
-    );
+    this.dao.getJSON(API.getAPI("resource-level/list"))
+      .subscribe(
+        ret => this.restCode.checkCode(ret, (retBody) => {
+          self.resourceLevels = retBody;
+        }),
+        err => DaoUtil.logError(err)
+      );
   }
 
   buildForm(): void {
-    this.favourDetailForm = this.fb.group({
-      'UserFavourId': [{ value: this.model.UserFavourId, disabled: true }],
-      'UserId': [this.model.UserId, [
+    this.favourMappingForm = this.fb.group({
+      'UserFavourMappingId': [{ value: this.model.UserFavourMappingId, disabled: true }],
+      'ResourceLevelId': [this.model.ResourceLevelId, [
         Validators.required
       ]],
-      'UserFavourValue': [this.model.UserFavourValue, [
+      'UserFavourThreshold': [this.model.UserFavourThreshold, [
         Validators.required,
       ]],
     });
 
-    this.favourDetailForm.valueChanges
+    this.favourMappingForm.valueChanges
       .subscribe(data => this.onValueChanged(data));
 
     this.onValueChanged(); // (re)set validation messages now
   }
 
   onValueChanged(data?: any) {
-    if (!this.favourDetailForm) {
+    if (!this.favourMappingForm) {
       return;
     }
-    const form = this.favourDetailForm;
+    const form = this.favourMappingForm;
 
     for (const field in this.formErrors) {
       // clear previous error message (if any)
@@ -104,28 +105,28 @@ export class FavourDetialMaskComponent implements OnInit {
   }
 
   submit() {
-    if (!this.favourDetailForm.valid) {
+    if (!this.favourMappingForm.valid) {
       return;
     }
 
     this.loading = true;
-    let data = this.favourDetailForm.value;
-    data.UserFavourId = this.model.UserFavourId || null;
+    let data = this.favourMappingForm.value;
+    data.UserFavourMappingId = this.model.UserFavourMappingId || null;
 
     const self = this;
-    this.dao.postJSON(API.getAPI("favour/set"), data).subscribe(
+    this.dao.postJSON(API.getAPI("favour-mapping/set"), data).subscribe(
       ret => {
         self.loading = false;
         self.restCode.checkCode(ret, (retBody) => {
-          this.users.forEach(u => {
-            if (u.UserId + '' === retBody.UserId
-              || u.UserId === retBody.UserId) {
-              retBody = Object.assign(retBody, u);
+          this.resourceLevels.forEach(rl => {
+            if (rl.ResourceLevelId + '' === retBody.ResourceLevelId
+              || rl.ResourceLevelId === retBody.ResourceLevelId) {
+              retBody = Object.assign(retBody, rl);
             }
           });
 
-          self.tablelet.addData(TableletService.USER_FAVOUR, null === data.UserFavourId ? null : self.idx, retBody);
-          self.tablelet.setMaskStatus(TableletService.USER_FAVOUR, { mask: false });
+          self.tablelet.addData(TableletService.FAVOUR_MAPPING, null === data.UserFavourMappingId ? null : self.idx, retBody);
+          self.tablelet.setMaskStatus(TableletService.FAVOUR_MAPPING, { mask: false });
         });
       },
       err => {
@@ -136,7 +137,7 @@ export class FavourDetialMaskComponent implements OnInit {
   }
 
   cancel() {
-    this.tablelet.setMaskStatus(TableletService.USER_FAVOUR, { mask: false });
+    this.tablelet.setMaskStatus(TableletService.FAVOUR_MAPPING, { mask: false });
     this.loading = false;
   }
 

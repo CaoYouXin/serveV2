@@ -118,8 +118,7 @@ export class FavourDetialMaskComponent implements OnInit {
         self.loading = false;
         self.restCode.checkCode(ret, (retBody) => {
           this.users.forEach(u => {
-            if (u.UserId + '' === retBody.UserId
-              || u.UserId === retBody.UserId) {
+            if (u.UserId === retBody.UserId) {
               retBody = Object.assign(retBody, u);
             }
           });

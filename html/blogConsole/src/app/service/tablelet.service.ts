@@ -9,6 +9,7 @@ export class TableletService {
   static RESOURCE_MAPPING = "RESOURCE_MAPPING";
   static BLOG_USER = "BLOG_USER";
   static USER_FAVOUR = "USER_FAVOUR";
+  static FAVOUR_MAPPING = "FAVOUR_MAPPING";
 
   private maskStatusSubjects = {};
   private dataSubjects = {};

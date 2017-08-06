@@ -88,6 +88,18 @@ export class API {
     "favour/list": {
       "prod": "http://server.caols.tech:9999/api/blog/user-favour/list",
       "dev": "http://localhost:9999/api/blog/user-favour/list"
+    },
+    "favour/set": {
+      "prod": "http://server.caols.tech:9999/api/blog/user-favour/set",
+      "dev": "http://localhost:9999/api/blog/user-favour/set"
+    },
+    "favour-mapping/list": {
+      "prod": "http://server.caols.tech:9999/api/blog/user-favour-mapping/list",
+      "dev": "http://localhost:9999/api/blog/user-favour-mapping/list"
+    },
+    "favour-mapping/set": {
+      "prod": "http://server.caols.tech:9999/api/blog/user-favour-mapping/set",
+      "dev": "http://localhost:9999/api/blog/user-favour-mapping/set"
     }
   };
 
