@@ -6,6 +6,7 @@ import {Subject} from "rxjs/Subject";
 export class SoundService {
 
   static ROUTE_CLICK = "ROUTE_CLICK";
+  static SEC_ROUTE_CLICK = "SEC_ROUTE_CLICK";
 
   private cmdSubject = new Subject<any>();
 

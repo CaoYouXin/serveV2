@@ -65,7 +65,7 @@ export class TabsComponent implements OnInit {
   }
 
   clicked() {
-    this.soundService.addCmd(SoundService.ROUTE_CLICK);
+    this.soundService.addCmd(SoundService.SEC_ROUTE_CLICK);
   }
 
 }

@@ -13,11 +13,15 @@ export class SoundComponent implements OnInit {
   @ViewChild("routeClick")
   routeClick: ElementRef;
 
+  @ViewChild("secRouteClick")
+  secRouteClick: ElementRef;
+
   constructor(private service: SoundService) {
   }
 
   ngOnInit() {
     this.sounds[SoundService.ROUTE_CLICK] = this.routeClick.nativeElement;
+    this.sounds[SoundService.SEC_ROUTE_CLICK] = this.secRouteClick.nativeElement;
 
     this.service.getCmd().subscribe(
       cmd => {
