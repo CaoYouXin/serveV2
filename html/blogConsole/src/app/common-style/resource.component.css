@@ -26,6 +26,7 @@
 
 .file {
   cursor: default;
+  background-color: gainsboro;
   border-bottom: solid 7px ghostwhite;
   border-right: solid 3px ghostwhite;
 }

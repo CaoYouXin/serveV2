@@ -44,6 +44,8 @@ nav {
   overflow: auto;
 
   perspective: 800px;
+
+  border-right: dashed 1px royalblue;
 }
 
 .view {

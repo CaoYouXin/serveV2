@@ -21,7 +21,9 @@ import {
   ResourceMappingComponent,
   ResourceMappingMaskComponent,
   ResourceUploadComponent,
-  ResourceDeployComponent
+  ResourceDeployComponent,
+  BlogUserComponent,
+  FavourDetailComponent
 } from "./component/index";
 import { AuthGuard, LoginResolver } from "./guard/index";
 import {
@@ -51,7 +53,9 @@ import { TestComponent } from "./test/test.component";
     ResourceMappingComponent,
     ResourceMappingMaskComponent,
     ResourceUploadComponent,
-    ResourceDeployComponent
+    ResourceDeployComponent,
+    BlogUserComponent,
+    FavourDetailComponent
   ],
   imports: [
     BrowserModule,

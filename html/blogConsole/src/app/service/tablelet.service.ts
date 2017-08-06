@@ -7,6 +7,8 @@ export class TableletService {
 
   static RESOURCE_MANAGER = "RESOURCE_MANAGER";
   static RESOURCE_MAPPING = "RESOURCE_MAPPING";
+  static BLOG_USER = "BLOG_USER";
+  static USER_FAVOUR = "USER_FAVOUR";
 
   private maskStatusSubjects = {};
   private dataSubjects = {};

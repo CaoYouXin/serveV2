@@ -7,3 +7,5 @@ export * from '../resource/index';
 export * from "../upload.code";
 export * from "../deploy.dst";
 export * from "../deploy.src";
+export * from "../blog-user";
+export * from "../favour";

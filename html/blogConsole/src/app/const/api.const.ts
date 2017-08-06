@@ -1,4 +1,4 @@
-import {environment} from "../../environments/environment";
+import { environment } from "../../environments/environment";
 
 export class API {
 
@@ -72,6 +72,22 @@ export class API {
     "copy/file": {
       "prod": "http://server.caols.tech:9999/metaApi/copy",
       "dev": "http://localhost:9999/metaApi/copy"
+    },
+    "user/list": {
+      "prod": "http://server.caols.tech:9999/api/blog/user/list",
+      "dev": "http://localhost:9999/api/blog/user/list"
+    },
+    "user/disabled": {
+      "prod": function (id, disabled) {
+        return `http://server.caols.tech:9999/api/blog/user/disabled/${id}/${disabled ? "T" : "F"}`;
+      },
+      "dev": function (id, disabled) {
+        return `http://localhost:9999/api/blog/user/disabled/${id}/${disabled ? "T" : "F"}`;
+      }
+    },
+    "favour/list": {
+      "prod": "http://server.caols.tech:9999/api/blog/user-favour/list",
+      "dev": "http://localhost:9999/api/blog/user-favour/list"
     }
   };
 
