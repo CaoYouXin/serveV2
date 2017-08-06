@@ -100,6 +100,14 @@ export class API {
     "favour-mapping/set": {
       "prod": "http://server.caols.tech:9999/api/blog/user-favour-mapping/set",
       "dev": "http://localhost:9999/api/blog/user-favour-mapping/set"
+    },
+    "favour-rule/list": {
+      "prod": "http://server.caols.tech:9999/api/blog/user-favour-rule/list",
+      "dev": "http://localhost:9999/api/blog/user-favour-rule/list"
+    },
+    "favour-rule/set": {
+      "prod": "http://server.caols.tech:9999/api/blog/user-favour-rule/set",
+      "dev": "http://localhost:9999/api/blog/user-favour-rule/set"
     }
   };
 

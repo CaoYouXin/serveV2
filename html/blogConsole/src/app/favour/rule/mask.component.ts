@@ -5,11 +5,11 @@ import { DaoUtil, RestCode } from "../../http/index";
 import { API } from "../../const/index";
 
 @Component({
-  selector: 'favour-detail-mask',
+  selector: 'favour-rule-mask',
   templateUrl: './mask.component.html',
   styleUrls: ['../../common-style/mask&btns.component.css', '../../common-style/form.component.css', './mask.component.css']
 })
-export class FavourDetialMaskComponent implements OnInit {
+export class FavourRuleMaskComponent implements OnInit {
 
   private idx: number;
 
@@ -21,21 +21,26 @@ export class FavourDetialMaskComponent implements OnInit {
 
   favourDetailForm: FormGroup;
   formErrors = {
-    'UserFavourId': '',
-    'UserId': '',
-    'UserFavourValue': ''
+    'UserFavourRuleId': '',
+    'UserFavourRulePattern': '',
+    'UserFavourRuleScore': '',
+    'UserFavourRuleLimit': ''
   };
   validationMessages = {
-    'UserFavourId': {},
-    'UserId': {
-      'required': '用户是必选的.'
+    'UserFavourRuleId': {},
+    'UserFavourRulePattern': {
+      'required': '模式是必填项.',
+      'maxlength': '模式最长255个字符.',
     },
-    'UserFavourValue': {
-      'required': '好感度值是必填项.'
+    'UserFavourRuleScore': {
+      'required': '增加值是必填的.',
+      'min': '增加值最小为1.'
+    },
+    'UserFavourRuleLimit': {
+      'required': '好感度值是必填项.',
+      'min': '次数上限最小为1.'
     }
   };
-
-  users: Array<any> = [];
 
   constructor(private tablelet: TableletService,
     private fb: FormBuilder,
@@ -47,7 +52,7 @@ export class FavourDetialMaskComponent implements OnInit {
     this.model = {};
 
     const self = this;
-    this.tablelet.getMaskStatus(TableletService.USER_FAVOUR).subscribe(
+    this.tablelet.getMaskStatus(TableletService.FAVOUR_RULE).subscribe(
       msg => {
         self.idx = msg.idx;
         self.model = msg.model || {};
@@ -57,23 +62,22 @@ export class FavourDetialMaskComponent implements OnInit {
         self.buildForm();
       }
     );
-
-    this.dao.getJSON(API.getAPI("user/list")).subscribe(
-      ret => this.restCode.checkCode(ret, (retBody) => {
-        self.users = retBody;
-      }),
-      err => DaoUtil.logError(err)
-    );
   }
 
   buildForm(): void {
     this.favourDetailForm = this.fb.group({
-      'UserFavourId': [{ value: this.model.UserFavourId, disabled: true }],
-      'UserId': [this.model.UserId, [
-        Validators.required
-      ]],
-      'UserFavourValue': [this.model.UserFavourValue, [
+      'UserFavourRuleId': [{ value: this.model.UserFavourRuleId, disabled: true }],
+      'UserFavourRulePattern': [this.model.UserFavourRulePattern, [
         Validators.required,
+        Validators.maxLength(255)
+      ]],
+      'UserFavourRuleScore': [this.model.UserFavourRuleScore, [
+        Validators.required,
+        Validators.min(1),
+      ]],
+      'UserFavourRuleLimit': [this.model.UserFavourRuleLimit, [
+        Validators.required,
+        Validators.min(1)
       ]],
     });
 
@@ -110,21 +114,15 @@ export class FavourDetialMaskComponent implements OnInit {
 
     this.loading = true;
     let data = this.favourDetailForm.value;
-    data.UserFavourId = this.model.UserFavourId || null;
+    data.UserFavourRuleId = this.model.UserFavourRuleId || null;
 
     const self = this;
-    this.dao.postJSON(API.getAPI("favour/set"), data).subscribe(
+    this.dao.postJSON(API.getAPI("favour-rule/set"), data).subscribe(
       ret => {
         self.loading = false;
         self.restCode.checkCode(ret, (retBody) => {
-          this.users.forEach(u => {
-            if (u.UserId === retBody.UserId) {
-              retBody = Object.assign(retBody, u);
-            }
-          });
-
-          self.tablelet.addData(TableletService.USER_FAVOUR, null === data.UserFavourId ? null : self.idx, retBody);
-          self.tablelet.setMaskStatus(TableletService.USER_FAVOUR, { mask: false });
+          self.tablelet.addData(TableletService.FAVOUR_RULE, null === data.UserFavourRuleId ? null : self.idx, retBody);
+          self.tablelet.setMaskStatus(TableletService.FAVOUR_RULE, { mask: false });
         });
       },
       err => {
@@ -135,7 +133,7 @@ export class FavourDetialMaskComponent implements OnInit {
   }
 
   cancel() {
-    this.tablelet.setMaskStatus(TableletService.USER_FAVOUR, { mask: false });
+    this.tablelet.setMaskStatus(TableletService.FAVOUR_RULE, { mask: false });
     this.loading = false;
   }
 

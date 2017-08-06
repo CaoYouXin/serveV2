@@ -6,12 +6,12 @@ import { DaoUtil, RestCode } from "../../http";
 import { API } from "../../const";
 
 @Component({
-  selector: 'favour-detail',
+  selector: 'favour-rule',
   templateUrl: './table.component.html',
   styleUrls: ['../../common-style/mask&btns.component.css', './table.component.css'],
   animations: [slideInUpAnimation]
 })
-export class FavourDetailComponent implements OnInit, OnDestroy {
+export class FavourRuleComponent implements OnInit, OnDestroy {
 
   @HostBinding("@routeAnimation") animation = true;
   @HostBinding("style.display") display = "block";
@@ -20,29 +20,21 @@ export class FavourDetailComponent implements OnInit, OnDestroy {
 
   tableDef: any = {
     heads: [
-      { key: "UserFavourId", text: "ID", width: 50 },
-      { key: "UserFavourValue", text: "好感度", width: 100 },
-      { key: "UserName", text: "用户名", width: 100 },
-      { key: "UserNickName", text: "昵称", width: 100 },
-      { key: "UserPhone", text: "手机号", width: 100 },
+      { key: "UserFavourRuleId", text: "ID", width: 50 },
+      { key: "UserFavourRulePattern", text: "模式", width: 300 },
+      { key: "UserFavourRuleScore", text: "增加值", width: 100 },
+      { key: "UserFavourRuleLimit", text: "次数上限", width: 100 },
       {
-        key: "UserSex", text: "性别", width: 100, render: (byteSex) => {
-          return 1 === byteSex ? "男" : 2 === byteSex ? "女" : "未知";
-        }
-      },
-      { key: "UserAge", text: "年龄", width: 100 },
-      { key: "UserProfession", text: "职业", width: 100 },
-      { key: "UserAvatar", text: "头像", width: 100 },
-      {
-        key: "UserDisabled", text: "状态", width: 100, render: (disabled) => {
-          return disabled ? "禁用" : "可用";
+        key: "UserFavourRuleDisabled", text: "状态", width: 100, render: (disabled) => {
+          return disabled ? "禁用" : "启用";
         }
       },
     ],
     ctrls: [
-      { text: (idx) => "编辑", handler: this.edit.bind(this) }
+      { text: (idx) => "编辑", handler: this.edit.bind(this) },
+      { text: (idx) => this.data[idx].UserFavourRuleDisabled ? "启用" : "禁用", handler: this.toggle.bind(this) }
     ],
-    ctrlsWidth: 50
+    ctrlsWidth: 110
   };
 
   data: Array<any> = [];
@@ -60,14 +52,14 @@ export class FavourDetailComponent implements OnInit, OnDestroy {
     });
 
     const self = this;
-    this.tablelet.getData(TableletService.USER_FAVOUR).subscribe(
+    this.tablelet.getData(TableletService.FAVOUR_RULE).subscribe(
       ret => self.data = ret,
       err => DaoUtil.logError(err)
     );
 
-    this.dao.getJSON(API.getAPI("favour/list")).subscribe(
+    this.dao.getJSON(API.getAPI("favour-rule/list")).subscribe(
       ret => this.rest.checkCode(ret, (retBody) => {
-        self.tablelet.setData(TableletService.USER_FAVOUR, retBody);
+        self.tablelet.setData(TableletService.FAVOUR_RULE, retBody);
       }),
       err => DaoUtil.logError(err)
     );
@@ -81,19 +73,32 @@ export class FavourDetailComponent implements OnInit, OnDestroy {
   }
 
   toAdd() {
-    this.tablelet.setMaskStatus(TableletService.USER_FAVOUR, {
+    this.tablelet.setMaskStatus(TableletService.FAVOUR_RULE, {
       mask: true,
       submitText: '添加'
     });
   }
 
   edit(idx) {
-    this.tablelet.setMaskStatus(TableletService.USER_FAVOUR, {
+    this.tablelet.setMaskStatus(TableletService.FAVOUR_RULE, {
       mask: true,
       submitText: '保存',
       idx: idx,
       model: this.data[idx]
     });
+  }
+
+  toggle(idx) {
+    let data = this.data[idx];
+    data.UserFavourRuleDisabled = !data.UserFavourRuleDisabled;
+
+    const self = this;
+    this.dao.postJSON(API.getAPI("favour-rule/set"), data).subscribe(
+      ret => this.rest.checkCode(ret, (retBody) => {
+        self.tablelet.addData(TableletService.FAVOUR_RULE, idx, retBody);
+      }),
+      err => DaoUtil.logError(err)
+    );
   }
 
 }

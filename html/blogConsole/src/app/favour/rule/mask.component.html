@@ -2,21 +2,24 @@
   <div class="center">
     <form [formGroup]="favourDetailForm" (ngSubmit)="submit()">
       <fieldset>
-        <legend>好感度记录ID</legend>
-        <input type="text" placeholder="禁止输入" formControlName="UserFavourId">
-        <div *ngIf="formErrors.UserFavourId" class="help help-block">{{formErrors.UserFavourId}}</div>
+        <legend>好感度规则ID</legend>
+        <input type="text" placeholder="禁止输入" formControlName="UserFavourRuleId">
+        <div *ngIf="formErrors.UserFavourRuleId" class="help help-block">{{formErrors.UserFavourRuleId}}</div>
       </fieldset>
       <fieldset>
-        <legend>用户</legend>
-        <select formControlName="UserId" required>
-          <option *ngFor="let u of users" [value]="u.UserId">{{u.UserName}}</option>
-        </select>
-        <div *ngIf="formErrors.UserId" class="help help-block">{{formErrors.UserId}}</div>
+        <legend>好感度规则模式</legend>
+        <input type="text" placeholder="请输入 好感度规则模式" formControlName="UserFavourRulePattern">
+        <div *ngIf="formErrors.UserFavourRulePattern" class="help help-block">{{formErrors.UserFavourRulePattern}}</div>
       </fieldset>
       <fieldset>
-        <legend>好感度值</legend>
-        <input type="number" placeholder="请输入 好感度值" formControlName="UserFavourValue" required>
-        <div *ngIf="formErrors.UserFavourValue" class="help help-block">{{formErrors.UserFavourValue}}</div>
+        <legend>增加值</legend>
+        <input type="number" placeholder="请输入 增加值" formControlName="UserFavourRuleScore" required>
+        <div *ngIf="formErrors.UserFavourRuleScore" class="help help-block">{{formErrors.UserFavourRuleScore}}</div>
+      </fieldset>
+      <fieldset>
+        <legend>次数上限</legend>
+        <input type="number" placeholder="请输入 次数上限" formControlName="UserFavourRuleLimit" required>
+        <div *ngIf="formErrors.UserFavourRuleLimit" class="help help-block">{{formErrors.UserFavourRuleLimit}}</div>
       </fieldset>
       <div class="buttons">
         <input type="submit" [disabled]="loading" [value]="submitText">

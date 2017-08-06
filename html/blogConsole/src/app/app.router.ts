@@ -11,6 +11,7 @@ import {
   BlogUserComponent,
   FavourDetailComponent,
   FavourMappingComponent,
+  FavourRuleComponent
 } from "./component/index";
 import { TestComponent } from "./test/test.component";
 
@@ -30,7 +31,8 @@ export const routes: Routes = [
     path: 'favour', component: TabsComponent, data: { name: '好感度管理' },
     children: [
       { path: 'list', component: FavourDetailComponent, data: { name: "用户好感度列表" } },
-      { path: 'mapping', component: FavourMappingComponent, data: { name: "好感度-资源映射管理" } }
+      { path: 'mapping', component: FavourMappingComponent, data: { name: "好感度-资源映射管理" } },
+      { path: 'rule', component: FavourRuleComponent, data: { name: "好感度规则管理" } }
     ]
   },
   {

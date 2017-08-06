@@ -26,7 +26,9 @@ import {
   FavourDetailComponent,
   FavourDetialMaskComponent,
   FavourMappingComponent,
-  FavourMappingMaskComponent
+  FavourMappingMaskComponent,
+  FavourRuleComponent,
+  FavourRuleMaskComponent
 } from "./component/index";
 import { AuthGuard, LoginResolver } from "./guard/index";
 import {
@@ -61,7 +63,9 @@ import { TestComponent } from "./test/test.component";
     FavourDetailComponent,
     FavourDetialMaskComponent,
     FavourMappingComponent,
-    FavourMappingMaskComponent
+    FavourMappingMaskComponent,
+    FavourRuleComponent,
+    FavourRuleMaskComponent
   ],
   imports: [
     BrowserModule,
