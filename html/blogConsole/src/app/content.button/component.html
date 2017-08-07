@@ -1,0 +1,4 @@
+<div class="btn" [class.button]="buttonMode" [class.tab]="!buttonMode" (click)="handler.emit()">{{buttonText}}</div>
+<div class="content" [class.show]="!buttonMode">
+  <h1 *ngIf="loading">Loading...</h1>
+</div>

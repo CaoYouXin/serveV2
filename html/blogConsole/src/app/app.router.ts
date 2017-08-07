@@ -13,7 +13,8 @@ import {
   FavourMappingComponent,
   FavourRuleComponent,
   BlogCategoryComponent,
-  BlogPostComponent
+  BlogPostComponent,
+  BlogCommentComponent
 } from "./component/index";
 import { TestComponent } from "./test/test.component";
 
@@ -42,7 +43,7 @@ export const routes: Routes = [
     children: [
       { path: 'category', component: BlogCategoryComponent, data: { name: "分类管理" } },
       { path: 'post', component: BlogPostComponent, data: { name: "Post 管理" } },
-      { path: 'comment', component: TestComponent, data: { name: "评论管理", color: 'indianred' } }
+      { path: 'comment', component: BlogCommentComponent, data: { name: "评论管理" } }
     ]
   },
   { path: 'login', component: LoginComponent },

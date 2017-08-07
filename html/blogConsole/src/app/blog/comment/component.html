@@ -1,0 +1,3 @@
+<div class="wrapper">
+  <content-button *ngFor="let p of posts" [buttonMode]="p.buttonMode" [buttonText]="p.BlogPostName" (handler)="clicked(p)"></content-button>
+</div>

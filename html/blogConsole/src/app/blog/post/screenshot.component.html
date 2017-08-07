@@ -1,7 +1,7 @@
 <div class="mask" *ngIf="mask" (click)="clicked()">
   <div class="wrapper">
     <h1 *ngIf="loading">Loading...</h1>
-    <img *ngFor="let s of screenshots" [src]="prefix + s.ScreenshotUrl" alt="截图" width="800px" (click)="delete(s)">
+    <img class="item" *ngFor="let s of screenshots" [src]="prefix + s.ScreenshotUrl" alt="截图" width="800px" (click)="delete(s)">
   </div>
 
   <div class="center">

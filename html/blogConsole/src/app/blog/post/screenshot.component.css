@@ -9,14 +9,14 @@ h1 {
   color: whitesmoke;
 }
 
-img {
+img.item {
   width: calc(800px - 2em);
   margin: 1em;
   border: solid 1px rosybrown;
   box-shadow: 0 0 10px royalblue;
 }
 
-img:hover {
+img.item:hover {
   box-shadow: 0 0 10px red;
   border-radius: 3em;
 }

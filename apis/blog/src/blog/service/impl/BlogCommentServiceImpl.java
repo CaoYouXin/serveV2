@@ -8,10 +8,7 @@ import blog.service.base.BaseService;
 import blog.view.EICommentTree;
 import orm.Repository;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class BlogCommentServiceImpl extends BaseService<EIComment, Long> implements IBlogCommentService {
 
@@ -68,5 +65,24 @@ public class BlogCommentServiceImpl extends BaseService<EIComment, Long> impleme
     @Override
     protected String getName() {
         return "blog comment";
+    }
+
+    @Override
+    public EIComment save(EIComment data) {
+        if (null == data.getCommentId()) {
+            data.setCommentTime(new Date());
+
+        } else {
+            EIComment eiComment = this.commentRepo.find(data.getCommentId());
+            eiComment.copyFrom(data);
+
+            data = eiComment;
+        }
+
+        if (null == data.getCommentDisabled()) {
+            data.setCommentDisabled(false);
+        }
+
+        return super.save(data);
     }
 }

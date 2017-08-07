@@ -36,7 +36,9 @@ import {
   BlogCategoryItemComponent,
   BlogPostComponent,
   BlogPostMaskComponent,
-  BlogScreenshotComponent
+  BlogScreenshotComponent,
+  BlogCommentComponent,
+  ContentButtonComponent
 } from "./component/index";
 import { AuthGuard, LoginResolver } from "./guard/index";
 import {
@@ -82,7 +84,9 @@ import { TestComponent } from "./test/test.component";
     BlogCategoryItemComponent,
     BlogPostComponent,
     BlogPostMaskComponent,
-    BlogScreenshotComponent
+    BlogScreenshotComponent,
+    BlogCommentComponent,
+    ContentButtonComponent
   ],
   imports: [
     BrowserModule,

@@ -1,5 +1,6 @@
 package blog.controller;
 
+import auth.AuthHelper;
 import beans.BeanManager;
 import blog.service.IBlogCommentService;
 import org.apache.http.HttpException;
@@ -13,18 +14,23 @@ import rest.WithMatcher;
 import java.io.IOException;
 import java.util.Map;
 
-public class ListBlogCommentByPostCtrl extends WithMatcher {
+public class ListAllBlogCommentByPostCtrl extends WithMatcher {
 
     private IBlogCommentService blogCommentService = BeanManager.getInstance().getService(IBlogCommentService.class);
 
     @Override
+    public int auth() {
+        return AuthHelper.ADMIN;
+    }
+
+    @Override
     public String name() {
-        return "blog list post's comment";
+        return "blog list all blog comment by post";
     }
 
     @Override
     public String urlPattern() {
-        return "/blog/comment/:postId";
+        return "/blog/comment/all/:postId";
     }
 
     @Override
@@ -38,6 +44,6 @@ public class ListBlogCommentByPostCtrl extends WithMatcher {
             return;
         }
 
-        RestHelper.oneCallAndRet(httpResponse, this.blogCommentService, "listClientByPostId", postId);
+        RestHelper.oneCallAndRet(httpResponse, this.blogCommentService, "listAllByPostId", postId);
     }
 }

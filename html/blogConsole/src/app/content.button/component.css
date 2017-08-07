@@ -1,0 +1,39 @@
+.btn, .content {
+  width: 100%;
+  display: block;
+}
+
+.btn {
+  line-height: 2em;
+
+  background-color: rosybrown;
+  color: whitesmoke;
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  text-align: center;
+  cursor: default;
+}
+
+.btn.button {
+  border-radius: 1em;
+}
+
+.btn.tab {
+  border-top-left-radius: 1em;
+  border-top-right-radius: 1em;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.content {
+  height: 0;
+  overflow: hidden;
+}
+
+.content.show {
+  height: auto;
+  border: solid 1px rosybrown;
+}

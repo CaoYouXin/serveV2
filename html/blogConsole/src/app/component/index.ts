@@ -12,3 +12,4 @@ export * from "../favour";
 export * from "../sound";
 export * from "../blog";
 export * from "../blog-category";
+export * from "../content.button";
