@@ -47,7 +47,7 @@ public interface EIBlogPost extends EntityBeanI {
 
     void setBlogCategoryId(Long blogCategoryId);
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", unique = true, nullable = false)
     String getBlogPostName();
 
     void setBlogPostName(String blogPostName);

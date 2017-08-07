@@ -6,8 +6,10 @@ import blog.data.EILikeRec;
 import blog.data.EIScreenshot;
 import blog.repository.IBlogPostRepo;
 import blog.repository.ILikeRecRepo;
+import blog.repository.IScreenshotRepo;
 import blog.service.IBlogPostService;
 import blog.service.base.BaseService;
+import blog.service.exp.TableNotCreateException;
 import blog.view.EIBlogPostAndScreenshot;
 import blog.view.EIBlogPostDetail;
 import orm.Repository;
@@ -18,6 +20,7 @@ public class BlogPostServiceImpl extends BaseService<EIBlogPost, Long> implement
 
     private IBlogPostRepo blogPostRepo = BeanManager.getInstance().getRepository(IBlogPostRepo.class);
     private ILikeRecRepo likeRecRepo = BeanManager.getInstance().getRepository(ILikeRecRepo.class);
+    private IScreenshotRepo screenshotRepo = BeanManager.getInstance().getRepository(IScreenshotRepo.class);
 
     @Override
     public List<EIBlogPostDetail> listByCategory(Long categoryId) {
@@ -79,6 +82,10 @@ public class BlogPostServiceImpl extends BaseService<EIBlogPost, Long> implement
                 ret.put(blogPostAndScreenshot.getBlogPostId(), blogPostDetail);
             }
 
+            if (this.canOverlook(blogPostAndScreenshot)) {
+                continue;
+            }
+
             EIScreenshot screenshot = BeanManager.getInstance().createBean(EIScreenshot.class);
             screenshot.copyFrom(blogPostAndScreenshot, EIScreenshot.class);
 
@@ -86,6 +93,12 @@ public class BlogPostServiceImpl extends BaseService<EIBlogPost, Long> implement
         }
 
         return new ArrayList<>(ret.values());
+    }
+
+    private Boolean canOverlook(EIBlogPostAndScreenshot blogPostAndScreenshot) {
+        return blogPostAndScreenshot.getScreenshotDisabled()
+                || null == blogPostAndScreenshot.getScreenshotId()
+                || 0 == blogPostAndScreenshot.getScreenshotId();
     }
 
     @Override
@@ -96,5 +109,37 @@ public class BlogPostServiceImpl extends BaseService<EIBlogPost, Long> implement
     @Override
     protected String getName() {
         return "blog post";
+    }
+
+    @Override
+    public void before() {
+        super.before();
+
+        if (!this.likeRecRepo.createTableIfNotExist()) {
+            throw new TableNotCreateException("like");
+        }
+
+        if (!this.screenshotRepo.createTableIfNotExist()) {
+            throw new TableNotCreateException("screenshot");
+        }
+    }
+
+    @Override
+    public EIBlogPost save(EIBlogPost data) {
+        if (null == data.getBlogPostId()) {
+            data.setBlogPostCreateTime(new Date());
+        } else {
+            EIBlogPost blogPost = this.blogPostRepo.find(data.getBlogPostId());
+            blogPost.copyFrom(data);
+
+            data = blogPost;
+        }
+        data.setBlogPostUpdateTime(new Date());
+
+        if (null == data.getBlogPostDisabled()) {
+            data.setBlogPostDisabled(false);
+        }
+
+        return super.save(data);
     }
 }

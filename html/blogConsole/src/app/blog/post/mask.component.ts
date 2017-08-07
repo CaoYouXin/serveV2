@@ -5,11 +5,11 @@ import { DaoUtil, RestCode } from "../../http/index";
 import { API } from "../../const/index";
 
 @Component({
-  selector: 'blog-category-mask',
+  selector: 'blog-post-mask',
   templateUrl: './mask.component.html',
   styleUrls: ['../../common-style/mask&btns.component.css', '../../common-style/form.component.css', './mask.component.css']
 })
-export class BlogCategoryMaskComponent implements OnInit {
+export class BlogPostMaskComponent implements OnInit {
 
   private idx: number;
 
@@ -19,32 +19,42 @@ export class BlogCategoryMaskComponent implements OnInit {
   model: any = {};
   loading: boolean;
 
-  categoryForm: FormGroup;
+  postForm: FormGroup;
   formErrors = {
+    'BlogPostId': '',
     'BlogCategoryId': '',
-    'ParentBlogCategoryId': '',
-    'BlogCategoryName': '',
-    'BlogCategoryUrl': '',
-    'BlogCategoryScript': ''
+    'BlogPostName': '',
+    'BlogPostType': '',
+    'BlogPostUrl': '',
+    'BlogPostScript': ''
   };
   validationMessages = {
-    'BlogCategoryId': {},
-    'ParentBlogCategoryId': {},
-    'BlogCategoryName': {
+    'BlogPostId': {},
+    'BlogCategoryId': {
+      'required': '分类是必填项.'
+    },
+    'BlogPostName': {
       'required': '名称是必填项.',
       'maxLength': '名称的最大长度是255.'
     },
-    'BlogCategoryUrl': {
+    'BlogPostType': {
+      'required': '类型是必填项.'
+    },
+    'BlogPostUrl': {
       'required': 'URL是必填项.',
       'maxLength': 'URL的最大长度是1024.'
     },
-    'BlogCategoryScript': {
+    'BlogPostScript': {
       'required': 'SCRIPT是必填项.',
       'maxLength': 'SCRIPT的最大长度是1024.'
     }
   };
 
   categories: Array<any> = [];
+  types: Array<any> = [
+    { BlogPostType: 1, BlogPostTypeName: 'APP' },
+    { BlogPostType: 2, BlogPostTypeName: '文章' }
+  ];
 
   constructor(private tablelet: TableletService,
     private fb: FormBuilder,
@@ -56,7 +66,7 @@ export class BlogCategoryMaskComponent implements OnInit {
     this.model = {};
 
     const self = this;
-    this.tablelet.getMaskStatus(TableletService.BLOG_CATEGORY).subscribe(
+    this.tablelet.getMaskStatus(TableletService.BLOG_POST).subscribe(
       msg => {
         if ('mask' !== msg.maskName) {
           return;
@@ -66,25 +76,11 @@ export class BlogCategoryMaskComponent implements OnInit {
         self.model = msg.model || {};
         self.mask = msg.mask;
         self.submitText = msg.submitText;
+        self.categories = msg.categories || [];
 
         if (!self.mask) {
           return;
         }
-
-        if (msg.data) {
-          let selfIdx = msg.data.findIndex(c => c.BlogCategoryId === self.model.BlogCategoryId);
-          if (-1 === selfIdx) {
-            self.categories = msg.data;
-          } else {
-            self.categories = [...msg.data.slice(0, selfIdx), ...msg.data.slice(selfIdx + 1)];
-          }
-        } else {
-          self.categories = [];
-        }
-        self.categories = [
-          { BlogCategoryId: 0, BlogCategoryName: '' },
-          ...self.categories
-        ];
 
         self.buildForm();
       }
@@ -92,34 +88,39 @@ export class BlogCategoryMaskComponent implements OnInit {
   }
 
   buildForm(): void {
-    this.categoryForm = this.fb.group({
-      'BlogCategoryId': [{ value: this.model.BlogCategoryId, disabled: true }],
-      'ParentBlogCategoryId': [this.model.ParentBlogCategoryId, []],
-      'BlogCategoryName': [this.model.BlogCategoryName, [
+    this.postForm = this.fb.group({
+      'BlogPostId': [{ value: this.model.BlogPostId, disabled: true }],
+      'BlogCategoryId': [this.model.BlogCategoryId, [
+        Validators.required
+      ]],
+      'BlogPostName': [this.model.BlogPostName, [
         Validators.required,
         Validators.maxLength(255)
       ]],
-      'BlogCategoryUrl': [this.model.BlogCategoryUrl, [
+      'BlogPostType': [this.model.BlogPostType, [
+        Validators.required
+      ]],
+      'BlogPostUrl': [this.model.BlogPostUrl, [
         Validators.required,
         Validators.maxLength(1024)
       ]],
-      'BlogCategoryScript': [this.model.BlogCategoryScript, [
+      'BlogPostScript': [this.model.BlogPostScript, [
         Validators.required,
         Validators.maxLength(1024)
       ]],
     });
 
-    this.categoryForm.valueChanges
+    this.postForm.valueChanges
       .subscribe(data => this.onValueChanged(data));
 
     this.onValueChanged(); // (re)set validation messages now
   }
 
   onValueChanged(data?: any) {
-    if (!this.categoryForm) {
+    if (!this.postForm) {
       return;
     }
-    const form = this.categoryForm;
+    const form = this.postForm;
 
     for (const field in this.formErrors) {
       // clear previous error message (if any)
@@ -136,21 +137,21 @@ export class BlogCategoryMaskComponent implements OnInit {
   }
 
   submit() {
-    if (!this.categoryForm.valid) {
+    if (!this.postForm.valid) {
       return;
     }
 
     this.loading = true;
-    let data = this.categoryForm.value;
-    data.BlogCategoryId = this.model.BlogCategoryId || null;
+    let data = this.postForm.value;
+    data.BlogPostId = this.model.BlogPostId || null;
 
     const self = this;
-    this.dao.postJSON(API.getAPI("category/set"), data).subscribe(
+    this.dao.postJSON(API.getAPI("post/set"), data).subscribe(
       ret => {
         self.loading = false;
         self.restCode.checkCode(ret, (retBody) => {
-          self.tablelet.addData(TableletService.BLOG_CATEGORY, null === data.BlogCategoryId ? null : self.idx, retBody);
-          self.tablelet.setMaskStatus(TableletService.BLOG_CATEGORY, { maskName: 'mask', mask: false });
+          self.tablelet.addData(TableletService.BLOG_POST, null === data.BlogPostId ? null : self.idx, retBody);
+          self.tablelet.setMaskStatus(TableletService.BLOG_POST, { maskName: 'mask', mask: false });
         });
       },
       err => {
@@ -161,7 +162,7 @@ export class BlogCategoryMaskComponent implements OnInit {
   }
 
   cancel() {
-    this.tablelet.setMaskStatus(TableletService.BLOG_CATEGORY, { maskName: 'mask', mask: false });
+    this.tablelet.setMaskStatus(TableletService.BLOG_POST, { maskName: 'mask', mask: false });
     this.loading = false;
   }
 

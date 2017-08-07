@@ -18,7 +18,7 @@ class FavourMappingTest {
     @BeforeAll
     static void beforeAll() {
         DatasourceFactory.newDataSource(
-                "jdbc:mysql://localhost:3306/infinitely_serve",
+                "jdbc:mysql://localhost:3306/test",
                 "root", "root"
         );
     }
@@ -167,6 +167,20 @@ class FavourMappingTest {
     void test10() {
         IUserFavourMappingRepo userFavourMappingRepo = BeanManager.getInstance().getRepository(IUserFavourMappingRepo.class);
         userFavourMappingRepo.queryAll().forEach(eiUserFavourMappingDetail -> System.out.println(eiUserFavourMappingDetail.toJSONString()));
+    }
+
+    @Test
+    void test11() {
+        IBlogPostRepo blogPostRepo = BeanManager.getInstance().getRepository(IBlogPostRepo.class);
+        IScreenshotRepo screenshotRepo = BeanManager.getInstance().getRepository(IScreenshotRepo.class);
+
+        blogPostRepo.createTableIfNotExist();
+        screenshotRepo.createTableIfNotExist();
+
+        List<EIBlogPostAndScreenshot> blogPostAndScreenshots = blogPostRepo.queryAll();
+        blogPostAndScreenshots.forEach(eiBlogPostAndScreenshot -> {
+            System.out.println(eiBlogPostAndScreenshot.toJSONString());
+        });
     }
 
 }

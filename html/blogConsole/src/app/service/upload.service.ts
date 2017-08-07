@@ -3,6 +3,8 @@ import {Injectable} from "@angular/core";
 @Injectable()
 export class UploadService {
 
+  private fileName: string;
+
   private headers: any = {
     "X-Requested-With": "XMLHttpRequest"
   };
@@ -59,6 +61,8 @@ export class UploadService {
         let fieldName = element.name;
         let fileName = element.files[0].name;
 
+        this.fileName = fileName;
+      
         /*
          * Content-Disposition header contains name of the field
          * used to upload the file and also the name of the file as
@@ -107,13 +111,15 @@ export class UploadService {
   }
 
   send(form, url, cb) {
+    let self = this;
+
     let boundary = this.generateBoundary();
     let xhr = new XMLHttpRequest;
 
     xhr.open("POST", url, true);
     xhr.onreadystatechange = function () {
       if (xhr.readyState === 4) {
-        cb(xhr.responseText);
+        cb(xhr.responseText, self.fileName);
       }
     };
     let contentType = "multipart/form-data; boundary=" + boundary;
@@ -125,7 +131,6 @@ export class UploadService {
 
     // here's our data letiable that we talked about earlier
     let elements = this.elements(form);
-    let self = this;
     (function cb() {
       if (elements['readCount']) {
         setTimeout(cb, 1000);

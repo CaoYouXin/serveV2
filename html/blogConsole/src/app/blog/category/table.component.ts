@@ -125,8 +125,7 @@ export class BlogCategoryComponent implements OnInit, OnDestroy {
     this.dao.postJSON(API.getAPI("category/set"), data).subscribe(
       ret => {
         self.rest.checkCode(ret, (retBody) => {
-          self.tablelet.addData(TableletService.USER_FAVOUR, idx, retBody);
-          self.tablelet.setMaskStatus(TableletService.USER_FAVOUR, { mask: false });
+          self.tablelet.addData(TableletService.BLOG_CATEGORY, idx, retBody);
         });
       },
       err => {

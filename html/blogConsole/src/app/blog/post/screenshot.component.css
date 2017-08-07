@@ -1,0 +1,22 @@
+.center {
+  margin: 0 auto;
+  margin-top: 1em;
+  
+  overflow: auto;
+}
+
+h1 {
+  color: whitesmoke;
+}
+
+img {
+  width: calc(800px - 2em);
+  margin: 1em;
+  border: solid 1px rosybrown;
+  box-shadow: 0 0 10px royalblue;
+}
+
+img:hover {
+  box-shadow: 0 0 10px red;
+  border-radius: 3em;
+}

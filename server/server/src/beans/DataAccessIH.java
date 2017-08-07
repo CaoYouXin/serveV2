@@ -52,6 +52,20 @@ public class DataAccessIH implements InvocationHandler {
                     }
 
                     throw new RuntimeException("value is not a number type.");
+                case "java.lang.Byte":
+                    if (value instanceof Byte) {
+                        return value;
+                    }
+
+                    if (value instanceof Integer) {
+                        return Byte.parseByte(Integer.toString((Integer) value));
+                    }
+
+                    if (value instanceof String) {
+                        return Byte.parseByte((String) value);
+                    }
+
+                    throw new RuntimeException("value is not a number type.");
                 default:
                     return value;
             }

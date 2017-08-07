@@ -286,10 +286,17 @@ public class QueryHandler implements InvocationHandler {
 
     private void parseFrom(String from, QueryRet queryRet, Map<String, Class<?>> stringClassMap) {
         Map<String, Class<?>> alias2type = new HashMap<>();
-        StringJoiner stringJoiner = new StringJoiner(",");
-        for (String table : from.split(",")) {
-            String[] split = table.trim().split("\\s+");
-            Class<?> type = stringClassMap.get(split[0]);
+
+        String regex = String.format("(?<typeName>%s) (?<alias>.+?)(?<rest> |,)", this.getAllTypeNames(stringClassMap));
+        Pattern p = Pattern.compile(regex);
+        Matcher m = p.matcher(from + " ");
+        StringBuffer sb = new StringBuffer();
+        while (m.find()) {
+            String typeName = m.group("typeName");
+            String alias = m.group("alias");
+            String rest = m.group("rest");
+
+            Class<?> type = stringClassMap.get(typeName);
 
             if (null == type) {
                 throw new RuntimeException("select from not a entity");
@@ -300,12 +307,22 @@ public class QueryHandler implements InvocationHandler {
                 throw new RuntimeException("select from not a entity");
             }
 
-            alias2type.put(split[1], type);
-            stringJoiner.add(String.format("`%s` %s", entity.name(), split[1]));
+            alias2type.put(alias, type);
+            m.appendReplacement(sb, String.format("`%s` %s%s", entity.name(), alias, rest));
         }
+        m.appendTail(sb);
 
         queryRet.setAlias2type(alias2type);
-        queryRet.setFrom(stringJoiner.toString());
+
+        queryRet.setFrom(this.parseAlias(sb.toString(), queryRet));
+    }
+
+    private String getAllTypeNames(Map<String, Class<?>> stringClassMap) {
+        StringJoiner stringJoiner = new StringJoiner("|");
+        for (String key : stringClassMap.keySet()) {
+            stringJoiner.add(key);
+        }
+        return stringJoiner.toString();
     }
 
 

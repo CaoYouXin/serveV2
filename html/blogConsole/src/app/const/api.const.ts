@@ -5,6 +5,10 @@ export class API {
   private static mode = environment.production ? 'prod' : 'dev';
 
   private static api = {
+    "serverLoc": {
+      "prod": "http://server.caols.tech:9999/",
+      "dev": "http://localhost:9999/"
+    },
     "blog/init": {
       "prod": "http://server.caols.tech:9999/api/blog/init",
       "dev": "http://localhost:9999/api/blog/init"
@@ -120,6 +124,26 @@ export class API {
     "category/list/client": {
       "prod": "http://server.caols.tech:9999/api/blog/category/list/client",
       "dev": "http://localhost:9999/api/blog/category/list/client"
+    },
+    "post/list": {
+      "prod": "http://server.caols.tech:9999/api/blog/post/list/all",
+      "dev": "http://localhost:9999/api/blog/post/list/all"
+    },
+    "post/set": {
+      "prod": "http://server.caols.tech:9999/api/blog/post/set",
+      "dev": "http://localhost:9999/api/blog/post/set"
+    },
+    "screenshot/list": {
+      "prod": function (postId) {
+        return `http://server.caols.tech:9999/api/blog/screenshot/list/${postId}`;
+      },
+      "dev": function (postId) {
+        return `http://localhost:9999/api/blog/screenshot/list/${postId}`;
+      }
+    },
+    "screenshot/set": {
+      "prod": "http://server.caols.tech:9999/api/blog/screenshot/set",
+      "dev": "http://localhost:9999/api/blog/screenshot/set"
     }
   };
 

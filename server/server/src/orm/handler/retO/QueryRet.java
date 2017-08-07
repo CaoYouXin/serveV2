@@ -106,4 +106,5 @@ public class QueryRet {
 
         this.params.add(params);
     }
+
 }

@@ -33,7 +33,10 @@ import {
   BlogCategoryComponent,
   BlogCategoryMaskComponent,
   BlogCategoryPreviewComponent,
-  BlogCategoryItemComponent
+  BlogCategoryItemComponent,
+  BlogPostComponent,
+  BlogPostMaskComponent,
+  BlogScreenshotComponent
 } from "./component/index";
 import { AuthGuard, LoginResolver } from "./guard/index";
 import {
@@ -76,7 +79,10 @@ import { TestComponent } from "./test/test.component";
     BlogCategoryComponent,
     BlogCategoryMaskComponent,
     BlogCategoryPreviewComponent,
-    BlogCategoryItemComponent
+    BlogCategoryItemComponent,
+    BlogPostComponent,
+    BlogPostMaskComponent,
+    BlogScreenshotComponent
   ],
   imports: [
     BrowserModule,

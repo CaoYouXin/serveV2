@@ -12,6 +12,7 @@ export class TableletService {
   static FAVOUR_MAPPING = "FAVOUR_MAPPING";
   static FAVOUR_RULE = "FAVOUR_RULE";
   static BLOG_CATEGORY = "BLOG_CATEGORY";
+  static BLOG_POST = "BLOG_POST";
 
   private maskStatusSubjects = {};
   private dataSubjects = {};

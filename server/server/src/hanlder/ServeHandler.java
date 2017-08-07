@@ -41,7 +41,7 @@ public class ServeHandler implements HttpRequestHandler {
                 return;
             }
         } catch (Throwable e) {
-            RestHelper.responseJSON(response, JsonResponse.fail(RestCode.FORBIDDEN_RESOURCE, e.getMessage()));
+            RestHelper.catching(e, response, RestCode.FORBIDDEN_RESOURCE);
             return;
         }
 
