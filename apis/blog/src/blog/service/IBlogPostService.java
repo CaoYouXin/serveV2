@@ -23,4 +23,6 @@ public interface IBlogPostService extends Service {
 
     List<EIBlogPost> top5();
 
+    EIBlogPost getById(Long postId);
+
 }

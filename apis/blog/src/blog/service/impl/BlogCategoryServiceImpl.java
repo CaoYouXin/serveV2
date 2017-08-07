@@ -55,6 +55,11 @@ public class BlogCategoryServiceImpl extends BaseService<EIBlogCategory, Long> i
         return ret;
     }
 
+    @Override
+    public EIBlogCategory getById(Long blogCategoryId) {
+        return this.blogCategoryRepo.find(blogCategoryId);
+    }
+
     private boolean canProcess(Map<Long, EIBlogCategoryNested> searchPIDs, EIBlogCategory eiBlogCategory) {
         return !this.isCategoryLinked(searchPIDs, eiBlogCategory)
                 && (this.isTopCategory(eiBlogCategory)

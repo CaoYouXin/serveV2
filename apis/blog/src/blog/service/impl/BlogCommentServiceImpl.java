@@ -18,13 +18,20 @@ public class BlogCommentServiceImpl extends BaseService<EIComment, Long> impleme
     private ICommentRepo commentRepo = BeanManager.getInstance().getRepository(ICommentRepo.class);
 
     @Override
-    public List<EICommentTree> listByPostId(Long postId) {
+    public List<EICommentTree> listClientByPostId(Long postId) {
+        return this.transform(this.commentRepo.queryAllEffectingByBlogPostId(postId));
+    }
 
+    @Override
+    public List<EICommentTree> listAllByPostId(Long postId) {
+        return this.transform(this.commentRepo.queryAllByBlogPostId(postId));
+    }
+
+    private List<EICommentTree> transform(List<EIComment> allByBlogPostId) {
         Map<Long, EICommentTree> ret = new HashMap<>();
 
-        List<EIComment> allByBlogPostId = this.commentRepo.queryAllByBlogPostId(postId);
         for (EIComment eiComment : allByBlogPostId) {
-            if (null == eiComment.getParentCommentId()) {
+            if (this.hasNoParent(eiComment)) {
                 EICommentTree commentTree = BeanManager.getInstance().createBean(EICommentTree.class);
                 commentTree.copyFrom(eiComment);
                 ret.put(eiComment.getCommentId(), commentTree);
@@ -32,7 +39,7 @@ public class BlogCommentServiceImpl extends BaseService<EIComment, Long> impleme
         }
 
         for (EIComment eiComment : allByBlogPostId) {
-            if (null != eiComment.getParentCommentId()) {
+            if (this.hasParent(eiComment)) {
                 EICommentTree commentTree = ret.get(eiComment.getParentCommentId());
                 if (null == commentTree.getLeafs()) {
                     commentTree.setLeafs(new ArrayList<>());
@@ -43,6 +50,14 @@ public class BlogCommentServiceImpl extends BaseService<EIComment, Long> impleme
         }
 
         return new ArrayList<>(ret.values());
+    }
+
+    private boolean hasParent(EIComment eiComment) {
+        return null != eiComment.getParentCommentId() && 0 != eiComment.getParentCommentId();
+    }
+
+    private boolean hasNoParent(EIComment eiComment) {
+        return null == eiComment.getParentCommentId() || 0 == eiComment.getParentCommentId();
     }
 
     @Override

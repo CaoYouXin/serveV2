@@ -10,6 +10,8 @@ public interface IBlogCommentService extends Service {
 
     EIComment save(EIComment comment);
 
-    List<EICommentTree> listByPostId(Long postId);
+    List<EICommentTree> listClientByPostId(Long postId);
+
+    List<EICommentTree> listAllByPostId(Long postId);
 
 }

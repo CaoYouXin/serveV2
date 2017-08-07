@@ -14,4 +14,6 @@ public interface IBlogCategoryService extends Service {
 
     List<EIBlogCategoryNested> listNestedAllUnDisabled();
 
+    EIBlogCategory getById(Long blogCategoryId);
+
 }

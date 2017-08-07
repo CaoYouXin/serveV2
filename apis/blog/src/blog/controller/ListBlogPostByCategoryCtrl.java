@@ -6,6 +6,7 @@ import org.apache.http.HttpException;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.protocol.HttpContext;
+import rest.RestCode;
 import rest.RestHelper;
 import rest.WithMatcher;
 
@@ -29,7 +30,13 @@ public class ListBlogPostByCategoryCtrl extends WithMatcher {
     @Override
     public void handle(HttpRequest httpRequest, HttpResponse httpResponse, HttpContext httpContext) throws HttpException, IOException {
         Map<String, String> params = this.getUriPatternMatcher().getParams(httpRequest);
-        Long categoryId = Long.parseLong(params.get("categoryId"));
+        Long categoryId = null;
+        try {
+            categoryId = Long.parseLong(params.get("categoryId"));
+        } catch (NumberFormatException e) {
+            RestHelper.catching(e, httpResponse, RestCode.GENERAL_ERROR);
+            return;
+        }
 
         RestHelper.oneCallAndRet(httpResponse, this.blogPostService, "listByCategory", categoryId);
     }

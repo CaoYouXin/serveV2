@@ -11,4 +11,6 @@ public interface IScreenshotService extends Service {
 
     EIScreenshot save(EIScreenshot screenshot);
 
+    List<EIScreenshot> listByPostId(Long postId);
+
 }

@@ -61,6 +61,11 @@ public class BlogPostServiceImpl extends BaseService<EIBlogPost, Long> implement
         return this.blogPostRepo.queryAllByPostIds(sql);
     }
 
+    @Override
+    public EIBlogPost getById(Long postId) {
+        return this.blogPostRepo.find(postId);
+    }
+
     private List<EIBlogPostDetail> transform(List<EIBlogPostAndScreenshot> data) {
         Map<Long, EIBlogPostDetail> ret = new HashMap<>();
 

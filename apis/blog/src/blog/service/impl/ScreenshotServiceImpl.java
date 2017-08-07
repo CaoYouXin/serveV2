@@ -7,6 +7,8 @@ import blog.service.IScreenshotService;
 import blog.service.base.BaseService;
 import orm.Repository;
 
+import java.util.List;
+
 public class ScreenshotServiceImpl extends BaseService<EIScreenshot, Long> implements IScreenshotService {
 
     private IScreenshotRepo screenshotRepo = BeanManager.getInstance().getRepository(IScreenshotRepo.class);
@@ -19,5 +21,10 @@ public class ScreenshotServiceImpl extends BaseService<EIScreenshot, Long> imple
     @Override
     protected String getName() {
         return "blog screenshot";
+    }
+
+    @Override
+    public List<EIScreenshot> listByPostId(Long postId) {
+        return this.screenshotRepo.findAllByBlogPostIdAndScreenshotDisabled(postId, false);
     }
 }
