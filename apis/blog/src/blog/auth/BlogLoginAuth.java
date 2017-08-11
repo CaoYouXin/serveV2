@@ -8,6 +8,8 @@ import config.Configs;
 import org.apache.http.Header;
 import org.apache.http.HttpRequest;
 import org.apache.http.protocol.HttpContext;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Date;
 import java.util.function.BiFunction;
@@ -15,7 +17,7 @@ import java.util.function.BiFunction;
 public class BlogLoginAuth implements BiFunction<HttpRequest, HttpContext, Boolean> {
 
     public static final String USER_ID_KEY = "infinitely-serve-user_id";
-
+    private static final Logger logger = LogManager.getLogger(BlogLoginAuth.class);
     private IUserTokenRepo userTokenRepo = BeanManager.getInstance().getRepository(IUserTokenRepo.class);
 
     @Override
@@ -44,6 +46,7 @@ public class BlogLoginAuth implements BiFunction<HttpRequest, HttpContext, Boole
             throw new AuthRuntimeException("Token过期，请重新登录");
         }
 
+        logger.info(String.format("userid : %s", eiUserToken.getUserId() + ""));
         httpContext.setAttribute(USER_ID_KEY, eiUserToken.getUserId());
         return true;
     }

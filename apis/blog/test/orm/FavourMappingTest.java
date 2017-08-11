@@ -4,12 +4,15 @@ import beans.BeanManager;
 import blog.data.EIBlogPost;
 import blog.data.EILikeRec;
 import blog.data.EIResourceLevel;
+import blog.data.EIUser;
 import blog.repository.*;
 import blog.view.EIBlogPostAndScreenshot;
 import blog.view.EIResourceLevelMappingDetail;
 import blog.view.EIUserFavourDetail;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import util.StringUtil;
 
 import java.util.List;
 
@@ -180,6 +183,24 @@ class FavourMappingTest {
         List<EIBlogPostAndScreenshot> blogPostAndScreenshots = blogPostRepo.queryAll();
         blogPostAndScreenshots.forEach(eiBlogPostAndScreenshot -> {
             System.out.println(eiBlogPostAndScreenshot.toJSONString());
+        });
+    }
+
+    @Test
+    void test12() {
+        IUserRepo userRepo = BeanManager.getInstance().getRepository(IUserRepo.class);
+        EIUser user = BeanManager.getInstance().createBean(EIUser.class);
+        user.setUserName("tester");
+        user.setUserPassword(StringUtil.getMD5("testing"));
+        user.setUserDisabled(false);
+        Assertions.assertEquals(true, userRepo.save(user));
+    }
+
+    @Test
+    void test13() {
+        ICommentRepo commentRepo = BeanManager.getInstance().getRepository(ICommentRepo.class);
+        commentRepo.queryAllEffectingByBlogPostId(2L).forEach(sth -> {
+            System.out.println(sth.toJSONString());
         });
     }
 

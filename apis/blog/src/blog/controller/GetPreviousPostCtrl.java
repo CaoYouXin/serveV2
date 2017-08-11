@@ -29,7 +29,7 @@ public class GetPreviousPostCtrl extends WithMatcher {
 
     @Override
     public String urlPattern() {
-        return "/blog/post/previous/:date";
+        return "/blog/previous-post/:date";
     }
 
     @Override

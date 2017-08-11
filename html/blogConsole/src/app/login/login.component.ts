@@ -2,8 +2,7 @@ import {Component, OnInit} from "@angular/core";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {AdminService} from "../service/index";
-import {DaoUtil} from "caols-common-modules";
-import {RestCode} from "../http/index";
+import {RestCode, DaoUtil} from "../http/index";
 
 @Component({
   selector: 'login',

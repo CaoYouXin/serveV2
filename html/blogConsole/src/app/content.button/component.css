@@ -37,3 +37,75 @@
   height: auto;
   border: solid 1px rosybrown;
 }
+
+.comment ul {
+  list-style: none;
+}
+
+.comment {
+  display: block;
+  overflow: hidden;
+}
+
+.comment:first-child {
+  border-top: solid 1px yellowgreen;
+}
+
+.comment:last-child {
+  border-bottom: solid 1px yellowgreen;
+}
+
+.comment+.comment {
+  border-top: dashed 1px yellowgreen;
+}
+
+.comment .comment:first-child {
+  border-top: dashed 1px yellowgreen;
+}
+
+.comment .comment:last-child {
+  border-bottom: dashed 1px yellowgreen;
+}
+
+.comment .user,
+.comment .c-content {
+  display: block;
+  overflow: hidden;
+  padding: 0.5em;
+}
+
+.comment .user {
+  float: left;
+  width: 20%;
+  padding: 1em 1.2em 0;
+  color: darkgrey;
+}
+
+.comment .c-content {
+  float: right;
+  width: 80%;
+  padding-left: 1.2em;
+}
+
+.c-content .text {
+  color: hsl(80,61%,60%);
+}
+
+.c-content .reply-btn {
+  margin-top: .5em;
+  color: gray;
+  font-size: small;
+  cursor: default;
+  text-align: right;
+  transition: padding .36s;
+  transition-timing-function: cubic-bezier(0, 1, .57, 1.35);
+}
+
+.c-content .reply-btn:hover,
+.c-content .reply-btn:focus {
+  padding-right: 1em;
+}
+
+.c-content ul {
+  margin-top: 1em;
+}

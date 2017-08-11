@@ -1,4 +1,34 @@
 <div class="btn" [class.button]="buttonMode" [class.tab]="!buttonMode" (click)="handler.emit()">{{buttonText}}</div>
 <div class="content" [class.show]="!buttonMode">
   <h1 *ngIf="loading">Loading...</h1>
+  <ul *ngIf="!loading">
+    <li class="comment" *ngFor="let c of comments; let idx=index">
+      <div class="user">
+        {{c.WriterName}}
+      </div>
+      <div class="c-content">
+        <div class="text">
+          {{c.CommentContent}}
+        </div>
+        <ul>
+          <li class="comment" *ngFor="let cc of (c.Leafs || []); let i=index">
+            <div class="user">
+              {{cc.WriterName}}
+            </div>
+            <div class="c-content">
+              <div class="text">
+                {{cc.CommentContent}}
+              </div>
+              <div class="reply-btn">
+                <span (click)="replyCommentBtnClicked(c, cc, idx, i)">{{cc.CommentDisabled ? '启用' : '禁用'}}</span>
+              </div>
+            </div>
+          </li>
+        </ul>
+        <div class="reply-btn">
+          <span (click)="replyCommentBtnClicked(c, null, idx, null)">{{c.CommentDisabled ? '启用' : '禁用'}}</span>
+        </div>
+      </div>
+    </li>
+  </ul>
 </div>

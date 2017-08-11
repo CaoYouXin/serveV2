@@ -4,10 +4,10 @@ import blog.data.EIComment;
 
 import java.util.List;
 
-public interface EICommentTree extends EIComment {
+public interface EICommentTree extends EICommentDetail {
 
-    List<EIComment> getLeafs();
+    List<EICommentDetail> getLeafs();
 
-    void setLeafs(List<EIComment> leafs);
+    void setLeafs(List<EICommentDetail> leafs);
 
 }

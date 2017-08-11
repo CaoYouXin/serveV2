@@ -47,8 +47,12 @@ public class UserServiceImpl implements IUserService {
             throw new UserException("验证码已过期.");
         }
 
-        if (!eiCaptcha.getCaptchaCode().equals(registerUser.getImageCaptcha().toUpperCase())) {
+        if (!eiCaptcha.getCaptchaCode().equals(registerUser.getImageCaptcha())) {
             throw new UserException("验证码不正确.");
+        }
+
+        if (null == registerUser.getUserDisabled()) {
+            registerUser.setUserDisabled(false);
         }
 
         if (!this.userRepo.save(registerUser)) {

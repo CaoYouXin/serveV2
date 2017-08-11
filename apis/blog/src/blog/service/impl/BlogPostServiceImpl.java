@@ -1,6 +1,7 @@
 package blog.service.impl;
 
 import beans.BeanManager;
+import blog.data.EIBlogCategory;
 import blog.data.EIBlogPost;
 import blog.data.EILikeRec;
 import blog.data.EIScreenshot;
@@ -77,8 +78,8 @@ public class BlogPostServiceImpl extends BaseService<EIBlogPost, Long> implement
             if (null == blogPostDetail) {
                 blogPostDetail = BeanManager.getInstance().createBean(EIBlogPostDetail.class);
                 blogPostDetail.copyFrom(blogPostAndScreenshot, EIBlogPost.class);
+                blogPostDetail.copyFrom(blogPostAndScreenshot, EIBlogCategory.class);
                 blogPostDetail.setScreenshots(new ArrayList<>());
-
                 ret.put(blogPostAndScreenshot.getBlogPostId(), blogPostDetail);
             }
 

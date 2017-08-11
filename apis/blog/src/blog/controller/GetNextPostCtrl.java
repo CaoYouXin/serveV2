@@ -29,7 +29,7 @@ public class GetNextPostCtrl extends WithMatcher {
 
     @Override
     public String urlPattern() {
-        return "/blog/post/next/:date";
+        return "/blog/next-post/:date";
     }
 
     @Override

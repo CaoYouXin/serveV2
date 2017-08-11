@@ -15,7 +15,7 @@ public interface EIComment extends EntityBeanI {
 
     void setCommentId(Long commentId);
 
-    @Column(name = "post_id")
+    @Column(name = "post_id", nullable = false)
     Long getBlogPostId();
 
     void setBlogPostId(Long blogPostId);
@@ -31,9 +31,9 @@ public interface EIComment extends EntityBeanI {
     void setWriterUserId(Long writerUserId);
 
     @Column(name = "commented")
-    Long getCommentedUserId();
+    Long getCommenteeUserId();
 
-    void setCommentedUserId(Long commentedUserId);
+    void setCommenteeUserId(Long commenteeUserId);
 
     @Column(name = "create", nullable = false)
     Date getCommentTime();

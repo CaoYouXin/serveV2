@@ -8,6 +8,8 @@ import org.apache.http.HttpException;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.protocol.HttpContext;
+import rest.JsonResponse;
+import rest.RestCode;
 import rest.RestHelper;
 import rest.WithMatcher;
 
@@ -39,6 +41,10 @@ public class SetBlogLikeCtrl extends WithMatcher {
         Long postId = Long.parseLong(params.get("postId"));
 
         Long userId = (Long) httpContext.getAttribute(BlogLoginAuth.USER_ID_KEY);
+        if (null == userId) {
+            RestHelper.responseJSON(httpResponse, JsonResponse.fail(RestCode.UNAUTHED, "没有用户信息"));
+            return;
+        }
 
         RestHelper.oneCallAndRet(httpResponse, this.blogLikeService, "like", postId, userId);
     }

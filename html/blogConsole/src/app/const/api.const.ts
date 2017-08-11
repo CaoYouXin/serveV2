@@ -144,6 +144,18 @@ export class API {
     "screenshot/set": {
       "prod": "http://server.caols.tech:9999/api/blog/screenshot/set",
       "dev": "http://localhost:9999/api/blog/screenshot/set"
+    },
+    "comment/list": {
+      "prod": function (postId) {
+        return `http://server.caols.tech:9999/api/blog/comment/all/${postId}`;
+      },
+      "dev": function (postId) {
+        return `http://localhost:9999/api/blog/comment/all/${postId}`;
+      }
+    },
+    "comment/set": {
+      "prod": "http://server.caols.tech:9999/api/blog/comment/set",
+      "dev": "http://localhost:9999/api/blog/comment/set"
     }
   };
 

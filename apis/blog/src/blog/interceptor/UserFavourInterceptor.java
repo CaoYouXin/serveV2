@@ -62,12 +62,13 @@ public class UserFavourInterceptor extends WithMatcher implements Interceptor {
             }
         }
 
-        if (null == this.userFavourRules || !Configs.getConfigs(USER_FAVOUR_INTERCEPTOR_CONFIG_KEY, Boolean.class)) {
+        Boolean configs = Configs.getConfigs(USER_FAVOUR_INTERCEPTOR_CONFIG_KEY, Boolean.class);
+        if (null == this.userFavourRules || null == configs || !configs) {
             this.userFavourRules = this.userFavourRuleService.listNotDisabled();
             HashMap<String, Pattern> newCache = new HashMap<>();
             for (EIUserFavourRule userFavourRule : this.userFavourRules) {
                 String userFavourRulePattern = userFavourRule.getUserFavourRulePattern();
-                if (this.patternCache.containsKey(userFavourRulePattern)) {
+                if (null != this.patternCache && this.patternCache.containsKey(userFavourRulePattern)) {
                     newCache.put(userFavourRulePattern, this.patternCache.get(userFavourRulePattern));
                 }
             }

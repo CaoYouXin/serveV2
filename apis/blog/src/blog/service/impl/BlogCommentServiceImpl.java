@@ -5,10 +5,12 @@ import blog.data.EIComment;
 import blog.repository.ICommentRepo;
 import blog.service.IBlogCommentService;
 import blog.service.base.BaseService;
+import blog.view.EICommentDetail;
 import blog.view.EICommentTree;
 import orm.Repository;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class BlogCommentServiceImpl extends BaseService<EIComment, Long> implements IBlogCommentService {
 
@@ -24,10 +26,10 @@ public class BlogCommentServiceImpl extends BaseService<EIComment, Long> impleme
         return this.transform(this.commentRepo.queryAllByBlogPostId(postId));
     }
 
-    private List<EICommentTree> transform(List<EIComment> allByBlogPostId) {
+    private List<EICommentTree> transform(List<EICommentDetail> allByBlogPostId) {
         Map<Long, EICommentTree> ret = new HashMap<>();
 
-        for (EIComment eiComment : allByBlogPostId) {
+        for (EICommentDetail eiComment : allByBlogPostId) {
             if (this.hasNoParent(eiComment)) {
                 EICommentTree commentTree = BeanManager.getInstance().createBean(EICommentTree.class);
                 commentTree.copyFrom(eiComment);
@@ -35,9 +37,13 @@ public class BlogCommentServiceImpl extends BaseService<EIComment, Long> impleme
             }
         }
 
-        for (EIComment eiComment : allByBlogPostId) {
+        for (EICommentDetail eiComment : allByBlogPostId) {
             if (this.hasParent(eiComment)) {
                 EICommentTree commentTree = ret.get(eiComment.getParentCommentId());
+                if (null == commentTree) {
+                    continue;
+                }
+
                 if (null == commentTree.getLeafs()) {
                     commentTree.setLeafs(new ArrayList<>());
                 }
@@ -46,7 +52,7 @@ public class BlogCommentServiceImpl extends BaseService<EIComment, Long> impleme
             }
         }
 
-        return new ArrayList<>(ret.values());
+        return ret.values().stream().sorted((EICommentTree tree1, EICommentTree tree2) -> tree2.getCommentTime().compareTo(tree1.getCommentTime())).collect(Collectors.toList());
     }
 
     private boolean hasParent(EIComment eiComment) {
