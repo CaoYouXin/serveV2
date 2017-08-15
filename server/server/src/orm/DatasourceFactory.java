@@ -28,7 +28,7 @@ public class DatasourceFactory {
 
     public static void newDataSource(String url, String user, String pwd) {
         MysqlDataSource mysqlDS = new MysqlDataSource();
-        mysqlDS.setURL(url);
+        mysqlDS.setURL(url + "?useUnicode=yes&characterEncoding=UTF-8");
         mysqlDS.setUser(user);
         mysqlDS.setPassword(pwd);
         try {
