@@ -1,5 +1,6 @@
 package blog.controller;
 
+import auth.AuthHelper;
 import beans.BeanManager;
 import blog.auth.AuthHelperExt;
 import blog.data.EIComment;
@@ -19,7 +20,7 @@ public class SetBlogCommentCtrl extends WithMatcher {
 
     @Override
     public int auth() {
-        return AuthHelperExt.BLOG_LOGIN;
+        return AuthHelperExt.BLOG_LOGIN | AuthHelper.ADMIN;
     }
 
     @Override
