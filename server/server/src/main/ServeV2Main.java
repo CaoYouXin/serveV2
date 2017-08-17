@@ -75,7 +75,7 @@ public class ServeV2Main {
     private static void restartServer(int seconds) {
         stopServer();
         try {
-            TimeUnit.SECONDS.sleep(Math.min(10, seconds));
+            TimeUnit.SECONDS.sleep(Math.max(10, seconds));
             startServer();
         } catch (InterruptedException e) {
             logger.catching(e);

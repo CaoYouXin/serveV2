@@ -38,6 +38,6 @@ public class ServerRestartCtrl extends WithMatcher {
 
         String jarFilepath = Configs.getConfigs(Configs.JAR_FILE_PATH, String.class);
         BashUtil.run(String.format("nohup java -jar %s restart " + downCount, jarFilepath), false);
-        RestHelper.responseJSON(response, JsonResponse.success(Math.min(10, Integer.parseInt(downCount)) + 5));
+        RestHelper.responseJSON(response, JsonResponse.success(Math.max(10, Integer.parseInt(downCount)) + 5));
     }
 }
