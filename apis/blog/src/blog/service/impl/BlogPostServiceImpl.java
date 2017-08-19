@@ -16,6 +16,7 @@ import blog.view.EIBlogPostDetail;
 import orm.Repository;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class BlogPostServiceImpl extends BaseService<EIBlogPost, Long> implements IBlogPostService {
 
@@ -93,7 +94,7 @@ public class BlogPostServiceImpl extends BaseService<EIBlogPost, Long> implement
             blogPostDetail.getScreenshots().add(screenshot);
         }
 
-        return new ArrayList<>(ret.values());
+        return ret.values().stream().sorted((p1, p2) -> p2.getBlogPostUpdateTime().compareTo(p1.getBlogPostUpdateTime())).collect(Collectors.toList());
     }
 
     private Boolean canOverlook(EIBlogPostAndScreenshot blogPostAndScreenshot) {
