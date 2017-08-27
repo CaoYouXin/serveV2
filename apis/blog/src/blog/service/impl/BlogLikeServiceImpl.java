@@ -46,4 +46,10 @@ public class BlogLikeServiceImpl implements IBlogLikeService {
     public Integer likeCount(Long postId) {
         return this.likeRecRepo.queryCount(postId).getCount();
     }
+
+    @Override
+    public Boolean liked(Long userId, Long postId) {
+        EILikeRec byUserIdAndBlogPostId = this.likeRecRepo.findByUserIdAndBlogPostId(userId, postId);
+        return null != byUserIdAndBlogPostId;
+    }
 }

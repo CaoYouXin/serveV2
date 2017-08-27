@@ -15,7 +15,7 @@ public class AuthHelper {
 
     private static final Map<Integer, BiFunction<HttpRequest, HttpContext, Boolean>> AUTH_MAP = new HashMap<>();
 
-    static {
+    public static void init() {
         AUTH_MAP.put(ADMIN, new AdminAuth());
         AUTH_MAP.put(START_LOG, new StartLogAuth());
 

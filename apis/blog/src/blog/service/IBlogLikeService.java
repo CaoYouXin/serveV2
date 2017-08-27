@@ -9,4 +9,6 @@ public interface IBlogLikeService extends Service {
 
     Integer likeCount(Long postId);
 
+    Boolean liked(Long userId, Long postId);
+
 }

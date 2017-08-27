@@ -12,6 +12,8 @@ import blog.service.exp.TableNotCreateException;
 import blog.service.exp.UserException;
 import blog.view.EILoginUser;
 import blog.view.EIRegisterUser;
+import org.apache.http.Header;
+import org.apache.http.HttpRequest;
 import util.DateUtil;
 import util.StringUtil;
 
@@ -109,5 +111,20 @@ public class UserServiceImpl implements IUserService {
         }
 
         return disabled;
+    }
+
+    @Override
+    public Long getUserIdFromRequest(HttpRequest httpRequest) {
+        Header header = httpRequest.getLastHeader("infinitely-serve-token");
+        if (null == header) {
+            return 0L;
+        }
+
+        EIUserToken eiUserToken = this.userTokenRepo.findByUserToken(header.getValue());
+        if (null == eiUserToken) {
+            return 0L;
+        }
+
+        return eiUserToken.getUserId();
     }
 }

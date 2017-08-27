@@ -11,9 +11,11 @@ import config.InitConfig;
 import hanlder.*;
 import meta.data.EIConfig;
 import meta.repository.IConfigRepo;
+import meta.service.IAuthService;
 import meta.service.IControllerService;
 import meta.service.IDatabaseStatusService;
 import meta.service.IServiceService;
+import meta.service.impl.AuthServiceImpl;
 import meta.service.impl.ControllerServiceImpl;
 import meta.service.impl.DatabaseStatusServiceImpl;
 import meta.service.impl.ServiceServiceImpl;
@@ -96,9 +98,21 @@ public class ServeV2Main {
         boolean withSchema = setupDataSource();
         Configs.setConfigs(Configs.WITH_SCHEMA, withSchema);
         setupServeAuth(withSchema);
+        setupAuth(withSchema);
         setupServer();
         setupMetaApis();
         setupApis(withSchema);
+    }
+
+    private static void setupAuth(boolean withSchema) {
+        AuthHelper.init();
+        if (!withSchema) {
+            return;
+        }
+
+        BeanManager.getInstance().setService(IAuthService.class, AuthServiceImpl.class);
+        IAuthService authService = BeanManager.getInstance().getService(IAuthService.class);
+        authService.initAuths();
     }
 
     private static void setupServeAuth(boolean withSchema) {
