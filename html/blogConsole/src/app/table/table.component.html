@@ -12,7 +12,7 @@
     <div class="row" *ngFor="let row of data;let i=index;">
       <div class="col" *ngFor="let head of table.heads; let idx=index;"
            [style.height]="getHeight(i) + 'px'"
-           [style.width]="head.width + 'px'" [title]="row[head]">
+           [style.width]="head.width + 'px'" [title]="head.render ? head.render(row[head.key]) : row[head.key]">
         {{head.render ? head.render(row[head.key]) : row[head.key]}}
       </div>
       <div class="col btns" *ngIf="table.ctrls" [style.height]="getHeight(i) + 'px'"
