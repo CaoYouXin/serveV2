@@ -1,0 +1,30 @@
+<div class="table-wrapper" [style.width]="width + 'px'">
+  <table [style.width]="table.tWidth + 'px'">
+    <thead>
+      <tr>
+        <th *ngFor="let head of table.heads; let idx=index;" [style.width]="head.width + 'px'" (mousewheel)="tweakHeader($event, idx)">
+          <hr>
+          <span>{{head.text}}</span>
+        </th>
+        <th *ngIf="table.ctrls && table.ctrls.length" [style.width]="table.ctrlsWidth + 'px'" (mousewheel)="tweakHeader($event, null)">
+          <hr>
+          <span>操作</span>
+        </th>
+      </tr>
+      <tr>
+        <th class="line" [attr.colspan]="table.heads.length + (table.ctrls && table.ctrls.length ? 1 : 0)"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of data;let i=index;">
+        <td *ngFor="let head of table.heads; let idx=index;" (mousewheel)="tweakData($event, i)" [style.height]="getHeight(i) + 'px'"
+          [title]="head.render ? head.render(row[head.key]) : row[head.key]">
+          {{head.render ? head.render(row[head.key]) : row[head.key]}}
+        </td>
+        <td class=" btns" *ngIf="table.ctrls && table.ctrls.length" (mousewheel)="tweakData($event, i)" [style.height]="getHeight(i) + 'px'">
+          <span class="btn" *ngFor="let ctrl of table.ctrls" (click)="ctrl.handler(i)">{{ctrl.text(i)}}</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { HomeComponent } from './home';
 import { BookComponent } from './book';
 import { PageComponent } from './page';
+import { TableComponent } from './table';
 
 @NgModule({
   imports: [
@@ -12,7 +13,8 @@ import { PageComponent } from './page';
   declarations: [
     HomeComponent,
     BookComponent,
-    PageComponent
+    PageComponent,
+    TableComponent
   ]
 })
 export class DiaryModule { }

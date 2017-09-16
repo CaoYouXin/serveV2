@@ -1,0 +1,35 @@
+.table-wrapper {
+  height: auto;
+  overflow-x: auto;
+  margin: 0 auto;
+}
+
+table {
+  border-width: 0;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+th {
+  cursor: ew-resize;
+}
+
+td {
+  cursor: ns-resize;
+}
+
+th > hr {
+  width: 99%;
+  height: 2px;
+  margin: 0 auto;
+  background-color: #000000;
+}
+
+.line {
+  height: 2px;
+  background-color: #000000;
+}
+
+tbody > tr > td {
+  border-bottom: solid 1px #000000;
+}
