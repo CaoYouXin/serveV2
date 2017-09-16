@@ -7,9 +7,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
+  goFront: boolean;
+  goBehind: boolean = true;
+
   constructor() { }
 
   ngOnInit() {
+  }
+
+  clicked() {
+    this.goBehind = !this.goBehind;
+    this.goFront = !this.goFront;
   }
 
 }

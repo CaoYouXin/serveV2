@@ -1,3 +1,20 @@
-<p>
-  home works!
-</p>
+<div class="screen-wrapper v-mid-box">
+  <div class="perspective-box">
+    <div class="card" [class.go-front]="goFront" [class.go-behind]="goBehind">
+      <p>创建</p>
+      <p>日记本</p>
+      <div class="buttons">
+        <button>进入</button>
+        <button (click)="clicked()">切换</button>
+      </div>
+    </div>
+    <div class="card" [class.go-front]="goBehind" [class.go-behind]="goFront">
+      <p>创建</p>
+      <p>日记页</p>
+      <div class="buttons">
+        <button>进入</button>
+        <button (click)="clicked()">切换</button>
+      </div>
+    </div>
+  </div>
+</div>
