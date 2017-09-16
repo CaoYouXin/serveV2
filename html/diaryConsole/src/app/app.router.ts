@@ -4,9 +4,11 @@ import { RouterModule, Routes } from "@angular/router";
 import { FallbackComponent } from "./fallback";
 import { LoginComponent } from "./login";
 
+import { HomeComponent } from "../diary";
+
 export const routes: Routes = [
   // { path: '', redirectTo: '/index', pathMatch: 'full' },
-  { path: '', component: FallbackComponent, data: { name: '才刚刚开始！', color: '#EADFCB' }, pathMatch: 'full' },
+  { path: '', component: HomeComponent, pathMatch: 'full' },
 
   { path: 'login', component: LoginComponent },
 

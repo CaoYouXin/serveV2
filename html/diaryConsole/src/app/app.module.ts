@@ -4,6 +4,8 @@ import { HttpModule } from "@angular/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 import { AppRoutingModule } from './app.router';
+import { DiaryModule } from '../diary';
+
 import { AppComponent } from './app.component';
 import { FallbackComponent } from './fallback';
 import { LoginComponent } from './login';
@@ -22,6 +24,7 @@ import { DaoUtil, RestCode } from '../http';
     AppRoutingModule,
     ReactiveFormsModule,
     FormsModule,
+    DiaryModule
   ],
   providers: [AdminService, DaoUtil, RestCode],
   bootstrap: [AppComponent]
