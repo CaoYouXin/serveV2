@@ -41,14 +41,14 @@ export class TableComponent implements OnInit {
 
   tweakHeader(e, i) {
     if (null === i) {
-      let _table = this.table;
-      _table.ctrlsWidth = Math.max(100, _table.ctrlsWidth - e.deltaY / 2);
-      this.calcTotalWidth();
+      // let _table = this.table;
+      // _table.ctrlsWidth = Math.max(50, _table.ctrlsWidth - e.deltaY / 2);
+      // this.calcTotalWidth();
       return;
     }
 
     let _header = this.table.heads[i];
-    _header.width = Math.max(100, _header.width - e.deltaY / 2);
+    _header.width = Math.max(50, _header.width - e.deltaY / 2);
     this.calcTotalWidth();
   }
 

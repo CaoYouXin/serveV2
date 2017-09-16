@@ -19,7 +19,7 @@ td {
 }
 
 th > hr {
-  width: 99%;
+  width: calc(100% - 2px);
   height: 2px;
   margin: 0 auto;
   background-color: #000000;
@@ -32,4 +32,41 @@ th > hr {
 
 tbody > tr > td {
   border-bottom: solid 1px #000000;
+}
+
+tbody > tr > td > div {
+  padding: 0 10px;
+}
+
+.btns > * {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.btns:after {
+  content: '';
+  vertical-align: middle;
+  display: inline-block;
+  width: 0;
+  height: 100%;
+}
+
+.btn {
+  margin-left: 0.3em;
+  border-radius: 0.3em;
+  border: solid 1px grey;
+  padding: 0.3em 1em;
+  cursor: default;
+  user-select: none;
+  background-color: ghostwhite;
+}
+
+.btn:hover {
+  border-color: white;
+  background-color: blueviolet;
+}
+
+.btn:active {
+  color: whitesmoke;
+  background-color: blue;
 }

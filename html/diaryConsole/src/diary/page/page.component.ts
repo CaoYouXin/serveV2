@@ -27,12 +27,12 @@ export class PageComponent implements OnInit {
         }
       },
     ],
-    // ctrls: [
-    // { text: (idx) => "编辑", handler: this.edit.bind(this) },
-    // { text: (idx) => this.data[idx].BlogCategoryDisabled ? "启用" : "禁用", handler: this.toggle.bind(this) },
-    // { text: (idx) => "截图", handler: this.screenshot.bind(this) }
-    // ],
-    // ctrlsWidth: 150
+    ctrls: [
+      { text: (idx) => "编辑", handler: this.fakeHandler.bind(this) },
+      { text: (idx) => this.data[idx].BlogCategoryDisabled ? "启用" : "禁用", handler: this.fakeHandler.bind(this) },
+      { text: (idx) => "截图", handler: this.fakeHandler.bind(this) }
+    ],
+    ctrlsWidth: 220
   };
 
   data: Array<any> = [
@@ -48,6 +48,10 @@ export class PageComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+  }
+
+  fakeHandler() {
+    alert('clicked.');
   }
 
 }
