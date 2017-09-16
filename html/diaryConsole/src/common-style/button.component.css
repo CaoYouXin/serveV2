@@ -1,0 +1,26 @@
+.btn {
+  line-height: 2em;
+  border-radius: 1em;
+  border: solid 1px;
+  padding: 0 0.5em;
+  display: inline-block;
+  cursor: default;
+  user-select: none;
+}
+
+.blue.btn {
+  border-color: blue;
+}
+
+.blue.btn:hover {
+  color: antiquewhite;
+  background-color: cornflowerblue;
+
+  transform-origin: 50% 50% 0;
+  transform: scale(1.1);
+}
+
+.blue.btn:active {
+  transform-origin: 50% 50% 0;
+  transform: scale(1.0);
+}
