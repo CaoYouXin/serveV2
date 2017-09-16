@@ -4,7 +4,7 @@
       <p>创建</p>
       <p>日记本</p>
       <div class="buttons">
-        <button>进入</button>
+        <button (click)="router.navigate(['/book'])">进入</button>
         <button (click)="clicked()">切换</button>
       </div>
     </div>
@@ -12,7 +12,7 @@
       <p>创建</p>
       <p>日记页</p>
       <div class="buttons">
-        <button>进入</button>
+        <button (click)="router.navigate(['/page'])">进入</button>
         <button (click)="clicked()">切换</button>
       </div>
     </div>

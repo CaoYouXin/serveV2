@@ -53,7 +53,7 @@
   top: calc(50% - 200px);
   left: calc(50% - 200px);
 
-  background: #999;
+  background: #ddd;
 
   transform-origin: 50% 50% 0;
 }
@@ -90,6 +90,7 @@
   color: white;
   border-radius: 3px;
   padding: 5px 20px;
+  -webkit-appearance: button;
 }
 
 .card > .buttons > button:first-child {
