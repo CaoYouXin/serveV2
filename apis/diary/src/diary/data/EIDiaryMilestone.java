@@ -1,10 +1,12 @@
 package diary.data;
 
+import beans.EntityBeanI;
+
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity(name = "diary_milestone")
-public interface EIDiaryMilestone {
+public interface EIDiaryMilestone extends EntityBeanI {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

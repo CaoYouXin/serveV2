@@ -1,9 +1,11 @@
 package diary.data;
 
+import beans.EntityBeanI;
+
 import javax.persistence.*;
 
 @Entity(name = "diary_mapping")
-public interface EIDiaryMapping {
+public interface EIDiaryMapping extends EntityBeanI {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
