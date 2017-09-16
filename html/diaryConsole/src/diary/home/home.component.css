@@ -53,9 +53,20 @@
   top: calc(50% - 200px);
   left: calc(50% - 200px);
 
-  background: #ddd;
+  background-color: #ddd;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: bottom;
 
   transform-origin: 50% 50% 0;
+}
+
+.card:nth-child(1) {
+  background-image: url("../../assets/books.png");
+}
+
+.card:nth-child(2) {
+  background-image: url("../../assets/page.png");
 }
 
 .card.go-front {
@@ -70,6 +81,11 @@
 
 .card > p {
   text-shadow: 1px 1px 3px rebeccapurple;
+}
+
+.card:first-child > p {
+  color: white;
+  text-shadow: 1px 1px 3px yellowgreen;
 }
 
 .card > p:first-child {

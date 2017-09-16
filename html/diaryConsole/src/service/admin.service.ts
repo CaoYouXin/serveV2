@@ -12,14 +12,17 @@ export class AdminService {
   }
 
   verify(model, sucFn, rcvFn): void {
-    this.dao.postJSON(API.getAPI("admin/verify"), {
+    const self = this;
+    self.dao.postJSON(API.getAPI("admin/verify"), {
       UserName: model.username,
       Password: Md5.hashStr(model.password)
     }).subscribe(
-      ret => this.rest.checkCode(ret, retBody => {
-        if (typeof sucFn === "function") sucFn(retBody);
+      ret => {
+        self.rest.checkCode(ret, retBody => {
+          if (typeof sucFn === "function") sucFn(retBody);
+        });
         if (typeof rcvFn === "function") rcvFn();
-      }),
+      },
       error => {
         if (typeof rcvFn === "function") rcvFn();
         DaoUtil.logError(error);

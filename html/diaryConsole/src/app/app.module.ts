@@ -11,6 +11,7 @@ import { FallbackComponent } from './fallback';
 import { LoginComponent } from './login';
 import { AdminService } from '../service';
 import { DaoUtil, RestCode } from '../http';
+import { AuthGuard } from './guard';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,7 @@ import { DaoUtil, RestCode } from '../http';
     FormsModule,
     DiaryModule
   ],
-  providers: [AdminService, DaoUtil, RestCode],
+  providers: [AdminService, DaoUtil, RestCode, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

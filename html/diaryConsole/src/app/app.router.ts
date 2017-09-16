@@ -4,11 +4,16 @@ import { RouterModule, Routes } from "@angular/router";
 import { FallbackComponent } from "./fallback";
 import { LoginComponent } from "./login";
 
-import { HomeComponent } from "../diary";
+import { HomeComponent, BookComponent, PageComponent } from "../diary";
+
+import { AuthGuard } from "./guard";
 
 export const routes: Routes = [
   // { path: '', redirectTo: '/index', pathMatch: 'full' },
   { path: '', component: HomeComponent, pathMatch: 'full' },
+
+  { path: 'book', component: BookComponent, canActivate: [AuthGuard] },
+  { path: 'page', component: PageComponent, canActivate: [AuthGuard] },
 
   { path: 'login', component: LoginComponent },
 
