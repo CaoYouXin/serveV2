@@ -5,9 +5,14 @@
 }
 
 table {
+  font-size: 16px;
   border-width: 0;
   border-collapse: separate;
   border-spacing: 0;
+}
+
+th, td {
+  overflow: hidden;
 }
 
 th {
@@ -36,6 +41,10 @@ tbody > tr > td {
 
 tbody > tr > td > div {
   padding: 0 10px;
+}
+
+.btns {
+  text-align: center;
 }
 
 .btns > * {

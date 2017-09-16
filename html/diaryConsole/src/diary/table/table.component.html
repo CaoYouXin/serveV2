@@ -19,7 +19,7 @@
       <tr *ngFor="let row of data;let i=index;">
         <td *ngFor="let head of table.heads; let idx=index;" (mousewheel)="tweakData($event, i)" [style.height]="getHeight(i) + 'px'"
           [title]="head.render ? head.render(row[head.key]) : row[head.key]">
-          <div>{{head.render ? head.render(row[head.key]) : row[head.key]}}</div>
+          <div [style.width]="head.width + 'px'">{{head.render ? head.render(row[head.key]) : row[head.key]}}</div>
         </td>
         <td class="btns" *ngIf="table.ctrls && table.ctrls.length" (mousewheel)="tweakData($event, i)" [style.height]="getHeight(i) + 'px'">
           <span class="btn" *ngFor="let ctrl of table.ctrls" (click)="ctrl.handler(i)">{{ctrl.text(i)}}</span>

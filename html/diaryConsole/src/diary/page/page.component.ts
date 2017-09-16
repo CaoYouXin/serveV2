@@ -32,12 +32,13 @@ export class PageComponent implements OnInit {
       { text: (idx) => this.data[idx].BlogCategoryDisabled ? "启用" : "禁用", handler: this.fakeHandler.bind(this) },
       { text: (idx) => "截图", handler: this.fakeHandler.bind(this) }
     ],
-    ctrlsWidth: 220
+    ctrlsWidth: 250
   };
 
   data: Array<any> = [
     {
-      "BlogPostId": 1
+      "BlogPostId": 1,
+      "BlogPostName": "https://www.google.com/search?newwindow=1&source=hp&q=thead+border+bottom&oq=thead+border+bottom&gs_l=psy-ab.3...1038.6150.0.6536.21.15.0.0.0.0.449.449.4-1.1.0....0...1.1.64.psy-ab..20.1.448.0..0j0i12i30k1j0i12i10i30k1.0.IG3E-kAbV5o"
     },
 
     {

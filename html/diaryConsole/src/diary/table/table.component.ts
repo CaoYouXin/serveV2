@@ -48,7 +48,7 @@ export class TableComponent implements OnInit {
     }
 
     let _header = this.table.heads[i];
-    _header.width = Math.max(50, _header.width - e.deltaY / 2);
+    _header.width = Math.max(_header.text.length * 16 + 20, _header.width - e.deltaY / 2);
     this.calcTotalWidth();
   }
 
