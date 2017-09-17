@@ -61,8 +61,8 @@ export class PageComponent implements OnInit {
     let fontSize = document.defaultView.getComputedStyle(e.target, null).getPropertyValue("font-size");
     let fontSizeI = parseInt(fontSize.match(/\d+/)[0]);
 
-    if (e.target.offsetWidth - fontSizeI < e.offsetX && e.offsetX < e.target.offsetWidth - fontSizeI / 2) {
-      if (fontSizeI / 2 < e.offsetY && e.offsetY < fontSizeI) {
+    if (e.target.offsetWidth - fontSizeI * 1.5 < e.offsetX && e.offsetX < e.target.offsetWidth - fontSizeI / 2) {
+      if (fontSizeI / 2 < e.offsetY && e.offsetY < fontSizeI * 1.5) {
         this.specShow = false;
       }
     }

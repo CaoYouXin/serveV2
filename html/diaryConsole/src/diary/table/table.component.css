@@ -1,7 +1,7 @@
 .table-wrapper {
   height: auto;
   overflow-x: auto;
-  margin: 0 auto;
+  margin: 1em auto;
 }
 
 table {
