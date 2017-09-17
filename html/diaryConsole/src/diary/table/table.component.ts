@@ -40,6 +40,10 @@ export class TableComponent implements OnInit {
   }
 
   tweakHeader(e, i) {
+    if (!e.ctrlKey) {
+      return;
+    }
+
     if (null === i) {
       // let _table = this.table;
       // _table.ctrlsWidth = Math.max(50, _table.ctrlsWidth - e.deltaY / 2);
@@ -53,6 +57,10 @@ export class TableComponent implements OnInit {
   }
 
   tweakData(e, i) {
+    if (!e.ctrlKey) {
+      return;
+    }
+
     let _height = this.getHeight(i) - e.deltaY / 2;
     this.table.height[i] = Math.max(50, _height);
   }
