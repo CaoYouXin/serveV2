@@ -3,56 +3,62 @@
 *,
 *:before,
 *:after {
-  margin: 0;
-  padding: 0;
-  border: none;
-  box-sizing: border-box;
-  font-family: "Hiragino Sans GB", "Microsoft Yahei", "WenQuanYi Micro Hei", monospace;
+    margin: 0;
+    padding: 0;
+    border: none;
+    box-sizing: border-box;
+    font-family: "Hiragino Sans GB", "Microsoft Yahei", "WenQuanYi Micro Hei", monospace;
 }
 
 code {
-  font-family: "CQ Mono", Monaco, "Lucida Console", "Courier New", monospace;
+    font-family: "CQ Mono", Monaco, "Lucida Console", "Courier New", monospace;
 }
 
 body {
-  background-color: #EAEAEA;
+    background-color: #EAEAEA;
 }
 
 .screen-wrapper {
     position: fixed;
-
     left: 0;
     right: 0;
     top: 0;
     bottom: 0;
-
     text-align: center;
 }
 
-.v-mid-box {
-  text-align: center;
+.page-wrapper {
+    width: 800px;
+    margin: 0 auto;
 }
 
-.v-mid-box > *, .v-mid-box:after {
-  display: inline-block;
-  vertical-align: middle;
+.v-mid-box {
+    text-align: center;
+}
+
+.v-mid-box>*,
+.v-mid-box:after {
+    display: inline-block;
+    vertical-align: middle;
 }
 
 .v-mid-box:after {
-  content: '';
-  width: 0;
-  height: 100%;
+    content: '';
+    width: 0;
+    height: 100%;
 }
 
+
 /* keyframes */
+
 @keyframes rotation {
     from {
         transform: rotateZ(0deg);
     }
-
     to {
         transform: rotateZ(360deg);
     }
 }
+
 
 /* z-index */

@@ -1,0 +1,11 @@
+<form [formGroup]="pageForm" (ngSubmit)="login()">
+  <div class="page-wrapper v-mid-box">
+    <span class="title label">标题：</span>
+    <div class="title text" [class.focused]="titleFocused" [class.invalid]="pageFormErrors.title">
+      <input type="text" placeholder="请输入标题..." formControlName="title" (focus)="titleFocused=true" (blur)="titleFocused=false">
+    </div>
+  </div>
+  <div class="page-wrapper">
+    <div *ngIf="pageFormErrors.title" class="error">{{pageFormErrors.title}}</div>
+  </div>
+</form>

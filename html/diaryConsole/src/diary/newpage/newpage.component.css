@@ -1,0 +1,36 @@
+.text {
+    border-bottom: solid 1px green;
+}
+
+.text.focused {
+    border-color: blue;
+}
+
+.text.invalid {
+    border-color: red;
+    border-width: 2px;
+}
+
+.error {
+    background-color: #F15555;
+    color: white;
+    border-radius: .5em;
+    padding: .3em;
+    margin: 0.5em auto;
+    width: 100%;
+    font-size: 13px;
+}
+
+.title.label {
+    width: 3em;
+}
+
+.title.text {
+    width: calc(800px - 4em);
+}
+
+.title.text>input[type="text"] {
+    width: 100%;
+    outline: none;
+    background-color: transparent;
+}

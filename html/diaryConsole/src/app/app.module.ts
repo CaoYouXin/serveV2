@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpModule } from "@angular/http";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { ReactiveFormsModule } from "@angular/forms";
 
 import { AppRoutingModule } from './app.router';
 import { DiaryModule } from '../diary';
@@ -24,7 +24,6 @@ import { AuthGuard } from './guard';
     HttpModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    FormsModule,
     DiaryModule
   ],
   providers: [AdminService, DaoUtil, RestCode, AuthGuard],
