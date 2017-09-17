@@ -1,0 +1,28 @@
+p {
+  text-indent: 2em;
+  text-align: left;
+  width: 800px;
+  margin: 0 auto 2em;
+
+  background-color: #BFF87E;
+
+  border: solid 1px #BBFF77;
+  border-radius: 1em;
+
+  padding: 1em;
+
+  position: relative;
+}
+
+p:after {
+  content: "";
+
+  position: absolute;
+  top: 0.5em;
+  right: 0.5em;
+
+  width: 0.5em;
+  height: 0.5em;
+
+  background: url(data:image/gif;base64,R0lGODlhFAAUAJEAAE1NTf///////wAAACH5BAEHAAIALAAAAAAUABQAAAIzBISpK+YMm5Enpodw1HlCfnkKOIqU1VXk55goVb2hi7Y0q95lfG70uurNaqLgTviyyUoFADs=) 50% center no-repeat;
+}

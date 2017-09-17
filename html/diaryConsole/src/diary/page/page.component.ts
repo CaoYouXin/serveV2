@@ -46,6 +46,8 @@ export class PageComponent implements OnInit {
     }
   ];
 
+  specShow: boolean = true;
+
   constructor() { }
 
   ngOnInit() {
@@ -53,6 +55,17 @@ export class PageComponent implements OnInit {
 
   fakeHandler() {
     alert('clicked.');
+  }
+
+  closeSpec(e) {
+    let fontSize = document.defaultView.getComputedStyle(e.target, null).getPropertyValue("font-size");
+    let fontSizeI = parseInt(fontSize.match(/\d+/)[0]);
+
+    if (e.target.offsetWidth - fontSizeI < e.offsetX && e.offsetX < e.target.offsetWidth - fontSizeI / 2) {
+      if (fontSizeI / 2 < e.offsetY && e.offsetY < fontSizeI) {
+        this.specShow = false;
+      }
+    }
   }
 
 }
