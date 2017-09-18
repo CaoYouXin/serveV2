@@ -50,7 +50,7 @@
 }
 
 .title.text {
-  width: calc(800px - 3em);
+  width: calc(100% - 3em);
 }
 
 .start-date.label,

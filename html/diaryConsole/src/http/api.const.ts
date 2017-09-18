@@ -44,6 +44,14 @@ export class API {
     "attach/page": {
       "prod": (bookId, pageId) => `http://server.caols.tech:9999/api/diary/attach/${bookId}/${pageId}`,
       "dev": (bookId, pageId) => `http://localhost:9999/api/diary/attach/${bookId}/${pageId}`
+    },
+    "milestone/list": {
+      "prod": (pageId) => `http://server.caols.tech:9999/api/diary/list/milestone/${pageId}`,
+      "dev": (pageId) => `http://localhost:9999/api/diary/list/milestone/${pageId}`
+    },
+    "milestone/save": {
+      "prod": "http://server.caols.tech:9999/api/diary/save/milestone",
+      "dev": "http://localhost:9999/api/diary/save/milestone"
     }
   };
 

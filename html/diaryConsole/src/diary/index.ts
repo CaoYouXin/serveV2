@@ -6,3 +6,4 @@ export * from './page';
 export * from './newpage';
 export * from './editbook';
 export * from './editbookpage';
+export * from './milestone';

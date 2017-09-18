@@ -1,0 +1,23 @@
+<div *ngFor="let milestone of milestoneList;let idx=index;">
+  <div class="page-wrapper v-mid-box">
+    <span class="title label">标题：</span>
+    <div class="title text" [class.focused]="milestone.titleFocused">
+      <input type="text" placeholder="请输入标题..." [(ngModel)]="milestone.DiaryMilestoneTitle" (focus)="milestone.titleFocused=true"
+        (blur)="milestone.titleFocused=false">
+    </div>
+    <span class="date label">日期：</span>
+    <div class="date text">
+      <input type="date" [(ngModel)]="milestone.DiaryMilestoneDate">
+    </div>
+    <button (click)="saveMilestone(milestone, idx)">保存</button>
+  </div>
+  <div class="page-wrapper">
+    <div class="error" *ngIf="milestone.error">{{milestone.error}}</div>
+  </div>
+</div>
+<div class="page-wrapper">
+  <div class="buttons">
+    <button (click)="addMilestone()">添加</button>
+    <button (click)="router.navigate(['/page'])">返回</button>
+  </div>
+</div>

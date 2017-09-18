@@ -50,15 +50,37 @@
 }
 
 .title.text {
-  width: calc(100% - 3em);
+  width: calc(50% - 3em);
 }
 
-.r-level.label {
-  width: 5em;
+.date.label {
+  width: 3em;
 }
 
-.r-level.text {
-  width: calc(100% - 5em);
+.date.text {
+  width: calc(50% - 8em);
+}
+
+.v-mid-box>button {
+  margin-left: calc(1em - 2px);
+  width: calc(4em + 2px);
+  outline: none;
+  color: white;
+  border-radius: 3px;
+  padding: 0 1em;
+  -webkit-appearance: button;
+  border: 1px solid #0d8e47;
+  background-color: #27ae60;
+}
+
+.v-mid-box>button:hover {
+  background-color: #12a24f;
+  border-color: #007d35;
+}
+
+.v-mid-box>button:active {
+  background-color: #27ae60;
+  border-color: #0d8e47;
 }
 
 .buttons {
