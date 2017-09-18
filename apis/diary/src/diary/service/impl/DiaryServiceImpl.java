@@ -271,7 +271,7 @@ public class DiaryServiceImpl implements IDiaryService {
             throw new TableNotCreateException("diary book");
         }
 
-        if (!this.diaryMilestoneRepo.createTableIfNotExist()) {
+        if (!this.diaryPageRepo.createTableIfNotExist()) {
             throw new TableNotCreateException("diary page");
         }
 
