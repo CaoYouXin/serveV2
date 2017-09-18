@@ -65,21 +65,36 @@ export class TableletService {
 
   setHandlingIdx(key: string, idx: number) {
     this.handlingData[key] = idx;
+    localStorage.setItem('handlingData', JSON.stringify(this.handlingData));
   }
 
   getHandlingIdx(key: string) {
+    let data = this.handlingData[key];
+    if (data !== undefined && data !== null) {
+      return data;
+    }
+
+    this.handlingData = JSON.parse(localStorage.getItem('handlingData') || "{}");
     return this.handlingData[key];
   }
 
   getHandlingData(key: string) {
     let idx = this.handlingData[key];
     if (idx === undefined || idx === null) {
-      return null;
+      this.handlingData = JSON.parse(localStorage.getItem('handlingData') || "{}");
+      idx = this.handlingData[key];
+      if (idx === undefined || idx === null) {
+        return null;
+      }
     }
 
     let data = this.lastData[key];
     if (data === undefined || data === null) {
-      return null;
+      this.lastData = JSON.parse(localStorage.getItem('lastData') || "{}");
+      data = this.lastData[key];
+      if (data === undefined || data === null) {
+        return null;
+      }
     }
 
     return data[idx];
@@ -93,6 +108,7 @@ export class TableletService {
   setData(key: string, data: any) {
     ServiceUtils.makeExist(this.dataSubjects, key, () => new Subject<any>());
     this.lastData[key] = data;
+    localStorage.setItem('lastData', JSON.stringify(this.lastData));
     this.dataSubjects[key].next(data);
   }
 
@@ -107,6 +123,7 @@ export class TableletService {
       dataArray = [...dataArray.slice(0, idx), data, ...dataArray.slice(idx + 1)];
     }
     this.lastData[key] = dataArray;
+    localStorage.setItem('lastData', JSON.stringify(this.lastData));
     this.dataSubjects[key].next(dataArray);
   }
 
