@@ -185,7 +185,7 @@ public class QueryHandler implements InvocationHandler {
     }
 
     private String parseAlias(String clause, QueryRet queryRet) {
-        String regex = String.format("(?<alias>%s)\\.(?<field>\\S+?)(?<after>>|<|\\s|\\)|=)", queryRet.getAllAlias());
+        String regex = String.format("(?<alias>%s)\\.(?<field>\\S+?)(?<after>,|>|<|\\s|\\)|=)", queryRet.getAllAlias());
         Pattern p = Pattern.compile(regex);
         Matcher m = p.matcher(clause + " ");
         StringBuffer sb = new StringBuffer();
@@ -281,7 +281,7 @@ public class QueryHandler implements InvocationHandler {
                 return column.name();
             }
         }
-        throw new RuntimeException("do not has a column : " + type.getTypeName() + ":" + columnDef);
+        throw new RuntimeException("do not has a column : " + type.getTypeName() + ":" + columnDef + ".");
     }
 
     private void parseFrom(String from, QueryRet queryRet, Map<String, Class<?>> stringClassMap) {
