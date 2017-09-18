@@ -8,6 +8,7 @@ import blog.service.exp.TableNotSaveException;
 import diary.data.*;
 import diary.repository.*;
 import diary.service.IDiaryService;
+import diary.view.EIDiaryBookDetail;
 import diary.view.EIDiaryPageDetail;
 import diary.view.EIDiaryPageDraft;
 import orm.DatasourceFactory;
@@ -176,8 +177,8 @@ public class DiaryServiceImpl implements IDiaryService {
     }
 
     @Override
-    public List<EIDiaryBook> listBooks() {
-        return this.diaryBookRepo.findAll();
+    public List<EIDiaryBookDetail> listBooks() {
+        return this.diaryBookRepo.queryAll();
     }
 
     @Override
@@ -213,7 +214,20 @@ public class DiaryServiceImpl implements IDiaryService {
     }
 
     @Override
-    public List<EIDiaryPageDetail> listSimplePages(Long bookId) {
+    public List<EIDiaryPageDetail> listSimplePages(Long userId, Long bookId) {
+        List<EIDiaryBook> eiDiaryBooks = this.listBooks(userId);
+
+        boolean granted = false;
+        for (EIDiaryBook eiDiaryBook : eiDiaryBooks) {
+            if (eiDiaryBook.getDiaryBookId() == bookId) {
+                granted = true;
+            }
+        }
+
+        if (!granted) {
+            return new ArrayList<>();
+        }
+
         return transform(this.diaryPageRepo.queryAllSimple(bookId));
     }
 

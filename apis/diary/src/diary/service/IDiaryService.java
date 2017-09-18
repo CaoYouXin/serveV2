@@ -4,6 +4,7 @@ import diary.data.EIDiaryBook;
 import diary.data.EIDiaryMilestone;
 import diary.data.EIDiaryPage;
 import diary.data.EIDiaryPhoto;
+import diary.view.EIDiaryBookDetail;
 import diary.view.EIDiaryPageDetail;
 import rest.Service;
 
@@ -23,7 +24,7 @@ public interface IDiaryService extends Service {
 
     Boolean releasePage(Long bookId, Long pageId);
 
-    List<EIDiaryBook> listBooks();
+    List<EIDiaryBookDetail> listBooks();
 
     List<EIDiaryPage> listPages();
 
@@ -33,7 +34,7 @@ public interface IDiaryService extends Service {
 
     List<EIDiaryBook> listBooks(Long userId);
 
-    List<EIDiaryPageDetail> listSimplePages(Long bookId);
+    List<EIDiaryPageDetail> listSimplePages(Long userId, Long bookId);
 
     EIDiaryPageDetail getDetailedPage(Long pageId);
 
