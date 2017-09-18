@@ -1,6 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { Location } from "@angular/common";
+import { Router } from "@angular/router";
+import { TableletService } from "../../service";
+import { API, DaoUtil, RestCode } from "../../http";
 
 const compareDates = (startDateKey: string, endDateKey: string) => {
   return (group: FormGroup): { [key: string]: any } => {
@@ -33,22 +35,20 @@ export class NewPageComponent implements OnInit {
   locationFocused: boolean;
   relatedFocused: boolean;
 
-  pageModel: any = {
-    'type': '学习'
-  };
+  pageModel: any = { 'DiaryPageType': '学习' };
   relations: Array<string> = [];
-  contents: Array<any> = [{ text: "" }];
+  contents: Array<any> = [{ 'text': "" }];
 
   pageForm: FormGroup;
   pageDateError: string;
   relatedError: string;
   contentsError: string;
   pageFormErrors = {
-    'title': '',
-    'startDate': '',
-    'endDate': '',
-    'type': '',
-    'location': ''
+    'DiaryPageTitle': '',
+    'DiaryPageStartDate': '',
+    'DiaryPageEndDate': '',
+    'DiaryPageType': '',
+    'DiaryPageLocation': ''
   };
   pageFormValidationMessages = {
     'pageDateError': {
@@ -61,21 +61,21 @@ export class NewPageComponent implements OnInit {
       'required': '内容是必填项.',
       'maxLength': '内容过长，请进行删减后再保存.'
     },
-    'title': {
+    'DiaryPageTitle': {
       'required': '标题是必填项.',
       'minlength': '标题最短1个字符.',
       'maxlength': '标题最长255个字符.',
     },
-    'startDate': {
+    'DiaryPageStartDate': {
       'required': '开始日期是必填项.'
     },
-    'endDate': {
+    'DiaryPageEndDate': {
       'required': '结束日期是必填项.'
     },
-    'type': {
+    'DiaryPageType': {
       'required': '类型是必填项.'
     },
-    'location': {
+    'DiaryPageLocation': {
       'required': '地点是必填项.',
       'minlength': '地点最短1个字符.',
       'maxlength': '地点最长255个字符.',
@@ -83,34 +83,48 @@ export class NewPageComponent implements OnInit {
   };
 
   constructor(private fb: FormBuilder,
-    private location: Location) { }
+    private router: Router,
+    private tablelet: TableletService,
+    private dao: DaoUtil,
+    private rest: RestCode) { }
 
   ngOnInit() {
+    let datum = this.tablelet.getHandlingData(TableletService.PAGEs);
+    if (datum) {
+      this.pageModel = Object.assign(datum, {
+        DiaryPageStartDate: datum.DiaryPageStartDate.substring(0, 10),
+        DiaryPageEndDate: datum.DiaryPageEndDate.substring(0, 10)
+      });
+
+      this.relations = datum.DiaryPageRelated.split('|').filter(r => !!r);
+      this.contents = datum.DiaryPageContent.split('</p><p>').filter(c => !!c).map(text => ({ text }));
+    }
+
     this.buildPageForm();
   }
 
   buildPageForm(): void {
     this.pageForm = this.fb.group({
-      'title': [this.pageModel.title, [
+      'DiaryPageTitle': [this.pageModel.DiaryPageTitle, [
         Validators.required,
         Validators.minLength(1),
         Validators.maxLength(255)
       ]],
-      'startDate': [this.pageModel.startDate, [
+      'DiaryPageStartDate': [this.pageModel.DiaryPageStartDate, [
         Validators.required
       ]],
-      'endDate': [this.pageModel.endDate, [
+      'DiaryPageEndDate': [this.pageModel.DiaryPageEndDate, [
         Validators.required
       ]],
-      'location': [this.pageModel.location, [
+      'DiaryPageLocation': [this.pageModel.DiaryPageLocation, [
         Validators.required,
         Validators.minLength(1),
         Validators.maxLength(255)
       ]],
-      'type': [this.pageModel.type, [
+      'DiaryPageType': [this.pageModel.DiaryPageType, [
         Validators.required
       ]]
-    }, { validator: compareDates('startDate', 'endDate') });
+    }, { validator: compareDates('DiaryPageStartDate', 'DiaryPageEndDate') });
 
     this.pageForm.valueChanges
       .subscribe(data => this.onValueChanged(this.pageForm, this.pageFormErrors, this.pageFormValidationMessages));
@@ -185,15 +199,28 @@ export class NewPageComponent implements OnInit {
       return;
     }
 
-    if (!this.validRelations()) {
+    let DiaryPageRelated = this.validRelations();
+    console.log(DiaryPageRelated);
+    if (false === DiaryPageRelated) {
       return;
     }
 
-    if (!this.validContents()) {
+    let DiaryPageContent = this.validContents();
+    console.log(DiaryPageContent);
+    if (!DiaryPageContent) {
       return;
     }
 
-    // save api invoked
+    const self = this;
+    this.tablelet.addDataByAPI(TableletService.PAGEs, API.getAPI("page/save"), Object.assign(this.pageForm.value, {
+      DiaryPageId: self.pageModel.DiaryPageId,
+      DiaryPageContent,
+      DiaryPageRelated,
+      DiaryPageStartDate: this.pageForm.value.DiaryPageStartDate + ' 00:00:00',
+      DiaryPageEndDate: this.pageForm.value.DiaryPageEndDate + ' 00:00:00'
+    }), this.tablelet.getHandlingIdx(TableletService.PAGEs), () => {
+      self.router.navigate(['/page']);
+    });
   }
 
   private validContents() {
@@ -214,7 +241,7 @@ export class NewPageComponent implements OnInit {
       return false;
     }
 
-    return true;
+    return wholeContent;
   }
 
   private validRelations() {
@@ -226,6 +253,6 @@ export class NewPageComponent implements OnInit {
       return false;
     }
 
-    return true;
+    return related;
   }
 }

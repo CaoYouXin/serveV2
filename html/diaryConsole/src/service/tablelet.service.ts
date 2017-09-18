@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { Subject } from "rxjs/Subject";
 import { ServiceUtils } from "./service.util";
+import { DaoUtil, RestCode } from "../http";
 
 @Injectable()
 export class TableletService {
@@ -12,6 +13,77 @@ export class TableletService {
 
   private dataSubjects = {};
   private lastData = {};
+  private handlingData = {};
+
+  constructor(private dao: DaoUtil, private rest: RestCode) { }
+
+  setDataByAPI(key: string, api: string, sucFn?: Function, revFn?: Function) {
+    const self = this;
+    this.dao.getJSON(api).subscribe(
+      ret => {
+        self.rest.checkCode(ret, retBody => {
+          self.setData(key, retBody);
+          if (sucFn) {
+            sucFn(retBody);
+          }
+        });
+        if (revFn) {
+          revFn();
+        }
+      },
+      err => {
+        DaoUtil.logError(err);
+        if (revFn) {
+          revFn();
+        }
+      }
+    );
+  }
+
+  addDataByAPI(key: string, api: string, data: any, idx: number, sucFn?: Function, revFn?: Function) {
+    const self = this;
+    this.dao.postJSON(api, data).subscribe(
+      ret => {
+        self.rest.checkCode(ret, retBody => {
+          self.addData(key, idx, retBody);
+          if (sucFn) {
+            sucFn(retBody);
+          }
+        });
+        if (revFn) {
+          revFn();
+        }
+      },
+      err => {
+        DaoUtil.logError(err);
+        if (revFn) {
+          revFn();
+        }
+      }
+    );
+  }
+
+  setHandlingIdx(key: string, idx: number) {
+    this.handlingData[key] = idx;
+  }
+
+  getHandlingIdx(key: string) {
+    return this.handlingData[key];
+  }
+
+  getHandlingData(key: string) {
+    let idx = this.handlingData[key];
+    if (idx === undefined || idx === null) {
+      return null;
+    }
+
+    let data = this.lastData[key];
+    if (data === undefined || data === null) {
+      return null;
+    }
+
+    return data[idx];
+  }
 
   getData(key: string): Observable<any> {
     ServiceUtils.makeExist(this.dataSubjects, key, () => new Subject<any>());

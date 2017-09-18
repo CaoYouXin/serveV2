@@ -8,6 +8,8 @@ import { PageComponent } from './page';
 import { TableComponent } from './table';
 import { NewPageComponent } from './newpage';
 
+import { TableletService } from '../service';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -20,6 +22,7 @@ import { NewPageComponent } from './newpage';
     PageComponent,
     TableComponent,
     NewPageComponent
-  ]
+  ],
+  providers: [TableletService]
 })
 export class DiaryModule { }

@@ -47,7 +47,12 @@ export class LoginComponent implements OnInit {
     this.service.verify(this.loginForm.value,
       (ret) => {
         localStorage.setItem('currentUser', ret);
-        self.router.navigate([RestCode.getLoginRetUrl() || '/']);
+        let retUrl = RestCode.getLoginRetUrl();
+        if (!retUrl) {
+          window.location.href = retUrl;
+        } else {
+          self.router.navigate(['/']);
+        }
       }, () => {
         self.loading = false;
       });
