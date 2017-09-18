@@ -12,12 +12,14 @@ public class AuthHelper {
 
     public static final int ADMIN = 1;
     public static final int START_LOG = 1 << 1;
+    public static final int ALWAYS_TRUE = 1 << 30;
 
     private static final Map<Integer, BiFunction<HttpRequest, HttpContext, Boolean>> AUTH_MAP = new HashMap<>();
 
     public static void init() {
         AUTH_MAP.put(ADMIN, new AdminAuth());
         AUTH_MAP.put(START_LOG, new StartLogAuth());
+        AUTH_MAP.put(ALWAYS_TRUE, new AlwaysTrueAuth());
 
         Configs.setConfigs(Configs.AUTH_MAP, AUTH_MAP);
     }

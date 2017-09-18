@@ -7,5 +7,6 @@ cp -a production/repository/repository out/classpath
 cp -a production/repository/data out/classpath
 
 cp -a production/blog/blog out/classpath
+cp -a production/diary/diary out/classpath
 
 echo "done"

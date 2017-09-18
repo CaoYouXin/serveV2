@@ -4,12 +4,15 @@ import beans.BeanManager;
 import blog.data.EIResourceLevel;
 import blog.repository.IResourceLevelRepo;
 import blog.service.exp.TableNotCreateException;
+import blog.service.exp.TableNotSaveException;
 import diary.data.*;
 import diary.repository.*;
 import diary.service.IDiaryService;
 import diary.view.EIDiaryPageDetail;
 import diary.view.EIDiaryPageDraft;
+import orm.DatasourceFactory;
 
+import java.sql.Connection;
 import java.util.*;
 
 public class DiaryServiceImpl implements IDiaryService {
@@ -23,7 +26,7 @@ public class DiaryServiceImpl implements IDiaryService {
     private IResourceLevelRepo resourceLevelRepo = BeanManager.getInstance().getRepository(IResourceLevelRepo.class);
 
     @Override
-    public Boolean saveBook(EIDiaryBook diaryBook) {
+    public EIDiaryBook saveBook(EIDiaryBook diaryBook) {
         if (null != diaryBook.getDiaryBookId()) {
             EIDiaryBook eiDiaryBook = this.diaryBookRepo.find(diaryBook.getDiaryBookId());
             if (null != eiDiaryBook) {
@@ -35,12 +38,20 @@ public class DiaryServiceImpl implements IDiaryService {
         if (null == diaryBook.isDiaryBookDisabled()) {
             diaryBook.setDiaryBookDisabled(false);
         }
-        
-        return this.diaryBookRepo.save(diaryBook);
+
+        if (null == diaryBook.getDiaryBookPageCount()) {
+            diaryBook.setDiaryBookPageCount(0);
+        }
+
+        if (!this.diaryBookRepo.save(diaryBook)) {
+            throw new TableNotSaveException("diary book");
+        }
+
+        return diaryBook;
     }
 
     @Override
-    public Boolean savePage(EIDiaryPage diaryPage) {
+    public EIDiaryPage savePage(EIDiaryPage diaryPage) {
         if (null != diaryPage.getDiaryPageId()) {
             EIDiaryPage eiDiaryPage = this.diaryPageRepo.find(diaryPage.getDiaryPageId());
             if (null != eiDiaryPage) {
@@ -53,11 +64,15 @@ public class DiaryServiceImpl implements IDiaryService {
             diaryPage.setDiaryPageDisabled(false);
         }
 
-        return this.diaryPageRepo.save(diaryPage);
+        if (!this.diaryPageRepo.save(diaryPage)) {
+            throw new TableNotSaveException("diary page");
+        }
+
+        return diaryPage;
     }
 
     @Override
-    public Boolean saveMilestone(EIDiaryMilestone diaryMilestone) {
+    public EIDiaryMilestone saveMilestone(EIDiaryMilestone diaryMilestone) {
         if (null != diaryMilestone.getDiaryMilestoneId()) {
             EIDiaryMilestone eiDiaryMilestone = this.diaryMilestoneRepo.find(diaryMilestone.getDiaryMilestoneId());
             if (null != eiDiaryMilestone) {
@@ -70,11 +85,15 @@ public class DiaryServiceImpl implements IDiaryService {
             diaryMilestone.setDiaryMilestoneDisabled(false);
         }
 
-        return this.diaryMilestoneRepo.save(diaryMilestone);
+        if (!this.diaryMilestoneRepo.save(diaryMilestone)) {
+            throw new TableNotSaveException("diary milestone");
+        }
+
+        return diaryMilestone;
     }
 
     @Override
-    public Boolean savePhoto(EIDiaryPhoto diaryPhoto) {
+    public EIDiaryPhoto savePhoto(EIDiaryPhoto diaryPhoto) {
         if (null != diaryPhoto.getDiaryPhotoId()) {
             EIDiaryPhoto eiDiaryPhoto = this.diaryPhotoRepo.find(diaryPhoto.getDiaryPhotoId());
             if (null != eiDiaryPhoto) {
@@ -87,55 +106,23 @@ public class DiaryServiceImpl implements IDiaryService {
             diaryPhoto.setDiaryPhotoDisabled(false);
         }
 
-        return this.diaryPhotoRepo.save(diaryPhoto);
-    }
-
-    @Override
-    public Boolean deleteBook(Long id) {
-        EIDiaryBook eiDiaryBook = this.diaryBookRepo.find(id);
-        if (null != eiDiaryBook) {
-            eiDiaryBook.setDiaryBookDisabled(true);
-            return this.diaryBookRepo.save(eiDiaryBook);
+        if (!this.diaryPhotoRepo.save(diaryPhoto)) {
+            throw new TableNotSaveException("diary photo");
         }
 
-        return false;
-    }
-
-    @Override
-    public Boolean deletePage(Long id) {
-        EIDiaryPage eiDiaryPage = this.diaryPageRepo.find(id);
-        if (null != eiDiaryPage) {
-            eiDiaryPage.setDiaryPageDisabled(true);
-            return this.diaryPageRepo.save(eiDiaryPage);
-        }
-
-        return false;
-    }
-
-    @Override
-    public Boolean deleteMilestone(Long id) {
-        EIDiaryMilestone eiDiaryMilestone = this.diaryMilestoneRepo.find(id);
-        if (null != eiDiaryMilestone) {
-            eiDiaryMilestone.setDiaryMilestoneDisabled(true);
-            return this.diaryMilestoneRepo.save(eiDiaryMilestone);
-        }
-
-        return false;
-    }
-
-    @Override
-    public Boolean deletePhoto(Long id) {
-        EIDiaryPhoto eiDiaryPhoto = this.diaryPhotoRepo.find(id);
-        if (null != eiDiaryPhoto) {
-            eiDiaryPhoto.setDiaryPhotoDisabled(true);
-            return this.diaryPhotoRepo.save(eiDiaryPhoto);
-        }
-
-        return false;
+        return diaryPhoto;
     }
 
     @Override
     public Boolean attachPage(Long bookId, Long pageId) {
+        DatasourceFactory.begin(Connection.TRANSACTION_SERIALIZABLE);
+
+        EIDiaryBook eiDiaryBook = this.diaryBookRepo.find(bookId);
+        if (null == eiDiaryBook) {
+            DatasourceFactory.rollback();
+            return false;
+        }
+
         EIDiaryMapping byDiaryBookIdAndDiaryPageId = this.diaryMappingRepo.findByDiaryBookIdAndDiaryPageId(bookId, pageId);
         if (null != byDiaryBookIdAndDiaryPageId) {
             if (!byDiaryBookIdAndDiaryPageId.isDiaryMappingDisabled()) {
@@ -143,29 +130,49 @@ public class DiaryServiceImpl implements IDiaryService {
             }
 
             byDiaryBookIdAndDiaryPageId.setDiaryMappingDisabled(false);
-            return this.diaryMappingRepo.save(byDiaryBookIdAndDiaryPageId);
+            this.diaryMappingRepo.save(byDiaryBookIdAndDiaryPageId);
+        } else {
+
+            EIDiaryMapping eiDiaryMapping = BeanManager.getInstance().createBean(EIDiaryMapping.class);
+            eiDiaryMapping.setDiaryBookId(bookId);
+            eiDiaryMapping.setDiaryPageId(pageId);
+            eiDiaryMapping.setDiaryMappingDisabled(false);
+            this.diaryMappingRepo.save(eiDiaryMapping);
         }
 
-        EIDiaryMapping eiDiaryMapping = BeanManager.getInstance().createBean(EIDiaryMapping.class);
-        eiDiaryMapping.setDiaryBookId(bookId);
-        eiDiaryMapping.setDiaryPageId(pageId);
-        eiDiaryMapping.setDiaryMappingDisabled(false);
-        return this.diaryMappingRepo.save(eiDiaryMapping);
+        eiDiaryBook.setDiaryBookPageCount(eiDiaryBook.getDiaryBookPageCount() + 1);
+        this.diaryBookRepo.save(eiDiaryBook);
+        DatasourceFactory.commit();
+
+        return true;
     }
 
     @Override
     public Boolean releasePage(Long bookId, Long pageId) {
-        EIDiaryMapping byDiaryBookIdAndDiaryPageId = this.diaryMappingRepo.findByDiaryBookIdAndDiaryPageId(bookId, pageId);
-        if (null != byDiaryBookIdAndDiaryPageId) {
-            if (byDiaryBookIdAndDiaryPageId.isDiaryMappingDisabled()) {
-                return true;
-            }
+        DatasourceFactory.begin(Connection.TRANSACTION_SERIALIZABLE);
 
-            byDiaryBookIdAndDiaryPageId.setDiaryMappingDisabled(true);
-            return this.diaryMappingRepo.save(byDiaryBookIdAndDiaryPageId);
+        EIDiaryBook eiDiaryBook = this.diaryBookRepo.find(bookId);
+        if (null == eiDiaryBook) {
+            DatasourceFactory.rollback();
+            return false;
         }
 
-        return false;
+        EIDiaryMapping byDiaryBookIdAndDiaryPageId = this.diaryMappingRepo.findByDiaryBookIdAndDiaryPageId(bookId, pageId);
+        if (null == byDiaryBookIdAndDiaryPageId) {
+            DatasourceFactory.rollback();
+            return false;
+        }
+
+        if (!byDiaryBookIdAndDiaryPageId.isDiaryMappingDisabled()) {
+            byDiaryBookIdAndDiaryPageId.setDiaryMappingDisabled(true);
+            this.diaryMappingRepo.save(byDiaryBookIdAndDiaryPageId);
+        }
+
+        eiDiaryBook.setDiaryBookPageCount(eiDiaryBook.getDiaryBookPageCount() - 1);
+        this.diaryBookRepo.save(eiDiaryBook);
+        DatasourceFactory.commit();
+
+        return true;
     }
 
     @Override
@@ -174,8 +181,8 @@ public class DiaryServiceImpl implements IDiaryService {
     }
 
     @Override
-    public List<EIDiaryPage> listPages(Long bookId) {
-        return this.diaryPageRepo.queryAll(bookId);
+    public List<EIDiaryPage> listPages() {
+        return this.diaryPageRepo.findAll();
     }
 
     @Override

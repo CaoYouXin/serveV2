@@ -11,21 +11,13 @@ import java.util.List;
 
 public interface IDiaryService extends Service {
 
-    Boolean saveBook(EIDiaryBook diaryBook);
+    EIDiaryBook saveBook(EIDiaryBook diaryBook);
 
-    Boolean savePage(EIDiaryPage diaryPage);
+    EIDiaryPage savePage(EIDiaryPage diaryPage);
 
-    Boolean saveMilestone(EIDiaryMilestone diaryMilestone);
+    EIDiaryMilestone saveMilestone(EIDiaryMilestone diaryMilestone);
 
-    Boolean savePhoto(EIDiaryPhoto diaryPhoto);
-
-    Boolean deleteBook(Long id);
-
-    Boolean deletePage(Long id);
-
-    Boolean deleteMilestone(Long id);
-
-    Boolean deletePhoto(Long id);
+    EIDiaryPhoto savePhoto(EIDiaryPhoto diaryPhoto);
 
     Boolean attachPage(Long bookId, Long pageId);
 
@@ -33,7 +25,7 @@ public interface IDiaryService extends Service {
 
     List<EIDiaryBook> listBooks();
 
-    List<EIDiaryPage> listPages(Long bookId);
+    List<EIDiaryPage> listPages();
 
     List<EIDiaryMilestone> listMilestones(Long pageId);
 
