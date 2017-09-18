@@ -1,0 +1,77 @@
+<form [formGroup]="pageForm">
+  <div class="page-wrapper v-mid-box">
+    <span class="title label">标题：</span>
+    <div class="title text" [class.focused]="titleFocused" [class.invalid]="pageFormErrors.DiaryPageTitle">
+      <input type="text" placeholder="请输入标题..." formControlName="DiaryPageTitle" (focus)="titleFocused=true" (blur)="titleFocused=false">
+    </div>
+  </div>
+  <div class="page-wrapper">
+    <div *ngIf="pageFormErrors.DiaryPageTitle" class="error">{{pageFormErrors.DiaryPageTitle}}</div>
+  </div>
+  <div class="page-wrapper v-mid-box">
+    <span class="start-date label">开始日期：</span>
+    <div class="start-date text" [class.focused]="startDateFocused" [class.invalid]="pageFormErrors.DiaryPageStartDate || pageDateError">
+      <input type="date" placeholder="请输入开始日期..." formControlName="DiaryPageStartDate" (focus)="startDateFocused=true" (blur)="startDateFocused=false">
+    </div>
+    <span class="end-date label">开始日期：</span>
+    <div class="end-date text" [class.focused]="endDateFocused" [class.invalid]="pageFormErrors.DiaryPageEndDate || pageDateError">
+      <input type="date" placeholder="请输入开始日期..." formControlName="DiaryPageEndDate" (focus)="endDateFocused=true" (blur)="endDateFocused=false">
+    </div>
+  </div>
+  <div class="page-wrapper">
+    <div *ngIf="pageFormErrors.DiaryPageStartDate" class="error">{{pageFormErrors.DiaryPageStartDate}}</div>
+  </div>
+  <div class="page-wrapper">
+    <div *ngIf="pageFormErrors.DiaryPageEndDate" class="error">{{pageFormErrors.DiaryPageEndDate}}</div>
+  </div>
+  <div class="page-wrapper">
+    <div *ngIf="pageDateError" class="error">{{pageDateError}}</div>
+  </div>
+  <div class="page-wrapper v-mid-box">
+    <span class="type label">类型：</span>
+    <div class="type text" [class.focused]="typeFocused" [class.invalid]="pageFormErrors.DiaryPageType">
+      <select formControlName="DiaryPageType">
+        <option value="学习">学习</option>
+        <option value="生活">生活</option>
+        <option value="工作">工作</option>
+      </select>
+    </div>
+    <span class="location label">地点：</span>
+    <div class="location text" [class.focused]="locationFocused" [class.invalid]="pageFormErrors.DiaryPageLocation">
+      <input type="text" placeholder="请输入地点..." formControlName="DiaryPageLocation" (focus)="locationFocused=true" (blur)="locationFocused=false">
+    </div>
+  </div>
+  <div class="page-wrapper">
+    <div *ngIf="pageFormErrors.DiaryPageType" class="error">{{pageFormErrors.DiaryPageType}}</div>
+  </div>
+  <div class="page-wrapper">
+    <div *ngIf="pageFormErrors.DiaryPageLocation" class="error">{{pageFormErrors.DiaryPageLocation}}</div>
+  </div>
+</form>
+<div class="page-wrapper v-mid-box">
+  <span class="related label">相关人：</span>
+  <div class="related text" [class.focused]="relatedFocused">
+    <span *ngFor="let related of relations" (click)="removeRelated(related)">{{related}}</span>
+    <input type="text" placeholder="请输入相关人..." (keyup.Enter)="addRelated($event)" (focus)="relatedFocused=true" (blur)="relatedFocused=false">
+  </div>
+</div>
+<div class="page-wrapper">
+  <div *ngIf="relatedError" class="error">{{relatedError}}</div>
+</div>
+<div class="page-wrapper v-mid-box">
+  <span class="contents label">内容：</span>
+  <div class="contents block">
+    <div class="input-block" *ngFor="let ib of contents;let idx=index">
+      <textarea (keyUp.Control.Enter)="addInputBlock($event, idx)" (keyUp.Control.Backspace)="removeInputBlock($event, idx)" [(ngModel)]="ib.text"></textarea>
+    </div>
+  </div>
+</div>
+<div class="page-wrapper">
+  <div *ngIf="contentsError" class="error">{{contentsError}}</div>
+</div>
+<div class="page-wrapper">
+  <div class="buttons">
+    <button (click)="savePage()">保存</button>
+    <button (click)="router.navigate(['/page'])">返回</button>
+  </div>
+</div>

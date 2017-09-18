@@ -4,3 +4,4 @@ export * from './home';
 export * from './book';
 export * from './page';
 export * from './newpage';
+export * from './editbook';

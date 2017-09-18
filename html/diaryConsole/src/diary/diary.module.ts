@@ -7,6 +7,7 @@ import { BookComponent } from './book';
 import { PageComponent } from './page';
 import { TableComponent } from './table';
 import { NewPageComponent } from './newpage';
+import { EditBookComponent } from './editbook';
 
 import { TableletService } from '../service';
 
@@ -21,7 +22,8 @@ import { TableletService } from '../service';
     BookComponent,
     PageComponent,
     TableComponent,
-    NewPageComponent
+    NewPageComponent,
+    EditBookComponent
   ],
   providers: [TableletService]
 })

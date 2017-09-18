@@ -15,7 +15,7 @@ export class AuthGuard implements CanActivate {
     }
 
     // not logged in so redirect to login page with the return url
-    RestCode.setLoginRetUrl(state.url);
+    RestCode.setLoginRetUrl();
     this.router.navigate(['/login']);
     return false;
   }

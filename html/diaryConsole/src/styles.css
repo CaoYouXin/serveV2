@@ -3,61 +3,99 @@
 *,
 *:before,
 *:after {
-    margin: 0;
-    padding: 0;
-    border: none;
-    box-sizing: border-box;
-    font-family: "Hiragino Sans GB", "Microsoft Yahei", "WenQuanYi Micro Hei", monospace;
+  margin: 0;
+  padding: 0;
+  border: none;
+  box-sizing: border-box;
+  font-family: "Hiragino Sans GB", "Microsoft Yahei", "WenQuanYi Micro Hei", monospace;
 }
 
 code {
-    font-family: "CQ Mono", Monaco, "Lucida Console", "Courier New", monospace;
+  font-family: "CQ Mono", Monaco, "Lucida Console", "Courier New", monospace;
 }
 
 body {
-    background-color: #EAEAEA;
+  background-color: #EAEAEA;
 }
 
 .screen-wrapper {
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    text-align: center;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  text-align: center;
 }
 
 .page-wrapper {
-    width: 800px;
-    margin: 0 auto;
+  width: 800px;
+  margin: 0 auto;
 }
 
 .v-mid-box {
-    text-align: center;
+  text-align: center;
 }
 
 .v-mid-box>*,
 .v-mid-box:after {
-    display: inline-block;
-    vertical-align: middle;
+  display: inline-block;
+  vertical-align: middle;
 }
 
 .v-mid-box:after {
-    content: '';
-    width: 0;
-    height: 100%;
+  content: '';
+  width: 0;
+  height: 100%;
+}
+
+.buttons>button {
+  outline: none;
+  color: white;
+  border-radius: 3px;
+  padding: 5px 20px;
+  -webkit-appearance: button;
+}
+
+.buttons>button:first-child {
+  border: 1px solid #0d8e47;
+  background-color: #27ae60;
+}
+
+.buttons>button:first-child:active {
+  background-color: #27ae60;
+  border-color: #0d8e47;
+}
+
+.buttons>button:first-child:hover {
+  background-color: #12a24f;
+  border-color: #007d35;
+}
+
+.buttons>button:last-child {
+  border: 1px solid #0D3A8E;
+  background-color: #275DAE;
+}
+
+.buttons>button:last-child:active {
+  background-color: #275DAE;
+  border-color: #0D3A8E;
+}
+
+.buttons>button:last-child:hover {
+  background-color: #1244A2;
+  border-color: #00457D;
 }
 
 
 /* keyframes */
 
 @keyframes rotation {
-    from {
-        transform: rotateZ(0deg);
-    }
-    to {
-        transform: rotateZ(360deg);
-    }
+  from {
+    transform: rotateZ(0deg);
+  }
+  to {
+    transform: rotateZ(360deg);
+  }
 }
 
 

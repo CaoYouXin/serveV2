@@ -4,7 +4,7 @@ import { RouterModule, Routes } from "@angular/router";
 import { FallbackComponent } from "./fallback";
 import { LoginComponent } from "./login";
 
-import { HomeComponent, BookComponent, PageComponent, NewPageComponent } from "../diary";
+import { HomeComponent, BookComponent, PageComponent, NewPageComponent, EditBookComponent } from "../diary";
 
 import { AuthGuard } from "./guard";
 
@@ -15,6 +15,7 @@ export const routes: Routes = [
   { path: 'book', component: BookComponent, canActivate: [AuthGuard] },
   { path: 'page', component: PageComponent, canActivate: [AuthGuard] },
   { path: 'editpage', component: NewPageComponent, canActivate: [AuthGuard] },
+  { path: 'editbook', component: EditBookComponent, canActivate: [AuthGuard] },
 
   { path: 'login', component: LoginComponent },
 

@@ -29,8 +29,8 @@ export class RestCode {
     cb(ret.body);
   }
 
-  static setLoginRetUrl(url: string): void {
-    RestCode.loginRetUrl = url;
+  static setLoginRetUrl(): void {
+    RestCode.loginRetUrl = location.href.toString();
   }
 
   static getLoginRetUrl(): string {
