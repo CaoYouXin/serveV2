@@ -71,17 +71,17 @@ body {
   border-color: #007d35;
 }
 
-.buttons>button:last-child {
+.buttons>button:not(:first-child) {
   border: 1px solid #0D3A8E;
   background-color: #275DAE;
 }
 
-.buttons>button:last-child:active {
+.buttons>button:not(:first-child):active {
   background-color: #275DAE;
   border-color: #0D3A8E;
 }
 
-.buttons>button:last-child:hover {
+.buttons>button:not(:first-child):hover {
   background-color: #1244A2;
   border-color: #00457D;
 }

@@ -6,6 +6,7 @@
   <div class="buttons">
     <button (click)="newPage()">新建</button>
     <button (click)="refreshTable()">刷新</button>
+    <button (click)="router.navigate(['/'])">首页</button>
   </div>
 
   <diary-table [table]="tableDef" [data]="data" [width]="800"></diary-table>
