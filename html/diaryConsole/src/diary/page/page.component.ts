@@ -50,6 +50,11 @@ export class PageComponent implements OnInit {
     this.tablelet.setDataByAPI(TableletService.PAGEs, API.getAPI("page/list"));
   }
 
+  refreshTable() {
+    this.tablelet.setData(TableletService.PAGEs, []);
+    this.tablelet.setDataByAPI(TableletService.PAGEs, API.getAPI("page/list"));
+  }
+
   fakeHandler() {
     alert('clicked.');
   }
