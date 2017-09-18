@@ -53,86 +53,12 @@
   width: calc(800px - 3em);
 }
 
-.start-date.label,
-.end-date.label {
+.r-level.label {
   width: 5em;
 }
 
-.start-date.text,
-.end-date.text {
-  width: calc(50% - 5em);
-}
-
-.type.label,
-.location.label {
-  width: 3em;
-}
-
-.type.text,
-.location.text {
-  width: calc(50% - 3em);
-}
-
-.related.label {
-  width: 4em;
-  vertical-align: top;
-}
-
-.related.text {
-  width: calc(100% - 4em);
-}
-
-.related.text>* {
-  float: left;
-}
-
-.related.text>span {
-  cursor: default;
-  user-select: none;
-  line-height: 1.2em;
-  padding: 0 1em;
-  margin-bottom: 1em;
-  border-radius: 0.6em;
-  background-color: yellowgreen;
-}
-
-.related.text>span:not(:first-child) {
-  margin-left: 1em;
-}
-
-.related.text>span:hover {
-  color: white;
-  background-color: red;
-}
-
-.related.text>span:active {
-  color: rosybrown;
-  background-color: indianred;
-}
-
-.contents.label {
-  width: 3em;
-  vertical-align: top;
-}
-
-.contents.block {
-  width: calc(100% - 3em);
-}
-
-.contents.block>.input-block {
-  width: 100%;
-}
-
-.contents.block>.input-block>textarea {
-  width: 100%;
-  height: 100px;
-  border: solid 1px green;
-  outline: none;
-  resize: none;
-}
-
-.contents.block>.input-block>textarea:focus {
-  border-color: blue;
+.r-level.text {
+  width: calc(100% - 5em);
 }
 
 .buttons {

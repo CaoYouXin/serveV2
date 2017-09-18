@@ -5,13 +5,15 @@
 }
 
 table {
+  margin: 0 auto;
   font-size: 16px;
   border-width: 0;
   border-collapse: separate;
   border-spacing: 0;
 }
 
-th, td {
+th,
+td {
   overflow: hidden;
 }
 
@@ -23,7 +25,7 @@ td {
   cursor: ns-resize;
 }
 
-th > hr {
+th>hr {
   width: calc(100% - 2px);
   height: 2px;
   margin: 0 auto;
@@ -35,11 +37,11 @@ th > hr {
   background-color: #000000;
 }
 
-tbody > tr > td {
+tbody>tr>td {
   border-bottom: solid 1px #000000;
 }
 
-tbody > tr > td > div {
+tbody>tr>td>div {
   margin: 0 10px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -49,7 +51,7 @@ tbody > tr > td > div {
   text-align: center;
 }
 
-.btns > * {
+.btns>* {
   display: inline-block;
   vertical-align: middle;
 }

@@ -20,6 +20,18 @@ export class API {
     "page/list": {
       "prod": "http://server.caols.tech:9999/api/diary/list/page/all",
       "dev": "http://localhost:9999/api/diary/list/page/all"
+    },
+    "book/save": {
+      "prod": "http://server.caols.tech:9999/api/diary/save/book",
+      "dev": "http://localhost:9999/api/diary/save/book"
+    },
+    "book/list": {
+      "prod": "http://server.caols.tech:9999/api/diary/list/book/all",
+      "dev": "http://localhost:9999/api/diary/list/book/all"
+    },
+    "resource-level/list": {
+      "prod": "http://server.caols.tech:9999/api/blog/resource-level/list",
+      "dev": "http://localhost:9999/api/blog/resource-level/list"
     }
   };
 

@@ -28,7 +28,7 @@ export class PageComponent implements OnInit {
     ],
     ctrls: [
       { text: (idx) => "编辑", handler: this.editHandler.bind(this) },
-      { text: (idx) => this.data[idx].DiaryPageDisabled ? "启用" : "禁用", handler: this.fakeHandler.bind(this) },
+      { text: (idx) => this.data[idx].DiaryPageDisabled ? "启用" : "禁用", handler: this.disableHandler.bind(this) },
       { text: (idx) => "里程碑", handler: this.fakeHandler.bind(this) },
       { text: (idx) => "相册", handler: this.fakeHandler.bind(this) }
     ],
@@ -50,6 +50,11 @@ export class PageComponent implements OnInit {
     this.tablelet.setDataByAPI(TableletService.PAGEs, API.getAPI("page/list"));
   }
 
+  newPage() {
+    this.tablelet.setHandlingIdx(TableletService.PAGEs, null);
+    this.router.navigate(['/editpage']);
+  }
+
   refreshTable() {
     this.tablelet.setData(TableletService.PAGEs, []);
     this.tablelet.setDataByAPI(TableletService.PAGEs, API.getAPI("page/list"));
@@ -57,6 +62,12 @@ export class PageComponent implements OnInit {
 
   fakeHandler() {
     alert('clicked.');
+  }
+
+  disableHandler(idx: number) {
+    this.tablelet.addDataByAPI(TableletService.PAGEs, API.getAPI("page/save"), Object.assign(this.data[idx], {
+      DiaryPageDisabled: !this.data[idx].DiaryPageDisabled
+    }), idx);
   }
 
   editHandler(idx: number) {
@@ -73,11 +84,6 @@ export class PageComponent implements OnInit {
         this.specShow = false;
       }
     }
-  }
-
-  newPage() {
-    this.tablelet.setHandlingIdx(TableletService.PAGEs, null);
-    this.router.navigate(['/editpage']);
   }
 
 }

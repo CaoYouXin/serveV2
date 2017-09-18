@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { TableletService } from '../../service';
+import { API } from '../../http';
 
 @Component({
   selector: 'app-book',
@@ -9,40 +12,62 @@ export class BookComponent implements OnInit {
 
   tableDef: any = {
     heads: [
-      { key: "DiaryPageId", text: "ID", width: 50 },
-      { key: "DiaryPageType", text: "类型", width: 50 },
-      { key: "DiaryPageTitle", text: "标题", width: 100 },
-      { key: "DiaryPageStartDate", text: "开始日期", width: 150 },
-      { key: "DiaryPageEndDate", text: "结束日期", width: 150 },
-      { key: "DiaryPageContent", text: "内容", width: 200 },
-      { key: "DiaryPageLocation", text: "地点", width: 100 },
-      { key: "DiaryPageRelated", text: "相关人", width: 100 },
+      { key: "DiaryBookId", text: "ID", width: 50 },
+      { key: "DiaryBookTitle", text: "标题", width: 100 },
+      { key: "DiaryBookPageCount", text: "页数", width: 50 },
+      { key: "ResourceLevelName", text: "资源等级", width: 150 },
       {
-        key: "DiaryPageDisabled", text: "状态", width: 100, render: (disabled) => {
+        key: "DiaryBookDisabled", text: "状态", width: 100, render: (disabled) => {
           return disabled ? "禁用" : "启用";
         }
       },
     ],
     ctrls: [
-      { text: (idx) => "编辑", handler: this.fakeHandler.bind(this) },
-      { text: (idx) => this.data[idx].DiaryPageDisabled ? "启用" : "禁用", handler: this.fakeHandler.bind(this) },
-      { text: (idx) => "里程碑", handler: this.fakeHandler.bind(this) },
-      { text: (idx) => "相册", handler: this.fakeHandler.bind(this) }
+      { text: (idx) => "编辑", handler: this.editHandler.bind(this) },
+      { text: (idx) => this.data[idx].DiaryBookDisabled ? "启用" : "禁用", handler: this.disableHandler.bind(this) },
+      { text: (idx) => "页码编辑", handler: this.fakeHandler.bind(this) }
     ],
-    ctrlsWidth: 320
+    ctrlsWidth: 256
   };
 
   data: Array<any> = [];
 
   specShow: boolean = true;
 
-  constructor() { }
+  constructor(private router: Router,
+    private tablelet: TableletService) { }
 
   ngOnInit() {
+    this.tablelet.getData(TableletService.BOOKs).subscribe(
+      data => this.data = data
+    );
+
+    this.tablelet.setDataByAPI(TableletService.BOOKs, API.getAPI("book/list"));
+  }
+
+  refreshTable() {
+    this.tablelet.setData(TableletService.BOOKs, []);
+    this.tablelet.setDataByAPI(TableletService.BOOKs, API.getAPI("book/list"));
+  }
+
+  newBook() {
+    this.tablelet.setHandlingIdx(TableletService.BOOKs, null);
+    this.router.navigate(['/editbook']);
   }
 
   fakeHandler() {
-    alert('clicked.');
+    alert('clicked');
+  }
+
+  editHandler(idx) {
+    this.tablelet.setHandlingIdx(TableletService.BOOKs, idx);
+    this.router.navigate(['/editbook']);
+  }
+
+  disableHandler(idx) {
+    this.tablelet.addDataByAPI(TableletService.BOOKs, API.getAPI("book/save"), Object.assign(this.data[idx], {
+      DiaryBookDisabled: !this.data[idx].DiaryBookDisabled
+    }), idx);
   }
 
   closeSpec(e) {

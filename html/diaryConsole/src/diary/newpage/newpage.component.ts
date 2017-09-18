@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { TableletService } from "../../service";
-import { API, DaoUtil, RestCode } from "../../http";
+import { API } from "../../http";
 
 const compareDates = (startDateKey: string, endDateKey: string) => {
   return (group: FormGroup): { [key: string]: any } => {
@@ -84,9 +84,7 @@ export class NewPageComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
     private router: Router,
-    private tablelet: TableletService,
-    private dao: DaoUtil,
-    private rest: RestCode) { }
+    private tablelet: TableletService) { }
 
   ngOnInit() {
     let datum = this.tablelet.getHandlingData(TableletService.PAGEs);
