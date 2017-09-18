@@ -8,6 +8,7 @@ import { PageComponent } from './page';
 import { TableComponent } from './table';
 import { NewPageComponent } from './newpage';
 import { EditBookComponent } from './editbook';
+import { EidtBookPageComponent } from './editbookpage';
 
 import { TableletService } from '../service';
 
@@ -23,7 +24,8 @@ import { TableletService } from '../service';
     PageComponent,
     TableComponent,
     NewPageComponent,
-    EditBookComponent
+    EditBookComponent,
+    EidtBookPageComponent
   ],
   providers: [TableletService]
 })

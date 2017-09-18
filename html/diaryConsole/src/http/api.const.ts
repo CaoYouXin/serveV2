@@ -32,6 +32,18 @@ export class API {
     "resource-level/list": {
       "prod": "http://server.caols.tech:9999/api/blog/resource-level/list",
       "dev": "http://localhost:9999/api/blog/resource-level/list"
+    },
+    "list/page/by/book": {
+      "prod": (bookId) => `http://server.caols.tech:9999/api/diary/list/page/by/${bookId}`,
+      "dev": (bookId) => `http://localhost:9999/api/diary/list/page/by/${bookId}`
+    },
+    "release/page": {
+      "prod": (bookId, pageId) => `http://server.caols.tech:9999/api/diary/release/${bookId}/${pageId}`,
+      "dev": (bookId, pageId) => `http://localhost:9999/api/diary/release/${bookId}/${pageId}`
+    },
+    "attach/page": {
+      "prod": (bookId, pageId) => `http://server.caols.tech:9999/api/diary/attach/${bookId}/${pageId}`,
+      "dev": (bookId, pageId) => `http://localhost:9999/api/diary/attach/${bookId}/${pageId}`
     }
   };
 

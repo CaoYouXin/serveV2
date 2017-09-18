@@ -25,7 +25,7 @@ export class BookComponent implements OnInit {
     ctrls: [
       { text: (idx) => "编辑", handler: this.editHandler.bind(this) },
       { text: (idx) => this.data[idx].DiaryBookDisabled ? "启用" : "禁用", handler: this.disableHandler.bind(this) },
-      { text: (idx) => "页码编辑", handler: this.fakeHandler.bind(this) }
+      { text: (idx) => "页码编辑", handler: this.pageEditHandler.bind(this) }
     ],
     ctrlsWidth: 256
   };
@@ -55,16 +55,17 @@ export class BookComponent implements OnInit {
     this.router.navigate(['/editbook']);
   }
 
-  fakeHandler() {
-    alert('clicked');
+  pageEditHandler(idx: number) {
+    this.tablelet.setHandlingIdx(TableletService.BOOKs, idx);
+    this.router.navigate(['/editbookpage']);
   }
 
-  editHandler(idx) {
+  editHandler(idx: number) {
     this.tablelet.setHandlingIdx(TableletService.BOOKs, idx);
     this.router.navigate(['/editbook']);
   }
 
-  disableHandler(idx) {
+  disableHandler(idx: number) {
     this.tablelet.addDataByAPI(TableletService.BOOKs, API.getAPI("book/save"), Object.assign(this.data[idx], {
       DiaryBookDisabled: !this.data[idx].DiaryBookDisabled
     }), idx);

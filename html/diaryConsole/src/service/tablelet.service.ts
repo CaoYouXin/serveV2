@@ -12,8 +12,8 @@ export class TableletService {
   // static MILESTONEs = "MILESTONEs";
 
   private dataSubjects = {};
-  private lastData = {};
-  private handlingData = {};
+  private lastData = JSON.parse(localStorage.getItem('lastData') || "{}");
+  private handlingData = JSON.parse(localStorage.getItem('handlingData') || "{}");
 
   constructor(private dao: DaoUtil, private rest: RestCode) { }
 
@@ -22,10 +22,10 @@ export class TableletService {
     this.dao.getJSON(api).subscribe(
       ret => {
         self.rest.checkCode(ret, retBody => {
-          self.setData(key, retBody);
           if (sucFn) {
             sucFn(retBody);
           }
+          self.setData(key, retBody);
         });
         if (revFn) {
           revFn();
@@ -45,10 +45,10 @@ export class TableletService {
     this.dao.postJSON(api, data).subscribe(
       ret => {
         self.rest.checkCode(ret, retBody => {
-          self.addData(key, idx, retBody);
           if (sucFn) {
             sucFn(retBody);
           }
+          self.addData(key, idx, retBody);
         });
         if (revFn) {
           revFn();
@@ -74,27 +74,18 @@ export class TableletService {
       return data;
     }
 
-    this.handlingData = JSON.parse(localStorage.getItem('handlingData') || "{}");
     return this.handlingData[key];
   }
 
   getHandlingData(key: string) {
     let idx = this.handlingData[key];
     if (idx === undefined || idx === null) {
-      this.handlingData = JSON.parse(localStorage.getItem('handlingData') || "{}");
-      idx = this.handlingData[key];
-      if (idx === undefined || idx === null) {
-        return null;
-      }
+      return null;
     }
 
     let data = this.lastData[key];
     if (data === undefined || data === null) {
-      this.lastData = JSON.parse(localStorage.getItem('lastData') || "{}");
-      data = this.lastData[key];
-      if (data === undefined || data === null) {
-        return null;
-      }
+      return null;
     }
 
     return data[idx];

@@ -1,0 +1,12 @@
+<div class="page-wrapper">
+  <p (click)="closeSpec($event)" *ngIf="specShow">
+    新的表格组件具有以下功能：当鼠标放在表头上时，按下Ctrl键同时滚动鼠标滚轮，会缩放所在列的宽度；当鼠标放在表格数据行上时，按下Ctrl键的同时滚动鼠标滚轮，会缩放所在行的高度。
+  </p>
+
+  <div class="buttons">
+    <button (click)="refreshTable()">刷新</button>
+    <button (click)="router.navigate(['/book'])">返回</button>
+  </div>
+
+  <diary-table [table]="tableDef" [data]="data" [width]="800"></diary-table>
+</div>
