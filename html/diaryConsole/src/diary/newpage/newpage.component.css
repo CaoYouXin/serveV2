@@ -1,3 +1,15 @@
+.v-mid-box {
+    font-size: 0;
+    margin-top: 1rem;
+}
+
+.label,
+.text,
+.block,
+.text>* {
+    font-size: 14px;
+}
+
 .text {
     border-bottom: solid 1px green;
 }
@@ -11,11 +23,23 @@
     border-width: 2px;
 }
 
+.text>input {
+    width: 100%;
+    outline: none;
+    background-color: transparent;
+}
+
+.text>select {
+    width: 100%;
+    outline: none;
+    background-color: transparent;
+}
+
 .error {
     background-color: #F15555;
-    color: white;
+    color: #f9f9f9;
     border-radius: .5em;
-    padding: .3em;
+    padding: .3em 1em;
     margin: 0.5em auto;
     width: 100%;
     font-size: 13px;
@@ -26,11 +50,131 @@
 }
 
 .title.text {
-    width: calc(800px - 4em);
+    width: calc(800px - 3em);
 }
 
-.title.text>input[type="text"] {
+.start-date.label,
+.end-date.label {
+    width: 5em;
+}
+
+.start-date.text,
+.end-date.text {
+    width: calc(50% - 5em);
+}
+
+.type.label,
+.location.label {
+    width: 3em;
+}
+
+.type.text,
+.location.text {
+    width: calc(50% - 3em);
+}
+
+.related.label {
+    width: 4em;
+    vertical-align: top;
+}
+
+.related.text {
+    width: calc(100% - 4em);
+}
+
+.related.text>* {
+    float: left;
+}
+
+.related.text>span {
+    cursor: default;
+    user-select: none;
+    line-height: 1.2em;
+    padding: 0 1em;
+    margin-bottom: 1em;
+    border-radius: 0.6em;
+    background-color: yellowgreen;
+}
+
+.related.text>span:not(:first-child) {
+    margin-left: 1em;
+}
+
+.related.text>span:hover {
+    color: white;
+    background-color: red;
+}
+
+.related.text>span:active {
+    color: rosybrown;
+    background-color: indianred;
+}
+
+.contents.label {
+    width: 3em;
+    vertical-align: top;
+}
+
+.contents.block {
+    width: calc(100% - 3em);
+}
+
+.contents.block>.input-block {
     width: 100%;
+}
+
+.contents.block>.input-block>textarea {
+    width: 100%;
+    height: 100px;
+    border: solid 1px green;
     outline: none;
-    background-color: transparent;
+    resize: none;
+}
+
+.contents.block>.input-block>textarea:focus {
+    border-color: blue;
+}
+
+.buttons {
+    width: 100%;
+    margin-top: 1em;
+    text-align: right;
+}
+
+.buttons>button {
+    outline: none;
+    color: white;
+    border-radius: 3px;
+    padding: 5px 20px;
+    -webkit-appearance: button;
+}
+
+.buttons>button:first-child {
+    border: 1px solid #0d8e47;
+    background-color: #27ae60;
+}
+
+.buttons>button:first-child:active {
+    background-color: #27ae60;
+    border-color: #0d8e47;
+}
+
+.buttons>button:first-child:hover {
+    background-color: #12a24f;
+    border-color: #007d35;
+}
+
+.buttons>button:last-child {
+    border: 1px solid #0D3A8E;
+    background-color: #275DAE;
+}
+
+.buttons>button:last-child:active {
+    background-color: #275DAE;
+    border-color: #0D3A8E;
+}
+
+.buttons>button:last-child:hover {
+    background-color: #1244A2;
+    border-color: #00457D;
 }

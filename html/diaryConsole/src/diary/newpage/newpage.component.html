@@ -1,4 +1,4 @@
-<form [formGroup]="pageForm" (ngSubmit)="login()">
+<form [formGroup]="pageForm">
   <div class="page-wrapper v-mid-box">
     <span class="title label">标题：</span>
     <div class="title text" [class.focused]="titleFocused" [class.invalid]="pageFormErrors.title">
@@ -8,4 +8,70 @@
   <div class="page-wrapper">
     <div *ngIf="pageFormErrors.title" class="error">{{pageFormErrors.title}}</div>
   </div>
+  <div class="page-wrapper v-mid-box">
+    <span class="start-date label">开始日期：</span>
+    <div class="start-date text" [class.focused]="startDateFocused" [class.invalid]="pageFormErrors.startDate || pageDateError">
+      <input type="date" placeholder="请输入开始日期..." formControlName="startDate" (focus)="startDateFocused=true" (blur)="startDateFocused=false">
+    </div>
+    <span class="end-date label">开始日期：</span>
+    <div class="end-date text" [class.focused]="endDateFocused" [class.invalid]="pageFormErrors.endDate || pageDateError">
+      <input type="date" placeholder="请输入开始日期..." formControlName="endDate" (focus)="endDateFocused=true" (blur)="endDateFocused=false">
+    </div>
+  </div>
+  <div class="page-wrapper">
+    <div *ngIf="pageFormErrors.startDate" class="error">{{pageFormErrors.startDate}}</div>
+  </div>
+  <div class="page-wrapper">
+    <div *ngIf="pageFormErrors.endDate" class="error">{{pageFormErrors.endDate}}</div>
+  </div>
+  <div class="page-wrapper">
+    <div *ngIf="pageDateError" class="error">{{pageDateError}}</div>
+  </div>
+  <div class="page-wrapper v-mid-box">
+    <span class="type label">类型：</span>
+    <div class="type text" [class.focused]="typeFocused" [class.invalid]="pageFormErrors.type">
+      <select formControlName="type">
+        <option value="学习">学习</option>
+        <option value="生活">生活</option>
+        <option value="工作">工作</option>
+      </select>
+    </div>
+    <span class="location label">地点：</span>
+    <div class="location text" [class.focused]="locationFocused" [class.invalid]="pageFormErrors.location">
+      <input type="text" placeholder="请输入地点..." formControlName="location" (focus)="locationFocused=true" (blur)="locationFocused=false">
+    </div>
+  </div>
+  <div class="page-wrapper">
+    <div *ngIf="pageFormErrors.type" class="error">{{pageFormErrors.type}}</div>
+  </div>
+  <div class="page-wrapper">
+    <div *ngIf="pageFormErrors.location" class="error">{{pageFormErrors.location}}</div>
+  </div>
 </form>
+<div class="page-wrapper v-mid-box">
+  <span class="related label">相关人：</span>
+  <div class="related text" [class.focused]="relatedFocused">
+    <span *ngFor="let related of relations" (click)="removeRelated(related)">{{related}}</span>
+    <input type="text" placeholder="请输入相关人..." (keyup.Enter)="addRelated($event)" (focus)="relatedFocused=true" (blur)="relatedFocused=false">
+  </div>
+</div>
+<div class="page-wrapper">
+  <div *ngIf="relatedError" class="error">{{relatedError}}</div>
+</div>
+<div class="page-wrapper v-mid-box">
+  <span class="contents label">内容：</span>
+  <div class="contents block">
+    <div class="input-block" *ngFor="let ib of contents;let idx=index">
+      <textarea (keyUp.Control.Enter)="addInputBlock($event, idx)" (keyUp.Control.Backspace)="removeInputBlock($event, idx)" [(ngModel)]="ib.text"></textarea>
+    </div>
+  </div>
+</div>
+<div class="page-wrapper">
+  <div *ngIf="contentsError" class="error">{{contentsError}}</div>
+</div>
+<div class="page-wrapper">
+  <div class="buttons">
+    <button (click)="savePage()">保存</button>
+    <button (click)="location.back()">返回</button>
+  </div>
+</div>
