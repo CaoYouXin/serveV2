@@ -187,6 +187,11 @@ public class DiaryServiceImpl implements IDiaryService {
     }
 
     @Override
+    public List<EIDiaryMapping> listPages(Long bookId) {
+        return this.diaryMappingRepo.findAllByDiaryBookIdAndDiaryMappingDisabled(bookId, false);
+    }
+
+    @Override
     public List<EIDiaryMilestone> listMilestones(Long pageId) {
         return this.diaryMilestoneRepo.findAllByDiaryPageId(pageId);
     }
@@ -198,7 +203,7 @@ public class DiaryServiceImpl implements IDiaryService {
 
     @Override
     public List<EIDiaryBook> listBooks(Long userId) {
-        if (null == userId) {
+        if (0L == userId) {
             return this.diaryBookRepo.findAllByDiaryBookDisabledAndResourceLevelId(false, 0L);
         }
 
@@ -256,24 +261,42 @@ public class DiaryServiceImpl implements IDiaryService {
                 ret.put(eiDiaryPageDetail.getDiaryPageId(), eiDiaryPageDetail);
             }
 
-            if (null != diaryPageDraft.getDiaryMilestoneId()) {
+            if (null != diaryPageDraft.getDiaryMilestoneId() && !diaryPageDraft.isDiaryMilestoneDisabled()) {
                 if (null == eiDiaryPageDetail.getDiaryMilestones()) {
                     eiDiaryPageDetail.setDiaryMilestones(new ArrayList<>());
                 }
 
-                EIDiaryMilestone eiDiaryMilestone = BeanManager.getInstance().createBean(EIDiaryMilestone.class);
-                eiDiaryMilestone.copyFrom(diaryPageDraft, EIDiaryMilestone.class);
-                eiDiaryPageDetail.getDiaryMilestones().add(eiDiaryMilestone);
+                boolean has = false;
+                for (EIDiaryMilestone eiDiaryMilestone : eiDiaryPageDetail.getDiaryMilestones()) {
+                    if (eiDiaryMilestone.getDiaryMilestoneId().equals(diaryPageDraft.getDiaryMilestoneId())) {
+                        has = true;
+                    }
+                }
+
+                if (!has) {
+                    EIDiaryMilestone eiDiaryMilestone = BeanManager.getInstance().createBean(EIDiaryMilestone.class);
+                    eiDiaryMilestone.copyFrom(diaryPageDraft, EIDiaryMilestone.class);
+                    eiDiaryPageDetail.getDiaryMilestones().add(eiDiaryMilestone);
+                }
             }
 
-            if (null != diaryPageDraft.getDiaryPhotoId()) {
+            if (null != diaryPageDraft.getDiaryPhotoId() && !diaryPageDraft.isDiaryPhotoDisabled()) {
                 if (null == eiDiaryPageDetail.getDiaryPhotoes()) {
                     eiDiaryPageDetail.setDiaryPhotoes(new ArrayList<>());
                 }
 
-                EIDiaryPhoto eiDiaryPhoto = BeanManager.getInstance().createBean(EIDiaryPhoto.class);
-                eiDiaryPhoto.copyFrom(diaryPageDraft, EIDiaryPhoto.class);
-                eiDiaryPageDetail.getDiaryPhotoes().add(eiDiaryPhoto);
+                boolean has = false;
+                for (EIDiaryPhoto eiDiaryPhoto : eiDiaryPageDetail.getDiaryPhotoes()) {
+                    if (eiDiaryPhoto.getDiaryPhotoId().equals(diaryPageDraft.getDiaryPhotoId())) {
+                        has = true;
+                    }
+                }
+
+                if (!has) {
+                    EIDiaryPhoto eiDiaryPhoto = BeanManager.getInstance().createBean(EIDiaryPhoto.class);
+                    eiDiaryPhoto.copyFrom(diaryPageDraft, EIDiaryPhoto.class);
+                    eiDiaryPageDetail.getDiaryPhotoes().add(eiDiaryPhoto);
+                }
             }
         }
         return new ArrayList<>(ret.values());

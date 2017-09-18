@@ -1,9 +1,6 @@
 package diary.service;
 
-import diary.data.EIDiaryBook;
-import diary.data.EIDiaryMilestone;
-import diary.data.EIDiaryPage;
-import diary.data.EIDiaryPhoto;
+import diary.data.*;
 import diary.view.EIDiaryBookDetail;
 import diary.view.EIDiaryPageDetail;
 import rest.Service;
@@ -27,6 +24,8 @@ public interface IDiaryService extends Service {
     List<EIDiaryBookDetail> listBooks();
 
     List<EIDiaryPage> listPages();
+
+    List<EIDiaryMapping> listPages(Long bookId);
 
     List<EIDiaryMilestone> listMilestones(Long pageId);
 

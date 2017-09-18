@@ -35,7 +35,7 @@ public class ClientListBooksCtrl extends WithMatcher {
 
     @Override
     public void handle(HttpRequest httpRequest, HttpResponse httpResponse, HttpContext httpContext) throws HttpException, IOException {
-        Object userId = httpContext.getAttribute(BlogLoginAuth.USER_ID_KEY);
-        RestHelper.oneCallAndRet(httpResponse, diaryService, "listBooks", userId);
+        Long userId = (Long) httpContext.getAttribute(BlogLoginAuth.USER_ID_KEY);
+        RestHelper.oneCallAndRet(httpResponse, diaryService, "listBooks", null == userId ? 0L : userId);
     }
 }
