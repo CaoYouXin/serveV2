@@ -114,7 +114,6 @@ export class BlogScreenshotComponent implements OnInit {
     this.onValueChanged();
     this.loading = true;
 
-    const date = new Date;
     const self = this;
     const md5 = Md5.hashStr(new Date() + '');
     this.uploadService.send(this.currentForm.nativeElement,
@@ -158,7 +157,7 @@ export class BlogScreenshotComponent implements OnInit {
         if (!retBody.ScreenshotDisabled) {
           return;
         }
-        
+
         let idx = self.screenshots.findIndex(s => s.ScreenshotId + '' === retBody.ScreenshotId + '');
 
         self.screenshots = [
