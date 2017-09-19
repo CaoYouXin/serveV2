@@ -1,0 +1,46 @@
+.invisible {
+  visibility: hidden;
+}
+
+.page-wrapper {
+  overflow: hidden;
+}
+
+.photo {
+  width: 175px;
+  height: 175px;
+  float: left;
+  overflow: hidden;
+  margin-left: 20px;
+}
+
+.photo.existing:hover {
+  border: solid 1px red;
+  box-shadow: 0 0 10px red, inset 0 0 100px red;
+}
+
+.photo.existing:active {
+  border: solid 1px red;
+  box-shadow: 0 0 10px red, inset 0 0 200px red;
+}
+
+.photo.deleted:hover {
+  border: solid 1px blue;
+  box-shadow: 0 0 10px blue, inset 0 0 100px blue;
+}
+
+.photo.deleted:active {
+  border: solid 1px blue;
+  box-shadow: 0 0 10px blue, inset 0 0 200px blue;
+}
+
+.photo>img {
+  width: 100%;
+  height: 100%;
+}
+
+.buttons {
+  width: 100%;
+  margin-top: 1em;
+  text-align: right;
+}

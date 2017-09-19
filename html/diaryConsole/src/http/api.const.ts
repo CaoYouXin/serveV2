@@ -52,6 +52,26 @@ export class API {
     "milestone/save": {
       "prod": "http://server.caols.tech:9999/api/diary/save/milestone",
       "dev": "http://localhost:9999/api/diary/save/milestone"
+    },
+    "photo/list": {
+      "prod": (pageId) => `http://server.caols.tech:9999/api/diary/list/photo/${pageId}`,
+      "dev": (pageId) => `http://localhost:9999/api/diary/list/photo/${pageId}`
+    },
+    "photo/save": {
+      "prod": "http://server.caols.tech:9999/api/diary/save/photo",
+      "dev": "http://localhost:9999/api/diary/save/photo"
+    },
+    "upload/code": {
+      "prod": function (path) {
+        return `http://server.caols.tech:9999/upload${path}`;
+      },
+      "dev": function (path) {
+        return `http://localhost:9999/upload${path}`;
+      }
+    },
+    "copy/file": {
+      "prod": "http://server.caols.tech:9999/metaApi/copy",
+      "dev": "http://localhost:9999/metaApi/copy"
     }
   };
 

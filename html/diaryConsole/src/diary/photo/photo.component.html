@@ -1,0 +1,17 @@
+<div class="page-wrapper">
+  <div class="photo" *ngFor="let photo of photos;let idx=index;" (click)="change(photo, idx)" [class.deleted]="photo.DiaryPhotoDisabled"
+    [class.existing]="!photo.DiaryPhotoDisabled">
+    <img [attr.src]="server + photo.DiaryPhotoUrl" [attr.alt]="photo.DiaryPhotoUrl">
+  </div>
+</div>
+<div class="page-wrapper">
+  <div class="buttons">
+    <button (click)="selectFile()">选择文件</button>
+    <button (click)="router.navigate(['/page'])">返回</button>
+  </div>
+</div>
+<div class="invisible">
+  <form #f>
+    <input #file type="file" (change)="selectedFile()">
+  </form>
+</div>

@@ -6,7 +6,8 @@ import { LoginComponent } from "./login";
 
 import {
   HomeComponent, BookComponent, PageComponent, NewPageComponent,
-  EditBookComponent, EidtBookPageComponent, MilestoneComponent
+  EditBookComponent, EidtBookPageComponent, MilestoneComponent,
+  PhotoComponent
 } from "../diary";
 
 import { AuthGuard } from "./guard";
@@ -21,6 +22,7 @@ export const routes: Routes = [
   { path: 'editbook', component: EditBookComponent, canActivate: [AuthGuard] },
   { path: 'editbookpage', component: EidtBookPageComponent, canActivate: [AuthGuard] },
   { path: 'milestone', component: MilestoneComponent, canActivate: [AuthGuard] },
+  { path: 'photo', component: PhotoComponent, canActivate: [AuthGuard] },
 
   { path: 'login', component: LoginComponent },
 

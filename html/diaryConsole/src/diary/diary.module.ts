@@ -10,8 +10,9 @@ import { NewPageComponent } from './newpage';
 import { EditBookComponent } from './editbook';
 import { EidtBookPageComponent } from './editbookpage';
 import { MilestoneComponent } from './milestone';
+import { PhotoComponent } from './photo';
 
-import { TableletService } from '../service';
+import { TableletService, FileService, UploadService } from '../service';
 
 @NgModule({
   imports: [
@@ -27,8 +28,9 @@ import { TableletService } from '../service';
     NewPageComponent,
     EditBookComponent,
     EidtBookPageComponent,
-    MilestoneComponent
+    MilestoneComponent,
+    PhotoComponent
   ],
-  providers: [TableletService]
+  providers: [TableletService, FileService, UploadService]
 })
 export class DiaryModule { }

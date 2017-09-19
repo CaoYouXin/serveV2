@@ -1,25 +1,7 @@
 import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { TableletService } from "../../service";
 import { API, DaoUtil, RestCode } from "../../http";
-
-const compareDates = (startDateKey: string, endDateKey: string) => {
-  return (group: FormGroup): { [key: string]: any } => {
-    let startDate = group.controls[startDateKey];
-    let endDate = group.controls[endDateKey];
-
-    if (null === startDate.value || null === endDate.value) {
-      return {};
-    }
-
-    if (new Date(startDate.value).getTime() > new Date(endDate.value).getTime()) {
-      return {
-        compared: true
-      };
-    }
-  }
-}
 
 @Component({
   selector: 'diary-milestone',
@@ -30,8 +12,7 @@ export class MilestoneComponent implements OnInit {
 
   milestoneList: Array<any> = [];
 
-  constructor(private fb: FormBuilder,
-    private router: Router,
+  constructor(private router: Router,
     private tablelet: TableletService,
     private dao: DaoUtil,
     private rest: RestCode) { }

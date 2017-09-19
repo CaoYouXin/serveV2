@@ -30,7 +30,7 @@ export class PageComponent implements OnInit {
       { text: (idx) => "编辑", handler: this.editHandler.bind(this) },
       { text: (idx) => this.data[idx].DiaryPageDisabled ? "启用" : "禁用", handler: this.disableHandler.bind(this) },
       { text: (idx) => "里程碑", handler: this.milestoneHandler.bind(this) },
-      { text: (idx) => "相册", handler: this.fakeHandler.bind(this) }
+      { text: (idx) => "相册", handler: this.photoHandler.bind(this) }
     ],
     ctrlsWidth: 320
   };
@@ -60,8 +60,9 @@ export class PageComponent implements OnInit {
     this.tablelet.setDataByAPI(TableletService.PAGEs, API.getAPI("page/list"));
   }
 
-  fakeHandler() {
-    alert('clicked.');
+  photoHandler(idx: number) {
+    this.tablelet.setHandlingIdx(TableletService.PAGEs, idx);
+    this.router.navigate(['/photo']);
   }
 
   milestoneHandler(idx: number) {
