@@ -67,7 +67,11 @@ public class SQLUtil {
                 preparedStatement.setBigDecimal(index, (BigDecimal) param);
                 break;
             case "java.util.Date":
-                preparedStatement.setTimestamp(index, new Timestamp(((Date) param).getTime()), CALENDAR);
+                if (null == param) {
+                    preparedStatement.setTimestamp(index, new Timestamp(0L), CALENDAR);
+                } else {
+                    preparedStatement.setTimestamp(index, new Timestamp(((Date) param).getTime()), CALENDAR);
+                }
                 break;
             case "java.lang.String":
                 preparedStatement.setString(index, (String) param);
@@ -149,10 +153,16 @@ public class SQLUtil {
                 }
                 break;
             case "java.util.Date":
+                Timestamp timestamp;
                 if (isIntParam) {
-                    setterMethod.invoke(one, new Date(resultSet.getTimestamp(index, CALENDAR).getTime()));
+                    timestamp = resultSet.getTimestamp(index, CALENDAR);
                 } else {
-                    setterMethod.invoke(one, new Date(resultSet.getTimestamp(columnName, CALENDAR).getTime()));
+                    timestamp = resultSet.getTimestamp(columnName, CALENDAR);
+                }
+                if (null == timestamp) {
+                    setterMethod.invoke(one, new Date(0L));
+                } else {
+                    setterMethod.invoke(one, new Date(timestamp.getTime()));
                 }
                 break;
             case "java.lang.String":

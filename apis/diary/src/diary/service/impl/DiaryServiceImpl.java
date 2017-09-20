@@ -261,7 +261,8 @@ public class DiaryServiceImpl implements IDiaryService {
                 ret.put(eiDiaryPageDetail.getDiaryPageId(), eiDiaryPageDetail);
             }
 
-            if (null != diaryPageDraft.getDiaryMilestoneId() && !diaryPageDraft.isDiaryMilestoneDisabled()) {
+            if (null != diaryPageDraft.getDiaryMilestoneId() && !diaryPageDraft.isDiaryMilestoneDisabled()
+                    && diaryPageDraft.getDiaryMilestoneId() > 0L) {
                 if (null == eiDiaryPageDetail.getDiaryMilestones()) {
                     eiDiaryPageDetail.setDiaryMilestones(new ArrayList<>());
                 }
@@ -280,7 +281,8 @@ public class DiaryServiceImpl implements IDiaryService {
                 }
             }
 
-            if (null != diaryPageDraft.getDiaryPhotoId() && !diaryPageDraft.isDiaryPhotoDisabled()) {
+            if (null != diaryPageDraft.getDiaryPhotoId() && !diaryPageDraft.isDiaryPhotoDisabled()
+                    && diaryPageDraft.getDiaryPhotoId() > 0L) {
                 if (null == eiDiaryPageDetail.getDiaryPhotoes()) {
                     eiDiaryPageDetail.setDiaryPhotoes(new ArrayList<>());
                 }
