@@ -40,7 +40,7 @@ export class TableComponent implements OnInit {
   }
 
   tweakHeader(e, i) {
-    if (!e.ctrlKey) {
+    if (!e.altKey) {
       return;
     }
 
@@ -57,7 +57,7 @@ export class TableComponent implements OnInit {
   }
 
   tweakData(e, i) {
-    if (!e.ctrlKey) {
+    if (!e.altKey) {
       return;
     }
 
