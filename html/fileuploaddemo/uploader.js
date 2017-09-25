@@ -151,7 +151,7 @@ Uploader.prototype = {
 
     request = request.concat(this.toByteArray("--" + boundary + "--" + CRLF));
 
-    return request;
+    return new Uint8Array(request).buffer;
   },
 
   /**
@@ -186,8 +186,7 @@ Uploader.prototype = {
       var data = self.buildMessage(elements, boundary);
 
       // finally send the request as binary data
-      var ui8a = new Uint8Array(data);
-      xhr.send(ui8a.buffer);
+      xhr.send(data);
     })();
   }
 };
