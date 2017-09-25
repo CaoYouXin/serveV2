@@ -2,175 +2,192 @@
  * @param DOMNode form
  */
 var Uploader = function (form) {
-    this.form = form;
+  this.form = form;
 };
 
 Uploader.prototype = {
-    /**
-     * @param Object HTTP headers to send to the server, the key is the
-     * header name, the value is the header value
-     */
-    headers: {
-        "X-Requested-With": "XMLHttpRequest"
-    },
+  /**
+   * @param Object HTTP headers to send to the server, the key is the
+   * header name, the value is the header value
+   */
+  headers: {
+    "X-Requested-With": "XMLHttpRequest"
+  },
 
-    /**
-     * @return Array of DOMNode elements
-     */
-    elements: function () {
-        var fields = [];
-        fields.readCount = 0;
+  readLog: {},
 
-        // gather INPUT elements
-        var inputs = this.form.getElementsByTagName("INPUT");
-        for (var l = inputs.length, i = 0; i < l; i++) {
-            fields.push(inputs[i]);
+  fileLoadedHandler: function (field, key) {
+    var self = this;
 
-            var type = inputs[i].getAttribute("type").toUpperCase();
-            if (type === "FILE" && inputs[i].files.length > 0) {
-                reader = new FileReader;
-                reader.onload = function (evt) {
-                    inputs[i].binary = evt.target.result;
-                    // console.log(evt.target.result);
-                    fields.readCount -= 1;
-                };
-                reader.readAsBinaryString(inputs[i].files[0]);
-                fields.readCount += 1;
-            }
-        }
-
-        // gather SELECT elements
-        var selects = this.form.getElementsByTagName("SELECT");
-        for (var l = selects.length, i = 0; i < l; i++) {
-            fields.push(selects[i]);
-        }
-
-        return fields;
-    },
-
-    /**
-     * @return String A random string
-     */
-    generateBoundary: function () {
-        return "AJAX-----------------------" + (new Date).getTime();
-    },
-
-    /**
-     * Constructs the message as discussed in the section about form
-     * data transmission over HTTP
-     *
-     * @param Array elements
-     * @param String boundary
-     * @return String
-     */
-    buildMessage: function (elements, boundary) {
-        var CRLF = "\r\n";
-        var parts = [];
-
-        for (var i = 0, l = elements.length; i < l; i++) {
-            var element = elements[i];
-            var part = "";
-            var type = "TEXT";
-
-            if (element.nodeName.toUpperCase() === "INPUT") {
-                type = element.getAttribute("type").toUpperCase();
-            }
-
-            if (type === "FILE" && element.files.length > 0) {
-                var fieldName = element.name;
-                var fileName = element.files[0].name;
-
-                /*
-                 * Content-Disposition header contains name of the field
-                 * used to upload the file and also the name of the file as
-                 * it was on the user's computer.
-                 */
-                part += 'Content-Disposition: form-data; ';
-                part += 'name="' + fieldName + '"; ';
-                part += 'filename="' + fileName + '"' + CRLF;
-
-                /*
-                 * Content-Type header contains the mime-type of the file
-                 * to send. Although we could build a map of mime-types
-                 * that match certain file extensions, we'll take the easy
-                 * approach and send a general binary header:
-                 * application/octet-stream
-                 */
-                part += "Content-Type: application/octet-stream";
-                part += CRLF + CRLF; // marks end of the headers part
-
-                /*
-                 * File contents read as binary data, obviously
-                 */
-                part += element.binary + CRLF;
-            } else {
-                /*
-                 * In case of non-files fields, Content-Disposition
-                 * contains only the name of the field holding the data.
-                 */
-                part += 'Content-Disposition: form-data; ';
-                part += 'name="' + element.name + '"' + CRLF + CRLF;
-
-                /*
-                 * Field value
-                 */
-                part += element.value + CRLF;
-            }
-
-            parts.push(part);
-        }
-
-        var request = "--" + boundary + CRLF;
-        request += parts.join("--" + boundary + CRLF);
-        request += "--" + boundary + "--" + CRLF;
-
-        return request;
-    },
-
-    /**
-     * @return null
-     */
-    send: function () {
-        var boundary = this.generateBoundary();
-        var xhr = new XMLHttpRequest;
-
-        xhr.open("POST", this.form.action, true);
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4) {
-                alert(xhr.responseText);
-            }
-        };
-        var contentType = "multipart/form-data; boundary=" + boundary;
-        xhr.setRequestHeader("Content-Type", contentType);
-
-        for (var header in this.headers) {
-            xhr.setRequestHeader(header, this.headers[header]);
-        }
-
-        // here's our data variable that we talked about earlier
-        var elements = this.elements();
-        var self = this;
-        (function cb() {
-            if (elements.readCount) {
-                setTimeout(cb, 1000);
-                return;
-            }
-
-            var data = self.buildMessage(elements, boundary);
-
-            if (!xhr.sendAsBinary) {
-                xhr.sendAsBinary = function (datastr) {
-                    function byteValue(x) {
-                        return x.charCodeAt(0) & 0xff;
-                    }
-
-                    var ords = Array.prototype.map.call(datastr, byteValue);
-                    var ui8a = new Uint8Array(ords);
-                    this.send(ui8a.buffer);
-                }
-            }
-            // finally send the request as binary data
-            xhr.sendAsBinary(data);
-        })();
+    function realHandler(field, key, evt) {
+      field.binary = evt.target.result;
+      self.readLog[key] = true;
     }
+
+    return function (evt) {
+      realHandler(field, key, evt);
+    };
+  },
+
+  /**
+   * @return Array of DOMNode elements
+   */
+  elements: function () {
+    var fields = [];
+
+    // gather INPUT elements
+    var inputs = this.form.getElementsByTagName("INPUT");
+    for (var l = inputs.length, i = 0; i < l; i++) {
+
+      var type = inputs[i].getAttribute("type").toUpperCase();
+      if (type === "FILE") {
+
+        for (var len = inputs[i].files.length, j = 0; j < len; j++) {
+          var field = inputs[i].files[j];
+
+          fields.push(field);
+
+          var reader = new FileReader();
+          var key = performance.now();
+          reader.onload = this.fileLoadedHandler(field, key);
+          reader.readAsBinaryString(field);
+          this.readLog[key] = false;
+        }
+      }
+    }
+
+    return fields;
+  },
+
+  /**
+   * @return String A random string
+   */
+  generateBoundary: function () {
+    return "AJAX-----------------------" + (new Date()).getTime();
+  },
+
+  toUTF8Array: function (str) {
+    var utf8 = [];
+    for (var i = 0; i < str.length; i++) {
+      var charcode = str.charCodeAt(i);
+      if (charcode < 0x80) utf8.push(charcode);
+      else if (charcode < 0x800) {
+        utf8.push(0xc0 | (charcode >> 6),
+          0x80 | (charcode & 0x3f));
+      }
+      else if (charcode < 0xd800 || charcode >= 0xe000) {
+        utf8.push(0xe0 | (charcode >> 12),
+          0x80 | ((charcode >> 6) & 0x3f),
+          0x80 | (charcode & 0x3f));
+      }
+      // surrogate pair
+      else {
+        i++;
+        // UTF-16 encodes 0x10000-0x10FFFF by
+        // subtracting 0x10000 and splitting the
+        // 20 bits of 0x0-0xFFFFF into two halves
+        charcode = 0x10000 + (((charcode & 0x3ff) << 10)
+          | (str.charCodeAt(i) & 0x3ff))
+        utf8.push(0xf0 | (charcode >> 18),
+          0x80 | ((charcode >> 12) & 0x3f),
+          0x80 | ((charcode >> 6) & 0x3f),
+          0x80 | (charcode & 0x3f));
+      }
+    }
+    return utf8;
+  },
+
+  toByteArray: function (str) {
+    function byteValue(x) {
+      return x.charCodeAt(0) & 0xff;
+    }
+
+    return Array.prototype.map.call(str, byteValue);
+  },
+
+  /**
+   * Constructs the message as discussed in the section about form
+   * data transmission over HTTP
+   *
+   * @param Array elements
+   * @param String boundary
+   * @return String
+   */
+  buildMessage: function (elements, boundary) {
+    var CRLF = "\r\n";
+    var request = this.toByteArray("--" + boundary + CRLF);
+
+    for (var i = 0, l = elements.length; i < l; i++) {
+      var element = elements[i];
+
+      var fieldName = performance.now();
+      var fileName = element.name;
+
+      /*
+       * Content-Disposition header contains name of the field
+       * used to upload the file and also the name of the file as
+       * it was on the user's computer.
+       */
+      request = request.concat(this.toUTF8Array('Content-Disposition: form-data; name="' + fieldName + '"; filename="' + fileName + '"' + CRLF));
+
+      /*
+       * Content-Type header contains the mime-type of the file
+       * to send. Although we could build a map of mime-types
+       * that match certain file extensions, we'll take the easy
+       * approach and send a general binary header:
+       * application/octet-stream
+       */
+      request = request.concat(this.toByteArray("Content-Type: application/octet-stream" + CRLF + CRLF)); // marks end of the headers part
+
+      /*
+       * File contents read as binary data, obviously
+       */
+      request = request.concat(this.toByteArray(element.binary + CRLF));
+
+      if (i !== l - 1) {
+        request = request.concat(this.toByteArray("--" + boundary + CRLF));
+      }
+    }
+
+    request = request.concat(this.toByteArray("--" + boundary + "--" + CRLF));
+
+    return request;
+  },
+
+  /**
+   * @return null
+   */
+  send: function () {
+    var boundary = this.generateBoundary();
+    var xhr = new XMLHttpRequest();
+
+    xhr.open("POST", this.form.action, true);
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4) {
+        alert(xhr.responseText);
+      }
+    };
+    var contentType = "multipart/form-data; boundary=" + boundary;
+    xhr.setRequestHeader("Content-Type", contentType);
+
+    for (var header in this.headers) {
+      xhr.setRequestHeader(header, this.headers[header]);
+    }
+
+    // here's our data variable that we talked about earlier
+    var elements = this.elements();
+    var self = this;
+    (function cb() {
+      if (!Object.keys(self.readLog).every(function (key) { return self.readLog[key]; })) {
+        setTimeout(cb, 1000);
+        return;
+      }
+
+      var data = self.buildMessage(elements, boundary);
+
+      // finally send the request as binary data
+      var ui8a = new Uint8Array(data);
+      xhr.send(ui8a.buffer);
+    })();
+  }
 };

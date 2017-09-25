@@ -51,6 +51,8 @@ public class UploadHandler implements HttpRequestHandler {
             return;
         }
 
+//        logger.info(entity.getContentEncoding().getValue());
+
         Header contentType = httpRequest.getHeaders("Content-Type")[0];
         int indexOf = contentType.getValue().indexOf(';');
         String type = contentType.getValue().substring(0, indexOf);
@@ -76,7 +78,7 @@ public class UploadHandler implements HttpRequestHandler {
 
             @Override
             public void onHeaderName(byte[] headerNameBytes) {
-                String name = new String(headerNameBytes);
+                String name = new String(headerNameBytes, Consts.UTF_8);
                 logger.info("header name : " + name);
 
                 FileItem fileItem = items.get(items.size() - 1);
@@ -95,7 +97,15 @@ public class UploadHandler implements HttpRequestHandler {
 
             @Override
             public void onHeaderValue(byte[] headerValueBytes) {
-                String value = new String(headerValueBytes);
+                String value = new String(headerValueBytes, Consts.UTF_8);
+                StringBuilder rawValue = new StringBuilder();
+                for (byte headerValueByte : headerValueBytes) {
+                    int headerValueInt = headerValueByte;
+                    headerValueInt |= 256;
+                    String s = Integer.toHexString(headerValueInt);
+                    rawValue.append(s.substring(s.length() - 2));
+                }
+                logger.info("header value raw : " + rawValue.toString());
                 logger.info("header value : " + value);
 
                 FileItem fileItem = items.get(items.size() - 1);
