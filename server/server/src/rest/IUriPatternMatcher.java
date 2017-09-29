@@ -12,4 +12,6 @@ public interface IUriPatternMatcher {
 
     Map<String, String> getParams(HttpRequest request);
 
+    ParamsHelper getParamsHelper(HttpRequest request);
+
 }

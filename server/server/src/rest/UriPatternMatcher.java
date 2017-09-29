@@ -104,4 +104,11 @@ public class UriPatternMatcher implements IUriPatternMatcher {
 
         return ret;
     }
+
+    @Override
+    public ParamsHelper getParamsHelper(HttpRequest request) {
+        return new ParamsHelper(this.getParams(request));
+    }
+
+
 }
