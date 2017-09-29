@@ -57,14 +57,26 @@ public class SQLUtil {
                 break;
             case "float":
             case "java.lang.Float":
-                preparedStatement.setFloat(index, (Float) param);
+                if (null == param) {
+                    preparedStatement.setFloat(index, 0f);
+                } else {
+                    preparedStatement.setFloat(index, (Float) param);
+                }
                 break;
             case "double":
             case "java.lang.Double":
-                preparedStatement.setDouble(index, (Double) param);
+                if (null == param) {
+                    preparedStatement.setDouble(index, 0d);
+                } else {
+                    preparedStatement.setDouble(index, (Double) param);
+                }
                 break;
             case "java.math.BigDecimal":
-                preparedStatement.setBigDecimal(index, (BigDecimal) param);
+                if (null == param) {
+                    preparedStatement.setBigDecimal(index, BigDecimal.ZERO);
+                } else {
+                    preparedStatement.setBigDecimal(index, (BigDecimal) param);
+                }
                 break;
             case "java.util.Date":
                 if (null == param) {
@@ -74,7 +86,11 @@ public class SQLUtil {
                 }
                 break;
             case "java.lang.String":
-                preparedStatement.setString(index, (String) param);
+                if (null == param) {
+                    preparedStatement.setString(index, "");
+                } else {
+                    preparedStatement.setString(index, (String) param);
+                }
                 break;
             case "java.io.Reader":
                 preparedStatement.setCharacterStream(index, (Reader) param);
@@ -166,10 +182,17 @@ public class SQLUtil {
                 }
                 break;
             case "java.lang.String":
+                String string;
                 if (isIntParam) {
-                    setterMethod.invoke(one, resultSet.getString(index));
+                    string = resultSet.getString(index);
                 } else {
-                    setterMethod.invoke(one, resultSet.getString(columnName));
+                    string = resultSet.getString(columnName);
+                }
+
+                if (null == string) {
+                    setterMethod.invoke(one, "");
+                } else {
+                    setterMethod.invoke(one, string);
                 }
                 break;
             case "java.io.Reader":
