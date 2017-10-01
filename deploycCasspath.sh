@@ -8,5 +8,6 @@ cp -a production/repository/data out/classpath
 
 cp -a production/blog/blog out/classpath
 cp -a production/diary/diary out/classpath
+cp -a production/album/album out/classpath
 
 echo "done"
