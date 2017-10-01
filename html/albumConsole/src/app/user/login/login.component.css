@@ -1,9 +1,9 @@
 .bg {
   z-index: -2;
-  background-image: url("../../../assets/bg.png");
+  background-image: url("../../../assets/bg.jpg");
   background-position: center;
   background-repeat: no-repeat;
-  background-size: 800px 600px;
+  background-size: 2560px 1280px;
 }
 
 .blur-bg {
@@ -11,9 +11,14 @@
   height: 400px;
   overflow: hidden;
   background-color: rgba(255, 255, 255, 0.5);
-  background-image: url("../../../assets/bg.png");
+  background-image: url("../../../assets/bg.jpg");
   background-position: center;
   background-repeat: no-repeat;
-  background-size: 800px 600px;
-  filter: blur(3px);
+  background-size: 2560px 1280px;
+  filter: blur(5px);
+}
+
+.center {
+  text-align: left;
+  background: transparent;
 }
