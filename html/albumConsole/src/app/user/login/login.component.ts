@@ -35,7 +35,6 @@ export class LoginComponent implements OnInit {
       "UserPassword": Md5.hashStr(model.UserPassword)
     }), (ret) => {
       self.loading = false;
-      self.service.saveCurrentUser(ret);
       self.router.navigateByUrl(self.service.getRetUrl());
     }, () => self.loading = false);
   }

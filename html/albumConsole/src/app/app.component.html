@@ -3,6 +3,7 @@
   <nav routerLink="/albums">相册</nav>
   <nav routerLink="/photos">照片</nav>
   <nav (click)="logout()">退出</nav>
+  <span *ngIf="userName">&nbsp;&nbsp;&nbsp;&nbsp;当前登录帐号：{{userName}}</span>
 </div>
 <div class="view">
   <router-outlet></router-outlet>

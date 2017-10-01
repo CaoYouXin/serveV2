@@ -7,9 +7,8 @@
   font-size: 20px;
   height: 2em;
   line-height: 2em;
-  background-image: linear-gradient(to bottom, #454545, #646464);
   color: #fff;
-  text-shadow: 1px 1px 3px wheat;
+  background-image: linear-gradient(to bottom, #454545, #646464);
   display: flex;
   user-select: none;
 }
@@ -24,6 +23,7 @@
 }
 
 .navs>nav {
+  text-shadow: 1px 1px 3px wheat;
   cursor: pointer;
   padding: 0 1em;
   transition: padding .3s ease-in-out;
@@ -36,6 +36,10 @@
 
 .navs>nav:active {
   background: #454545;
+}
+
+.navs>span {
+  font-size: 15px;
 }
 
 .view {
