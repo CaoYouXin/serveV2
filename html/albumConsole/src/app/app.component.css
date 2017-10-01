@@ -1,0 +1,42 @@
+.navs {
+  position: fixed;
+  z-index: 100000;
+  top: 0;
+  left: 0;
+  right: 0;
+  font-size: 20px;
+  height: 2em;
+  line-height: 2em;
+  background-image: linear-gradient(to bottom, #454545, #646464);
+  color: #fff;
+  text-shadow: 1px 1px 3px wheat;
+  display: flex;
+  user-select: none;
+}
+
+.navs>img {
+  margin: 5px;
+}
+
+.navs>nav {
+  outline: none;
+  cursor: pointer;
+  padding: 0 1em;
+  transition: padding .3s ease-in-out;
+}
+
+.navs>nav:hover {
+  padding: 0 2em;
+  background-image: linear-gradient(to bottom, #454545, #545454);
+}
+
+.navs>nav:active {
+  background: #454545;
+}
+
+.view {
+  position: absolute;
+  top: 40px;
+  min-height: calc(100% - 50px);
+  width: 100%;
+}

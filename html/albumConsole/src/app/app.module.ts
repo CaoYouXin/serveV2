@@ -4,17 +4,23 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { FallbackComponent } from "./fallback.component";
 import { AppRoutingModule } from './app.router';
+import { HomeComponent } from './home/home.component';
+import { LoginedGuard } from "./guards/logined.guard";
+import { UserService } from './services/user.service';
+import { UserModule } from './user/user.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    FallbackComponent
+    FallbackComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    UserModule
   ],
-  providers: [],
+  providers: [UserService, LoginedGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
