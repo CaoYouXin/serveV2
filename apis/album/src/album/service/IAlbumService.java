@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface IAlbumService extends Service {
 
+    List<EIAlbumAlbum> listPublicAlbumVideo();
+
     List<EIAlbumAlbum> listAlbum(Long userId);
 
     EIPagedPhotos listPhoto(Long userId, Integer page, Integer size);

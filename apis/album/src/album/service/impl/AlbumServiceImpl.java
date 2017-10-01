@@ -38,6 +38,11 @@ public class AlbumServiceImpl implements IAlbumService {
     }
 
     @Override
+    public List<EIAlbumAlbum> listPublicAlbumVideo() {
+        return this.albumRepo.findAllByAlbumVideoPublicAndAlbumDisabled(true, false);
+    }
+
+    @Override
     public List<EIAlbumAlbum> listAlbum(Long userId) {
         return this.albumRepo.findAllByUserIdAndAlbumDisabled(userId, false);
     }
