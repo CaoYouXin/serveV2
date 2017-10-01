@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { UserService } from "../../services/user.service";
+import { Md5 } from "ts-md5/dist/md5";
 
 @Component({
   selector: 'app-login',
@@ -25,7 +26,18 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    this.loading = true;
+    const self = this;
+    self.loading = true;
+
+    const model = this.loginForm.value;
+
+    self.service.login(Object.assign(model, {
+      "UserPassword": Md5.hashStr(model.UserPassword)
+    }), (ret) => {
+      self.loading = false;
+      self.service.saveCurrentUser(ret);
+      self.router.navigateByUrl(self.service.getRetUrl());
+    }, () => self.loading = false);
   }
 
   ngOnInit(): void {
@@ -34,12 +46,12 @@ export class LoginComponent implements OnInit {
 
   buildForm(): void {
     this.loginForm = this.fb.group({
-      'username': [this.model.username, [
+      'UserName': [this.model.UserName, [
         Validators.required,
         Validators.minLength(6),
         Validators.maxLength(24)
       ]],
-      'password': [this.model.password, [
+      'UserPassword': [this.model.UserPassword, [
         Validators.required,
         Validators.minLength(6),
         Validators.maxLength(24)
@@ -73,17 +85,17 @@ export class LoginComponent implements OnInit {
   }
 
   formErrors = {
-    'username': '',
-    'password': ''
+    'UserName': '',
+    'UserPassword': ''
   };
 
   validationMessages = {
-    'username': {
+    'UserName': {
       'required': '用户名是必填项.',
       'minlength': '用户名最短6个字符.',
       'maxlength': '用户名最长24个字符.',
     },
-    'password': {
+    'UserPassword': {
       'required': '密码是必填项.',
       'minlength': '密码最短6个字符.',
       'maxlength': '密码最长24个字符.',
