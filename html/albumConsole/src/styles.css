@@ -1,1 +1,44 @@
 /* You can add global styles to this file, and also import other style files */
+
+*,
+*:before,
+*:after {
+  margin: 0;
+  padding: 0;
+  border: none;
+  box-sizing: border-box;
+  font-family: "Hiragino Sans GB", "Microsoft Yahei", "WenQuanYi Micro Hei", monospace;
+}
+
+code {
+  font-family: "Operator Mono", Monaco, "Lucida Console", "Courier New", monospace;
+}
+
+body {
+  background-color: #EAEAEA;
+}
+
+.screen-wrapper {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  text-align: center;
+}
+
+.v-mid-box {
+  text-align: center;
+}
+
+.v-mid-box>*,
+.v-mid-box:after {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.v-mid-box:after {
+  content: '';
+  width: 0;
+  height: 100%;
+}
