@@ -6,6 +6,7 @@ import { LoginedGuard } from "./guards/logined.guard";
 import { FallbackComponent } from "./fallback.component";
 import { HomeComponent } from "./home/home.component";
 import { LoginComponent } from "./user/login/login.component";
+import { RegisterComponent } from "./user/register/register.component";
 
 export const routes: Routes = [
   // { path: '', redirectTo: '/index', pathMatch: 'full' },
@@ -15,6 +16,7 @@ export const routes: Routes = [
   { path: 'photos', component: HomeComponent, canActivate: [LoginedGuard] },
 
   { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
 
   { path: '**', component: FallbackComponent, data: { name: '看上去，你是迷路了吧？', color: '#EADFCB' } }
 ];

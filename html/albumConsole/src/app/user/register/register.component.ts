@@ -4,11 +4,11 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { UserService } from "../../services/user.service";
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
+  selector: 'app-register',
+  templateUrl: './register.component.html',
   styleUrls: ['../../commons/form.component.css', '../../commons/mao.component.css']
 })
-export class LoginComponent implements OnInit {
+export class RegisterComponent implements OnInit {
 
   model: any = {};
   loading: boolean = false;

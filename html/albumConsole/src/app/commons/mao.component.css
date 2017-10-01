@@ -1,6 +1,6 @@
 .bg {
   z-index: -2;
-  background-image: url("../../../assets/bg.jpg");
+  background-image: url("../../assets/bg.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: 2560px 1280px;
@@ -11,7 +11,7 @@
   height: 400px;
   overflow: hidden;
   background-color: rgba(255, 255, 255, 0.5);
-  background-image: url("../../../assets/bg.jpg");
+  background-image: url("../../assets/bg.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: 2560px 1280px;
