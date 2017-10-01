@@ -1,0 +1,82 @@
+input[type="text"],
+input[type="password"] {
+  outline: none;
+  width: 300px;
+  height: 25px;
+  border: solid 1px blueviolet;
+  border-radius: 5px;
+  border-left: solid 5px green;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+  box-shadow: 0 0 5px blueviolet;
+  border-left: solid 5px blueviolet;
+}
+
+input[type="button"],
+input[type="submit"] {
+  outline: none;
+  background: white;
+  color: black;
+  padding: .5em 1.5em;
+  border-radius: 5px;
+  border: solid 1px #34352C;
+}
+
+input[type="button"]:hover:not(*[disabled]),
+input[type="submit"]:hover:not(*[disabled]) {
+  background: wheat;
+  box-shadow: 3px 3px 5px wheat;
+}
+
+input[type="button"]:active:not(*[disabled]),
+input[type="submit"]:active:not(*[disabled]) {
+  box-shadow: 1px 1px 5px wheat;
+  position: relative;
+  left: 2px;
+  top: 2px;
+}
+
+fieldset+fieldset {
+  margin-top: 1em;
+}
+
+h2 {
+  margin-top: 5em;
+  text-align: center;
+  text-indent: 2em;
+  letter-spacing: 2em;
+}
+
+.center {
+  margin: 0 auto;
+  width: 330px;
+  padding: 15px;
+  border-radius: 10px;
+  background-color: rgba(149, 200, 123, 0.8);
+}
+
+.buttons {
+  margin-top: 1em;
+}
+
+.other-button {
+  font-size: x-small;
+}
+
+.help {
+  margin-top: 0.1em;
+  font-size: small;
+  padding: 0.3em;
+  border-radius: 5px;
+  background-color: lightcyan;
+}
+
+.help-block {
+  color: red;
+}
+
+.help-suc {
+  color: royalblue;
+}

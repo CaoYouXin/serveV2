@@ -1,0 +1,31 @@
+.screen-wrapper {
+  z-index: -2;
+  background-image: url("../../../assets/bg.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+
+.blur-bg {
+  z-index: -1;
+  position: absolute;
+  top: 10%;
+  left: 35%;
+  width: 30%;
+  height: 50%;
+  overflow: hidden;
+}
+
+.blur-bg>div {
+  position: absolute;
+  top: -1%;
+  left: -1%;
+  right: -1%;
+  bottom: -1%;
+  background-color: rgba(255, 255, 255, 0.5);
+  /* background-image: url("../../../assets/bg.png");
+  background-position: 50% 34.8%;
+  background-repeat: no-repeat;
+  background-size: 327% 265%; */
+  filter: blur(3px);
+}
