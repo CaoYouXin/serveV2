@@ -1,25 +1,27 @@
-<div class="screen-wrapper"></div>
-<div class="blur-bg">
-  <div></div>
+<div class="screen-wrapper bg v-mid-box">
+  <div class="blur-bg"></div>
 </div>
-<h2>登录</h2>
-<div class="center">
-  <form [formGroup]="loginForm" (ngSubmit)="login()">
-    <fieldset>
-      <legend>用 户 名</legend>
-      <input type="text" placeholder="请输入用户名" formControlName="username" required>
-      <div *ngIf="formErrors.username" class="help help-block">{{formErrors.username}}</div>
-    </fieldset>
-    <fieldset>
-      <legend>密 码</legend>
-      <input type="password" placeholder="请输入密码" formControlName="password" required>
-      <div *ngIf="formErrors.password" class="help help-block">{{formErrors.password}}</div>
-    </fieldset>
-    <div class="buttons">
-      <input type="submit" [disabled]="loading" value="登录">
-      <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
-      />
-      <a class="other-button" routerLink="/register">注册</a>
-    </div>
-  </form>
+
+<div class="screen-wrapper v-mid-box">
+  <div>
+    <h2>登录</h2>
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
+      <fieldset>
+        <legend>用 户 名</legend>
+        <input type="text" placeholder="请输入用户名" formControlName="username" required>
+        <div *ngIf="formErrors.username" class="help help-block">{{formErrors.username}}</div>
+      </fieldset>
+      <fieldset>
+        <legend>密 码</legend>
+        <input type="password" placeholder="请输入密码" formControlName="password" required>
+        <div *ngIf="formErrors.password" class="help help-block">{{formErrors.password}}</div>
+      </fieldset>
+      <div class="buttons">
+        <input type="submit" [disabled]="loading" value="登录">
+        <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
+        />
+        <a class="other-button" routerLink="/register">注册</a>
+      </div>
+    </form>
+  </div>
 </div>
