@@ -10,6 +10,7 @@ import { LoginedGuard } from "./guards/logined.guard";
 import { UserService } from './services/user.service';
 import { HttpService } from './services/http.service';
 import { UserModule } from './user/user.module';
+import { AlbumModule } from './album/album.module';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { UserModule } from './user/user.module';
     HttpModule,
     BrowserModule,
     AppRoutingModule,
-    UserModule
+    UserModule,
+    AlbumModule
   ],
   providers: [HttpService, UserService, LoginedGuard],
   bootstrap: [AppComponent]

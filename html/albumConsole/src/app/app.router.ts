@@ -8,12 +8,15 @@ import { HomeComponent } from "./home/home.component";
 import { LoginComponent } from "./user/login/login.component";
 import { RegisterComponent } from "./user/register/register.component";
 
+import { AlbumComponent } from "./album/album/album.component";
+import { PhotoComponent } from "./album/photo/photo.component";
+
 export const routes: Routes = [
   // { path: '', redirectTo: '/index', pathMatch: 'full' },
   { path: '', component: HomeComponent, canActivate: [LoginedGuard], pathMatch: 'full' },
 
-  { path: 'albums', component: HomeComponent, canActivate: [LoginedGuard] },
-  { path: 'photos', component: HomeComponent, canActivate: [LoginedGuard] },
+  { path: 'albums', component: AlbumComponent, canActivate: [LoginedGuard] },
+  { path: 'photos', component: PhotoComponent, canActivate: [LoginedGuard] },
 
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },

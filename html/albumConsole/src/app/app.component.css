@@ -14,12 +14,16 @@
   user-select: none;
 }
 
+.navs>*[routerLink] {
+  outline: none;
+}
+
 .navs>img {
   margin: 5px;
+  cursor: pointer;
 }
 
 .navs>nav {
-  outline: none;
   cursor: pointer;
   padding: 0 1em;
   transition: padding .3s ease-in-out;
