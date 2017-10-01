@@ -30,4 +30,8 @@ export class UserService {
       .subscribe(ret => suc(ret), err => fail(err));
   }
 
+  logout() {
+    localStorage.setItem('currentUser', '');
+  }
+
 }
