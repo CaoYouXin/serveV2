@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding, Input } from '@angular/core';
+import { Component, OnInit, HostBinding, Input, Output, EventEmitter } from '@angular/core';
 import { UploadService } from '../../services/upload.service';
 import { PhotoService } from '../../services/photo.service';
 import { API } from '../../services/api.const';
@@ -18,6 +18,9 @@ export class OnePhotoComponent implements OnInit {
 
   @Input('data')
   data: any;
+
+  @Output('complete')
+  complete: EventEmitter<any> = new EventEmitter<any>();
 
   show: boolean;
 
@@ -48,6 +51,7 @@ export class OnePhotoComponent implements OnInit {
             online: true,
             src: API.getAPI("domain") + ret.AlbumPhotoUrl
           };
+          self.complete.emit();
         }
       ));
   }

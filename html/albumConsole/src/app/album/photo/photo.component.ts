@@ -23,6 +23,7 @@ export class PhotoComponent implements OnInit {
   total: number;
   size: number;
   canAdd: boolean;
+  uploading: number;
 
   constructor(private photoService: PhotoService) { }
 
@@ -60,6 +61,10 @@ export class PhotoComponent implements OnInit {
   }
 
   selectFile() {
+    if (this.uploading) {
+      return;
+    }
+
     this.file.nativeElement.value = null;
     this.file.nativeElement.click();
   }
@@ -77,9 +82,19 @@ export class PhotoComponent implements OnInit {
 
       self.photos = [...self.photos, Object.assign(file, { online: false })];
     }
+    this.total += files.length;
+    this.uploading = files.length;
 
     if (filtered) {
       alert("已过滤非图片文件");
+    }
+  }
+
+  onComplete() {
+    this.uploading--;
+
+    if (!this.uploading) {
+      this.goToLastPage();
     }
   }
 
