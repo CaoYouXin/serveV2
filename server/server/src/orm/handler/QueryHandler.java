@@ -28,7 +28,9 @@ import java.util.regex.Pattern;
 public class QueryHandler implements InvocationHandler {
 
     private static final Logger logger = LogManager.getLogger(QueryHandler.class);
-    private static final Pattern SELECT_PATTERN = Pattern.compile("Select\\s+(?<select>.+?)\\s+From\\s+(?<from>.+?)(?:\\s+Where\\s+(?<where>.+?))*(?:\\s+Group By\\s+(?<groupBy>.+?)(?:\\s+Having\\s+(?<having>.+?))*)*(?:\\s+Order By\\s+(?<orderBy>.+?))*", Pattern.CASE_INSENSITIVE);
+    private static final String PATTERN = "Select\\s+(?<select>.+?)\\s+From\\s+(?<from>.+?)(?:\\s+Where\\s+(?<where>.+?))*(?:\\s+Group By\\s+(?<groupBy>.+?)(?:\\s+Having\\s+(?<having>.+?))*)*(?:\\s+Order By\\s+(?<orderBy>.+?))*";
+    private static final Pattern SELECT_PATTERN = Pattern.compile(PATTERN, Pattern.CASE_INSENSITIVE);
+    private static final Pattern CHILD_SELECT_PATTERN = Pattern.compile("\\((?<query>" + PATTERN + ")\\)\\s+(?<alias>.+?)(?<after>,|\\s)", Pattern.CASE_INSENSITIVE);
     private static final Pattern PARAM_PATTERN = Pattern.compile(":(?<idx>\\d+)");
 
     @Override
@@ -96,7 +98,6 @@ public class QueryHandler implements InvocationHandler {
         }
         parsedSQL.setColumn2setter(column2setter);
 
-        System.out.println(parsedSQL.getSql());
         Matcher matcher = PARAM_PATTERN.matcher(parsedSQL.getSql());
         while (matcher.find()) {
             String idx = matcher.group("idx");
@@ -194,15 +195,13 @@ public class QueryHandler implements InvocationHandler {
             queryRet.setOrderBy(this.parseAlias(orderBy, queryRet));
         }
 
-        System.out.println(queryRet.getSql());
         return queryRet;
     }
 
     private String parseChildQuery(String sqlCmd, QueryRet queryRet, Map<String, String> queryMd5, Map<String, Class<?>> stringClassMap) {
         Map<String, Class<?>> alias2type = new HashMap<>();
 
-        Pattern p0 = Pattern.compile("\\((?<query>.+?)\\)\\s+(?<alias>.+?)(?<after>,|\\s)");
-        Matcher m0 = p0.matcher(sqlCmd);
+        Matcher m0 = CHILD_SELECT_PATTERN.matcher(sqlCmd);
         StringBuffer sb0 = new StringBuffer();
 
         while (m0.find()) {
@@ -247,20 +246,33 @@ public class QueryHandler implements InvocationHandler {
 
         for (String def : select.split(",")) {
             def = def.trim();
-            if (-1 == def.indexOf('.')) {
-                Class<?> type = queryRet.getAlias2type().get(def);
+            if (def.contains("(")) {
+                String[] defAndAlias = def.split("\\s+");
 
-                for (Method method : type.getMethods()) {
-                    Column column = method.getDeclaredAnnotation(Column.class);
-                    if (null == column) {
-                        continue;
-                    }
-
-                    String retColumn = StringUtil.cutPrefix(method.getName(), "get", "is");
-                    retColumns.add(retColumn);
-                    stringJoiner.add(String.format("%s.`%s` as `%s`", def, column.name(), retColumn));
+                if (defAndAlias.length != 2) {
+                    throw new RuntimeException("sql syntax error.");
                 }
-            } else if (-1 == def.indexOf('(')) {
+
+                retColumns.add(defAndAlias[1]);
+
+                String prefix = defAndAlias[0].substring(0, defAndAlias[0].indexOf('('));
+                String suffix = defAndAlias[0].substring(defAndAlias[0].indexOf(')') + 1);
+
+                def = defAndAlias[0].substring(defAndAlias[0].indexOf('(') + 1, defAndAlias[0].indexOf(')')).trim();
+
+                if ("*".equals(def)) {
+                    stringJoiner.add(String.format("%s(*)%s as `%s`", prefix, suffix, defAndAlias[1]));
+
+                    continue;
+                }
+
+                String[] tableAndColumn = def.split("\\.");
+
+                Class<?> type = queryRet.getAlias2type().get(tableAndColumn[0]);
+
+                stringJoiner.add(String.format("%s(%s.`%s`)%s as `%s`", prefix, tableAndColumn[0], this.getColumnDef(type, tableAndColumn[1]), suffix, defAndAlias[1]));
+
+            } else if (def.contains(".")) {
 
                 String[] defAndAlias = def.split("\\s+");
                 String[] tableAndColumn = defAndAlias[0].split("\\.");
@@ -277,24 +289,18 @@ public class QueryHandler implements InvocationHandler {
                 }
             } else {
 
-                String[] defAndAlias = def.split("\\s+");
+                Class<?> type = queryRet.getAlias2type().get(def);
 
-                if (defAndAlias.length != 2) {
-                    throw new RuntimeException("sql syntax error.");
+                for (Method method : type.getMethods()) {
+                    Column column = method.getDeclaredAnnotation(Column.class);
+                    if (null == column) {
+                        continue;
+                    }
+
+                    String retColumn = StringUtil.cutPrefix(method.getName(), "get", "is");
+                    retColumns.add(retColumn);
+                    stringJoiner.add(String.format("%s.`%s` as `%s`", def, column.name(), retColumn));
                 }
-
-                String prefix = defAndAlias[0].substring(0, defAndAlias[0].indexOf('('));
-                String suffix = defAndAlias[0].substring(defAndAlias[0].indexOf(')') + 1);
-
-                def = defAndAlias[0].substring(defAndAlias[0].indexOf('(') + 1, defAndAlias[0].indexOf(')')).trim();
-
-                String[] tableAndColumn = def.split("\\.");
-
-                Class<?> type = queryRet.getAlias2type().get(tableAndColumn[0]);
-
-                retColumns.add(defAndAlias[1]);
-
-                stringJoiner.add(String.format("%s(%s.`%s`)%s as `%s`", prefix, tableAndColumn[0], this.getColumnDef(type, tableAndColumn[1]), suffix, defAndAlias[1]));
             }
         }
 
