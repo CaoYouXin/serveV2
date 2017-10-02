@@ -40,7 +40,7 @@ export class PhotoComponent implements OnInit {
     const self = this;
     self.photoService.list(page, self.size, (paged) => {
       self.page = page;
-      self.total = paged.Total;
+      self.total = paged.Total || self.size;
       self.photos = paged.Photos.map(photo => ({
         ...photo,
         online: true,
