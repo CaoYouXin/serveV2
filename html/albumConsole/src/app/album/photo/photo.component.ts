@@ -16,11 +16,39 @@ export class PhotoComponent implements OnInit {
   file: ElementRef;
 
   photos: Array<any> = [];
+  page: number = 1;
+  total: number = 10;
+  size: number = 10;
 
   constructor(private photoService: PhotoService) { }
 
   ngOnInit() {
-    this.photoService.list(1, 10, (photos => this.photos = photos.map(photo => ({ ...photo, src: API.getAPI("domain") + photo.AlbumPhotoUrl }))))
+    this.goToPage(this.page);
+  }
+
+  goToPage(page) {
+    if (page < 1 || page > this.getLastPage()) {
+      return;
+    }
+
+    const self = this;
+    self.photoService.list(page, self.size, (paged) => {
+      self.page = page;
+      self.total = paged.Total;
+      self.photos = paged.Photos.map(photo => ({
+        ...photo,
+        online: true,
+        src: API.getAPI("domain") + photo.AlbumPhotoUrl
+      }));
+    });
+  }
+
+  goToLastPage() {
+    this.goToPage(this.getLastPage());
+  }
+
+  getLastPage() {
+    return Math.floor(this.total / this.size) + (this.total % this.size === 0 ? 0 : 1);
   }
 
   selectFile() {

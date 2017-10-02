@@ -35,3 +35,32 @@
 .invisible {
   visibility: hidden;
 }
+
+.pager-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: nowrap;
+}
+
+.pager-wrapper>.btn {
+  user-select: none;
+  cursor: pointer;
+  margin: 10px 10px 10px 0;
+  width: 32px;
+  height: 32px;
+  text-align: center;
+  line-height: 30px;
+  font-size: 12px;
+  border-radius: 50%;
+  border: solid 1px transparent;
+  transition: border .6s;
+}
+
+.pager-wrapper>.btn:hover {
+  border-color: #000000;
+}
+
+.pager-wrapper>.btn:active {
+  background-color: #fefefe;
+}

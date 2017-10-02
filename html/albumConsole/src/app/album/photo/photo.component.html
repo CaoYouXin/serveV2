@@ -1,3 +1,10 @@
+<div class="pager-wrapper">
+  <div class="btn" (click)=goToPage(1)>|&lt;</div>
+  <div class="btn" (click)="goToPage(page - 1)">&lt;</div>
+  <div class="btn" (click)="goToPage(page + 1)">&gt;</div>
+  <div class="btn" (click)=goToLastPage()>&gt;|</div>
+</div>
+
 <div class="photos-wrapper">
   <app-one-photo *ngFor="let photo of photos" [data]="photo"></app-one-photo>
   <div class="handle" (click)="selectFile()"></div>
@@ -6,4 +13,11 @@
   <form #f>
     <input #file type="file" (change)="selectedFile()" multiple>
   </form>
+</div>
+
+<div class="pager-wrapper">
+  <div class="btn" (click)=goToPage(1)>|&lt;</div>
+  <div class="btn" (click)="goToPage(page - 1)">&lt;</div>
+  <div class="btn" (click)="goToPage(page + 1)">&gt;</div>
+  <div class="btn" (click)=goToLastPage()>&gt;|</div>
 </div>
