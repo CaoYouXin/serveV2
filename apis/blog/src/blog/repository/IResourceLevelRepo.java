@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface IResourceLevelRepo extends Repository<EIResourceLevel, Long> {
 
-    @Query(value = "select b from EIUserFavourMapping a, EIResourceLevel b, EIUserFavour c where c.UserId = $0 and a.ResourceLevelId = b.ResourceLevelId and a.UserFavourThreshold <= c.UserFavourValue", types = {EIUserFavourMapping.class, EIUserFavour.class})
+    @Query(value = "select b from EIUserFavourMapping a, EIResourceLevel b, EIUserFavour c where c.UserId = :0 and a.ResourceLevelId = b.ResourceLevelId and a.UserFavourThreshold <= c.UserFavourValue", types = {EIUserFavourMapping.class, EIUserFavour.class})
     List<EIResourceLevel> queryByUserId(Long userId);
 
 }

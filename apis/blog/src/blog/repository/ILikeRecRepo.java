@@ -14,7 +14,7 @@ public interface ILikeRecRepo extends Repository<EILikeRec, Long> {
 
     EILikeRec findByUserIdAndBlogPostId(Long userId, Long postId);
 
-    @Query(value = "select count(a.LikeId) Count from EILikeRec a where a.BlogPostId = $0", types = {EILikeRec.class})
+    @Query(value = "select count(a.LikeId) Count from EILikeRec a where a.BlogPostId = :0", types = {EILikeRec.class})
     EICount queryCount(Long postId);
 
 }

@@ -29,7 +29,7 @@ public class QueryHandler implements InvocationHandler {
 
     private static final Logger logger = LogManager.getLogger(QueryHandler.class);
     private static final Pattern SELECT_PATTERN = Pattern.compile("Select\\s+(?<select>.+?)\\s+From\\s+(?<from>.+?)(?:\\s+Where\\s+(?<where>.+?))*(?:\\s+Group By\\s+(?<groupBy>.+?)(?:\\s+Having\\s+(?<having>.+?))*)*(?:\\s+Order By\\s+(?<orderBy>.+?))*", Pattern.CASE_INSENSITIVE);
-    private static final Pattern PARAM_PATTERN = Pattern.compile("\\$(?<idx>\\d+)");
+    private static final Pattern PARAM_PATTERN = Pattern.compile(":(?<idx>\\d+)");
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
@@ -96,11 +96,19 @@ public class QueryHandler implements InvocationHandler {
         }
         parsedSQL.setColumn2setter(column2setter);
 
+        System.out.println(parsedSQL.getSql());
+        Matcher matcher = PARAM_PATTERN.matcher(parsedSQL.getSql());
+        while (matcher.find()) {
+            String idx = matcher.group("idx");
+            parsedSQL.setParams(Integer.parseInt(idx));
+        }
+        String finalSql = matcher.replaceAll("?");
+
         Connection conn = null;
         try {
             conn = DatasourceFactory.getConnection();
-            PreparedStatement preparedStatement = conn.prepareStatement(parsedSQL.getSql());
-            logger.info(parsedSQL.getSql());
+            PreparedStatement preparedStatement = conn.prepareStatement(finalSql);
+            logger.info(finalSql);
 
             if (null != parsedSQL.getParams()) {
                 int i = 1;
@@ -152,7 +160,10 @@ public class QueryHandler implements InvocationHandler {
     private QueryRet parseSQL(String sqlCmd, Map<String, Class<?>> stringClassMap) {
         QueryRet queryRet = new QueryRet();
 
-        Matcher matcher = SELECT_PATTERN.matcher(sqlCmd);
+        Map<String, String> queryMd5 = new HashMap<>();
+        String transformedSql = this.parseChildQuery(sqlCmd, queryRet, queryMd5, stringClassMap);
+
+        Matcher matcher = SELECT_PATTERN.matcher(transformedSql);
 
         if (!matcher.matches()) {
             throw new RuntimeException("sql syntax error.");
@@ -166,6 +177,8 @@ public class QueryHandler implements InvocationHandler {
         String orderBy = matcher.group("orderBy");
 
         this.parseFrom(from, queryRet, stringClassMap);
+        queryRet.transformFrom(queryMd5);
+
         this.parseSelect(select, queryRet);
 
         if (null != where) {
@@ -181,7 +194,32 @@ public class QueryHandler implements InvocationHandler {
             queryRet.setOrderBy(this.parseAlias(orderBy, queryRet));
         }
 
+        System.out.println(queryRet.getSql());
         return queryRet;
+    }
+
+    private String parseChildQuery(String sqlCmd, QueryRet queryRet, Map<String, String> queryMd5, Map<String, Class<?>> stringClassMap) {
+        Map<String, Class<?>> alias2type = new HashMap<>();
+
+        Pattern p0 = Pattern.compile("\\((?<query>.+?)\\)\\s+(?<alias>.+?)(?<after>,|\\s)");
+        Matcher m0 = p0.matcher(sqlCmd);
+        StringBuffer sb0 = new StringBuffer();
+
+        while (m0.find()) {
+            String query = m0.group("query");
+            String alias = m0.group("alias");
+            String after = m0.group("after");
+
+            alias2type.put(alias, String.class);
+
+            String md5 = StringUtil.getMD5(query);
+            queryMd5.put(md5, parseSQL(query, stringClassMap).getSql());
+            m0.appendReplacement(sb0, String.format("(%s) %s%s", md5, alias, after));
+        }
+        m0.appendTail(sb0);
+        queryRet.setAlias2type(alias2type);
+
+        return sb0.toString();
     }
 
     private String parseAlias(String clause, QueryRet queryRet) {
@@ -200,13 +238,7 @@ public class QueryHandler implements InvocationHandler {
         }
         m.appendTail(sb);
 
-        String input = sb.toString();
-        Matcher matcher = PARAM_PATTERN.matcher(input);
-        while (matcher.find()) {
-            String idx = matcher.group("idx");
-            queryRet.setParams(Integer.parseInt(idx));
-        }
-        return matcher.replaceAll("?");
+        return sb.toString();
     }
 
     private void parseSelect(String select, QueryRet queryRet) {
@@ -271,6 +303,10 @@ public class QueryHandler implements InvocationHandler {
     }
 
     private String getColumnDef(Class<?> type, String columnDef) {
+        if (type.equals(String.class)) {
+            return columnDef;
+        }
+
         for (Method method : type.getMethods()) {
             Column column = method.getDeclaredAnnotation(Column.class);
             if (null == column) {
@@ -314,7 +350,9 @@ public class QueryHandler implements InvocationHandler {
 
         queryRet.setAlias2type(alias2type);
 
-        queryRet.setFrom(this.parseAlias(sb.toString(), queryRet));
+        String transformedFrom = this.parseAlias(sb.toString(), queryRet);
+
+        queryRet.setFrom(transformedFrom);
     }
 
     private String getAllTypeNames(Map<String, Class<?>> stringClassMap) {

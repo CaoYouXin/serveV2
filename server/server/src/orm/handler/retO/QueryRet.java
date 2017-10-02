@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class QueryRet {
 
@@ -84,7 +86,11 @@ public class QueryRet {
     }
 
     public void setAlias2type(Map<String, Class<?>> alias2type) {
-        this.alias2type = alias2type;
+        if (null == this.alias2type) {
+            this.alias2type = alias2type;
+        } else {
+            this.alias2type.putAll(alias2type);
+        }
     }
 
     public String getAllAlias() {
@@ -107,4 +113,23 @@ public class QueryRet {
         this.params.add(params);
     }
 
+    public void transformFrom(Map<String, String> queryMd5) {
+        if (queryMd5.size() > 0) {
+            StringJoiner replaceRegex = new StringJoiner("|", "(?<md5>", ")");
+            for (String md5 : queryMd5.keySet()) {
+                replaceRegex.add(md5);
+            }
+            Pattern p1 = Pattern.compile(replaceRegex.toString());
+            Matcher m1 = p1.matcher(this.from);
+            StringBuffer sb1 = new StringBuffer();
+            while (m1.find()) {
+                String md5 = m1.group("md5");
+
+                m1.appendReplacement(sb1, queryMd5.get(md5));
+            }
+            m1.appendTail(sb1);
+
+            this.from = sb1.toString();
+        }
+    }
 }
