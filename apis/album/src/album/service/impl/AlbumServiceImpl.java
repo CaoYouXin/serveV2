@@ -14,6 +14,7 @@ import blog.service.exp.TableNotSaveException;
 import orm.DatasourceFactory;
 
 import java.sql.Connection;
+import java.util.Date;
 import java.util.List;
 
 public class AlbumServiceImpl implements IAlbumService {
@@ -82,6 +83,10 @@ public class AlbumServiceImpl implements IAlbumService {
             album = eiAlbumAlbum;
         }
 
+        if (null == album.getAlbumCreateTime()) {
+            album.setAlbumCreateTime(new Date());
+        }
+
         if (null == album.getAlbumPhotoCount()) {
             album.setAlbumPhotoCount(0);
         }
@@ -103,6 +108,10 @@ public class AlbumServiceImpl implements IAlbumService {
             EIAlbumPhoto eiAlbumPhoto = this.albumPhotoRepo.find(photo.getAlbumPhotoId());
             eiAlbumPhoto.copyFrom(photo);
             photo = eiAlbumPhoto;
+        }
+
+        if (null == photo.getAlbumPhotoCreateTime()) {
+            photo.setAlbumPhotoCreateTime(new Date());
         }
 
         if (null == photo.getAlbumPhotoRefCount()) {
