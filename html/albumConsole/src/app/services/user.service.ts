@@ -25,6 +25,16 @@ export class UserService {
     return UserService._url || '/';
   }
 
+  getUserId() {
+    const currentUserJson = localStorage.getItem('currentUser');
+    if (!currentUserJson) {
+      return null;
+    }
+
+    const currentUser = JSON.parse(currentUserJson);
+    return currentUser.UserId;
+  }
+
   saveCurrentUser(currentUser) {
     localStorage.setItem('currentUser', JSON.stringify(currentUser));
   }

@@ -1,3 +1,9 @@
-<p>
-  photo works!
-</p>
+<div class="photos-wrapper">
+  <app-one-photo *ngFor="let photo of photos" [data]="photo"></app-one-photo>
+  <div class="handle" (click)="selectFile()"></div>
+</div>
+<div class="invisible">
+  <form #f>
+    <input #file type="file" (change)="selectedFile()" multiple>
+  </form>
+</div>

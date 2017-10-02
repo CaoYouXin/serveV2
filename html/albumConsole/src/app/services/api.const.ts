@@ -25,6 +25,26 @@ export class API {
         return `url(http://${document.domain}:9999/api/blog/user/register/captcha/${width}/${height}?token=${token})`;
       }
     },
+    "upload/code": {
+      "prod": function (path) {
+        return `http://server.caols.tech:9999/upload${path}`;
+      },
+      "dev": function (path) {
+        return `http://${document.domain}:9999/upload${path}`;
+      }
+    },
+    "copy/file": {
+      "prod": "http://server.caols.tech:9999/metaApi/copy",
+      "dev": `http://${document.domain}:9999/metaApi/copy`
+    },
+    "photo/save": {
+      "prod": "http://server.caols.tech:9999/api/album/photo/save",
+      "dev": `http://${document.domain}:9999/api/album/photo/save`
+    },
+    "photo/list": {
+      "prod": (page, size) => `http://server.caols.tech:9999/api/album/photo/list/${page}/${size}`,
+      "dev": (page, size) => `http://${document.domain}:9999/api/album/photo/list/${page}/${size}`
+    }
   };
 
   static getAPI(name: string) {
