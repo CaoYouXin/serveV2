@@ -1,6 +1,7 @@
 package album.service;
 
 import album.data.EIAlbumAlbum;
+import album.data.EIAlbumMapping;
 import album.data.EIAlbumPhoto;
 import album.view.EIPagedPhotos;
 import rest.Service;
@@ -14,6 +15,10 @@ public interface IAlbumService extends Service {
     List<EIAlbumAlbum> listAlbum(Long userId);
 
     EIPagedPhotos listPhoto(Long userId, Integer page, Integer size);
+
+    List<EIAlbumMapping> listAlbumPhotoIds(Long albumId);
+
+    EIPagedPhotos listAlbumPhoto(Long albumId, Integer page, Integer size);
 
     EIAlbumAlbum saveAlbum(EIAlbumAlbum album);
 

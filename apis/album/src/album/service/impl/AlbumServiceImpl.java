@@ -59,6 +59,22 @@ public class AlbumServiceImpl implements IAlbumService {
     }
 
     @Override
+    public List<EIAlbumMapping> listAlbumPhotoIds(Long albumId) {
+        return this.albumMappingRepo.findAllByAlbumIdAndAlbumMappingDisabled(albumId, false);
+    }
+
+    @Override
+    public EIPagedPhotos listAlbumPhoto(Long albumId, Integer page, Integer size) {
+        EIPagedPhotos ret = this.albumMappingRepo.queryAllByAlbumId(albumId);
+
+        ret.setPhotos(
+                this.albumPhotoRepo.queryAllByAlbumId(albumId, (long) ((page - 1) * size), size)
+        );
+
+        return ret;
+    }
+
+    @Override
     public EIAlbumAlbum saveAlbum(EIAlbumAlbum album) {
         if (null != album.getAlbumId()) {
             EIAlbumAlbum eiAlbumAlbum = this.albumRepo.find(album.getAlbumId());
