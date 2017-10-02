@@ -1,10 +1,8 @@
 package meta.controller;
 
-import auth.AuthHelper;
 import beans.BeanManager;
 import meta.service.IFileService;
 import meta.service.IResourceService;
-import meta.service.exp.ResourceTransformException;
 import meta.service.impl.FileServiceImpl;
 import meta.service.impl.ResourceServiceImpl;
 import meta.view.EIFileCopy;
@@ -33,7 +31,7 @@ public class CopyFilesCtrl extends WithMatcher {
 
     @Override
     public int auth() {
-        return AuthHelper.ADMIN;
+        return 0;
     }
 
     @Override
