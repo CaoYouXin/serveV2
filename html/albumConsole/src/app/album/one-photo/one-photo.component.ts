@@ -19,8 +19,11 @@ export class OnePhotoComponent implements OnInit {
   @Input('data')
   data: any;
 
-  @Output('complete')
-  complete: EventEmitter<any> = new EventEmitter<any>();
+  @Output('onComplete')
+  onComplete: EventEmitter<any> = new EventEmitter<any>();
+
+  @Output('onDelete')
+  onDelete: EventEmitter<any> = new EventEmitter<any>();
 
   show: boolean;
 
@@ -51,7 +54,7 @@ export class OnePhotoComponent implements OnInit {
             online: true,
             src: API.getAPI("domain") + ret.AlbumPhotoUrl
           };
-          self.complete.emit();
+          self.onComplete.emit();
         }
       ));
   }
@@ -70,6 +73,10 @@ export class OnePhotoComponent implements OnInit {
 
   hideInfo() {
     this.show = false;
+  }
+
+  delete() {
+    this.photoService.delete(this.data.AlbumPhotoId, () => this.onDelete.emit());
   }
 
 }

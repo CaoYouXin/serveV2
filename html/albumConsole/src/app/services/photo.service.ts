@@ -29,4 +29,12 @@ export class PhotoService {
     self.http.getJSON(API.getAPI("photo/list")(page, size)).subscribe(ret => suc(ret));
   }
 
+  delete(photoId, suc) {
+    const self = this;
+    self.http.postJSON(API.getAPI("photo/save"), {
+      'AlbumPhotoId': photoId,
+      'AlbumPhotoDisabled': true
+    }).subscribe(ret => suc());
+  }
+
 }

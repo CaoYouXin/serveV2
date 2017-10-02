@@ -98,4 +98,13 @@ export class PhotoComponent implements OnInit {
     }
   }
 
+  onDelete() {
+    this.total--;
+    if (this.page > this.getLastPage()) {
+      this.goToLastPage();
+    } else {
+      this.goToPage(this.page);
+    }
+  }
+
 }
