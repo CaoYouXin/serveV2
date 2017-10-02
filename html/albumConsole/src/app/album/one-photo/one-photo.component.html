@@ -1,2 +1,13 @@
-<img [src]="data.src" [alt]="data.name">
-<div class="mask" *ngIf="!data.online" [style.height]="data.percentage"></div>
+<div class="wrapper">
+  <div class="handles">
+    <div class="btn">删除</div>
+    <div class="btn">大图</div>
+    <div class="btn" (mousedown)="showInfo()" (mouseup)="hideInfo()">信息</div>
+  </div>
+  <img [src]="data.src" [alt]="data.name">
+  <div class="mask" *ngIf="!data.online" [style.height]="data.percentage"></div>
+  <div class="info" [class.show]="show">
+    <p>{{data.AlbumPhotoCreateTime}}创建</p>
+    <p>共有{{data.AlbumPhotoRefCount}}个相册引用</p>
+  </div>
+</div>

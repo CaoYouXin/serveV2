@@ -15,14 +15,20 @@ export class PhotoComponent implements OnInit {
   @ViewChild("file")
   file: ElementRef;
 
+  @ViewChild("wrapper")
+  wrapper: ElementRef;
+
   photos: Array<any> = [];
-  page: number = 1;
-  total: number = 10;
-  size: number = 10;
+  page: number;
+  total: number;
+  size: number;
+  canAdd: boolean;
 
   constructor(private photoService: PhotoService) { }
 
   ngOnInit() {
+    this.size = this.total = 2 * Math.floor(this.wrapper.nativeElement.offsetWidth / 222);
+    this.page = 1;
     this.goToPage(this.page);
   }
 
@@ -40,6 +46,8 @@ export class PhotoComponent implements OnInit {
         online: true,
         src: API.getAPI("domain") + photo.AlbumPhotoUrl
       }));
+
+      self.canAdd = page === this.getLastPage();
     });
   }
 

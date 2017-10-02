@@ -11,14 +11,15 @@ import { Md5 } from 'ts-md5/dist/md5';
 })
 export class OnePhotoComponent implements OnInit {
 
-  @HostBinding("style.width") hostWidth: string = "200px";
-  @HostBinding("style.height") hostHeight: string = "200px";
+  @HostBinding("style.width") hostWidth: string = "202px";
+  @HostBinding("style.height") hostHeight: string = "202px";
   @HostBinding("style.border") hostBorder: string = "1px solid #eee";
   @HostBinding("style.margin") hostMargin: string = "20px 0 0 20px";
-  @HostBinding("style.position") hostPos: string = "relative";
 
   @Input('data')
   data: any;
+
+  show: boolean;
 
   constructor(private uploader: UploadService, private photoService: PhotoService) { }
 
@@ -41,8 +42,12 @@ export class OnePhotoComponent implements OnInit {
         md5,
         self.data.name,
         (ret) => {
-          self.data.online = true;
-          self.data.src = API.getAPI("domain") + ret.AlbumPhotoUrl;
+          self.data = {
+            ...ret,
+            ...self.data,
+            online: true,
+            src: API.getAPI("domain") + ret.AlbumPhotoUrl
+          };
         }
       ));
   }
@@ -53,6 +58,14 @@ export class OnePhotoComponent implements OnInit {
     let fr2 = new FileReader();
     fr2.onload = this.onReadBinary.bind(this);
     fr2.readAsBinaryString(this.data);
+  }
+
+  showInfo() {
+    this.show = true;
+  }
+
+  hideInfo() {
+    this.show = false;
   }
 
 }

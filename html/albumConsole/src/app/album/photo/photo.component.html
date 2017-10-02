@@ -5,9 +5,9 @@
   <div class="btn" (click)=goToLastPage()>&gt;|</div>
 </div>
 
-<div class="photos-wrapper">
+<div class="photos-wrapper" #wrapper>
   <app-one-photo *ngFor="let photo of photos" [data]="photo"></app-one-photo>
-  <div class="handle" (click)="selectFile()"></div>
+  <div class="handle" *ngIf="canAdd" (click)="selectFile()"></div>
 </div>
 <div class="invisible">
   <form #f>

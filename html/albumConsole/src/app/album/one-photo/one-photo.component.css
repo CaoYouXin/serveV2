@@ -1,3 +1,9 @@
+.wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.wrapper,
 img {
   width: 100%;
   height: 100%;
@@ -10,4 +16,64 @@ img {
   top: 0;
   left: 0;
   background-color: rgba(0, 0, 0, 0.5);
+}
+
+.wrapper:hover>.handles {
+  top: 0;
+}
+
+.handles {
+  display: flex;
+  height: 2em;
+  line-height: 2em;
+  position: absolute;
+  top: -2em;
+  left: 0;
+  right: 0;
+  transition: top 0.3s;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: wheat;
+  user-select: none;
+  cursor: pointer;
+}
+
+.handles>.btn {
+  flex-grow: 1;
+  text-align: center;
+}
+
+.handles>.btn:hover {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.handles>.btn:active {
+  background-color: #000000;
+}
+
+.info.show {
+  bottom: 0;
+}
+
+.info {
+  font-size: 12px;
+  height: 3em;
+  position: absolute;
+  bottom: -3em;
+  left: 0;
+  right: 0;
+  transition: bottom 0.3s;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: whitesmoke;
+  user-select: none;
+  cursor: pointer;
+}
+
+.info>p {
+  text-indent: 2em;
+  font-size: 12px;
+  line-height: 1.5em;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
