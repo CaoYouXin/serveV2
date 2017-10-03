@@ -16,16 +16,16 @@ public interface IAlbumService extends Service {
 
     EIPagedPhotos listPhoto(Long userId, Integer page, Integer size);
 
-    List<EIAlbumMapping> listAlbumPhotoIds(Long albumId);
+    List<EIAlbumMapping> listAlbumPhotoIds(Long userId, Long albumId);
 
-    EIPagedPhotos listAlbumPhoto(Long albumId, Integer page, Integer size);
+    EIPagedPhotos listAlbumPhoto(Long userId, Long albumId, Integer page, Integer size);
 
     EIAlbumAlbum saveAlbum(EIAlbumAlbum album);
 
     EIAlbumPhoto savePhoto(EIAlbumPhoto photo);
 
-    Boolean attachAlbum(Long albumId, Long photoId);
+    Boolean attachAlbum(Long userId, Long albumId, Long photoId);
 
-    Boolean releasePhoto(Long albumId, Long photoId);
+    Boolean releasePhoto(Long userId, Long albumId, Long photoId);
 
 }

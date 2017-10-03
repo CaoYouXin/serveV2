@@ -59,13 +59,25 @@ public class AlbumServiceImpl implements IAlbumService {
         return ret;
     }
 
+    private boolean checkPermission(Long userId, Long albumId) {
+        return null != this.albumRepo.findByAlbumIdAndUserId(albumId, userId);
+    }
+
     @Override
-    public List<EIAlbumMapping> listAlbumPhotoIds(Long albumId) {
+    public List<EIAlbumMapping> listAlbumPhotoIds(Long userId, Long albumId) {
+        if (!this.checkPermission(userId, albumId)) {
+            throw new RuntimeException("不要企图打开别人的相册！");
+        }
+
         return this.albumMappingRepo.findAllByAlbumIdAndAlbumMappingDisabled(albumId, false);
     }
 
     @Override
-    public EIPagedPhotos listAlbumPhoto(Long albumId, Integer page, Integer size) {
+    public EIPagedPhotos listAlbumPhoto(Long userId, Long albumId, Integer page, Integer size) {
+        if (!this.checkPermission(userId, albumId)) {
+            throw new RuntimeException("不要企图打开别人的相册！");
+        }
+
         EIPagedPhotos ret = this.albumMappingRepo.queryAllByAlbumId(albumId);
 
         ret.setPhotos(
@@ -130,7 +142,11 @@ public class AlbumServiceImpl implements IAlbumService {
     }
 
     @Override
-    public Boolean attachAlbum(Long albumId, Long photoId) {
+    public Boolean attachAlbum(Long userId, Long albumId, Long photoId) {
+        if (!this.checkPermission(userId, albumId)) {
+            throw new RuntimeException("不要企图操作别人的相册！");
+        }
+
         DatasourceFactory.begin(Connection.TRANSACTION_SERIALIZABLE);
 
         EIAlbumAlbum eiAlbumAlbum = this.albumRepo.find(albumId);
@@ -162,7 +178,11 @@ public class AlbumServiceImpl implements IAlbumService {
     }
 
     @Override
-    public Boolean releasePhoto(Long albumId, Long photoId) {
+    public Boolean releasePhoto(Long userId, Long albumId, Long photoId) {
+        if (!this.checkPermission(userId, albumId)) {
+            throw new RuntimeException("不要企图操作别人的相册！");
+        }
+
         DatasourceFactory.begin(Connection.TRANSACTION_SERIALIZABLE);
 
         EIAlbumAlbum eiAlbumAlbum = this.albumRepo.find(albumId);

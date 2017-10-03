@@ -11,4 +11,5 @@ public interface IAlbumAlbumRepo extends Repository<EIAlbumAlbum, Long> {
 
     List<EIAlbumAlbum> findAllByAlbumVideoPublicAndAlbumDisabled(Boolean isPublic, Boolean disabled);
 
+    EIAlbumAlbum findByAlbumIdAndUserId(Long albumId, Long userId);
 }

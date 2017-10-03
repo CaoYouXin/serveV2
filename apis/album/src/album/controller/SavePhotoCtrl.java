@@ -4,6 +4,7 @@ import album.data.EIAlbumPhoto;
 import album.service.IAlbumService;
 import beans.BeanManager;
 import blog.auth.AuthHelperExt;
+import blog.auth.BlogLoginAuth;
 import org.apache.http.HttpException;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
@@ -40,12 +41,20 @@ public class SavePhotoCtrl extends WithMatcher {
             return;
         }
 
+        Long userId = (Long) httpContext.getAttribute(BlogLoginAuth.USER_ID_KEY);
+
+        if (null == userId) {
+            RestHelper.responseJSON(httpResponse, JsonResponse.fail(RestCode.GENERAL_ERROR, "无法获取用户ID"));
+            return;
+        }
+
         EIAlbumPhoto bodyAsObject = RestHelper.getBodyAsObject(httpRequest, EIAlbumPhoto.class);
         if (null == bodyAsObject) {
             RestHelper.responseJSON(httpResponse, JsonResponse.fail(RestCode.GENERAL_ERROR, "数据不正确"));
             return;
         }
 
+        bodyAsObject.setUserId(userId);
         RestHelper.oneCallAndRet(httpResponse, this.albumService, "savePhoto", bodyAsObject);
     }
 }
