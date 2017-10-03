@@ -13,7 +13,7 @@ public interface IAlbumMappingRepo extends Repository<EIAlbumMapping, Long> {
 
     List<EIAlbumMapping> findAllByAlbumIdAndAlbumMappingDisabled(Long albumId, Boolean disabled);
 
-    @Query(value = "Select count(*) as Total From EIAlbumMapping a Where a.AlbumId = :0 Order and a.AlbumMappingDisabled = 0", types = {EIAlbumMapping.class})
+    @Query(value = "Select count(*) Total From EIAlbumMapping a Where a.AlbumId = :0 and a.AlbumMappingDisabled = 0", types = {EIAlbumMapping.class})
     EIPagedPhotos queryAllByAlbumId(Long albumId);
 
 }
