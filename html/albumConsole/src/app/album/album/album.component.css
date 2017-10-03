@@ -1,0 +1,33 @@
+.albums-wrapper {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.handle {
+  position: relative;
+  margin: 20px 0 0 20px;
+  width: 200px;
+  height: 200px;
+  background-image: radial-gradient(circle at center, #fefefe, #c1c1c1);
+}
+
+.handle:hover {
+  background-image: radial-gradient(circle at center, #efefef, #e1e1e1);
+}
+
+.handle:active {
+  background-image: radial-gradient(circle at center, #e0e0e0, #e0e0e0);
+}
+
+.handle:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-image: url("../../../assets/plus.png");
+  background-repeat: no-repeat;
+  background-position: center;
+}

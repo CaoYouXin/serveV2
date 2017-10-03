@@ -1,3 +1,6 @@
-<p>
-  album works!
-</p>
+<div class="albums-wrapper" #wrapper>
+  <app-one-album *ngFor="let album of albums;let idx=index" [data]="album"></app-one-album>
+  <div class="handle" (click)="addAlbum()"></div>
+</div>
+
+<app-edit-album></app-edit-album>

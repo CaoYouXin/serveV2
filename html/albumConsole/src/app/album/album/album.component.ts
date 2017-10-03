@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AlbumEditorService } from '../../services/album-editor.service';
 
 @Component({
   selector: 'app-album',
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AlbumComponent implements OnInit {
 
-  constructor() { }
+  albums: Array<any>;
+
+  constructor(private editorService: AlbumEditorService) { }
 
   ngOnInit() {
+  }
+
+  addAlbum() {
+    this.editorService.newOne();
   }
 
 }
