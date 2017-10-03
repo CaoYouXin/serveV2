@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { PhotoService } from '../../services/photo.service';
+import { GalleryService } from '../../services/gallery.service';
 import { API } from '../../services/api.const';
 
 @Component({
@@ -25,7 +26,7 @@ export class PhotoComponent implements OnInit {
   canAdd: boolean;
   uploading: number;
 
-  constructor(private photoService: PhotoService) { }
+  constructor(private photoService: PhotoService, private galleryService: GalleryService) { }
 
   ngOnInit() {
     this.size = this.total = 2 * Math.floor(this.wrapper.nativeElement.offsetWidth / 222);
@@ -105,6 +106,10 @@ export class PhotoComponent implements OnInit {
     } else {
       this.goToPage(this.page);
     }
+  }
+
+  onGallery(idx) {
+    this.galleryService.show(idx);
   }
 
 }

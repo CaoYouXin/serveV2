@@ -6,12 +6,14 @@ import { OnePhotoComponent } from './one-photo/one-photo.component';
 
 import { UploadService } from '../services/upload.service';
 import { PhotoService } from '../services/photo.service';
+import { GalleryService } from '../services/gallery.service';
+import { GalleryComponent } from './gallery/gallery.component';
 
 @NgModule({
   imports: [
     CommonModule
   ],
-  declarations: [AlbumComponent, PhotoComponent, OnePhotoComponent],
-  providers: [UploadService, PhotoService]
+  declarations: [AlbumComponent, PhotoComponent, OnePhotoComponent, GalleryComponent],
+  providers: [UploadService, PhotoService, GalleryService]
 })
 export class AlbumModule { }

@@ -25,6 +25,9 @@ export class OnePhotoComponent implements OnInit {
   @Output('onDelete')
   onDelete: EventEmitter<any> = new EventEmitter<any>();
 
+  @Output('onGallery')
+  onGallery: EventEmitter<any> = new EventEmitter<any>();
+
   show: boolean;
 
   constructor(private uploader: UploadService, private photoService: PhotoService) { }

@@ -1,0 +1,18 @@
+<div class="gallery-show-wrapper" [class.show]="show">
+  <div [class.show-ani]="ani.slot0" [class.left]="pos.slot0.left" [class.center]="pos.slot0.center" [class.right]="pos.slot0.right">
+    <div class="show-panel" [style.backgroundImage]="pic.slot0"></div>
+  </div>
+  <div [class.show-ani]="ani.slot1" [class.left]="pos.slot1.left" [class.center]="pos.slot1.center" [class.right]="pos.slot1.right">
+    <div class="show-panel" [style.backgroundImage]="pic.slot1"></div>
+  </div>
+  <div [class.show-ani]="ani.slot2" [class.left]="pos.slot2.left" [class.center]="pos.slot2.center" [class.right]="pos.slot2.right">
+    <div class="show-panel" [style.backgroundImage]="pic.slot2"></div>
+  </div>
+  <div class="show-handle-left" (click)="prev()">
+    <div></div>
+  </div>
+  <div class="show-handle-right" (click)="next()">
+    <div></div>
+  </div>
+  <div class="show-handle-close" (click)="close()"></div>
+</div>

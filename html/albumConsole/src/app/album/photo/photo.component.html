@@ -6,7 +6,8 @@
 </div>
 
 <div class="photos-wrapper" #wrapper>
-  <app-one-photo *ngFor="let photo of photos" [data]="photo" (onComplete)="onComplete()" (onDelete)="onDelete()"></app-one-photo>
+  <app-one-photo *ngFor="let photo of photos;let idx=index" [data]="photo" (onGallery)="onGallery(idx)" (onComplete)="onComplete()"
+    (onDelete)="onDelete()"></app-one-photo>
   <div class="handle" *ngIf="canAdd" (click)="selectFile()"></div>
 </div>
 <div class="invisible">
@@ -21,3 +22,5 @@
   <div class="btn" (click)="goToPage(page + 1)">&gt;</div>
   <div class="btn" (click)=goToLastPage()>&gt;|</div>
 </div>
+
+<app-gallery [data]="photos"></app-gallery>
