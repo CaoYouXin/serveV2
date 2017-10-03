@@ -1,6 +1,9 @@
 import { Component, OnInit, HostBinding, Input, Output, EventEmitter } from '@angular/core';
+import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { AlbumEditorService } from '../../services/album-editor.service';
+import { PhotoService } from '../../services/photo.service';
+import { API } from '../../services/api.const';
 
 @Component({
   selector: 'app-one-album',
@@ -21,10 +24,15 @@ export class OneAlbumComponent implements OnInit {
   onDelete: EventEmitter<any> = new EventEmitter<any>();
 
   show: boolean;
+  grid: SafeStyle;
 
-  constructor(private router: Router, private editorService: AlbumEditorService) { }
+  constructor(private router: Router, private sanity: DomSanitizer, private editorService: AlbumEditorService, private photoService: PhotoService) { }
 
   ngOnInit() {
+    const self = this;
+    self.photoService.listAlbumPhotos(self.data.AlbumId, 1, 4, (ret) => {
+      self.grid = this.sanity.bypassSecurityTrustStyle(ret.Photos.map(p => "url('" + API.getAPI("domain") + p.AlbumPhotoUrl + "')").join(','));
+    });
   }
 
   goToDetails() {

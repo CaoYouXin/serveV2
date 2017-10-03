@@ -4,7 +4,7 @@
     <div class="btn" (click)="edit()">编辑</div>
     <div class="btn" (mousedown)="showInfo()" (mouseup)="hideInfo()">信息</div>
   </div>
-  <div class="grid-gallery v-mid-box" (click)="goToDetails()">
+  <div class="grid-gallery v-mid-box four" (click)="goToDetails()" [style.backgroundImage]="grid">
     <p>{{data.AlbumName}}</p>
   </div>
   <div class="info" [class.show]="show">

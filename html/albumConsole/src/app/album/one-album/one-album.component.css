@@ -13,6 +13,12 @@
   cursor: default;
 }
 
+.grid-gallery.four {
+  background-position: 5% 5%, 95% 5%, 5% 95%, 95% 95%;
+  background-size: 40% 40%, 40% 40%, 40% 40%, 40% 40%;
+  background-repeat: no-repeat;
+}
+
 .wrapper:hover>.handles {
   top: 0;
 }
