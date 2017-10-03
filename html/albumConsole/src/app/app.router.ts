@@ -15,7 +15,12 @@ export const routes: Routes = [
   // { path: '', redirectTo: '/index', pathMatch: 'full' },
   { path: '', component: HomeComponent, canActivate: [LoginedGuard], pathMatch: 'full' },
 
-  { path: 'albums', component: AlbumComponent, canActivate: [LoginedGuard] },
+  {
+    path: 'albums', component: AlbumComponent, canActivate: [LoginedGuard],
+    children: [
+      { path: ':id', component: FallbackComponent, canActivate: [LoginedGuard], data: { name: 'hello world', color: '#f321ff' } }
+    ]
+  },
   { path: 'photos', component: PhotoComponent, canActivate: [LoginedGuard] },
 
   { path: 'login', component: LoginComponent },

@@ -1,6 +1,6 @@
 <div class="albums-wrapper" #wrapper>
-  <app-one-album *ngFor="let album of albums;let idx=index" [data]="album"></app-one-album>
+  <app-one-album *ngFor="let album of albums;let idx=index" [data]="album" (onDelete)="onDelete(idx, album)"></app-one-album>
   <div class="handle" (click)="addAlbum()"></div>
 </div>
 
-<app-edit-album></app-edit-album>
+<app-edit-album (onSave)="onSave($event)"></app-edit-album>

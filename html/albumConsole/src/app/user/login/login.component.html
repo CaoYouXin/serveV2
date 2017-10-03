@@ -9,12 +9,12 @@
       <fieldset>
         <legend>用 户 名</legend>
         <input type="text" placeholder="请输入用户名" formControlName="UserName" required>
-        <div *ngIf="formErrors.username" class="help help-block">{{formErrors.username}}</div>
+        <div *ngIf="formErrors.UserName" class="help help-block">{{formErrors.UserName}}</div>
       </fieldset>
       <fieldset>
         <legend>密 码</legend>
         <input type="password" placeholder="请输入密码" formControlName="UserPassword" required>
-        <div *ngIf="formErrors.password" class="help help-block">{{formErrors.password}}</div>
+        <div *ngIf="formErrors.UserPassword" class="help help-block">{{formErrors.UserPassword}}</div>
       </fieldset>
       <div class="buttons">
         <input type="submit" [disabled]="loading" value="登录">

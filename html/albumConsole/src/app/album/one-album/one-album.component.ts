@@ -1,4 +1,6 @@
-import { Component, OnInit, HostBinding, Input } from '@angular/core';
+import { Component, OnInit, HostBinding, Input, Output, EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
+import { AlbumEditorService } from '../../services/album-editor.service';
 
 @Component({
   selector: 'app-one-album',
@@ -15,9 +17,30 @@ export class OneAlbumComponent implements OnInit {
   @Input('data')
   data: any;
 
-  constructor() { }
+  @Output('onDelete')
+  onDelete: EventEmitter<any> = new EventEmitter<any>();
+
+  show: boolean;
+
+  constructor(private router: Router, private editorService: AlbumEditorService) { }
 
   ngOnInit() {
+  }
+
+  goToDetails() {
+    this.router.navigate(['album', this.data.AlbumId]);
+  }
+
+  showInfo() {
+    this.show = true;
+  }
+
+  hideInfo() {
+    this.show = false;
+  }
+
+  edit() {
+    this.editorService.edit(this.data);
   }
 
 }

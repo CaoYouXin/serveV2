@@ -1,3 +1,14 @@
-<p>
-  one-album works!
-</p>
+<div class="wrapper">
+  <div class="handles">
+    <div class="btn" (click)="onDelete.emit()">删除</div>
+    <div class="btn" (click)="edit()">编辑</div>
+    <div class="btn" (mousedown)="showInfo()" (mouseup)="hideInfo()">信息</div>
+  </div>
+  <div class="grid-gallery v-mid-box" (click)="goToDetails()">
+    <p>{{data.AlbumName}}</p>
+  </div>
+  <div class="info" [class.show]="show">
+    <p>{{data.AlbumCreateTime}}创建</p>
+    <p>共有{{data.AlbumPhotoCount}}个照片</p>
+  </div>
+</div>

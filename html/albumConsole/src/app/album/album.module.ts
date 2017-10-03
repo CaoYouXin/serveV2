@@ -7,6 +7,7 @@ import { UploadService } from '../services/upload.service';
 import { PhotoService } from '../services/photo.service';
 import { GalleryService } from '../services/gallery.service';
 import { AlbumEditorService } from '../services/album-editor.service';
+import { AlbumService } from '../services/album.service';
 
 import { AlbumComponent } from './album/album.component';
 import { PhotoComponent } from './photo/photo.component';
@@ -20,6 +21,6 @@ import { OneAlbumComponent } from './one-album/one-album.component';
     EditorModule
   ],
   declarations: [AlbumComponent, PhotoComponent, OnePhotoComponent, GalleryComponent, OneAlbumComponent],
-  providers: [UploadService, PhotoService, GalleryService, AlbumEditorService]
+  providers: [UploadService, PhotoService, GalleryService, AlbumEditorService, AlbumService]
 })
 export class AlbumModule { }

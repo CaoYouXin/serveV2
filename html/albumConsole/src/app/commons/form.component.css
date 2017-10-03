@@ -59,11 +59,12 @@ fieldset+fieldset {
 
 h2 {
   text-align: center;
-  text-indent: 2em;
-  letter-spacing: 2em;
+  text-indent: 1.5em;
+  letter-spacing: 1.5em;
 }
 
 .center {
+  text-align: left;
   margin: 0 auto;
   width: 330px;
   padding: 15px;
@@ -76,7 +77,12 @@ h2 {
 }
 
 .other-button {
+  cursor: pointer;
   font-size: x-small;
+}
+
+.other-button:hover {
+  text-decoration: underline;
 }
 
 .help {

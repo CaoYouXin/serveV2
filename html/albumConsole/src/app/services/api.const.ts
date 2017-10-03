@@ -44,6 +44,14 @@ export class API {
     "photo/list": {
       "prod": (page, size) => `http://server.caols.tech:9999/api/album/photo/list/${page}/${size}`,
       "dev": (page, size) => `http://${document.domain}:9999/api/album/photo/list/${page}/${size}`
+    },
+    "album/save": {
+      "prod": "http://server.caols.tech:9999/api/album/album/save",
+      "dev": `http://${document.domain}:9999/api/album/album/save`
+    },
+    "album/list": {
+      "prod": "http://server.caols.tech:9999/api/album/album/list",
+      "dev": `http://${document.domain}:9999/api/album/album/list`
     }
   };
 
