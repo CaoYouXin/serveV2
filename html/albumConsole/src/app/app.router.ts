@@ -7,20 +7,16 @@ import { FallbackComponent } from "./fallback.component";
 import { HomeComponent } from "./home/home.component";
 import { LoginComponent } from "./user/login/login.component";
 import { RegisterComponent } from "./user/register/register.component";
-
 import { AlbumComponent } from "./album/album/album.component";
 import { PhotoComponent } from "./album/photo/photo.component";
+import { AlbumPhotoComponent } from "./album/album-photo/album-photo.component";
 
 export const routes: Routes = [
   // { path: '', redirectTo: '/index', pathMatch: 'full' },
   { path: '', component: HomeComponent, canActivate: [LoginedGuard], pathMatch: 'full' },
 
-  {
-    path: 'albums', component: AlbumComponent, canActivate: [LoginedGuard],
-    children: [
-      { path: ':id', component: FallbackComponent, canActivate: [LoginedGuard], data: { name: 'hello world', color: '#f321ff' } }
-    ]
-  },
+  { path: 'albums', component: AlbumComponent, canActivate: [LoginedGuard] },
+  { path: 'album/:id', component: AlbumPhotoComponent, canActivate: [LoginedGuard] },
   { path: 'photos', component: PhotoComponent, canActivate: [LoginedGuard] },
 
   { path: 'login', component: LoginComponent },

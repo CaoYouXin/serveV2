@@ -29,12 +29,24 @@ export class PhotoService {
     self.http.getJSON(API.getAPI("photo/list")(page, size)).subscribe(ret => suc(ret));
   }
 
+  listAlbumPhotos(albumId, page, size, suc) {
+    this.listAlbumPhotosObservable(albumId, page, size).subscribe(ret => suc(ret));
+  }
+
+  listAlbumPhotosObservable(albumId, page, size) {
+    return this.http.getJSON(API.getAPI("album/photo/list")(albumId, page, size));
+  }
+
   delete(photoId, suc) {
     const self = this;
     self.http.postJSON(API.getAPI("photo/save"), {
       'AlbumPhotoId': photoId,
       'AlbumPhotoDisabled': true
     }).subscribe(ret => suc());
+  }
+
+  fetchDatabase(albumId, suc) {
+    this.http.getJSON(API.getAPI("database/album/photo")(albumId)).subscribe(ret => suc(ret));
   }
 
 }

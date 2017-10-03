@@ -52,6 +52,22 @@ export class API {
     "album/list": {
       "prod": "http://server.caols.tech:9999/api/album/album/list",
       "dev": `http://${document.domain}:9999/api/album/album/list`
+    },
+    "album/photo/list": {
+      "prod": (albumId, page, size) => `http://server.caols.tech:9999/api/album/${albumId}/photo/list/${page}/${size}`,
+      "dev": (albumId, page, size) => `http://${document.domain}:9999/api/album/${albumId}/photo/list/${page}/${size}`
+    },
+    "database/album/photo": {
+      "prod": (albumId) => `http://server.caols.tech:9999/api/album/${albumId}/photo/list/ids`,
+      "dev": (albumId) => `http://${document.domain}:9999/api/album/${albumId}/photo/list/ids`
+    },
+    "attach/album/photo": {
+      "prod": (albumId, photoId) => `http://server.caols.tech:9999/api/album/attach/${albumId}/${photoId}`,
+      "dev": (albumId, photoId) => `http://${document.domain}:9999/api/album/attach/${albumId}/${photoId}`
+    },
+    "release/album/photo": {
+      "prod": (albumId, photoId) => `http://server.caols.tech:9999/api/album/release/${albumId}/${photoId}`,
+      "dev": (albumId, photoId) => `http://${document.domain}:9999/api/album/release/${albumId}/${photoId}`
     }
   };
 

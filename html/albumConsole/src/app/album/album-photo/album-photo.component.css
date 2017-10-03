@@ -1,0 +1,61 @@
+.photos-wrapper {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.pager-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: nowrap;
+}
+
+.handle.pager-wrapper>* {
+  flex: unset;
+}
+
+.handle.pager-wrapper>*:nth-child(2) {
+  flex: auto;
+}
+
+.pager-wrapper>.flip-btn,
+.pager-wrapper>.btn {
+  user-select: none;
+  cursor: pointer;
+  text-align: center;
+  line-height: 30px;
+  font-size: 12px;
+  border: solid 1px transparent;
+}
+
+.pager-wrapper>.flip-btn {
+  margin: 10px;
+  text-align: center;
+  width: 6em;
+  color: yellowgreen;
+  background-image: linear-gradient(to bottom, #454545, #313131);
+  transition: transform 1s ease-in-out, color 1s ease-in-out;
+  box-shadow: 0 0 3px rebeccapurple;
+}
+
+.pager-wrapper>.flip-btn.flip {
+  color: lightblue;
+  transform: rotateY(180deg) rotateX(180deg) scaleY(-1) scaleX(-1);
+}
+
+.pager-wrapper>.btn {
+  margin: 10px 10px 10px 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  transition: border .6s;
+}
+
+.pager-wrapper>.btn:hover {
+  border-color: #000000;
+}
+
+.pager-wrapper>.btn:active {
+  background-color: #fefefe;
+}

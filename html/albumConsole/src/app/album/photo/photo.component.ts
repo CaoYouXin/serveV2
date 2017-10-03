@@ -109,7 +109,7 @@ export class PhotoComponent implements OnInit {
   }
 
   onGallery(idx) {
-    this.galleryService.show(idx);
+    this.galleryService.show(idx, this.photos);
   }
 
 }

@@ -12,7 +12,7 @@ export class OneAlbumComponent implements OnInit {
   @HostBinding("style.width") hostWidth: string = "202px";
   @HostBinding("style.height") hostHeight: string = "202px";
   @HostBinding("style.border") hostBorder: string = "1px solid #eee";
-  @HostBinding("style.margin") hostMargin: string = "20px 0 0 20px";
+  @HostBinding("style.margin") hostMargin: string = "10px 0 10px 20px";
 
   @Input('data')
   data: any;

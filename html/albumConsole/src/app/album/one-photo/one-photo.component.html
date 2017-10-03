@@ -4,7 +4,7 @@
     <div class="btn" (click)="onGallery.emit()">大图</div>
     <div class="btn" (mousedown)="showInfo()" (mouseup)="hideInfo()">信息</div>
   </div>
-  <img [src]="data.src" [alt]="data.name">
+  <img [src]="data.src" alt="加载中...">
   <div class="mask" *ngIf="!data.online" [style.height]="data.percentage"></div>
   <div class="info" [class.show]="show">
     <p>{{data.AlbumPhotoCreateTime}}创建</p>

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { GalleryService } from '../../services/gallery.service';
 
 @Component({
@@ -39,8 +39,6 @@ export class GalleryComponent implements OnInit {
     slot2: true
   };
   idx: number = -2;
-
-  @Input('data')
   data: Array<any>;
 
   constructor(private galleryService: GalleryService) { }
@@ -72,6 +70,7 @@ export class GalleryComponent implements OnInit {
     self.galleryService.bindGalleryShow().subscribe(cmd => {
       self.show = cmd.show;
       self.idx = cmd.idx;
+      self.data = cmd.data;
 
       if (self.show) {
         self.reset();
