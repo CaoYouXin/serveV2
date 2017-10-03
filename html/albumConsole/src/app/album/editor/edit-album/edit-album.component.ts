@@ -104,12 +104,11 @@ export class EditAlbumComponent implements OnInit {
 
   validationMessages = {
     'AlbumId': {
-      'required': '用户名是必填项.'
     },
     'AlbumName': {
-      'required': '密码是必填项.',
-      'minlength': '密码最短1个字符.',
-      'maxlength': '密码最长24个字符.',
+      'required': '相册名称是必填项.',
+      'minlength': '相册名称最短1个字符.',
+      'maxlength': '相册名称最长24个字符.',
     }
   };
 
