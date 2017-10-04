@@ -35,7 +35,7 @@
   width: 6em;
   color: yellowgreen;
   background-image: linear-gradient(to bottom, #454545, #313131);
-  transition: transform 1s ease-in-out, color 1s ease-in-out;
+  transition: transform 1s ease, color 1s ease-in-out;
   box-shadow: 0 0 3px rebeccapurple;
 }
 
