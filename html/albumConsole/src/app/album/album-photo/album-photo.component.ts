@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import 'rxjs/add/operator/switchMap';
 import { PhotoService } from '../../services/photo.service';
 import { GalleryService } from '../../services/gallery.service';
@@ -25,7 +25,7 @@ export class AlbumPhotoComponent implements OnInit {
   @ViewChild('wrapper')
   wrapper: ElementRef;
 
-  constructor(private route: ActivatedRoute, private photoService: PhotoService, private galleryService: GalleryService) { }
+  constructor(private route: ActivatedRoute, private router: Router, private photoService: PhotoService, private galleryService: GalleryService) { }
 
   ngOnInit() {
     const self = this;
@@ -107,6 +107,20 @@ export class AlbumPhotoComponent implements OnInit {
       let idx = this.database.findIndex(db => db.AlbumPhotoId === photo.AlbumPhotoId);
       this.database = [...this.database.slice(0, idx), ...this.database.slice(idx + 1)];
     }
+  }
+
+  goToMakeVideo() {
+    let count = window.prompt('输入视频里包含的照片数量，默认最多20张');
+    if (!count) {
+      count = 20 + '';
+    }
+
+    let realCount = Number(count);
+    if (realCount <= 0) {
+      realCount = 20;
+    }
+
+    this.router.navigate(['makevideo', this.albumId, realCount]);
   }
 
 }

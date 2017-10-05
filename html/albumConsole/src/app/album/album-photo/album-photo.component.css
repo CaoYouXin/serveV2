@@ -1,3 +1,22 @@
+h3 {
+  user-select: none;
+  cursor: pointer;
+  text-align: center;
+  font-weight: lighter;
+  color: white;
+  background: linear-gradient(to bottom, #666, #888);
+  text-shadow: 1px 1px 5px wheat, -2px -2px 2px royalblue;
+}
+
+h3:hover {
+  background: #777;
+  text-decoration: underline;
+}
+
+h3:active {
+  text-decoration: none;
+}
+
 .photos-wrapper {
   display: flex;
   justify-content: flex-start;

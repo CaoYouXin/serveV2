@@ -18,6 +18,7 @@ export const routes: Routes = [
   { path: 'albums', component: AlbumComponent, canActivate: [LoginedGuard] },
   { path: 'album/:id', component: AlbumPhotoComponent, canActivate: [LoginedGuard] },
   { path: 'photos', component: PhotoComponent, canActivate: [LoginedGuard] },
+  { path: 'makevideo/:id/:size', component: FallbackComponent, data: { name: 'hello world', color: '#AAA' } },
 
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },

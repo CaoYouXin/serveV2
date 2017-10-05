@@ -2,15 +2,17 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpModule } from "@angular/http";
 
+import { AppRoutingModule } from './app.router';
+import { UserModule } from './user/user.module';
+import { AlbumModule } from './album/album.module';
+import { VideoModule } from './video/video.module';
+
 import { AppComponent } from './app.component';
 import { FallbackComponent } from "./fallback.component";
-import { AppRoutingModule } from './app.router';
 import { HomeComponent } from './home/home.component';
 import { LoginedGuard } from "./guards/logined.guard";
 import { UserService } from './services/user.service';
 import { HttpService } from './services/http.service';
-import { UserModule } from './user/user.module';
-import { AlbumModule } from './album/album.module';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,8 @@ import { AlbumModule } from './album/album.module';
     BrowserModule,
     AppRoutingModule,
     UserModule,
-    AlbumModule
+    AlbumModule,
+    VideoModule
   ],
   providers: [HttpService, UserService, LoginedGuard],
   bootstrap: [AppComponent]
