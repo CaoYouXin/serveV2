@@ -1,0 +1,14 @@
+<div class="split1">
+  <div class="list" (mousewheel)="scroll($event)" #listContainer>
+    <div class="content" #listContent [style.transform]="listTransform">
+      <app-setting *ngFor="let s of photos;let idx=index" [no]="s" (drag)="onDrag(idx)"></app-setting>
+    </div>
+  </div>
+  <div class="split2">
+    <div class="canvas">
+      <app-scene></app-scene>
+    </div>
+    <div class="music"></div>
+    <div class="handles"></div>
+  </div>
+</div>

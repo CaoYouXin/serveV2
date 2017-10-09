@@ -10,6 +10,7 @@ import { RegisterComponent } from "./user/register/register.component";
 import { AlbumComponent } from "./album/album/album.component";
 import { PhotoComponent } from "./album/photo/photo.component";
 import { AlbumPhotoComponent } from "./album/album-photo/album-photo.component";
+import { GeneratorComponent } from "./video/generator/generator.component";
 
 export const routes: Routes = [
   // { path: '', redirectTo: '/index', pathMatch: 'full' },
@@ -18,7 +19,7 @@ export const routes: Routes = [
   { path: 'albums', component: AlbumComponent, canActivate: [LoginedGuard] },
   { path: 'album/:id', component: AlbumPhotoComponent, canActivate: [LoginedGuard] },
   { path: 'photos', component: PhotoComponent, canActivate: [LoginedGuard] },
-  { path: 'makevideo/:id/:size', component: FallbackComponent, data: { name: 'hello world', color: '#AAA' } },
+  { path: 'makevideo/:id/:size', component: GeneratorComponent, canActivate: [LoginedGuard] },
 
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },

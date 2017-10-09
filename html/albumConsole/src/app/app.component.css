@@ -45,6 +45,6 @@
 .view {
   position: absolute;
   top: 40px;
-  min-height: calc(100% - 50px);
+  min-height: calc(100% - 40px);
   width: 100%;
 }
