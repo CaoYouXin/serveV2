@@ -16,6 +16,8 @@ export class GeneratorComponent implements OnInit {
   listContainer: ElementRef;
 
   listTransform: string = 'translate3d(0, 0, 0)';
+  pressing: any = null;
+  unpressings: Array<any>;
 
   constructor() { }
 
@@ -38,6 +40,30 @@ export class GeneratorComponent implements OnInit {
     }
 
     this.listTransform = 'translate3d(0, ' + curPos + 'px, 0)';
+  }
+
+  onDrag(idx) {
+    this.pressing = this.photos[idx];
+    this.unpressings = [...this.photos.slice(0, idx), ...this.photos.slice(idx + 1)];
+  }
+
+  mousemove(e) {
+    if (this.pressing === null) {
+      return;
+    }
+
+    let curPos = parseInt(this.listTransform.match(/translate3d\(0, (\-?\d+(?:\.\d+)?).*?, 0\)/)[1], 10);
+    let on = Math.floor((e.clientY - curPos - 40) / 100);
+
+    this.photos = [
+      ...this.unpressings.slice(0, on),
+      this.pressing,
+      ...this.unpressings.slice(on)
+    ];
+  }
+
+  mouseup() {
+    this.pressing = null;
   }
 
 }

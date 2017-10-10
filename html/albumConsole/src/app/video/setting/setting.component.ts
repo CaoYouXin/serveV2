@@ -9,22 +9,22 @@ export class SettingComponent implements OnInit {
 
   @HostBinding('style.display') display = 'block';
   @HostBinding('style.overflow') overflow = 'hidden';
-  @HostBinding('style.transition') transition = 'height 1s';
   @HostBinding('style.height') height = '100px';
-  @HostBinding('style.opacity') opacity = '1';
 
   @Input('no')
   no: number;
 
+  @Input('mouse')
+  mouse: number;
+
+  @Output('drag')
+  drag: EventEmitter<any> = new EventEmitter<any>();
+
   constructor() { }
 
-  @HostListener('mousedown', ['$event'])
-  handleMouseDown(e) {
-    if (e.buttons !== 1) {
-      return;
-    }
-    this.opacity = '0';
-    this.height = '0';
+  @HostListener('mousedown')
+  handleMouseDown() {
+    this.drag.emit();
   }
 
   ngOnInit() {

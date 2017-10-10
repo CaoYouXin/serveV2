@@ -1,7 +1,7 @@
 <div class="split1">
   <div class="list" (mousewheel)="scroll($event)" #listContainer>
-    <div class="content" #listContent [style.transform]="listTransform">
-      <app-setting *ngFor="let s of photos;let idx=index" [no]="s" (drag)="onDrag(idx)"></app-setting>
+    <div class="content" #listContent [style.transform]="listTransform" (mousemove)="mousemove($event)" (mouseup)="mouseup()">
+      <app-setting *ngFor="let s of photos;let idx=index" [no]="s" [mouse]="pressing" (drag)="onDrag(idx)"></app-setting>
     </div>
   </div>
   <div class="split2">
