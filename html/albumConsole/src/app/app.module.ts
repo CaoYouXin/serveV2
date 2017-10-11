@@ -13,6 +13,7 @@ import { HomeComponent } from './home/home.component';
 import { LoginedGuard } from "./guards/logined.guard";
 import { UserService } from './services/user.service';
 import { HttpService } from './services/http.service';
+import { PhotoService } from './services/photo.service';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,7 @@ import { HttpService } from './services/http.service';
     AlbumModule,
     VideoModule
   ],
-  providers: [HttpService, UserService, LoginedGuard],
+  providers: [HttpService, UserService, PhotoService, LoginedGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

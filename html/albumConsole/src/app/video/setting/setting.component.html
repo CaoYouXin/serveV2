@@ -1,3 +1,18 @@
-<p [class.pressing]="no === mouse">
-  setting {{no}} works!
-</p>
+<div class="wrapper" [class.pressing]="photo === mouse">
+  <div class="dragger" (mousedown)="handleMouseDown($event)">拖拽调整顺序</div>
+  <img [src]="photo.src" alt="加载中...">
+  <div class="flex"></div>
+  <div class="in-effect v-mid-box">
+    <label for="">进入效果</label>
+    <select>
+      <option value="">左侧滑入</option>
+      <option value="">右侧滑入</option>
+    </select>
+  </div>
+  <div class="out-effect v-mid-box">
+    <label for="">退出效果</label>
+    <select>
+      <option value="">左侧滑出</option>
+    </select>
+  </div>
+</div>

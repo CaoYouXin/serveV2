@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { EditorModule } from './editor/editor.module';
 
 import { UploadService } from '../services/upload.service';
-import { PhotoService } from '../services/photo.service';
 import { GalleryService } from '../services/gallery.service';
 import { AlbumEditorService } from '../services/album-editor.service';
 import { AlbumService } from '../services/album.service';
@@ -24,6 +23,6 @@ import { OneAlbumPhotoComponent } from './one-album-photo/one-album-photo.compon
     EditorModule
   ],
   declarations: [AlbumComponent, PhotoComponent, OnePhotoComponent, GalleryComponent, OneAlbumComponent, AlbumPhotoComponent, OneAlbumPhotoComponent],
-  providers: [UploadService, PhotoService, GalleryService, AlbumEditorService, AlbumService, AlbumPhotoService]
+  providers: [UploadService, GalleryService, AlbumEditorService, AlbumService, AlbumPhotoService]
 })
 export class AlbumModule { }

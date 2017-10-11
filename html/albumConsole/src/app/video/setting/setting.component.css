@@ -1,17 +1,58 @@
-p {
-  line-height: 100px;
-  font-size: 1.2rem;
-  text-indent: 1em;
+.wrapper {
+  width: 100%;
+  height: 100%;
+  position: absolute;
   color: white;
-  cursor: -webkit-grab;
+  display: flex;
   user-select: none;
+  min-width: 700px;
 }
 
-p.pressing {
+.wrapper.pressing {
   cursor: -webkit-grabbing;
-  position: relative;
-  left: -5px;
-  top: -5px;
-  box-shadow: -5px -5px 5px #ffffff;
+  left: 5px;
+  top: 5px;
+  box-shadow: -5px -5px 0 #222;
   background-color: #333;
+}
+
+.wrapper > .dragger {
+  width: 50px;
+  margin: 5px 0 0 5px;
+  height: 90px;
+  background-color: #333;
+  flex: unset;
+  cursor: -webkit-grab;
+  font-size: 9px;
+  line-height: 50px;
+  text-align: center;
+  writing-mode: vertical-lr;
+  color: #666;
+  text-shadow: 1px 1px 1px royalblue;
+}
+
+.wrapper > .flex {
+  flex: 1;
+}
+
+.wrapper > div[class*="effect"] {
+  flex: unset;
+  width: 200px;
+  text-align: left;
+}
+
+.wrapper.pressing > .dragger {
+  cursor: -webkit-grabbing;
+}
+
+.wrapper > img {
+  max-width: 250px;
+  margin: 5px 0 0 5px;
+  height: 90px;
+  flex: unset;
+}
+
+.wrapper > div[class*="effect"] > select {
+  height: 20px;
+  outline: none;
 }

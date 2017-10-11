@@ -1,4 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import 'rxjs/add/operator/switchMap';
+import { PhotoService } from '../../services/photo.service';
+import { API } from '../../services/api.const';
 
 @Component({
   selector: 'app-generator',
@@ -7,7 +11,9 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 })
 export class GeneratorComponent implements OnInit {
 
-  photos: Array<any> = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
+  private albumId: number;
+
+  photos: Array<any>;
 
   @ViewChild('listContent')
   listContent: ElementRef;
@@ -19,9 +25,17 @@ export class GeneratorComponent implements OnInit {
   pressing: any = null;
   unpressings: Array<any>;
 
-  constructor() { }
+  constructor(private route: ActivatedRoute, private photoService: PhotoService) { }
 
   ngOnInit() {
+    const self = this;
+    this.route.paramMap.switchMap((params: ParamMap) => {
+      self.albumId = Number(params.get("id"));
+      return self.photoService.listAlbumPhotosObservable(self.albumId, 1, Number(params.get("size")));
+    }).subscribe(paged => self.photos = paged.Photos.map(p => ({
+      ...p,
+      src: API.getAPI("domain") + p.AlbumPhotoUrl
+    })));
   }
 
   scroll(e) {
@@ -48,7 +62,7 @@ export class GeneratorComponent implements OnInit {
   }
 
   mousemove(e) {
-    if (this.pressing === null) {
+    if (this.pressing === null || e.buttons !== 1) {
       return;
     }
 

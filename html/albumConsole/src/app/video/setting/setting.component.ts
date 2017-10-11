@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, HostListener, HostBinding, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, HostBinding, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-setting',
@@ -8,11 +8,12 @@ import { Component, OnInit, Input, HostListener, HostBinding, Output, EventEmitt
 export class SettingComponent implements OnInit {
 
   @HostBinding('style.display') display = 'block';
+  @HostBinding('style.position') position = 'relative';
   @HostBinding('style.overflow') overflow = 'hidden';
   @HostBinding('style.height') height = '100px';
 
-  @Input('no')
-  no: number;
+  @Input('photo')
+  photo: number;
 
   @Input('mouse')
   mouse: number;
@@ -22,8 +23,10 @@ export class SettingComponent implements OnInit {
 
   constructor() { }
 
-  @HostListener('mousedown')
-  handleMouseDown() {
+  handleMouseDown(e) {
+    if (e.buttons !== 1) {
+      return;
+    }
     this.drag.emit();
   }
 
